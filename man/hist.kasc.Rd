@@ -13,7 +13,7 @@ hist.kasc(x, type = c("h", "l"), adjust = 1, col = "blue", \dots)
   \item{type}{what type of plot should be drawn.  Possible types are:\cr
     * \code{"h"} for histograms,\cr
     * \code{"l"} for kernel density estimates (see \code{?density}).\cr
-    By default, \code{type == "h"} is used.  If \code{type == "l"} is used,
+    By default, \code{type = "h"} is used.  If \code{type = "l"} is used,
     the position of the mean of each distribution is indicated by dotted
     lines}
   \item{adjust}{if \code{type = "l"}, a parameter used to control the

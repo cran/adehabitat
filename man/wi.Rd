@@ -170,13 +170,13 @@ names(moose.used) <- c("InBurnInterior",
                      "OutOfBurnFurther")
 names(moose.avail) <- names(moose.used)
 ## Computation of wi
-wiRatio <- widesI(moose.used, moose.avail)
-## Display various stats on habitat selection
-wiRatio
+(wiRatio <- widesI(moose.used, moose.avail))
+
 ## plot the values of the selection ratios
+opar <- par(mfrow=c(2,2))
 plot(wiRatio)
 
-
+par(opar)
 
 
 
@@ -189,12 +189,13 @@ elk.used <- c(3, 90, 181, 51)
 names(elk.used) <- c("0\%", "1-25\%", "26-75\%", ">75\%")
 names(elk.avail) <- names(elk.used)
 ## Computation of wi
-wiRatio <- widesI(elk.used, elk.avail, avknown=FALSE)
-## Display various stats on habitat selection
-wiRatio
+(wiRatio <- widesI(elk.used, elk.avail, avknown=FALSE))
+
 ## plot the values of the selection ratios
+opar <- par(mfrow=c(2,2))
 plot(wiRatio)
 
+par(opar)
 
 
 
@@ -204,16 +205,11 @@ plot(wiRatio)
 ## Known available proportions on design II data
 data(bighorn)
 ## Computation of wi
-wi <- widesII(bighorn$used, bighorn$availT, alpha = 0.1)
+(wi <- widesII(bighorn$used, bighorn$availT, alpha = 0.1))
+
 ## plot the values of the selection ratios
+opar <- par(mfrow=c(2,2))
 plot(wi)
-
-
-
-
-
-## Display various stats on habitat selection
-wi
 
 
 
@@ -221,11 +217,12 @@ wi
 ## Example of Bighorn (Manly et al., 2003, p.74)
 ## Estimated available proportions on design II data
 ## Computation of wi
-wi <- widesII(bighorn$used, bighorn$availE, avknown = FALSE, alpha = 0.1)
-## Display various stats on habitat selection
-wi
+(wi <- widesII(bighorn$used, bighorn$availE, avknown = FALSE, alpha = 0.1))
+
 ## plot the values of the selection ratios
 plot(wi)
+
+par(opar)
 
 
 ############################
@@ -237,27 +234,13 @@ available <- puechdesIII$available
 
 ## calculation of the selectio ratios
 ## with sampled availability
-i <- widesIII(used,available, avknown = FALSE, alpha = 0.1)
-i
+(i <- widesIII(used,available, avknown = FALSE, alpha = 0.1))
 
-opar <- par(mfrow = c(2,1))
+opar <- par(mfrow = c(2,2))
 plot(i)
-
 
 par(opar)
 
-
-############################
-## Example of Wild boar
-## Known available proportions on design III data
-i <- widesIII(used, available, avknown = TRUE, alpha = 0.1)
-i
-
-opar <- par(mfrow = c(2,1))
-plot(i)
-
-
-par(opar)
 
 }
 \keyword{hplot}

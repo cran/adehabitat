@@ -7,7 +7,9 @@
   An object of class \code{area} is a data frame with three variables.
   The first variable is a factor defining the polygons.\cr
   The second and third variables are the xy coordinates of the
-  polygon vertices in the order where they are found.
+  polygon vertices in the order where they are found.  This kind
+  of objects are current in the package \code{ade4}, though this package
+  does not define \code{area} as a special class.
 }
 \usage{
 as.area(x)

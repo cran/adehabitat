@@ -44,7 +44,7 @@ mahasuhab(kasc, pts, type = c("distance", "probability"))
   Assuming multivariate normality, Mahalanobis distances are
   approximately distributed as Chi-square with n-1 degrees of freedom,
   where n equals the number of habitat characteristics.  If the
-  argument \code{type == "probability"}, maps of these p-values are
+  argument \code{type = "probability"}, maps of these p-values are
   returned by the function. As such these are the probabilities of a
   larger Mahalanobis distance than that observed when x is sampled from
   a population whose mean is ideal.
@@ -65,22 +65,32 @@ system. \emph{Journal of Wildlife Management}, \bold{57}, 519--526.
   It is therefore important that the habitat variables considered
   are not too correlated among each other.  When the habitat variables
   are too correlated, the variance-covariance matrix is singular and
-  cannot be inverted. 
+  cannot be inverted. \cr
+
+  Note also that it is recommended to scale the variables before the
+  computation, so that they all have the same variance, and therefore
+  the same weight in the analysis (see examples below).
 }
 \seealso{ \code{\link{as.asc}} for further information on objects of
   class \code{asc}, \code{\link{as.kasc}} for additional information on
   objects of class \code{kasc}, \code{\link{domain}} for another method
-  of habitat suitability mapping, and \code{link[stats]{mahalanobis}} for
+  of habitat suitability mapping, and \code{\link[stats]{mahalanobis}} for
   information on the computation of mahalanobis distances. }
 \examples{
 ## loads the data
-data(chamois)
-ka <- chamois$map
-lo <- chamois$locs
+data(lynxjura)
+ka <- lynxjura$map
+lo <- lynxjura$locs[,1:2]
+
+## We first scale the maps
+df <- kasc2df(ka)
+pc <- dudi.pca(df$tab, scannf=FALSE)
+tab <- pc$tab
+ka <- df2kasc(tab, df$index, ka)
 
 ## habitat suitability mapping
 hsm <- mahasuhab(ka, lo, type = "probability")
-plot(hsm, main = "Habitat suitability map for the Chamois",
+plot(hsm, main = "Habitat suitability map for the Lynx",
      plot.axes = { points(lo, pch = 16, cex=0.5)})
 }
 \keyword{spatial}

@@ -76,9 +76,9 @@ compana(used, avail, test = c("randomisation", "parametric"),
   \item{rank}{the rank of the habitat types.  It is equal to the number
     of \code{"+"} for each habitat type in row of \code{rm}.}
   \item{rmv}{the matrix of statistics used to build \code{rm}.
-    if \code{(test == "parametric")}, the matrix contains the
+    if \code{(test = "parametric")}, the matrix contains the
     values of \code{t}, in the t-test comparing the row and the column
-    habitat.  if \code{(test == "randomisation")}, the matrix contains
+    habitat.  if \code{(test = "randomisation")}, the matrix contains
     the mean difference between the used and available log-ratios (see
     Aebischer et al., 1993).}
   \item{profile}{The profile of preferences: resource types are sorted

@@ -26,8 +26,8 @@ plot.kselect(x, xax = 1, yax = 2, \dots)
 \arguments{
   \item{dudi}{an object of class \code{dudi}}
   \item{factor}{a factor with the same length as \code{nrow(dudi$tab)}}
-  \item{weight}{a numeric vector giving the weight associated to the
-    rows of \code{dudi$tab}}
+  \item{weight}{a numeric vector of integer values giving the weight
+    associated to the rows of \code{dudi$tab}.}
   \item{scannf}{logical. Whether the eigenvalues bar plot
     should be displayed}
   \item{nf}{if \code{scannf = FALSE}, an integer indicating the number
@@ -50,10 +50,8 @@ plot.kselect(x, xax = 1, yax = 2, \dots)
       ampl})} 
   \item{col.out}{character string.  The color of the upper histogram}
   \item{col.in}{character string.  The color of the lower histogram}
-  \item{ncell}{logical. Parameter to be set in the case where the
-    distribution of the relocations is to be drawn (either \code{type =
-      "locs.in.hr"} or \code{type = "locs.in.sa"}).
-    If \code{TRUE}, the histogram shows the distribution of the cells of
+  \item{ncell}{logical. If \code{TRUE}, the histogram shows the
+    distribution of the cells of 
     the raster map where at least one relocation is found. If
     \code{FALSE}, the histogram shows the distribution of the
     relocations}
@@ -79,8 +77,8 @@ plot.kselect(x, xax = 1, yax = 2, \dots)
   \code{s.distri}}
 }
 \value{
-  Returns a list of the class \code{kselect} and \code{dudi} (see
-  \code{\link[ade4]{dudi}}). 
+  \code{kselect} returns a list of the class \code{kselect} and
+\code{dudi} (see \code{\link[ade4]{dudi}}). 
 }
 \references{
   Calenge, C., Dufour, A.B. and Maillard,
@@ -117,6 +115,7 @@ for (i in names(tmp))
   s.distri(scale(tmp[[i]]), wg[[i]])
 par(opar)
 
+## We call a new graphic window
 x11()
 ## A K-select analysis
 acp <- dudi.pca(tab, scannf = FALSE, nf = 2)

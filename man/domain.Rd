@@ -16,7 +16,7 @@ domain(kasc, pts, type = c("value", "potential"), thresh = 0.95)
   \item{type}{a character string. The \code{"value"} of the suitability
     may be returned 
     or the \code{"potential"} area of distribution}
-  \item{thresh}{if \code{value == "potential"}, a threshold value should be
+  \item{thresh}{if \code{value = "potential"}, a threshold value should be
     supplied for the suitability (by default 0.95)}
 }
 \details{
@@ -63,7 +63,9 @@ contour(hsm, add = TRUE)
 
 ## Potential distribution
 hsm <- domain(kasc, pts, type = "potential")
-image(hsm)
+image(elevation, main = "Habitat suitability map")
+image(hsm, add = TRUE, col = "orange")
+points(pts, col = "red", pch = 16)
 
 }
 \keyword{spatial}

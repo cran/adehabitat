@@ -4,8 +4,7 @@
 \description{
   \code{getcontour} computes the contour polygon of a raster object
   of class \code{asc}.  When the object is made of several parts, the
-  function returns one polygon per part.  \cr
-  Warning! holes are not taken into account by the function.
+  function returns one polygon per part.
 }
 \usage{
 getcontour(x)
@@ -16,6 +15,9 @@ getcontour(x)
 }
 \value{
   Returns an object of class \code{area}.
+}
+\section{Warning }{
+  Holes in the polygons are not taken into account by the function.
 }
 \author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \seealso{ \code{\link{import.asc}} for additionnal information on

@@ -11,7 +11,8 @@
 }
 \usage{data(vanoise)}
 \format{
-  This data frame has eight columns describing the habitat composition
+  This data frame has 3110 rows and eight columns describing the habitat
+  composition 
   for each occurrence of three species of Galliformes. For each
   located occurrence (in rows), the employees of the national park have noted:
   the species, the elevation (in metres), the aspect (8 classes), the

@@ -2,10 +2,9 @@
 \alias{sahrlocs2kselect}
 \title{Preparation of K-Select Analysis}
 \description{
-  This function is used to compute the arguments needed for a K-select
-  analysis (see \code{help(kselect)}).  The function uses \code{kasc2df} and
-  returns the indices of the kept pixels of the raster map, so that further
-  mapping is eventually possible.
+  \code{sahrlocs2kselect} converts an object of class sahrlocs into a
+  list that contains the arguments needed for a kselect analysis (see
+  \code{help(kselect)}).
 }
 \usage{
 sahrlocs2kselect(sahr)

@@ -12,19 +12,20 @@ chasse et de la faune sauvage).
 data(puechabon)
 }
 \details{
-  The list \code{puechabon} has three components: \code{puechabon$kasc}
+  The list \code{puechabon} has three components:\cr
+  \code{puechabon$kasc}
   is an  object of class \code{kasc} (see \code{help(as.kasc)}) that
   describes several variables on the study area.\cr
   \code{locs} is a data frame of the relocations of the wild boar
   resting sites in summer. Information on
   wild boars is provided by factors \code{Name}, \code{Sex}, \code{Age}.\cr
-  \code{puechabon$sahr} is the associated object of class
+  \code{sahr} is the associated object of class
   \code{sahrlocs}.  The home ranges were 
   estimated with buffers including all pixels within 500 m of a boar
   relocation.
 }
 \references{
-Maillard, D. (1996). \emph{Occupation et l'utilisation de la garrigue et
+Maillard, D. (1996). \emph{Occupation et utilisation de la garrigue et
   du vignoble méditerranéens par le Sanglier}.
 Université d'Aix-Marseille III: PhD thesis.
 }

@@ -18,7 +18,7 @@ hist.enfa(x, scores = TRUE, type = c("h", "l"),
   \item{pts}{a data frame with two columns, giving the coordinates of
     the species locations}
   \item{scannf}{logical.  Whether the eigenvalues bar plot should be displayed}
-  \item{nf}{if \code{scannf == FALSE}, an integer indicating the number of kept
+  \item{nf}{if \code{scannf = FALSE}, an integer indicating the number of kept
     specialization axes }
   \item{x}{an object of class \code{enfa}}
   \item{scores}{logical.  If \code{TRUE}, the histograms display
@@ -28,10 +28,10 @@ hist.enfa(x, scores = TRUE, type = c("h", "l"),
   \item{type}{what type of plot should be drawn.  Possible types are:\cr
     * \code{"h"} for histograms,\cr
     * \code{"l"} for kernel density estimates (see \code{?density}).\cr
-    By default, \code{type == "h"} is used.  If \code{type = "l"} is used,
+    By default, \code{type = "h"} is used.  If \code{type = "l"} is used,
     the position of the mean of each distribution is indicated by dotted
     lines}
-  \item{adjust}{if \code{type == "l"}, a parameter used to control the
+  \item{adjust}{if \code{type = "l"}, a parameter used to control the
     bandwidth of the density estimates (see \code{?density})}
   \item{colZ}{color for the histograms of the available pixels}
   \item{colS}{color for the histograms of the used pixels}

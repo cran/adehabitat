@@ -111,99 +111,85 @@ colasc<-function(x, ...)
 ##### import.asc allows to import Arcview ascii raster file
 
 
-import.asc<-function(file, type=c("numeric", "factor"), lev=NULL,
-                     levnb = 1, labnb = 3)
-  {
-    type<-match.arg(type)
-    if (substr(file, nchar(file)-3, nchar(file))!=".asc")
-      stop("not a valid .asc file")
-    if ((type!="numeric")&(type!="factor"))
-      stop("argument type should be \"factor\" or \"numeric\"")
-    if ((type=="numeric")&(!is.null(lev)))
-      stop("lev can be specified only when type is \"factor\" ")
-    if ((type=="factor")&(length(lev)==1))
-      if (!file.exists(lev))
-        stop("lev is not a valid file")
-    
-    
-### File header reading
-    zz<-file(file, "r")
-    nc<-readLines(zz, 1)
-    nl<-readLines(zz, 1)
-    xll<-readLines(zz, 1)
-    yll<-readLines(zz, 1)
-    cs<-readLines(zz, 1)
-    nas<-readLines(zz, 1)
-    
-### Gets the information from the file header
-    cs<-strsplit(cs," ")
-    cs<-as.numeric(cs[[1]][length(cs[[1]])])
-    cornx<-TRUE
-    corny<-TRUE
-    xll<-strsplit(xll," ")
-    if ((xll[[1]][1]=="xllcenter")|(xll[[1]][1]=="XLLCENTER"))
-      cornx<-FALSE
-    xll<-as.numeric(xll[[1]][length(xll[[1]])])
-    yll<-strsplit(yll," ")
-    if ((yll[[1]][1]=="yllcenter")|(xll[[1]][1]=="YLLCENTER"))
-      corny<-FALSE
-    yll<-as.numeric(yll[[1]][length(yll[[1]])])
-    nas<-strsplit(nas," ")
-    nas<-as.numeric(nas[[1]][length(nas[[1]])])
-    
-### Temporary file
-    tmp<-readLines(zz)
-    close(zz)
-    file.create("toto230876.tmp")
-    zz<-file("toto230876.tmp", "w")
-    writeLines(tmp, zz)
-    close(zz)
-    
-### read the matrix and delete the tmp
-    output<-read.table("toto230876.tmp")
-    file.remove("toto230876.tmp")
-    output<-as.matrix(output)
-    output[output==nas]<-NA
-    output<-t(output)
-    output<-output[,ncol(output):1]
-    
-    ## calcul de la table des correspondances
-    if (type=="factor") {
-      if (is.null(lev))
-        lev<-levels(factor(output))
-      if (length(lev)>1) {
-        if (length(lev)!=length(levels(factor(output))))
-          stop("uncorrect length of lev")
-      }
-      if (length(lev)==1) {
-        toto<-read.table(lev, header=TRUE, sep=",")
-        toto<-data.frame(lev=toto[,levnb], hihi=rep(1,nrow(toto)),
-                         lab=toto[,labnb])
-        toto<-toto[order(toto[,1]),]
-        if (nrow(toto)!=nlevels(factor(output)))
-          stop("lev is not a valid correspondence table exported from Arcview")
-        lev<-as.character(toto[,3])
-      }
-      
-      ## On remplace les valeurs dans output
-      attr(output, "levels")<-lev
+import.asc<- function (file, type = c("numeric", "factor"), lev = NULL,
+                       levnb = 1, labnb = 3) 
+{
+  type <- match.arg(type)
+  if (substr(file, nchar(file) - 3, nchar(file)) != ".asc") 
+    stop("not a valid .asc file")
+  if ((type != "numeric") & (type != "factor")) 
+    stop("argument type should be \"factor\" or \"numeric\"")
+  if ((type == "numeric") & (!is.null(lev))) 
+    stop("lev can be specified only when type is \"factor\" ")
+  if ((type == "factor") & (length(lev) == 1)) 
+    if (!file.exists(lev)) 
+      stop("lev is not a valid file")
+  zz <- file(file, "r")
+  nc <- readLines(zz, 1)
+  nl <- readLines(zz, 1)
+  xll <- readLines(zz, 1)
+  yll <- readLines(zz, 1)
+  cs <- readLines(zz, 1)
+  nas <- readLines(zz, 1)
+  cs <- strsplit(cs, " ")
+  cs <- as.numeric(cs[[1]][length(cs[[1]])])
+  cornx <- TRUE
+  corny <- TRUE
+  xll <- strsplit(xll, " ")
+  if ((xll[[1]][1] == "xllcenter") | (xll[[1]][1] == "XLLCENTER")) 
+    cornx <- FALSE
+  xll <- as.numeric(xll[[1]][length(xll[[1]])])
+  yll <- strsplit(yll, " ")
+  if ((yll[[1]][1] == "yllcenter") | (xll[[1]][1] == "YLLCENTER")) 
+    corny <- FALSE
+  yll <- as.numeric(yll[[1]][length(yll[[1]])])
+  nas <- strsplit(nas, " ")
+  nas <- as.numeric(nas[[1]][length(nas[[1]])])
+  nc <- strsplit(nc, " ")
+  nc <- as.numeric(nc[[1]][length(nc[[1]])])
+  nl <- strsplit(nl, " ")
+  nl <- as.numeric(nl[[1]][length(nl[[1]])])
+  tmp <- readLines(zz)
+  close(zz)
+  file.create("toto230876.tmp")
+  zz <- file("toto230876.tmp", "w")
+  writeLines(tmp, zz)
+  close(zz)
+  output <-scan("toto230876.tmp", quiet=TRUE)
+  file.remove("toto230876.tmp")
+  output[output == nas] <- NA
+  output<-matrix(c(as.matrix(output)), ncol=nl)
+  output <- output[, ncol(output):1]
+  if (type == "factor") {
+    if (is.null(lev)) 
+      lev <- levels(factor(output))
+    if (length(lev) > 1) {
+      if (length(lev) != length(levels(factor(output)))) 
+        stop("uncorrect length of lev")
     }
-    
-    ## setting of the attributes
-    attr(output,"xll")<-xll
-    if (cornx)
-      attr(output,"xll")<-xll+cs/2
-    attr(output,"yll")<-yll
-    if (corny)
-      attr(output,"yll")<-yll+cs/2
-    attr(output,"cellsize")<-cs
-    
-    ## Case where output is a factor
-    attr(output, "type")<-type
-    
-    class(output)<-"asc"
-    return(output)
+    if (length(lev) == 1) {
+            toto <- read.table(lev, header = TRUE, sep = ",")
+            toto <- data.frame(lev = toto[, levnb],
+                               hihi = rep(1, nrow(toto)),
+                               lab = toto[, labnb])
+            toto <- toto[order(toto[, 1]), ]
+            if (nrow(toto) != nlevels(factor(output))) 
+              stop("lev is not a valid correspondence table exported from Arcview")
+            lev <- as.character(toto[, 3])
+          }
+    attr(output, "levels") <- lev
   }
+  attr(output, "xll") <- xll
+  if (cornx) 
+    attr(output, "xll") <- xll + cs/2
+  attr(output, "yll") <- yll
+  if (corny) 
+    attr(output, "yll") <- yll + cs/2
+  attr(output, "cellsize") <- cs
+  attr(output, "type") <- type
+  class(output) <- "asc"
+  return(output)
+}
 
 
 
@@ -1884,7 +1870,7 @@ print.rand.kselect<-function(x, ...)
     cat("Observed value:", x$global[1], "\n")
     cat("P-value :", x$global[2], "\n")
     cat("\n")
-    cat("Test for each individual\n(to be compared with bonferroni alpha level:",
+    cat("Test of the marginality of each individual\n(to be compared with bonferroni alpha level:",
         x$alpha/nrow(x$marg),"):\n\n")
     print(x$marg, ...)
     cat("\nSign of the mean for each animal and each variable: \n")
@@ -2660,7 +2646,7 @@ print.khr<-function(x, ...)
     
     cat("\nEach animal is a component of the list, and for each animal,\n")
     cat("the following elements are available:\n")
-    cat("$UD       The utilisation distribution (object of class \"asc\")\n")
+    cat("$UD       The utilization distribution (object of class \"asc\")\n")
     cat("$locs     The relocations of the animal\n")
     if (th=="LSCV") {
       cat("$h        A list with the following components:\n")
@@ -2807,7 +2793,8 @@ plot.hrsize<-function(x, ...)
   {
     if (!inherits(x, "hrsize"))
       stop("should be of class hrsize")
-    par(mfrow=n2mfrow(ncol(x)))
+    opar<-par(mfrow=n2mfrow(ncol(x)))
+    on.exit(par(opar))
     for (i in 1:ncol(x)) {
       plot(as.numeric(row.names(x)),
            x[,i],
@@ -2892,6 +2879,7 @@ getverticeshr<-function(x, lev=95)
       ud[!is.na(ud)]<-1
       contour[[i]]<-getcontour(ud)
     }
+    names(contour)<-names(x)
     return(contour)
   }
 
@@ -3806,6 +3794,7 @@ speed<-function(x, id=levels(x$id), burst=levels(x$burst),
   {
     if (!inherits(x, "traj"))
       stop("should be an object of class traj")
+    units<-match.arg(units)
     
     ## sélection des dates
     x<-getburst(x, burst=burst, id=id, date=date)
@@ -4256,10 +4245,10 @@ enfa <- function (kasc, pts, scannf = TRUE, nf = 1)
   co <- matrix(nrow = ncol(tab), ncol = nf+1)
   co[,1] <- mar
   co[,2:(nf+1)] <- (Rs12 %*% eigen(H)$vectors)[,1:nf]
-  f3 <- function(i) co[,i]/sqrt(crossprod(co[,i]))
+  f3 <- function(i) co[,i]/sqrt(crossprod(co[,i])/length(co[,i]))
   c1 <- matrix(unlist(lapply(1:(nf+1), f3)), ncol(tab))
   li <- data.frame(tab %*% c1[,1:(nf+1)])
-  f3 <- function(i) li[,i]/sqrt(crossprod(li[,i]))
+  f3 <- function(i) li[,i]/sqrt(crossprod(li[,i])/length(li[,i]))
   l1 <- matrix(unlist(lapply(1:(nf+1), f3)), nrow(tab))
   co <- data.frame(co)
   c1 <- data.frame(c1)

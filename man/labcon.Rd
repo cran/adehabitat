@@ -31,12 +31,12 @@ labcon(x)
 
   ##  stores the first component
   c1 <- p
-  c1[c1 == 2] <- NA
+  c1[c1 != 1] <- NA
   image(c1)
 
   ##  stores the second component
   c2 <- p
-  c2[c2 == 1] <- NA
+  c2[c2 != 2] <- NA
   image(c2)
 }
 \keyword{spatial}

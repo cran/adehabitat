@@ -48,7 +48,7 @@ getverticeshr(x, lev = 95)
   \item{same4all}{logical. If \code{TRUE}, the same grid
     is used for all animals.  If \code{FALSE}, one grid per
     animal is used}
-  \item{hlim}{a numeric vector of length two.  If \code{h == "LSCV"},
+  \item{hlim}{a numeric vector of length two.  If \code{h = "LSCV"},
     the function minimizes the cross-validation criterion for values of
     h ranging from \code{hlim[1]*href} to \code{hlim[2]*href}, where
     \code{href} is the smoothing parameter computed with the ad hoc
@@ -63,17 +63,18 @@ getverticeshr(x, lev = 95)
   \item{levels}{a vector of percentage levels for home-range size
     estimation}
   \item{unin}{the units of the relocations coordinates.  Either \code{"m"} for
-    meters or \code{"km"} for kilometers}
+    meters (default) or \code{"km"} for kilometers}
   \item{unout}{the units of the output areas.  Either \code{"m2"} for
     square meters, \code{"km2"} for square kilometers or \code{"ha"} for
-    hectares}
+    hectares (default)}
   \item{lev}{the percentage level for home range contour estimation.}
   \item{\dots}{additionnal parameters to be passed to the generic
     functions \code{print} and \code{image}}
 }
 \details{
-  The UD is the density probability function that an animal
-  is located at a specified location.  Using this model, one can define
+  The Utilization Distribution (UD) is the bivariate function giving the
+  probability density that an animal is found at a point according to
+  its geographical coordinates.  Using this model, one can define 
   the home range as the minimum area in which an animal has some
   specified probability of being located. The
   functions used here correspond to the approach described in Worton
@@ -106,9 +107,13 @@ getverticeshr(x, lev = 95)
   and \code{image.khr} corresponds to the different percentage levels of
   home-range estimation (see examples).  In addition, this function is
   used in the function \code{kernel.area}, to compute the home-range
-  size.
+  size.  Note, that the function \code{plot.hrsize} (see the help page
+  of this function) can be used to display the home-range size estimated
+  at various levels.
 }
 \value{
+  The class \code{khr} is a class grouping two sub-classes,
+  \code{khrud} and \code{khrudvol}:
   \code{kernelUD} returns a list of the class \code{khrud}.  This list
   has one component per animal (named as the levels of argument
   \code{id}). Each component is itself a list, with the following
@@ -164,7 +169,8 @@ getverticeshr(x, lev = 95)
 
 \seealso{ \code{\link{import.asc}} for additionnal informations on
   objects of class \code{asc},  \code{\link{mcp}} for estimation of home
-  ranges using the minimum convex polygon. }
+  ranges using the minimum convex polygon, and for help on the function
+  \code{plot.hrsize}. }
 
 \examples{
 
@@ -176,11 +182,11 @@ id <- puechabon$locs[, "Name"]
 ud <- kernelUD(loc, id)
 ud
 
-image(ud) ## note that the contours
+image(ud) ## Note that the contours
           ## corresponds to values of probability density
 udvol <- getvolumeUD(ud)
 image(udvol)
-## here, the contour corresponds to the
+## Here, the contour corresponds to the
 ## home ranges estimated at different probability
 ## levels (i.e. the contour 90 corresponds to the 90 percent
 ## kernel home-range)
@@ -212,12 +218,12 @@ plot(cuicui2)
 plotLSCV(udbis)
 
 
-## use of the same4all argument: the same grid
+## Use of the same4all argument: the same grid
 ## is used for all animals
 udbis <- kernelUD(loc, id, same4all = TRUE)
 image(udbis)
 
-## and finally, estimation of the UD on a map
+## And finally, estimation of the UD on a map
 ## (e.g. for subsequent analyses on habitat selection)
 elev <- getkasc(puechabon$kasc, "Elevation")
 opar <- par(mfrow = c(2, 2), mar = c(0, 0, 2, 0))
@@ -229,7 +235,7 @@ for (i in 1:length(udbis)) {
 }
 
 
-## measures the UD in each pixel of the map
+## Measures the UD in each pixel of the map
 udbis <- kernelUD(loc, id, grid = elev)
 opar <- par(mfrow = c(2, 2), mar = c(0, 0, 2, 0))
 for (i in 1:length(udbis)) {

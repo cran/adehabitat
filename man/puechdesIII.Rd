@@ -5,16 +5,22 @@
 \description{
 This data set contains two data frames describing the use and the
 availability of 3 elevation classes for 6 wild boars (\emph{Sus scrofa}
-L.) monitored using radio-tracking at Puéchabon (South of France). 
-The data frame \code{used} describes the number of telemetry relocations 
-for each of the 6 animals in each of the three elevation classes. 
-The data frame \code{available} describes a sample 
-of random points placed in the areas available to these wild boars 
-(a buffer area of 200 m around the relocations).
+L.) monitored using radio-tracking at Puéchabon (South of France).
+These data have been collected by Daniel Maillard (Office national de la
+chasse et de la faune sauvage).
 }
 \usage{data(puechdesIII)}
+\details{
+  The list \code{puechdesIII} has two components: \cr
+  The data frame \code{used} describes the number of telemetry
+  relocations  for each of the 6 animals in each of the three elevation
+  classes. \cr
+  The data frame \code{available} describes a sample 
+  of random points placed in the areas available to these wild boars 
+  (a buffer area of 200 m around the relocations).
+}
 \source{
-Maillard, D. (1996) \emph{Occupation et l'utilisation de la garrigue et du
+Maillard, D. (1996) \emph{Occupation et utilisation de la garrigue et du
 vignoble méditerranéens par le Sanglier}.
 Université d'Aix-Marseille III:  PhD thesis.
 }

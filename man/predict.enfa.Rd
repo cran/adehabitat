@@ -42,7 +42,7 @@ Returns a raster map of class \code{kasc}.
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
 \seealso{
 \code{\link[stats]{mahalanobis}} for information on the computation of
-Mahalanobis distances.  \code{mahasuhab} for more details on the
+Mahalanobis distances.  \code{\link{mahasuhab}} for more details on the
 computation of habitat suitability maps using the Mahalanobis distances. 
 }
 \examples{
@@ -50,18 +50,17 @@ computation of habitat suitability maps using the Mahalanobis distances.
 data(lynxjura)
 
 ## We keep only "wild" indices.
-tmp=lynxjura$loc[,4]!="D"
-(enfa1 <- enfa(lynxjura$map,
-               lynxjura$locs[tmp, c("X","Y")],
-               scannf = FALSE))
-hist(enfa1)
-hist(enfa1, scores = FALSE, type = "l")
+tmp <- lynxjura$loc[,4] != "D"
+map <- lynxjura$map
+pts <- lynxjura$locs[tmp, c("X","Y")]
+(enfa1 <- enfa(map, pts, scannf = FALSE))
 
-## randomization test
-(renfa <- randtest(enfa1))
-plot(renfa)
-if (require(MASS))
-   scatter(enfa1)
+## Compute the prediction
+pred <- predict(enfa1)
+image(pred)
+contour(pred, col="green", add=T)
+points(pts, col = "red", pch = 16)
+## Lighter areas are the most preferred areas
 }
 }
 \keyword{multivariate}

@@ -26,7 +26,7 @@ print.asc(x, \dots)
 \arguments{
   \item{file}{a character string. The name of an Arcview ASCII Raster file}
   \item{type}{a character string. Either \code{"numeric"} or \code{"factor"}}
-  \item{lev}{if \code{type == "factor"}, either a vector giving the
+  \item{lev}{if \code{type = "factor"}, either a vector giving the
     labels of the factor levels, or the name of a file giving the
     correspondence table of the map (see details)}
   \item{levnb}{if \code{lev} is the name of a file containing a
@@ -69,10 +69,10 @@ provided in the directory "ascfiles" of the package, see the examples below.
     the map}
   \item{cellsize}{the size of a pixel on the studied map}
   \item{type}{either \code{"numeric"} or \code{"factor"}.}
-  \item{levels}{if \code{type == "factor"}, the levels of the factor.}
+  \item{levels}{if \code{type = "factor"}, the levels of the factor.}
 }
 \references{Arcview: \url{http://www.esri.com}\cr
-Landserf: \url{http://www.soi.city.ac.uk/~jwo/landserf/landserf170/}
+Landserf: \url{http://www.soi.city.ac.uk/~jwo/landserf/}
 }
 \author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 

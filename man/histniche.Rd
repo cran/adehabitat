@@ -19,10 +19,10 @@ histniche(kasc, pts, type = c("h", "l"), adjust = 1,
   \item{type}{what type of plot should be drawn.  Possible types are:\cr
     * \code{"h"} for histograms,\cr
     * \code{"l"} for kernel density estimates (see \code{?density}).\cr
-    By default, \code{type == "h"} is used.  If \code{type == "l"} is used,
+    By default, \code{type = "h"} is used.  If \code{type = "l"} is used,
     the position of the mean of each distribution is indicated by dotted
     lines}
-  \item{adjust}{if \code{type == "l"}, a parameter used to control the
+  \item{adjust}{if \code{type = "l"}, a parameter used to control the
     bandwidth of the density estimate (see \code{?density})}
   \item{colZ}{color for the histograms of the available pixels}
   \item{colS}{color for the histograms of the used pixels}

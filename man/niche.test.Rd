@@ -44,7 +44,7 @@ niche.test(kasc, points, nrep = 999, h, o.include = FALSE,
   function \code{biv.test}.
 }
 \value{
-Returns a list of class \code{randtest.enfa} containing the following
+Returns a list containing the following
 components: 
 \item{dfxy}{a data frame with the randomized values of marginality
   (first column) and tolerance (second column).}

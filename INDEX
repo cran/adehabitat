@@ -74,7 +74,7 @@ setmask                 Applies a Mask on Objects of Class 'asc' or
                         'kasc'
 speed                   Computes the Speed Between Successive
                         Relocations of an Animal
-squirrel                Radio-Tracking of Squirrels
+squirrel                Radio-Tracking Data of Squirrels
 storemapattr            Store attributes of maps of class asc and kasc
 subsetmap               Storing a Part of a Map
 vanoise                 Habitat Use by Three Species of Galliformes in

@@ -52,7 +52,7 @@ image(su, axes = FALSE)
 box()
 
 par(opar)
-
+par(mfrow = c(1,1))
 
 ### Gets this part for the whole kasc object
 m <- subsetmap(kasc, xlim = xl, ylim = yl)

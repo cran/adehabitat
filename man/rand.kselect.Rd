@@ -18,14 +18,10 @@ rand.kselect(dudi, factor, weight, nrep = 200, alpha = 0.05, ewa = FALSE)
 print.rand.kselect(x, \dots)
 }
 \arguments{
-  \item{dudi}{an object of class \code{dudi} passed as arguments to the
-    function \code{kselect}}
-  \item{factor}{a factor passed as argument to the function \code{kselect}}
-  \item{weight}{a weight vector passed as argument to the function
-    \code{kselect} (see the help page of this function). Caution! In
-    this function, this vector should be a
-    vector of integers (number of relocations counted in each resource
-    unit in row of the object dudi)}
+  \item{dudi}{an object of class \code{dudi}.}
+  \item{factor}{a factor defining the animals identity}
+  \item{weight}{a weight vector of integer values (number of relocations
+    counted in each resource unit in row of the object dudi)}
   \item{nrep}{the number of repetitions of the test}
   \item{alpha}{the alpha level for the tests.}
   \item{ewa}{logical. If \code{TRUE}, uniform weights are given
@@ -63,8 +59,7 @@ print.rand.kselect(x, \dots)
 \value{
   Returns an object of class \code{rand.kselect}. This list has three
   components: 
-  \item{ global }{an object of class \code{randtest} (see
-    \code{help(randtest)}), 
+  \item{ global }{a vector of length 2 
     giving the results of the randomisation procedure for the first
     eigenvalue of the K-select analysis.}
   \item{ marg }{a matrix giving the significance of the marginality of
@@ -83,6 +78,7 @@ print.rand.kselect(x, \dots)
 \seealso{ \code{\link{kselect}} to perform a K-select analysis. }
 
 \examples{
+\dontrun{
 ## Loads the data
 data(puechabon)
 sahr <- puechabon$sahr
@@ -93,7 +89,9 @@ tab <- x$tab
 dud <- dudi.mix(tab, scannf = FALSE, nf = 2)
 
 ## the randomisation tests
+## be patient, this can be very long on some machines
 (te <- rand.kselect(dud, x$factor, x$weight, nrep = 50))
 
+}
 }
 \keyword{multivariate}

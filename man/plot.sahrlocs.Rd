@@ -58,8 +58,8 @@ plot.sahrlocs(x, ani = names(x$hr), var = names(x$sa),
   London: Kluwer academic publishers.
 }
 \author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
-\seealso{\code{\link{widesII}} and \code{widesIII} for further
-  information on objects of class \code{wiII} and \code{wiII},
+\seealso{\code{\link{widesII}} and \code{\link{widesIII}} for further
+  information on objects of class \code{wiII} and \code{wiIII},
   \code{\link{as.sahrlocs}} for further information on objects of class
   \code{sahrlocs}.}
 

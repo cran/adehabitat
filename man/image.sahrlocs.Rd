@@ -68,7 +68,6 @@ image(sahr, ani = "Chou")
 image(sahr, var = "Elevation")
 
 ## Load and displays the relocations of the animals
-data(puechabon)
 locs <-  puechabon$locs[,c(1,4:5)]
 image(sahr, var = "Elevation", dfidxy = locs, pch = 21)
 }

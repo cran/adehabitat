@@ -1,7 +1,7 @@
 \name{squirrel}
 \docType{data}
 \alias{squirrel}
-\title{Radio-Tracking of Squirrels}
+\title{Radio-Tracking Data of Squirrels}
 \description{
 This data set describes the use and availability of 5 habitat types for
 17 squirrels monitored using radio-tracking. 

@@ -21,7 +21,7 @@ getkascattr(xkfrom, xkto)
   \item{type}{a character string giving the type of the map
     (\code{"factor"} for maps of categorical 
     variables, and \code{"numeric"} otherwise)}
-  \item{lev}{if \code{type == "factor"},
+  \item{lev}{if \code{type = "factor"},
     a character vector giving the levels of the mapped variable
     (see \code{help(import.asc)})}
   \item{xkfrom}{an object of class \code{kasc}}

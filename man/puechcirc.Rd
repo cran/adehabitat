@@ -26,7 +26,7 @@ faune sauvage), and correspond to the activity period of the wild boar
   }
 }
 \source{
-Maillard, D. (1996). \emph{Occupation et l'utilisation de la garrigue et
+Maillard, D. (1996). \emph{Occupation et utilisation de la garrigue et
   du vignoble méditerranéens par le Sanglier}.
 Université d'Aix-Marseille III: PhD thesis.
 }

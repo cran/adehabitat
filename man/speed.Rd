@@ -15,11 +15,11 @@ speed(x, id = levels(x$id), burst = levels(x$burst), date = NULL,
     which the speed is to be computed}
   \item{burst}{a character vector giving the identity of the circuits
     for which the speed is to be computed (see \code{as.traj})}
-  \item{date}{a vector of class \code{POSIXct} of length 2 (beginning,end)
+  \item{date}{a vector of class \code{POSIXct} of length 2 (beginning, end)
     delimiting the period of interest}
   \item{units}{a character string. It determines how the
     speeds are computed.  For example, if the coordinates are given in
-    meters, and if \code{units == "seconds"}, speeds are returned in
+    meters, and if \code{units = "seconds"}, speeds are returned in
     meters per second.}
 }
 \value{

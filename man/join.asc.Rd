@@ -4,10 +4,10 @@
 \title{Finds the Value of Mapped Variables at some Specified Locations
   (Spatial Join)}
 \description{
-  \code{join.kasc} finds the value of several maps at some specified
+  \code{join.asc} finds the value of a mapped variable at some specified
   locations.\cr
-  \code{join.asc} is the same function as \code{join.kasc}, 
-  with only one map.
+  \code{join.kasc} is the same function as \code{join.asc}, 
+  with several maps.
 }
 \usage{
  join.asc(pts, x) 

@@ -8,13 +8,16 @@
   \code{mcp} computes the home range of several
   animals using the minimum convex polygon estimator.\cr
   \code{mcp.area} is used for home-range size estimation.  This function
-  requires the package \code{gpclib}.
+  requires the package \code{gpclib}.\cr
+  \code{plot.hrsize} is used to display the home-range size estimated at
+  various levels.
 }
 \usage{
 mcp(xy, id, percent = 95)
 mcp.area(xy, id, percent = seq(20,95, by=5)
-         unin=c("m", "km"),
-         unout=c("ha", "km2", "m2"))
+         unin = c("m", "km"),
+         unout = c("ha", "km2", "m2"))
+plot.hrsize(x, \dots)
 }
 \arguments{
   \item{xy}{a data frame containing the coordinates of the relocation
@@ -22,17 +25,24 @@ mcp.area(xy, id, percent = seq(20,95, by=5)
   \item{id}{a factor giving the identity of the animal for each relocation}
   \item{percent}{100 minus the proportion of outliers to be excluded
     from the computation }
-  \item{unin}{the units of the relocations coordinates.  Either \code{"m"} for
+  \item{unin}{the units of the relocations coordinates.  Either
+    \code{"m"} (default) for
     meters or \code{"km"} for kilometers}
   \item{unout}{the units of the output areas.  Either \code{"m2"} for
     square meters, \code{"km2"} for square kilometers or \code{"ha"} for
-    hectares}
+    hectares (default)}
+  \item{x}{an objet of class \code{hrsize} returned by the function
+    \code{mcp.area}, or \code{kernel.area} (see the help page of this
+    function)}
+  \item{\dots}{additionnal arguments to be passed to the function
+    \code{plot}}
 }
 \details{
   This function computes the Minimum Convex Polygon estimation after the
   removal of \code{(100 minus percent)} percent of the relocations the
   farthest away from the barycenter of the home range (computed by the
-  arithmetic mean of the coordinates of the relocations for each animal).
+  arithmetic mean of the coordinates of the relocations for each
+  animal).\cr
 }
 \value{
   \code{mcp} returns an object of class \code{area}, with one polygon
