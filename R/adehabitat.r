@@ -2719,7 +2719,6 @@ image.khr<-function(x, axes=FALSE, mar=c(0,0,2,0),
       }
       box()
     }
-    par(opar)
   }
 
 plotLSCV<-function(x)
@@ -4852,7 +4851,7 @@ NNCH<-function(xy, id=NULL, k=10, unin = c("m", "km"),
       id<-rep(1,nrow(xy))
     id<-factor(id)
     
-    if (k>=min(table(u)))
+    if (k>=min(table(id)))
       stop("too large number of neighbors")
     if (nrow(xy)!=length(id))
       stop("id should have the same length as xy")
@@ -5028,8 +5027,6 @@ neighNNCH <- function(xy, id=NULL, rangek, percent=95,
       stop("too large number of neighbors")
     if (ncol(xy)!=2)
       stop("xy should have two columns")
-    if (length(id)!=nrow(xy))
-      stop("id should have the same number of rows as xy")
     kk <- do.call("rbind", lapply(rangek, function(x) {
       unlist(NNCH.area(NNCH(xy=xy, id=id, k=x, unin, unout), percent)[1,])
     }))
