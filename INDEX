@@ -1,0 +1,83 @@
+angles                  Compute Turning Angles
+area2dxf                Exportation of Areas
+as.area                 Objects of Class "area"
+as.kasc                 Working with Several Raster Maps
+as.sahrlocs             Exploratory Analysis of Habitat Selection
+as.traj                 Working with Trajectories in 2D Space
+asc2im                  Conversion of Maps of Class 'asc' and 'im'
+                        (Package spatstat)
+ascgen                  Creation of Raster Maps
+bighorn                 Radio-Tracking of Bighorn Sheeps
+biv.test                Bivariate Test
+buffer                  Compute Buffers
+chamois                 Location of Chamois Groups in the Chartreuse
+                        Mountains
+colasc                  Creates a Vector of Colors for a Raster Map of
+                        Type 'factor'
+compana                 Compositional Analysis of Habitat Use
+convnum                 Conversion from Factor to Numeric for Raster
+                        Map
+count.points.id         Number of Points in Each Pixel of a Raster Map
+domain                  Estimation of the Potential Distribution of a
+                        Species
+enfa                    Ecological-Niche Factor Analysis
+getascattr              Copy the Attributes of an Object of Class
+                        'asc' or 'kasc' to another Object
+getcontour              Computes the Contour Polygon of a Raster
+                        Object
+getXYcoords             Computes the X and Y Coordinates of the Pixels
+                        of a Raster Map
+hist.kasc               Histograms of Mapped Variables
+histniche               Histograms of the Ecological Niche of a
+                        Species
+hr.rast                 Rasterisation of Objects of Class 'area'
+image.asc               Displays a Color Image of an Object of Class
+                        'asc'
+image.sahrlocs          Graphical Display of the Habitat Composition
+                        of the Home Ranges of Animals Monitored Using
+                        Radio-Tracking
+import.asc              Arcview ASCII Raster File Importation And
+                        Exportation
+join.asc                Finds the Value of Mapped Variables at some
+                        Specified Locations (Spatial Join)
+kasc2df                 Conversion of Objects of Class kasc
+kernelUD                Estimation of Kernel Home-Range
+kselect                 K-Select Analysis: a Method to Analyse the
+                        Habitat Selection by Animals
+labcon                  Labelling Connected Features
+lowres                  Reducing the Resolution of a Map
+lynxjura                Monitoring of Lynx
+mahasuhab               Habitat Suitability Mapping with Mahalanobis
+                        Distances.
+managNAkasc             "Cleaning" Objects of Class 'kasc'
+mcp                     Estimation of the Home Range Using the Minimum
+                        Convex Polygon Estimator
+mcp.rast                Converts a Polygon to Raster
+morphology              Morphology: Erosion or Dilatation of Features
+                        on a Raster Map
+niche.test              Monte-Carlo Test on Parameters of the
+                        Ecological Niche
+pheasant                Radio-Tracking of Pheasants
+plot.sahrlocs           Exploratory Analysis of Habitat Selection
+predict.enfa            Habitat Suitability Maps Built from the ENFA
+puechabon               Radio-Tracking Data of Wild Boar
+puechcirc               Movements of wild boars tracked at Puechabon
+puechdesIII             Habitat Selection by the Wild Boar at
+                        Puechabon
+rand.kselect            Test of the Third-Order Habitat Selection
+randtest.enfa           Randomisation Test for the Ecological Niche
+                        Factor Analysis
+sahrlocs2kselect        Preparation of K-Select Analysis
+sahrlocs2niche          OMI Analysis of Radio-Tracking Data
+scatter.enfa            Scatter Plot of the Results of the ENFA
+setmask                 Applies a Mask on Objects of Class 'asc' or
+                        'kasc'
+speed                   Computes the Speed Between Successive
+                        Relocations of an Animal
+squirrel                Radio-Tracking of Squirrels
+storemapattr            Store attributes of maps of class asc and kasc
+subsetmap               Storing a Part of a Map
+vanoise                 Habitat Use by Three Species of Galliformes in
+                        the Vanoise National Parc
+wi                      Computation of Selection Ratios for Habitat
+                        Selection Studies.

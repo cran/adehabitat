@@ -1,0 +1,367 @@
+Entry: angles
+Aliases: angles
+Keywords: spatial
+Description: Compute Turning Angles
+URL: ../../../library/habitat/html/angles.html
+
+Entry: area2dxf
+Aliases: area2dxf
+Keywords: hplot
+Description: Exportation of Areas
+URL: ../../../library/habitat/html/area2dxf.html
+
+Entry: as.area
+Aliases: as.area
+Keywords: spatial
+Description: Objects of Class "area"
+URL: ../../../library/habitat/html/as.area.html
+
+Entry: as.kasc
+Aliases: as.kasc, getkasc, image.kasc, print.kasc, kasc
+Keywords: hplot
+Description: Working with several Raster Maps
+URL: ../../../library/habitat/html/as.kasc.html
+
+Entry: as.sahrlocs
+Aliases: as.sahrlocs, getsahrlocs, print.sahrlocs
+Keywords: spatial
+Description: Exploratory Analysis of Habitat Selection
+URL: ../../../library/habitat/html/as.sahrlocs.html
+
+Entry: as.traj
+Aliases: as.traj, print.traj, plot.traj, summary.traj, getburst, traj2df, df2traj
+Keywords: spatial
+Description: Working with Trajectories in 2D Space
+URL: ../../../library/habitat/html/as.traj.html
+
+Entry: asc2im
+Aliases: asc2im, im2asc
+Keywords: spatial
+Description: Conversion of Maps of Class 'asc' and 'im' (package spatstat) 
+URL: ../../../library/habitat/html/asc2im.html
+
+Entry: ascgen
+Aliases: ascgen
+Keywords: spatial
+Description: Creation of Raster Maps
+URL: ../../../library/habitat/html/ascgen.html
+
+Entry: bighorn
+Aliases: bighorn
+Keywords: datasets
+Description: Radio-Tracking of Bighorn Sheeps
+URL: ../../../library/habitat/html/bighorn.html
+
+Entry: biv.test
+Aliases: biv.test
+Keywords: multivariate
+Description: Bivariate Test
+URL: ../../../library/habitat/html/biv.test.html
+
+Entry: buffer
+Aliases: buffer, buffer.ani
+Keywords: spatial
+Description: Compute Buffers
+URL: ../../../library/habitat/html/buffer.html
+
+Entry: chamois
+Aliases: chamois
+Keywords: dataset
+Description: Location of Chamois Groups in the Chartreuse Mountains
+URL: ../../../library/habitat/html/chamois.html
+
+Entry: colasc
+Aliases: colasc
+Keywords: programming
+Description: Creates a Vector of Colors for a Raster Map of Type 'factor'
+URL: ../../../library/habitat/html/colasc.html
+
+Entry: compana
+Aliases: compana, print.compana
+Keywords: math
+Description: Compositional Analysis of Habitat Use
+URL: ../../../library/habitat/html/compana.html
+
+Entry: convnum
+Aliases: convnum
+Keywords: manip
+Description: Conversion from Factor to Numeric for Raster Maps
+URL: ../../../library/habitat/html/convnum.html
+
+Entry: count.points.id
+Aliases: count.points.id, count.points
+Keywords: spatial
+Description: Number of Points in Each Pixel of a Raster Map
+URL: ../../../library/habitat/html/count.points.id.html
+
+Entry: domain
+Aliases: domain
+Keywords: spatial
+Description: Estimation of the Potential Distribution of a Species
+URL: ../../../library/habitat/html/domain.html
+
+Entry: enfa
+Aliases: enfa, hist.enfa, print.enfa
+Keywords: multivariate
+Description: Ecological-Niche Factor Analysis
+URL: ../../../library/habitat/html/enfa.html
+
+Entry: getascattr
+Aliases: getascattr
+Keywords: programming
+Description: Copy the Attributes of an Object of Class 'asc' or 'kasc' to Another Object
+URL: ../../../library/habitat/html/getascattr.html
+
+Entry: getcontour
+Aliases: getcontour
+Keywords: programming
+Description: Computes the Contour Polygon of a Raster Object
+URL: ../../../library/habitat/html/getcontour.html
+
+Entry: getXYcoords
+Aliases: getXYcoords
+Keywords: programming
+Description: Computes the X and Y Coordinates of the Pixels of a Raster Map
+URL: ../../../library/habitat/html/getXYcoords.html
+
+Entry: hr.rast
+Aliases: hr.rast
+Keywords: spatial
+Description: Rasterisation of objects of class "area"
+URL: ../../../library/habitat/html/hr.rast.html
+
+Entry: hist.kasc
+Aliases: hist.kasc
+Keywords: hplot
+Description: Histograms of Mapped Variables
+URL: ../../../library/habitat/html/hist.kasc.html
+
+Entry: histniche
+Aliases: histniche
+Keywords: multivariate
+Description: Histograms of the Ecological Niche of a Species
+URL: ../../../library/habitat/html/histniche.html
+
+Entry: image.asc
+Aliases: image.asc, contour.asc, persp.asc, plot.asc
+Keywords: hplot
+Description: Display a color image of an object of type "asc"
+URL: ../../../library/habitat/html/image.asc.html
+
+Entry: image.sahrlocs
+Aliases: image.sahrlocs
+Keywords: spatial
+Description: Graphical display of the habitat composition of
+  home ranges of animals monitored using radio-tracking
+URL: ../../../library/habitat/html/image.sahrlocs.html
+
+Entry: import.asc
+Aliases: import.asc, export.asc, print.asc, asc
+Keywords: IO file
+Description: Arcview ASCII raster file importation and exportation
+URL: ../../../library/habitat/html/import.asc.html
+
+Entry: join.asc
+Aliases: join.asc, join.kasc
+Keywords: programming
+Description: Find the value of mapped variables at specified locations
+URL: ../../../library/habitat/html/join.asc.html
+
+Entry: kasc2df
+Aliases: kasc2df, df2kasc
+Keywords: multivariate
+Description: Multivariate analyses of objects of class "kasc"
+URL: ../../../library/habitat/html/df2kasc.html
+
+Entry: kernelUD
+Aliases: kernelUD, print.khr, image.khr, plotLSCV, getvolumeUD, kernel.area, getverticeshr
+Keywords: spatial
+Description: Estimation of kernel home-range
+URL: ../../../library/habitat/html/kernelUD.html
+
+Entry: kselect
+Aliases: kselect, kplot.kselect, hist.kselect, print.kselect
+Keywords: multivariate
+Description: K-select analysis: Method to Analyse habitat selection by animals
+  in case of design III studies
+URL: ../../../library/habitat/html/kselect.html
+
+Entry: lynxjura
+Aliases: lynxjura
+Keywords: datasets
+Description: Monitoring of Lynx
+URL: ../../../library/habitat/html/lynxjura.html
+
+Entry: mahasuhab
+Aliases: mahasuhab
+Keywords: spatial
+Description: Habitat suitability mapping with mahalanobis distances.
+URL: ../../../library/habitat/html/mahasuhab.html
+
+Entry: managNAkasc
+Aliases: managNAkasc
+Keywords: NA
+Description: "Cleaning" of objects of class "kasc"
+URL: ../../../library/habitat/html/managNAkasc.html
+
+Entry: mcp.rast
+Aliases: mcp.rast
+Keywords: spatial
+Description: Converts a polygon to raster
+URL: ../../../library/habitat/html/mcp.rast.html
+
+Entry: mcp
+Aliases: mcp, mcp.area
+Keywords: hplot
+Description: Estimation of the Home range using the Minimum Convex Polygon
+URL: ../../../library/habitat/html/mcp.html
+
+Entry: morphology
+Aliases: morphology
+Keywords: spatial
+Description: Morphology: Erosion or Dilatation of Features on a Raster Map
+URL: ../../../library/habitat/html/morphology.html
+
+Entry: niche.test
+Aliases: niche.test
+Keywords: multivariate
+Description: Monte-Carlo Test on Parameters of the Ecological Niche
+URL: ../../../library/habitat/html/niche.test.html
+
+Entry: pheasant
+Aliases: pheasant
+Keywords: dataset
+Description: Radio-Tracking of Pheasants
+URL: ../../../library/habitat/html/pheasant.html
+
+Entry: plot.sahrlocs
+Aliases: plot.sahrlocs, print.plotsahr
+Keywords: hplot
+Description: Exploratory Analysis of Habitat Selection
+URL: ../../../library/habitat/html/plot.sahrlocs.html
+
+Entry: predict.enfa
+Aliases: predict.enfa
+Keywords: multivariate
+Description: Habitat Suitability Maps Built from the ENFA
+URL: ../../../library/habitat/html/predict.enfa.html
+
+Entry: puechabon
+Aliases: puechabon
+Keywords: datasets
+Description: Radio-tracking of wild boars
+URL: ../../../library/habitat/html/puechabon.html
+
+Entry: puechcirc
+Aliases: puechcirc
+Keywords: datasets
+Description: 
+URL: ../../../library/habitat/html/puechdesIII.html
+
+Entry: puechdesIII
+Aliases: puechdesIII
+Keywords: datasets
+Description: Habitat selection by the wild boar at Puechabon
+URL: ../../../library/habitat/html/puechdesIII.html
+
+Entry: rand.kselect
+Aliases: rand.kselect, print.rand.kselect
+Keywords: multivariate
+Description: Test of the third order habitat selection
+URL: ../../../library/habitat/html/rand.kselect.html
+
+Entry: randtest.enfa
+Aliases: randtest.enfa
+Keywords: multivariate
+Description: Randomisation Test for the Ecological Niche Factor Analysis
+URL: ../../../library/habitat/html/randtest.enfa.html
+
+Entry: rotxy
+Aliases: rotxy, .buffer.point.unic, profilehab, [.kasc, [[.kasc
+Keywords: internal
+Description: Internal functions for package adehabitat
+URL: ../../../library/habitat/html/rotxy.html
+
+Entry: sahrlocs2kselect
+Aliases: sahrlocs2kselect
+Keywords: multivariate
+Description: Preparation of a K-select analysis of radio-tracking data
+URL: ../../../library/habitat/html/sahrlocs2kselect.html
+
+Entry: sahrlocs2niche
+Aliases: sahrlocs2niche
+Keywords: multivariate
+Description: OMI Analysis of Radio-Tracking Data
+URL: ../../../library/habitat/html/sahrlocs2niche.html
+
+Entry: scatter.enfa
+Aliases: scatter.enfa
+Keywords: multivariate
+Description: Scatter Plot of the Results of the ENFA
+URL: ../../../library/habitat/html/scatter.enfa.html
+
+Entry: labcon
+Aliases: labcon
+Keywords: spatial
+Description: Labelling of Connected Features
+URL: ../../../library/habitat/html/labcon.html
+
+Entry: lowres
+Aliases: lowres, lowres.asc, lowres.kasc
+Keywords: spatial
+Description: Reducing the Resolution of a Map
+URL: ../../../library/habitat/html/lowres.html
+
+Entry: rotxy
+Aliases: rotxy, .buffer.point.unic, profilehab
+Keywords: internal
+Description: internal functions for package habitat
+URL: ../../../library/habitat/html/rotxy.html
+
+Entry: randtest.enfa
+Aliases: randtest.enfa
+Keywords: multivariate
+Description: {Randomisation Test for the Ecological Niche Factor Analysis
+URL: ../../../library/habitat/html/randtest.enfa.html
+
+Entry: setmask
+Aliases: setmask
+Keywords: spatial
+Description: Applies a Mask on Objects of Class "asc" or "kasc"
+URL: ../../../library/habitat/html/setmask.html
+
+Entry: speed
+Aliases: speed
+Keywords: spatial
+Description: Computes Speed Between Successive Relocations of an Animal
+URL: ../../../library/habitat/html/speed.html
+
+Entry: squirrel
+Aliases: squirrel
+Keywords: dataset
+Description: Radio-Tracking of Squirrels
+URL: ../../../library/habitat/html/squirrel.html
+
+Entry: storemapattr
+Aliases: storemapattr
+Keywords: programming
+Description: Store attributes of maps of class asc and kasc
+URL: ../../../library/habitat/html/storemapattr.html
+
+Entry: subsetmap
+Aliases: subsetmap,subsetmap.asc,subsetmap.kasc
+Keywords: spatial
+Description: Storing a part of a map
+URL: ../../../library/habitat/html/subsetmap.html
+
+Entry: vanoise
+Aliases: vanoise
+Keywords: dataset
+Description: Habitat Use by Three Species of Galliformes in the Vanoise National Parc
+URL: ../../../library/habitat/html/vanoise.html
+
+Entry: wi
+Aliases: wi, widesI, widesII, widesIII, print.wiI, print.wiII, print.wiIII, plot.wi, wiI, wiII
+Keywords: hplot
+Description: Computation of selection ratios for habitat selection studies
+URL: ../../../library/habitat/html/wi.html

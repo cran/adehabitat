@@ -1,0 +1,37 @@
+\name{hr.rast}
+\alias{hr.rast}
+\title{Rasterisation of Objects of Class 'area'}
+\description{
+Converts an object of class \code{area} (used in many functions of the
+package \code{ade4}) to an object of class \code{kasc} (rasterisation).
+}
+\usage{
+hr.rast(mcp, w)
+}
+
+\arguments{
+  \item{mcp}{an object of class \code{area}}
+  \item{w}{a raster map of class \code{kasc} or of class \code{asc}}
+}
+\value{
+  Returns an object of class \code{kasc}.
+}
+\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+
+\seealso{  \code{\link{as.kasc}} for additional information on
+  objects of class \code{kasc}, \code{\link{as.area}} for further
+  information on the class \code{area} }
+\examples{
+data(puechabon)
+kasc <- puechabon$kasc
+locs <-  puechabon$locs
+
+## Computes the home range of the animals
+cp <- mcp(locs[,4:5], locs[,1])
+area.plot(cp)
+
+## Converts the home range to raster
+cprast <- hr.rast(cp, kasc)
+image(cprast)
+}
+\keyword{spatial}

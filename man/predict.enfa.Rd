@@ -1,0 +1,67 @@
+\name{predict.enfa}
+\alias{predict.enfa}
+\title{Habitat Suitability Maps Built from the ENFA}
+\description{
+  \code{predict.enfa} computes habitat suitability maps using the
+  Ecological-Niche Factor Analysis and the Mahalanobis distances
+  method.
+}
+\usage{
+predict.enfa(object, nf, \dots)
+}
+\arguments{
+  \item{object}{an object of class \code{enfa}}
+  \item{nf}{the number of axes of specialization kept for the
+    predictions.  By default, all axes kept in \code{object} are
+    used}
+  \item{\dots}{further arguments passed to or from other methods}
+}
+\details{
+The predictions are based on the position of the niche defined by the
+ENFA within the multidimensional space of environmental variables.  The
+ENFA produces row coordinates for each pixel, which are used with the
+function \code{mahalanobis}.  For each pixel, this function computes the
+Mahalanobis distances from the barycentre of the niche.\cr
+
+Actually, the function \code{predict.enfa} is identical to the function
+\code{mahasuhab}, except that the habitat suitability map is computed
+using the axes of the ENFA, instead of the raw data.
+}
+\value{
+Returns a raster map of class \code{kasc}.
+}
+\references{
+  Clark, J.D., Dunn, J.E. and Smith, K.G. (1993) A multivariate model of
+  female black bear habitat use for a geographic information
+  system. \emph{Journal of Wildlife Management}, \bold{57}, 519--526.
+
+  Hirzel, A.H., Hausser, J., Chessel, D. & Perrin, N. (2002)
+  Ecological-niche factor analysis: How to compute habitat-suitability
+  maps without absence data? \emph{Ecology}, \bold{83}, 2027--2036.  
+}
+\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
+\seealso{
+\code{\link[stats]{mahalanobis}} for information on the computation of
+Mahalanobis distances.  \code{mahasuhab} for more details on the
+computation of habitat suitability maps using the Mahalanobis distances. 
+}
+\examples{
+\dontrun{
+data(lynxjura)
+
+## We keep only "wild" indices.
+tmp=lynxjura$loc[,4]!="D"
+(enfa1 <- enfa(lynxjura$map,
+               lynxjura$locs[tmp, c("X","Y")],
+               scannf = FALSE))
+hist(enfa1)
+hist(enfa1, scores = FALSE, type = "l")
+
+## randomization test
+(renfa <- randtest(enfa1))
+plot(renfa)
+if (require(MASS))
+   scatter(enfa1)
+}
+}
+\keyword{multivariate}

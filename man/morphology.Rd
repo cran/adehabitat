@@ -1,0 +1,49 @@
+\name{morphology}
+\alias{morphology}
+\title{Morphology: Erosion or Dilatation of Features on a Raster Map}
+\description{
+  \code{morphology} performs morphological operations on images
+  of class \code{asc}.
+}
+\usage{
+morphology(x, operation = c("erode", "dilate"), nt = 5)
+}
+\arguments{
+  \item{x}{a matrix of class \code{asc}}
+  \item{operation}{a character string indicating the operation to be
+    processed: either \code{"erode"} or \code{"dilate"}}
+  \item{nt}{the number of times that the operation should be processed}
+}
+\value{
+Returns a matrix of class \code{asc}, containing 1 when the pixel belong
+to one feature of the image and \code{NA} otherwise (see examples).  
+}
+\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\seealso{\code{\link{as.asc}} for further information on objects of
+  class \code{asc}} 
+\examples{
+data(puechabon)
+a <- getkasc(puechabon$kasc,"Elevation")
+
+## dilatation
+toto1 <- morphology(a, operation = "dilate", nt = 1)
+toto2 <- morphology(a, operation = "dilate", nt = 2)
+toto3 <- morphology(a, operation = "dilate", nt = 3)
+toto5 <- morphology(a, operation = "dilate", nt = 5)
+image(toto5, col = "red")
+image(toto3, add = TRUE, col = "orange")
+image(toto2, add = TRUE, col = "yellow")
+image(toto1, add = TRUE, col = "green")
+image(a, add = TRUE)
+
+## erosion
+image(a, col = 1)
+for (i in 1:19) {
+  toto <- morphology(a, operation = "erode", nt = i)
+  image(toto, add = TRUE, col = palette()[(i+1)\%\%8])
+}
+
+
+}
+\keyword{spatial}
+

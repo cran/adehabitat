@@ -1,0 +1,40 @@
+\name{histniche}
+\alias{histniche}
+\title{Histograms of the Ecological Niche of a Species}
+\description{
+  \code{histniche} draws histograms of the variables mapped in an
+  object of class \code{kasc} (habitat available for the species). The
+  histograms of the habitat used by a species (i.e. the niche) are
+  computed from the locations of the focus species, and are added to the
+  plot of available habitat for each variable, for comparison.
+}
+\usage{
+histniche(kasc, pts, type = c("h", "l"), adjust = 1,
+          colZ = "blue", colS = "orange", \dots)
+}
+\arguments{
+  \item{kasc}{a raster map of class \code{kasc}}
+  \item{pts}{a data frame with two columns, giving the coordinates of
+    the species locations}
+  \item{type}{what type of plot should be drawn.  Possible types are:\cr
+    * \code{"h"} for histograms,\cr
+    * \code{"l"} for kernel density estimates (see \code{?density}).\cr
+    By default, \code{type == "h"} is used.  If \code{type == "l"} is used,
+    the position of the mean of each distribution is indicated by dotted
+    lines}
+  \item{adjust}{if \code{type == "l"}, a parameter used to control the
+    bandwidth of the density estimate (see \code{?density})}
+  \item{colZ}{color for the histograms of the available pixels}
+  \item{colS}{color for the histograms of the used pixels}
+  \item{\dots}{further arguments passed to or from other methods}
+}
+\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr} }
+\examples{
+\dontrun{
+## Example with factors and numeric variables
+data(puechabon)
+histniche(puechabon$kasc, puechabon$locs[, c("X", "Y")])
+histniche(puechabon$kasc, puechabon$locs[, c("X", "Y")], type = "l")
+}
+}
+\keyword{multivariate}

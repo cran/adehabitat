@@ -1,0 +1,133 @@
+\name{enfa}
+\alias{enfa}
+\alias{hist.enfa}
+\alias{print.enfa}
+\title{Ecological-Niche Factor Analysis}
+\description{
+  \code{enfa} performs an Ecological-Niche Factor Analysis.\cr
+  \code{hist.enfa} draws histograms of the row scores or of the initial
+  variables of the ENFA. 
+}
+\usage{
+enfa(kasc, pts, scannf = TRUE, nf = 1)
+hist.enfa(x, scores = TRUE, type = c("h", "l"),
+          adjust = 1, colZ = "blue", colS = "orange", \dots) 
+}
+\arguments{
+  \item{kasc}{a raster map of class \code{kasc}}
+  \item{pts}{a data frame with two columns, giving the coordinates of
+    the species locations}
+  \item{scannf}{logical.  Whether the eigenvalues bar plot should be displayed}
+  \item{nf}{if \code{scannf == FALSE}, an integer indicating the number of kept
+    specialization axes }
+  \item{x}{an object of class \code{enfa}}
+  \item{scores}{logical.  If \code{TRUE}, the histograms display
+    the row scores of the ENFA.  If \code{FALSE}, they display the
+    environmental variables (in this case, this is equivalent to
+    \code{histniche})}
+  \item{type}{what type of plot should be drawn.  Possible types are:\cr
+    * \code{"h"} for histograms,\cr
+    * \code{"l"} for kernel density estimates (see \code{?density}).\cr
+    By default, \code{type == "h"} is used.  If \code{type = "l"} is used,
+    the position of the mean of each distribution is indicated by dotted
+    lines}
+  \item{adjust}{if \code{type == "l"}, a parameter used to control the
+    bandwidth of the density estimates (see \code{?density})}
+  \item{colZ}{color for the histograms of the available pixels}
+  \item{colS}{color for the histograms of the used pixels}
+  \item{\dots}{further arguments passed to or from other methods }
+}
+\details{
+  The niche concept, as defined by Hutchinson (1957), considers the
+  ecological niche of a species as an hypervolume in the multidimensional
+  space defined by environmental variables, within
+  which the populations of a species can persist.  The Ecological-Niche
+  Factor Analysis (ENFA) has been developped by Hirzel et al. (2002) to
+  analyse the position of the niche in the ecological space.  Nicolas
+  Perrin (1984) described the position of the niche in the n-dimensional
+  space using two measures: the M-specialization (hereafter termed marginality)
+  and the S-specialization (hereafter termed specialization).  The
+  marginality represents the squared distance of the niche barycentre from
+  the mean available habitat.  A large specialization corresponds to a
+  narrow niche relative to the habitat conditions available to the species.\cr
+
+  The ENFA first extracts an axis of marginality (vector from the average
+  of available habitat conditions to the average used habitat conditions).
+  Then the analysis extracts successives orthogonal axes (i.e. uncorrelated),
+  which maximises the specialization of the species.  The calculations
+  used in the function are described in Hirzel et al. (2002).
+}
+\value{
+  \code{enfa} returns a list of class \code{enfa} containing the
+  following components: 
+  \item{call}{original call.}
+  \item{tab}{a data frame with n rows and p columns.}
+  \item{pr}{a vector of length n containing the number of points in each
+    pixel of the map.}
+  \item{nf}{the number of kept specialization axes.}
+  \item{m}{the marginality (squared length of the marginality vector).}
+  \item{s}{a vector with all the eigenvalues of the analysis.}
+  \item{lw}{row weights, a vector with n components.}
+  \item{li}{row coordinates, data frame with n rows and nf columns.}
+  \item{l1}{row normed scores, data frame with n rows and nf columns.}
+  \item{co}{column coordinates, data frame with p rows and nf columns.}
+  \item{c1}{column normed scores, data frame with p rows and nf columns.}
+  \item{index}{an integer vector giving the position of the rows of
+    \code{tab} in the  initial object of class \code{kasc}.}
+  \item{attr}{an object of class \code{mapattr} with the attributes of the
+    initial \code{kasc}.} 
+}
+\references{
+  Hutchinson, G.E. (1957) Concluding Remarks. \emph{Cold Spring Harbor
+  Symposium on Quantitative Biology}, \bold{22}: 415--427. 
+  
+  Perrin, N. (1984) Contribution à l'écologie du genre Cepaea
+  (Gastropoda) : Approche descriptive et expérimentale de l'habitat et
+  de la niche écologique. Thèse de Doctorat. Université de Lausanne,
+  Lausanne. 
+  
+  Hirzel, A.H., Hausser, J., Chessel, D. & Perrin, N. (2002)
+  Ecological-niche factor analysis: How to compute habitat-suitability
+  maps without absence data? \emph{Ecology}, \bold{83}, 2027--2036.  
+}
+\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr} }
+
+\seealso{
+  \code{\link[ade4]{niche}}, \code{\link{kselect}} for other types of
+  analysis of the niche, when several species are under studies,
+  \code{\link{niche.test}} to perform a test of the marginality and the
+  tolerance of the niche, and \code{\link{scatter.enfa}} to have a
+  graphical display of objects of class \code{enfa}.
+}
+\examples{
+\dontrun{
+data(lynxjura)
+
+map <- lynxjura$map
+
+## We keep only "wild" indices.
+tmp <- lynxjura$locs[,4]!="D"
+locs <- lynxjura$locs[tmp, c("X","Y")]
+hist(map, type = "l")
+## The variable artif is far from symetric
+
+## We perform a square root transformation
+## of this variable
+## We therefore normalize the variable 'artif'
+map[,4] <- sqrt(map[,4])
+hist(map, type = "l")
+
+## We perform the ENFA
+(enfa1 <- enfa(map, locs[tmp, c("X","Y")],
+               scannf = FALSE))
+hist(enfa1)
+hist(enfa1, scores = FALSE, type = "l")
+
+## randomization test
+(renfa <- randtest(enfa1))
+plot(renfa)
+if (require(MASS))
+   scatter(enfa1)
+}
+}
+\keyword{multivariate}
