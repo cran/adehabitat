@@ -5544,3 +5544,177 @@ void randenfar(double *Zr, double *pr, int *nvar, int *npix,
 
 }
 
+
+
+/* *********************************************************************
+ *                                                                     *
+ *                   Brownian bridge pour kernel                       *
+ *                                                                     *
+ ***********************************************************************/
+
+
+/* Fonction normale 2D pour brownian bridge */
+
+void norm2d(double x1, double y1, double moyx, double moyy,
+	    double var, double *res)
+{
+  double cste;
+  cste = (1 / (2.0 * 3.141592653589793238 * var));
+  cste = cste * exp( (-1.0 / (2.0 * var)) * (((x1 - moyx) * (x1 - moyx))+((y1 - moyy) * (y1 - moyy))));
+  *res = cste;
+}
+
+
+/* Intégrale de norm2d sur alpha */
+void integrno(double *XG, double *X1, double *X2, 
+	      double *T, double *sig1,
+	      double *sig2, double *alpha, double *res)
+{
+  /* allocation de mémoire */
+  int i, na;
+  double *val, tmp, *XX, var, nx1, ny1, nx2, ny2, ny, moyx, moyy, al;
+  
+  na = alpha[0];
+  vecalloc(&val, na);
+  vecalloc(&XX, 2);
+  
+  XX[1] = X2[1] - X1[1];
+  XX[2] = X2[2] - X1[2];
+  *res = 0;
+    
+    
+  /* boucle de calcul de la valeur */
+  for (i = 1; i<= na; i++) {
+    al = alpha[i];
+    
+    var = (*T) * al * (1.0 - al) * (*sig1);
+    var = var + (((al * al) + ((1.0 - al) * (1.0 - al))) * (*sig2));
+
+    moyx = X1[1] + al * XX[1];
+    moyy = X1[2] + al * XX[2];
+    
+    norm2d(XG[1], XG[2], moyx, moyy, var, &tmp);
+    
+    val[i] = tmp;
+  }
+  
+  /* boucle de calcul de l'intégrale */
+  for (i = 2; i<= na; i++) {
+    nx1 = alpha[i-1];
+    ny1 = val[i-1];
+    nx2 = alpha[i];
+    ny2 = val[i];
+    ny = ny1;
+    if (ny2 <= ny1)
+      ny = ny2;
+    *res = *res + (nx2 - nx1) * (ny + (abs(ny2 - ny1) / 2));
+  }
+  
+  freevec(val);
+  freevec(XX);
+}
+
+
+/* Calcul de l'UD à un noeud de la grille */
+void udbbnoeud(double *XG, double **XY, double *T, double *sig1,
+	       double *sig2, double *alpha, double *res)
+{
+  int i, nlo;
+  double *Xtmp1, *Xtmp2, dt, poids, dttot, tmp;
+  
+  vecalloc(&Xtmp1, 2);
+  vecalloc(&Xtmp2, 2);
+  nlo = XY[0][0];
+  dttot = T[nlo] - T[1];
+  *res = 0;
+  
+  for (i = 1; i <= (nlo - 1); i++) {
+    
+    /* Calcul des poids et différences de temps */
+    dt = T[i+1] - T[i];
+    poids = dt / dttot;
+    
+    /* Sortie des valeurs des locs à i, et passage à integrno */
+    Xtmp1[1] = XY[i][1];
+    Xtmp1[2] = XY[i][2];
+    Xtmp2[1] = XY[i+1][1];
+    Xtmp2[2] = XY[i+1][2];
+    
+    integrno(XG, Xtmp1, Xtmp2, &dt, sig1, sig2, alpha, &tmp);
+    *res = *res + (poids * tmp);
+  }
+}
+
+
+/* Fonction principale */
+void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
+	      int *nliggri, int *nloc, double *sig1, double *sig2, 
+	      double *xlo, double *ylo, double *Tr)
+{
+  int i, j, k, ncg, nlg, nlo;
+  double **gri, *xg, *yg, **XY, tmp, *alpha, *Xgr, *T;
+  
+  /* Allocation de mémoire */
+  ncg = *ncolgri;
+  nlg = *nliggri;
+  nlo = *nloc;
+  tmp = 0;
+  
+  taballoc(&gri,nlg, ncg);
+  taballoc(&XY, nlo, 2);
+  vecalloc(&xg, nlg);
+  vecalloc(&T, nlo);
+  vecalloc(&yg, ncg);
+  vecalloc(&Xgr, 2);
+  vecalloc(&alpha, 50);
+  
+  /* passage de valeur aux variables C */
+  
+  for (i=1; i<=nlo; i++) {
+    XY[i][1] = xlo[i-1];
+    XY[i][2] = ylo[i-1];
+    T[i] = Tr[i-1];
+  }
+  
+  for (i=1; i<=nlg; i++) {
+    xg[i] = xgri[i-1];
+  }
+  
+  for (i=1; i<=ncg; i++) {
+    yg[i] = ygri[i-1];
+  }
+  
+  /* construction du vecteur alpha */
+  alpha[1] = 0;
+  for (i = 2; i <= 50; i++) {
+    alpha[i] = ((double) i) / ((double) 50);
+  }
+  
+  /* boucle de calcul sur la grille */
+  for (i=1; i<=nlg; i++) {
+    for (j=1; j<=ncg; j++) {
+      Xgr[1] = xg[i];
+      Xgr[2] = yg[j];
+      udbbnoeud(Xgr, XY, T, sig1, sig2, alpha, &tmp);
+      gri[i][j] = tmp;
+    }
+  }
+  
+  /* retour vers R */
+  k = 0;
+  for (i=1; i<=nlg; i++) {
+    for (j=1; j<=ncg; j++) {
+      grille[k] = gri[i][j];
+      k++;
+    }
+  }
+
+  /* libération de la mémoire */
+  freetab(gri);
+  freevec(xg);
+  freevec(yg);
+  freevec(T);
+  freetab(XY);
+  freevec(Xgr);
+  freevec(alpha);
+}

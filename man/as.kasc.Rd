@@ -16,20 +16,23 @@
 \usage{
 as.kasc(l)
 getkasc(x, var)
-image.kasc(x, mar = c(0, 0, 2, 0), var = names(x), 
-           axes = FALSE, clfac = NULL, col = gray((240:1)/256),
-           mfrow = NULL, \dots)
+image.kasc(x,  var=names(x),
+           mar=if (length(var)>1) c(0,0,2,0) else c(5.1,4.1,4.1,2.1),
+           axes=(length(var) == 1),
+           clfac=NULL, col=gray((240:1)/256), mfrow=NULL, \dots)
 print.kasc(x, \dots)
 }
 
 \arguments{
   \item{l}{a list of objects of class \code{asc}}
   \item{x}{an object of class \code{kasc}}
-  \item{var}{for \code{getkasc}, a character string and for
-    \code{image.kasc}, a vector of character strings, giving the name
-    of one (or several) variable(s) in x }
+  \item{var}{for \code{getkasc}, a character string or a column number.  For
+    \code{image.kasc}, either a vector of character strings, giving the name
+    of one (or several) variable(s) in x, or a vector of integers,
+    giving the number of the columns to be displayed.  }
   \item{mar}{this parameter is passed as the parameter \code{mar} of the
-    function \code{par} (see \code{help(par)}).}
+    function \code{par} (see \code{help(par)}).  By default, this
+    parameter depends of the number of variables in \code{x}}
   \item{axes}{logical.  If \code{TRUE}, axes are drawn on the maps.}
   \item{clfac}{an optional list of vectors of character strings. Each
     element of the list is a vector corresponding to one factor in \code{x}.
@@ -109,6 +112,13 @@ image(cuicui)
 ## with cm.colors for slopes (numeric)
 ## and cl for aspect (factor)
 image(cuicui, col = cm.colors(256), clfac = list(Aspect = cl))
+
+
+## plots only slope
+image(cuicui, "Slope", main="Slope")
+## similar to
+image(cuicui, 1, main = "Slope")
+
 }
 \keyword{programming}
 \keyword{hplot}

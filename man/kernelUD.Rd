@@ -6,15 +6,21 @@
 \alias{getvolumeUD}
 \alias{kernel.area}
 \alias{getverticeshr}
+\alias{kernelbb}
+\alias{plot.kver}
 \title{Estimation of Kernel Home-Range}
 \description{
   \code{kernelUD} is used to estimate the utilization distribution (UD)
-  of animals monitored by radio-tracking.\cr
+  of animals monitored by radio-tracking, with the classical kernel method.\cr
   \code{getvolumeUD} and \code{kernel.area} provide utilities
   for home-range size estimation.\cr
   \code{getverticeshr} stores the
-  home range contour as objects of class \code{area} in a list, with one
-  component per animal.
+  home range contour as objects of class \code{area} in a list of class
+  \code{kver}, with one component per animal.\cr
+  \code{plot.kver} is used to display these home-range contours.\cr
+  \code{kernelbb} is used to fit an utilization distribution using the
+  brownian bridge approach of the kernel method (for autocorrelated
+  relocations; Bullard, 1991). 
 }
 \usage{
 kernelUD(xy, id = NULL, h = "href", grid = 40, same4all = FALSE,
@@ -30,6 +36,11 @@ kernel.area(xy, id, h = "href", grid=40,
             unin = c("m", "km"),
             unout = c("ha", "km2", "m2"))
 getverticeshr(x, lev = 95)
+plot.kver(x, which = names(x), colpol=rainbow(length(which)),
+          colborder=rep("black", length(which)), lwd = 2,
+          add=FALSE, \dots)
+kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
+
 }
 
 \arguments{
@@ -53,7 +64,17 @@ getverticeshr(x, lev = 95)
     h ranging from \code{hlim[1]*href} to \code{hlim[2]*href}, where
     \code{href} is the smoothing parameter computed with the ad hoc
     method (see below)}
-  \item{x}{an object of class \code{khr} returned by \code{kernelUD}}
+  \item{x}{an object of class \code{khr} returned by \code{kernelUD}.
+    For \code{plot.kver}, an object of class \code{kver} returned by
+    \code{getverticeshr} }
+  \item{which}{a vector of character indicating the polygons to be plotted}
+  \item{colpol}{a vector of the color for filling the polygon.  The default,
+    \code{NA}, is to leave polygons unfilled }
+  \item{colborder}{a vector of the color to draw the border.  The
+    default.  Use \code{border = NA} to omit borders}
+  \item{lwd}{the border width, a \strong{positive} number}
+  \item{add}{logical. if \code{TRUE}, the polygons are added to a
+    previous plot}
   \item{axes}{logical.  Whether the axes are to be plotted}
   \item{mar}{the margin parameter (see \code{help(par)})}
   \item{addcontour}{logical. if \code{TRUE}, contours are drawn on the
@@ -68,6 +89,13 @@ getverticeshr(x, lev = 95)
     square meters, \code{"km2"} for square kilometers or \code{"ha"} for
     hectares (default)}
   \item{lev}{the percentage level for home range contour estimation.}
+  \item{tr}{an object of class \code{traj}.}
+  \item{sig1}{first smoothing parameter for the brownian bridge method
+    (related to the imprecision of the relocations).}
+  \item{sig2}{second smoothing parameter for the brownian bridge method
+    (related to the speed of the animals).}
+  \item{byburst}{logical. Whether the brownian bridge estimation should
+    be done by burst.}
   \item{\dots}{additionnal parameters to be passed to the generic
     functions \code{print} and \code{image}}
 }
@@ -109,11 +137,37 @@ getverticeshr(x, lev = 95)
   used in the function \code{kernel.area}, to compute the home-range
   size.  Note, that the function \code{plot.hrsize} (see the help page
   of this function) can be used to display the home-range size estimated
-  at various levels.
+  at various levels.\cr
+
+  The function \code{kernelbb} uses the brownian bridge approach to
+  estimate the UD with autocorrelated relocations (Bullard, 1991).
+  Instead of simply smoothing the relocation pattern, it takes into
+  account the fact that between two successive relocations r1 and r2,
+  the animal has moved through a connected path, which is not
+  necessarily linear.  A brownian bridge estimates the density of
+  probability that this path passed through any point of the study area,
+  given that the animal was located at the point r1 at time t1 and at
+  the point r2 at time t2, with a certain amount of inaccuracy (see
+  Examples).  Brownian bridges are placed over the
+  different sections of the traject, and these functions
+  are then summed over the area.  The brownian bridge approach therefore
+  smoothes a trajectory.\cr
+
+  The brownian bridge estimation relies on two smoothing parameters,
+  \code{sig1} and \code{sig2}.  The parameter \code{sig1} is related to
+  the speed of the animal, and describes how far from the line joining
+  two successive relocations the animal can go during one time unit
+  (here the time is measured in second). The larger this parameter is,
+  and the more wiggly the trajectory is likely to be.
+  The parameter \code{sig2} is equivalent to the parameter 
+  \code{h} of the classical kernel method: it is related to the
+  inaccuracy of the relocations (See examples for an illustration of
+  the smoothing parameters).
+  
 }
 \value{
-  The class \code{khr} is a class grouping two sub-classes,
-  \code{khrud} and \code{khrudvol}:
+  The class \code{khr} is a class grouping three sub-classes,
+  \code{khrud}, \code{kbbhrud} and \code{khrudvol}:
   \code{kernelUD} returns a list of the class \code{khrud}.  This list
   has one component per animal (named as the levels of argument
   \code{id}). Each component is itself a list, with the following
@@ -138,6 +192,9 @@ getverticeshr(x, lev = 95)
   \item{locs}{The relocations used in the estimation procedure.}
   \item{hmeth}{The argument \code{h} of the function kernelUD}
 
+  \code{kernelbb} returns an object of class \code{kbbhrud}, with the
+  same components as lists of class \code{khrud}.  \cr
+  
   \code{getvolumeUD} returns a list of class \code{khrvol},
   with the same components as lists of class \code{khrud}.  \cr
 
@@ -145,20 +202,23 @@ getverticeshr(x, lev = 95)
   with one column per animal and one row per level of
   estimation of the home range.\cr
 
-  \code{getverticeshr} returns a
-  list of objects of class \code{area}.
+  \code{getverticeshr} returns an object of class \code{kver}.
 }
 \references{
+
+  Bullard, F. (1991) \emph{Estimating the home range of an animal: a Brownian
+    bridge approach}. Master of Science, University of North Carolina,
+  Chapel Hill.
 
   Silverman, B.W. (1986)
   \emph{Density estimation for statistics and data
     analysis}. London: Chapman \& Hall.
   
   Worton, B.J. (1989) Kernel methods for estimating the utilization
-  dirstibution in home-range studies. \code{Ecology}, \bold{70}, 164--168.
+  dirstibution in home-range studies. \emph{Ecology}, \bold{70}, 164--168.
 
   Worton, B.J. (1995) Using Monte Carlo simulation to evaluate
-  kernel-based home range estimators. \code{Journal of Wildlife Management},
+  kernel-based home range estimators. \emph{Journal of Wildlife Management},
   \bold{59},794--800.
 
   Seaman, D.E. and Powell, R.A. (1998) \emph{Kernel home range estimation
@@ -197,10 +257,8 @@ image(udvol)
 ver <- getverticeshr(ud, 95)
 elev <- getkasc(puechabon$kasc, "Elevation") # Map of the area
 image(elev)
-for (i in 1:length(ver))
-  lapply(split(ver[[i]][,2:3],ver[[i]][,1]),
-           function(x) polygon(x, col = i+1))
-legend(696500, 3166000, legend = names(ver), fill = 2:5)
+plot(ver, add=TRUE)
+legend(696500, 3166000, legend = names(ver), fill = rainbow(4))
 
 
 ## Example of estimation using LSCV
@@ -246,6 +304,61 @@ for (i in 1:length(udbis)) {
 par(opar)
 
 
+
+
+###############################################
+###############################################
+###############################################
+###
+###         Kernel estimation: a brownian
+###               bridge approach
+
+\dontrun{
+
+## loads the data
+data(puechcirc)
+
+## gets one circuit
+x <- getburst(puechcirc, burst = "CH930824")
+
+## fits the home range
+(tata <- kernelbb(x, 10, 10, same4all = TRUE))
+image(tata)
+lines(x$x, x$y, lwd = 2, col = "red")
+
+## Image of a brownian bridge. Fit with two relocations:
+fac <- factor(c("a", "a"))
+xx <- c(0,1)
+yy <- c(0,1)
+date <- c(0,1)
+class(date) <- c("POSIXt", "POSIXct")
+tr <- as.traj(fac, data.frame(x = xx,y = yy), date)
+
+## Use of different smoothing parameters
+sig1 <- c(0.05, 0.1, 0.2, 0.4, 0.6)
+sig2 <- c(0.05, 0.1, 0.2, 0.5, 0.7)
+
+y <- list()
+for (i in 1:5) {
+  for (j in 1:5) {
+     k <- paste("s1=", sig1[i], ", s2=", sig2[j], sep = "")
+     y[[k]]<-kernelbb(tr, sig1[i], sig2[j])[[1]]$UD
+   }
+ }
+
+## Displays the results
+opar <- par(mar = c(0,0,2,0), mfrow = c(5,5))
+foo <- function(x)
+   {
+     image(y[[x]], main = names(y)[x], axes = F)
+     points(tr[,c("x","y")], pch = 16, col = "red")
+   }
+lapply(1:length(y), foo)
+
+par(opar)
+
+
+}
 }
 \keyword{spatial}
 

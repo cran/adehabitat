@@ -2,6 +2,7 @@
 
 cat("This package requires ade4 to be installed\n\n")
 require(ade4)
+require(gpclib)
 
 .First.lib <- function(lib, pkg) {
   library.dynam("adehabitat", pkg, lib)
@@ -25,6 +26,9 @@ mcp<-function(xy, id, percent=95)
 	}
 
   id<-factor(id)
+  if (min(table(id))<5)
+    stop("At least 5 relocations are required to fit an home range")
+  
   r<-split(xy, id)
   est.cdg<-function(xy) apply(xy, 2, mean)
   cdg<-lapply(r,est.cdg)
@@ -65,6 +69,7 @@ mcp<-function(xy, id, percent=95)
   ID<-as.data.frame(ID)
   res<-cbind.data.frame(ID,X,Y)
   res<-res[-1,]
+  res[,1]<-factor(res[,1])
   res<-as.area(res)
   return(res)
 }
@@ -592,7 +597,9 @@ managNAkasc<-function(x)
 ##### image.kasc donne des images des cartes de l'objet kasc
 
 
-image.kasc<-function(x, mar=c(0,0,2,0), var=names(x), axes=FALSE,
+image.kasc<-function(x,  var=names(x),
+                     mar=if (length(var)>1) c(0,0,2,0) else c(5.1,4.1,4.1,2.1),
+                     axes=(length(var) == 1),
                      clfac=NULL, col=gray((240:1)/256), mfrow=NULL,
                      ...)
   {
@@ -610,9 +617,15 @@ image.kasc<-function(x, mar=c(0,0,2,0), var=names(x), axes=FALSE,
         } else {
           clf<-NULL
         }
-        image.asc(el, main=i, axes=axes, clfac=clf, ... )
+        if (length(var)>1)
+          image.asc(el, main=i, axes=axes, clfac=clf, ... )
+        if (length(var)==1)
+          image.asc(el, axes=axes, clfac=clf, ... )
       } else {
-        image.asc(el, main=i, axes=axes, col=col, ...)
+        if (length(var)>1)
+          image.asc(el, main=i, axes=axes, col=col, ...)
+        if (length(var)==1)
+          image.asc(el, axes=axes, col=col, ... )
       }
     }
   }
@@ -2486,6 +2499,9 @@ kernelUD<-function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
     if (is.null(id))
       id<-rep(1, nrow(xy))
     id<-factor(id)
+      if (min(table(id))<5)
+    stop("At least 5 relocations are required to fit an home range")
+
 
     ## split de xy
     lixy<-split(xy, id)
@@ -2631,6 +2647,8 @@ print.khr<-function(x, ...)
     cat("********** Utilization distribution of Animals ************\n\n")
     if (inherits(x, "khrud"))
       cat("Type: probability density\n")
+    if (inherits(x, "kbbhrud"))
+      cat("Type: probability density estimated with the Brownian bridge approach\n")
     if (inherits(x, "khrvol"))
       cat("Type: volume under UD (only used to compute home ranges)\n")
     cat("\nUD have been estimated using the kernel method for the following animals:\n")
@@ -2656,6 +2674,9 @@ print.khr<-function(x, ...)
     if (th=="href") {
       cat("$h        The value of the smoothing parameter\n")
     }
+    if (th=="bb") {
+      cat("$h        The values of the smoothing parameters\n")
+    }
 
     if (th=="LSCV") {
       m<-0
@@ -2676,14 +2697,21 @@ image.khr<-function(x, axes=FALSE, mar=c(0,0,2,0),
   {
     if (!inherits(x, "khr"))
       stop("x should be an object of class \"khr\"")
-    if (inherits(x,"khrud"))
+    if ((inherits(x,"khrud"))|(inherits(x,"kbbhrud")))
       col<-gray((256:1)/256)
     if (inherits(x,"khrvol"))
       col<-gray((1:256)/256)
     
-    opar<-par(mfrow=n2mfrow(length(x)), mar=mar)
+    if (length(x) > 1) {
+      opar<-par(mfrow=n2mfrow(length(x)), mar=mar)
+      on.exit(par(opar))
+    }
+    
     for (i in 1:length(x)) {
-      image(x[[i]]$UD, main=names(x)[i], axes=axes, col=col, ...)
+      if (length(x)>1)
+        image(x[[i]]$UD, main=names(x)[i], axes=axes, col=col, ...)
+      if (length(x)==1)
+        image(x[[i]]$UD, axes=axes, col=col, ...)
       if (addcontour)
         contour(x[[i]]$UD, add=TRUE)
       if (addpoints) {
@@ -2696,7 +2724,7 @@ image.khr<-function(x, axes=FALSE, mar=c(0,0,2,0),
 
 plotLSCV<-function(x)
   {
-    if (!inherits(x, "khr"))
+    if (!inherits(x, "khrud"))
       stop("x should be an object of class \"khrud\"")
     opar<-par(mfrow=n2mfrow(length(x)))
     for (i in 1:length(x)) {
@@ -2710,8 +2738,8 @@ plotLSCV<-function(x)
 
 getvolumeUD<-function(x)
   {
-    if (!inherits(x, "khrud"))
-      stop("x should be an object of class \"khrud\"")
+    if ((!inherits(x, "khrud"))&(!inherits(x, "kbbhrud")))
+      stop("x should be an object of class \"khrud\" or \"kbbhrud\"")
 
     for (i in 1:length(x)) {
       asc<-x[[i]]$UD
@@ -2867,9 +2895,11 @@ kernel.area<-function(xy, id, h = "href", grid=40,
 
 getverticeshr<-function(x, lev=95)
   {
-    if ((!inherits(x,"khrud"))&(!inherits(x, "khrvol")))
+    if ((!inherits(x,"khr")))
       stop("non convenient data-type")
     if (inherits(x,"khrud"))
+      x<-getvolumeUD(x)
+    if (inherits(x,"kbbhrud"))
       x<-getvolumeUD(x)
     contour<-list()
     
@@ -2880,7 +2910,31 @@ getverticeshr<-function(x, lev=95)
       contour[[i]]<-getcontour(ud)
     }
     names(contour)<-names(x)
+    class(contour) <- "kver"
     return(contour)
+  }
+
+plot.kver <- function(x, which = names(x), colpol=rainbow(length(which)),
+                      colborder=rep("black", length(which)), lwd = 2,
+                      add=FALSE, ...)
+  {
+    if (!inherits(x, "kver"))
+      stop("x should be of class kver")
+    x <- x[which]
+
+    if (!add) {
+      xc <- unlist(lapply(x, function(y) y[,2]))
+      yc <- unlist(lapply(x, function(y) y[,3]))
+      plot(xc, yc, asp=1, ty="n", ...)
+    }
+    
+    lapply(1:length(x),
+           function(i) plot.area(x[[i]],
+                                 colpol = rep(colpol[i], nlevels(x[[i]][,1])),
+                                 colborder = rep(colborder[i],
+                                   nlevels(x[[i]][,1])),
+                                 lwd = lwd, add = TRUE))
+    invisible(NULL)    
   }
 
 
@@ -3312,7 +3366,7 @@ compana<-function(used, avail, test = c("randomisation", "parametric"),
       names(sorties$test)<-c("Lambda", "P")
     }
     else {
-      sorties$test<-c(vrand[1], 1, 1-pchisq(-na*log(vrand[1]), 1))
+      sorties$test<-c(vrand[1], ncol(used)-1, 1-pchisq(-na*log(vrand[1]), ncol(used)-1))
       names(sorties$test)<-c("Lambda", "df", "P")
     }
     
@@ -4190,24 +4244,17 @@ biv.test<-function (dfxy, point, cbreaks = 8, h,
     mtext(text = paste(rem), adj = 0.5, line = -6)
 }
 
-
-
-
-
-enfa <- function (kasc, pts, scannf = TRUE, nf = 1)
+enfa <- function (kasc, pts, scannf = TRUE, nf = 1) 
 {
   if (!inherits(kasc, "kasc")) 
     stop("should be an object of class \"kasc\"")
   if (ncol(pts) != 2) 
     stop("pts should have 2 columns")
-  
   attr <- storemapattr(kasc)
   call <- match.call()
-
   tab <- kasc2df(kasc)
   index <- tab$index
   tab <- tab$tab
-  
   row.w <- rep(1, nrow(tab))/nrow(tab)
   f1 <- function(v) sum(v * row.w)/sum(row.w)
   f2 <- function(v) sqrt(sum(v * v * row.w)/sum(row.w))
@@ -4216,13 +4263,10 @@ enfa <- function (kasc, pts, scannf = TRUE, nf = 1)
   norm <- apply(tab, 2, f2)
   norm[norm < 1e-08] <- 1
   tab <- as.matrix(sweep(tab, 2, norm, "/"))
-  
   pr <- as.vector(count.points(pts, kasc))[index]
   lw <- pr/sum(pr)
-  
-  
   Rg <- crossprod(tab)/nrow(tab)
-  ZtQ <- apply(tab, 2, function(x) x*lw)
+  ZtQ <- apply(tab, 2, function(x) x * lw)
   Rs <- crossprod(ZtQ, tab)
   mar <- apply(ZtQ, 2, sum)
   m <- sum(mar^2)
@@ -4231,40 +4275,38 @@ enfa <- function (kasc, pts, scannf = TRUE, nf = 1)
   z <- Rs12 %*% mar
   y <- z/as.numeric(sqrt(crossprod(z)))
   W <- Rs12 %*% Rg %*% Rs12
-  H <- (diag(ncol(tab))-y%*%t(y))%*%W%*%(diag(ncol(tab))-y%*%t(y))
-  
+  H <- (diag(ncol(tab)) - y %*% t(y)) %*% W %*% (diag(ncol(tab)) - 
+                                                 y %*% t(y))
   s <- eigen(H)$values[-ncol(tab)]
   if (scannf) {
     barplot(s)
     cat("Select the number of specialization axes: ")
     nf <- as.integer(readLines(n = 1))
   }
-  if (nf <= 0 | nf > (ncol(tab)-1)) 
+  if (nf <= 0 | nf > (ncol(tab) - 1)) 
     nf <- 1
-  
-  co <- matrix(nrow = ncol(tab), ncol = nf+1)
-  co[,1] <- mar
-  co[,2:(nf+1)] <- (Rs12 %*% eigen(H)$vectors)[,1:nf]
-  f3 <- function(i) co[,i]/sqrt(crossprod(co[,i])/length(co[,i]))
-  c1 <- matrix(unlist(lapply(1:(nf+1), f3)), ncol(tab))
-  li <- data.frame(tab %*% c1[,1:(nf+1)])
-  f3 <- function(i) li[,i]/sqrt(crossprod(li[,i])/length(li[,i]))
-  l1 <- matrix(unlist(lapply(1:(nf+1), f3)), nrow(tab))
+  co <- matrix(nrow = ncol(tab), ncol = nf + 1)
+  co[, 1] <- mar
+  co[, 2:(nf + 1)] <- (Rs12 %*% eigen(H)$vectors)[, 1:nf]
+  f3 <- function(i) co[, i]/sqrt(crossprod(co[, i])/length(co[, 
+                                                              i]))
+  c1 <- matrix(unlist(lapply(1:(nf + 1), f3)), ncol(tab))
+  li <- data.frame(tab %*% c1[, 1:(nf + 1)])
+  f3 <- function(i) li[, i]/sqrt(crossprod(li[, i])/length(li[, 
+                                                              i]))
+  l1 <- matrix(unlist(lapply(1:(nf + 1), f3)), nrow(tab))
   co <- data.frame(co)
   c1 <- data.frame(c1)
   l1 <- data.frame(l1)
-
   names(co) <- c("Mar", paste("Spe", (1:nf), sep = ""))
   row.names(co) <- dimnames(tab)[[2]]
   names(c1) <- c("Mar", paste("Spe", (1:nf), sep = ""))
   row.names(c1) <- dimnames(tab)[[2]]
   names(li) <- c("Mar", paste("Spe", (1:nf), sep = ""))
   names(l1) <- c("Mar", paste("Spe", (1:nf), sep = ""))
-  
-  enfa <- list(call = call, tab = data.frame(tab),
-               pr = pr, nf = nf, m = m, s = s, lw = lw,
-               li = li, l1 = l1, co = co, c1 = c1,
-               index = index, attr = attr)
+  enfa <- list(call = call, tab = data.frame(tab), pr = pr, 
+               nf = nf, m = m, s = s, lw = lw, li = li, l1 = l1, co = co, 
+               c1 = c1, mar = mar, index = index, attr = attr)
   class(enfa) <- "enfa"
   return(invisible(enfa))
 }
@@ -4272,99 +4314,126 @@ enfa <- function (kasc, pts, scannf = TRUE, nf = 1)
 
 
 
-hist.enfa <- function (x, scores = TRUE, type = c("h", "l"),
-                       adjust = 1, colZ = "blue",
-                       colS = "orange", ...)
+
+
+
+hist.enfa <- function (x, scores = TRUE, type = c("h", "l"), adjust = 1,
+                       Acol, Ucol, Aborder, Uborder, ...)
 {
   type <- match.arg(type)
-  if (!inherits(x, "enfa"))
+  if (!inherits(x, "enfa")) 
     stop("Object of class 'enfa' expected")
+  if (scores)
+    tab <- x$l1
+  else
+    tab <- x$tab
+  pr <- x$pr
+  if (missing(Acol)) {
+    Acol <- NULL
+    Acolf <- "white"
+    Acold <- "black"
+  }
+  else {
+    Acold <- Acol
+    Acolf <- Acol
+  }
+  if (missing(Aborder)) 
+    Aborder <- "black"
+  if (missing(Ucol)) {
+    Ucol <- gray(0.8)
+    Ucold <- gray(0.8)
+  }
+  else
+    Ucold <- Ucol
+  if (missing(Uborder)) 
+    Uborder <- gray(0.8)
+  clas <- rep("", ncol(tab))
+  for (j in 1:ncol(tab)) {
+    w1 <- "q"
+    if (is.factor(tab[, j])) 
+      w1 <- "f"
+    clas[j] <- w1
+  }
+  if (any(clas == "f") & type == "l") 
+    warning("Type = 'l' is not possible for factors, type = 'h' used instead.\n")
   old.par <- par(no.readonly = TRUE)
   on.exit(par(old.par))
-  par(mar = c(0.5,0.5,2,0.5))
-  
+  par(mar = c(0.5, 0.5, 2, 0.5))
+  par(mfrow = rev(n2mfrow(ncol(tab))))
   f1 <- function(j) {
-    if (scores) {
-      tmpS <- rep(x$l1[,j], x$pr)
-      tmpZ <- x$l1[,j]
-      name <- names(x$l1)[j]
+    tmpS <- rep(tab[, j], pr)
+    tmpZ <- tab[, j]
+    name <- names(tab)[j]
+    if (clas[j] == "f") {
+      par(mar = c(3, 0.5, 2, 0.5))
+      mat <- t(cbind(table(tmpZ), table(tmpS)))
+      mat <- lapply(1:2, function(i) mat[i, ]/sum(mat[i, 
+                                                      ]))
+      mat <- rbind(mat[[1]], mat[[2]])
+      max <- max(mat)
+      max <- max + max/20
+      ylim <- c(0, max)
+      barplot(mat, col = c(Acolf, Ucol), border = c(Aborder, Uborder), 
+              ylim = ylim, main = name, ylab = NULL, axes = FALSE, 
+              beside = TRUE, ...)
+      par(mar = c(0.5, 0.5, 2, 0.5))
     }
     else {
-      tmpS <- rep(x$tab[,j], x$pr)
-      tmpZ <- x$tab[,j]
-      name <- names(x$tab)[j]
+      if (type == "h") {
+        xrange <- range(tmpZ)
+        H <- hist(tmpS, plot = FALSE, br = seq(min(xrange), 
+                                        max(xrange), length = 15))
+        G <- hist(tmpZ, plot = FALSE, br = seq(min(xrange), 
+                                        max(xrange), length = 15))
+        yrange <- c(0, max(H$density, G$density))
+        plot(H, freq = FALSE, col = Ucol, border = Uborder, 
+             xlim = xrange, ylim = yrange, main = name, xlab = NULL, 
+             ylab = "Density", axes = FALSE, ...)
+        plot(G, freq = FALSE, col = Acol, border = Aborder, add = TRUE)
+      }
+      else {
+        densZ <- density(tmpZ, adjust = adjust)
+        densS <- density(tmpS, adjust = adjust, from = min(densZ$x), 
+                         to = max(densZ$x))
+        max <- max(densS$y, densZ$y)
+        max <- max + max/20
+        ylim <- c(0, max)
+        plot(densS, col = Ucol, ylim = ylim, type = "l", 
+             lwd = 2, main = name, xlab = NULL, ylab = "Density", 
+             axes = FALSE, ...)
+        lines(rep(mean(tmpS), 2), c(0, densS$y[512 - sum(densS$x > 
+                                                         mean(tmpS))]),
+              col = Ucol, lty = 2, lwd = 2)
+        lines(densZ, col = Acold, lwd = 2)
+        lines(rep(mean(tmpZ), 2), c(0, densZ$y[512 - sum(densZ$x > 
+                                                         mean(tmpZ))]),
+              col = Acold, lty = 2, lwd = 2)
+      }
     }
-    xrange <- range(tmpZ)
-    H <- hist(tmpS, plot = FALSE,
-              br = seq(min(xrange), max(xrange), length = 15))
-    G <- hist(tmpZ, plot = FALSE,
-              br = seq(min(xrange), max(xrange), length = 15))
-    yrange <- c(0,max(H$density, G$density))
-    plot(H, freq = FALSE, col = colS, border = colS,
-         xlim = xrange, ylim = yrange, main = name,
-         xlab = NULL, ylab = "Density", axes = FALSE, ...)
     box()
-    plot(G, freq = FALSE, border = colZ, add = TRUE)
   }
-  
-  f2 <- function(j) {
-    if (scores) {
-      tmpS <- rep(x$l1[,j], x$pr)
-      tmpZ <- x$l1[,j]
-      name <- names(x$l1)[j]
-    }
-    else {
-      tmpS <- rep(x$tab[,j], x$pr)
-      tmpZ <- x$tab[,j]
-      name <- names(x$tab)[j]
-    }
-    densZ <- density(tmpZ, adjust = adjust)
-    densS <- density(tmpS, adjust = adjust,
-                     from = min(densZ$x), to = max(densZ$x))
-    plot(densS,  col = colS, type = "l", lwd = 2,
-         main = name, xlab = NULL, ylab = "Density",
-         axes = FALSE, ...)
-    box()
-    lines(rep(mean(tmpS),2),
-          c(0,densS$y[512-sum(densS$x>mean(tmpS))]),
-          col = colS, lty = 2, lwd = 2)
-    lines(densZ,  col = colZ, lwd = 2)
-    lines(c(0,0),c(0,densZ$y[512-sum(densZ$x>mean(tmpZ))]),
-          col = colZ, lty = 2, lwd = 2)
-  }
-  
-  if (type == "h")
-    if (scores) {
-      par(mfrow = rev(n2mfrow(ncol(x$li))))
-      lapply (1:ncol(x$li), f1)
-    }
-    else {
-      par(mfrow = rev(n2mfrow(ncol(x$tab))))
-      lapply (1:ncol(x$tab), f1)
-    }
-  if (type == "l")
-    if (scores) {
-      par(mfrow = rev(n2mfrow(ncol(x$li))))
-      lapply (1:ncol(x$li), f2)
-    }
-    else {
-      par(mfrow = rev(n2mfrow(ncol(x$tab))))
-      lapply (1:ncol(x$tab), f2)
-    }
+  lapply(1:ncol(tab), f1)
   return(invisible(NULL))
 }
 
 
 
-hist.kasc <- function (x, type = c("h", "l"), adjust = 1, col = "blue", ...)
+
+hist.kasc <- function (x, type = c("h", "l"), adjust = 1, col, border, ...) 
 {
   type <- match.arg(type)
   if (!inherits(x, "kasc")) 
     stop("should be an object of class \"kasc\"")
   old.par <- par(no.readonly = TRUE)
   on.exit(par(old.par))
-  par(mar = c(0.5,0.5,2,0.5))
-
+  if (missing(col)) {
+    col <- NULL
+    cold <- "black"
+  }
+  else
+    cold <- col
+  if (missing(border)) 
+    border <- "black"
   tab <- x
   clas <- rep("", ncol(tab))
   for (j in 1:ncol(tab)) {
@@ -4373,84 +4442,99 @@ hist.kasc <- function (x, type = c("h", "l"), adjust = 1, col = "blue", ...)
       w1 <- "f"
     clas[j] <- w1
   }
-
+  par(mar = c(0.5, 0.5, 2, 0.5))
   par(mfrow = rev(n2mfrow(ncol(tab))))
-
   f1 <- function(j) {
-    tmpZ <- tab[,j]
+    tmpZ <- tab[, j]
     name <- names(tab)[j]
     if (clas[j] == "f") {
-      par(mar = c(3,0.5,2,0.5))
+      par(mar = c(3, 0.5, 2, 0.5))
       max <- max(table(tmpZ))
       max <- max + max/20
       ylim <- c(0, max)
-      
-      barplot(unclass(summary(tmpZ[!is.na(tmpZ)])), ylim = ylim, border = col, 
-              main = name, ylab = NULL, axes = FALSE, ...)
-      par(mar = c(0.5,0.5,2,0.5))
+      barplot(unclass(summary(tmpZ[!is.na(tmpZ)])), ylim = ylim, 
+              border = border, col = col, main = name, ylab = NULL, 
+              axes = FALSE, ...)
+      par(mar = c(0.5, 0.5, 2, 0.5))
     }
     else {
       xrange <- range(tmpZ)
       G <- hist(tmpZ, plot = FALSE)
-      plot(G, freq = FALSE, border = col, main = name, 
-           xlab = NULL, ylab = NULL, axes = FALSE, ...)
+      plot(G, freq = FALSE, border = border, col = col, 
+           main = name, xlab = NULL, ylab = NULL, axes = FALSE, 
+           ...)
     }
     box()
   }
-
   f2 <- function(j) {
-    tmpZ <- tab[,j]
+    tmpZ <- tab[, j]
     name <- names(tab)[j]
     if (clas[j] == "f") {
-      par(mar = c(3,0.5,2,0.5))
+      par(mar = c(3, 0.5, 2, 0.5))
       max <- max(table(tmpZ))
       max <- max + max/20
       ylim <- c(0, max)
-      barplot(unclass(summary(tmpZ[!is.na(tmpZ)])), ylim = ylim, border = col, 
-              main = name, ylab = NULL, axes = FALSE, ...)
-      par(mar = c(0.5,0.5,2,0.5))
+      barplot(unclass(summary(tmpZ[!is.na(tmpZ)])), ylim = ylim, 
+              border = border, col = col, main = name, ylab = NULL, 
+              axes = FALSE, ...)
+      par(mar = c(0.5, 0.5, 2, 0.5))
     }
     else {
       dens <- density(tmpZ, adjust = adjust, na.rm = TRUE)
-      plot(dens,  col = col, type = "l", lwd = 2, 
-           main = name, xlab = NULL, ylab = "Density", 
-           axes = FALSE, ...)
+      plot(dens, col = cold, type = "l", lwd = 2, main = name, 
+           xlab = NULL, ylab = "Density", axes = FALSE, 
+           ...)
       mean <- mean(tmpZ, na.rm = TRUE)
-      lines(rep(mean,2),
-            c(0,dens$y[512-sum(dens$x>mean)]),
-            col = col, lty = 2, lwd = 2)
+      lines(rep(mean, 2), c(0, dens$y[512 - sum(dens$x > 
+                                                mean)]),
+            col = cold, lty = 2, lwd = 2)
     }
     box()
   }
-
-  if (type == "h")
-    lapply (1:ncol(tab), f1)
+  if (type == "h") 
+    lapply(1:ncol(tab), f1)
   if (type == "l") {
-    if (any(clas == "f"))
+    if (any(clas == "f")) 
       warning("Type = 'l' is not possible for factors, type = 'h' used instead.\n")
-    lapply (1:ncol(tab), f2)
+    lapply(1:ncol(tab), f2)
   }
   return(invisible(NULL))
 }
 
 
 
-histniche <- function (kasc, pts, type = c("h", "l"),
-                       adjust = 1, colZ = "blue",
-                       colS = "orange", ...)
+
+histniche <- function (kasc, pts, type = c("h", "l"), adjust = 1, Acol, Ucol, 
+                       Aborder, Uborder, ...)
 {
   type <- match.arg(type)
   if (!inherits(kasc, "kasc")) 
     stop("should be an object of class \"kasc\"")
-  if (ncol(pts) != 2) 
-    stop("pts should have 2 columns")
-  old.par <- par(no.readonly = TRUE)
-  on.exit(par(old.par))
-  par(mar = c(0.5,0.5,2,0.5))
-  
+    if (ncol(pts) != 2) 
+      stop("pts should have 2 columns")
   tab <- kasc2df(kasc)
   index <- tab$index
   tab <- tab$tab
+  pr <- as.vector(count.points(pts, kasc))[index]
+  if (missing(Acol)) {
+    Acol <- NULL
+    Acolf <- "white"
+    Acold <- "black"
+  }
+  else {
+    Acold <- Acol
+    Acolf <- Acol
+  }
+  if (missing(Aborder)) 
+    Aborder <- "black"
+  if (missing(Ucol)) {
+    Ucol <- gray(0.8)
+    Ucold <- gray(0.8)
+  }
+  else
+    Ucold <- Ucol
+  if (missing(Uborder)) 
+    Uborder <- gray(0.8)
   clas <- rep("", ncol(tab))
   for (j in 1:ncol(tab)) {
     w1 <- "q"
@@ -4458,87 +4542,67 @@ histniche <- function (kasc, pts, type = c("h", "l"),
       w1 <- "f"
     clas[j] <- w1
   }
-  
+  if (any(clas == "f") & type == "l") 
+    warning("Type = 'l' is not possible for factors, type = 'h' used instead.\n")
+  old.par <- par(no.readonly = TRUE)
+  on.exit(par(old.par))
+  par(mar = c(0.5, 0.5, 2, 0.5))
   par(mfrow = rev(n2mfrow(ncol(tab))))
-  pr <- as.vector(count.points(pts, kasc))[index]
-  
   f1 <- function(j) {
-    tmpS <- rep(tab[,j], pr)
-    tmpZ <- tab[,j]
+    tmpS <- rep(tab[, j], pr)
+    tmpZ <- tab[, j]
     name <- names(tab)[j]
     if (clas[j] == "f") {
-      par(mar = c(3,0.5,2,0.5))
-      mat <- t(cbind(table(tmpZ),table(tmpS)))
-      mat <- lapply(1:2, function(i) mat[i,]/sum(mat[i,]))
+      par(mar = c(3, 0.5, 2, 0.5))
+      mat <- t(cbind(table(tmpZ), table(tmpS)))
+      mat <- lapply(1:2, function(i) mat[i, ]/sum(mat[i, 
+                                                      ]))
       mat <- rbind(mat[[1]], mat[[2]])
       max <- max(mat)
       max <- max + max/20
-      ylim <- c(0,  max)
-      barplot(mat, col = c(colZ, colS), ylim = ylim, 
-              main = name, ylab = NULL, axes = FALSE, beside = TRUE, ...)
-      par(mar = c(0.5,0.5,2,0.5))
+      ylim <- c(0, max)
+      barplot(mat, col = c(Acolf, Ucol), border = c(Aborder, Uborder), 
+              ylim = ylim, main = name, ylab = NULL, axes = FALSE, 
+              beside = TRUE, ...)
+      par(mar = c(0.5, 0.5, 2, 0.5))
     }
     else {
-      xrange <- range(tmpZ)
-      H <- hist(tmpS, plot = FALSE,
-                br = seq(min(xrange), max(xrange), length = 15))
-      G <- hist(tmpZ, plot = FALSE,
-                br = seq(min(xrange), max(xrange), length = 15))
-      yrange <- c(0,max(H$density, G$density))
-      plot(H, freq = FALSE, col = colS, border = colS,
-           xlim = xrange, ylim = yrange, main = name,
-           xlab = NULL, ylab = "Density", axes = FALSE, ...)
-      plot(G, freq = FALSE, border = colZ, add = TRUE)
+      if (type == "h") {
+        xrange <- range(tmpZ)
+        H <- hist(tmpS, plot = FALSE, br = seq(min(xrange), 
+                                        max(xrange), length = 15))
+        G <- hist(tmpZ, plot = FALSE, br = seq(min(xrange), 
+                                        max(xrange), length = 15))
+        yrange <- c(0, max(H$density, G$density))
+        plot(H, freq = FALSE, col = Ucol, border = Uborder, 
+             xlim = xrange, ylim = yrange, main = name, xlab = NULL, 
+             ylab = "Density", axes = FALSE, ...)
+        plot(G, freq = FALSE, col = Acol, border = Aborder, add = TRUE)
+      }
+      else {
+        densZ <- density(tmpZ, adjust = adjust)
+        densS <- density(tmpS, adjust = adjust, from = min(densZ$x), 
+                         to = max(densZ$x))
+        max <- max(densS$y, densZ$y)
+        max <- max + max/20
+        ylim <- c(0, max)
+        plot(densS, col = Ucol, ylim = ylim, type = "l", 
+             lwd = 2, main = name, xlab = NULL, ylab = "Density", 
+             axes = FALSE, ...)
+        lines(rep(mean(tmpS), 2), c(0, densS$y[512 - sum(densS$x > 
+                                                         mean(tmpS))]),
+              col = Ucol, lty = 2, lwd = 2)
+        lines(densZ, col = Acold, lwd = 2)
+        lines(rep(mean(tmpZ), 2), c(0, densZ$y[512 - sum(densZ$x > 
+                                                         mean(tmpZ))]),
+              col = Acold, lty = 2, lwd = 2)
+      }
     }
     box()
   }
-  
-  f2 <- function(j) {
-    tmpS <- rep(tab[,j], pr)
-    tmpZ <- tab[,j]
-    name <- names(tab)[j]
-    if (clas[j] == "f") {
-      par(mar = c(3,0.5,2,0.5))
-      mat <- t(cbind(table(tmpZ),table(tmpS)))
-      mat <- lapply(1:2, function(i) mat[i,]/sum(mat[i,]))
-      mat <- rbind(mat[[1]], mat[[2]])
-      max <- max(mat)
-      max <- max + max/20
-      ylim <- c(0,  max)
-      barplot(mat, col = c(colZ, colS), ylim = ylim, 
-              main = name, ylab = NULL, axes = FALSE, beside = TRUE, ...)
-      par(mar = c(0.5,0.5,2,0.5))
-    }
-    else {
-      densZ <- density(tmpZ, adjust = adjust)
-      densS <- density(tmpS, adjust = adjust,
-                       from = min(densZ$x), to = max(densZ$x))
-      max <- max(densS$y, densZ$y)
-      max <- max + max/20
-      ylim <- c(0,  max)
-      plot(densS,  col = colS, ylim = ylim, type = "l", lwd = 2,
-           main = name, xlab = NULL, ylab = "Density",
-           axes = FALSE, ...)
-      lines(rep(mean(tmpS),2),c(0,densS$y[512-sum(densS$x>mean(tmpS))]),
-            col = colS, lty = 2, lwd = 2)
-      lines(densZ,  col = colZ, lwd = 2)
-      lines(rep(mean(tmpZ),2),c(0,densZ$y[512-sum(densZ$x>mean(tmpZ))]),
-            col = colZ, lty = 2, lwd = 2)
-    }
-    box()
-  }
-  
-  if (type == "h")
-    lapply (1:ncol(tab), f1)
-  if (type == "l") {
-    if (any(clas == "f"))
-      warning("Type = 'l' is not possible for factors, type = 'h' used instead.\n")
-    lapply (1:ncol(tab), f2)
-  }
+  lapply(1:ncol(tab), f1)
   return(invisible(NULL))
 }
-
-
 
 
 
@@ -4611,38 +4675,36 @@ predict.enfa <- function (object, nf, ...)
 }
 
 
-
-print.enfa <- function (x, ...)
+print.enfa <- function (x, ...) 
 {
-  if (!inherits(x, "enfa"))
+  if (!inherits(x, "enfa")) 
     stop("Object of class 'enfa' expected")
   cat("ENFA")
   cat("\n$call: ")
   print(x$call)
-  
   cat("\nmarginality: ")
   cat(signif(x$m, 4))
-  cat("\n$nf:", x$nf, "axis of specialization saved")
   cat("\neigen values of specialization: ")
   l0 <- length(x$s)
   cat(signif(x$s, 4)[1:(min(5, l0))])
-  if (l0 > 5)
+  if (l0 > 5) 
     cat(" ...")
+  cat("\n$nf:", x$nf, "axis of specialization saved")
   cat("\n")
   cat("\n")
-  
-  sumry <- array("", c(3, 4),
-                 list(1:3, c("vector", "length", "mode", "content")))
+  sumry <- array("", c(4, 4), list(1:4, c("vector", "length", 
+                                          "mode", "content")))
   sumry[1, ] <- c("$pr", length(x$pr), mode(x$pr), "vector of presence")
   sumry[2, ] <- c("$lw", length(x$lw), mode(x$lw), "row weights")
-  sumry[3, ] <- c("$s", length(x$s), mode(x$s),
-                  "eigen values of specialization")
+  sumry[3, ] <- c("$mar", length(x$mar),
+                  mode(x$mar), "coordinates of the marginality vector")
+  sumry[4, ] <- c("$s", length(x$s),
+                  mode(x$s), "eigen values of specialization")
   class(sumry) <- "table"
   print(sumry)
   cat("\n")
-  
-  sumry <- array("", c(5, 4),
-                 list(1:5, c("data.frame", "nrow", "ncol", "content")))
+  sumry <- array("", c(5, 4), list(1:5, c("data.frame", "nrow", 
+                                          "ncol", "content")))
   sumry[1, ] <- c("$tab", nrow(x$tab), ncol(x$tab), "modified array")
   sumry[2, ] <- c("$li", nrow(x$li), ncol(x$li), "row coordinates")
   sumry[3, ] <- c("$l1", nrow(x$l1), ncol(x$l1), "row normed scores")
@@ -4650,9 +4712,8 @@ print.enfa <- function (x, ...)
   sumry[5, ] <- c("$c1", nrow(x$c1), ncol(x$c1), "column normed scores")
   class(sumry) <- "table"
   print(sumry)
-  
   cat("\nother elements: ")
-  cat(names(x)[(11+1):(length(x))], "\n")
+  cat(names(x)[(11 + 2):(length(x))], "\n")
 }
 
 
@@ -4670,82 +4731,660 @@ randtest.enfa<-function(xtest, nrepet=999, ...)
   }
 
 
-
-
-scatter.enfa <- function (x, xax = 1, yax = 2, h, pts = FALSE,
-                          ncont = 1, clabel = 1, colZ = "blue",
-                          colS = "orange", lwdZ = 2, lwdS = 3,
-                          side = c("top", "bottom", "none"),
-                          csub = 1, ...)
+scatter.enfa <- function(x, xax = 1, yax = 2, pts = FALSE,
+                         nc = TRUE, percent = 95, 
+                         clabel = 1, side = c("top", "bottom", "none"),
+                         csub = 1, Adensity, Udensity, Aangle, Uangle,
+                         Aborder, Uborder, Acol, 
+                         Ucol, Alty, Ulty, Apch, Upch,
+                         Abg, Ubg, Acex, Ucex, ...)
 {
   side <- match.arg(side)
-  if (!inherits(x, "enfa"))
+  if (!inherits(x, "enfa")) 
     stop("Object of class 'enfa' expected")
-  if (!require(MASS))
-    stop("This function needs the package MASS")
   old.par <- par(no.readonly = TRUE)
   on.exit(par(old.par))
   par(mar = c(0.1, 0.1, 0.1, 0.1))
-  
-  x1 <- x$li[,xax]
-  x1 <- c(x1 - diff(range(x1)/10), x1 + diff(range(x1))/10)
+  x1 <- x$li[, xax]
+  x1 <- c(x1 - diff(range(x1)/50), x1 + diff(range(x1))/50)
   xlim <- range(x1)
-  y1 <- x$li[,yax]
-  y1 <- c(y1 - diff(range(y1)/10), y1 + diff(range(y1))/10)
+  y1 <- x$li[, yax]
+  y1 <- c(y1 - diff(range(y1)/50), y1 + diff(range(y1))/50)
   ylim <- range(y1)
-  
-  if (missing(h))
-    h <- c(bandwidth.nrd(x$li[,xax]), bandwidth.nrd(x$li[,yax]))
-  kdZ <- kde2d(x$li[,xax], x$li[,yax], h = h, lims = c(xlim, ylim))
-  kdS <- kde2d(x$li[x$pr > 0,xax], x$li[x$pr > 0,yax],
-               h = h, lims = c(xlim, ylim))
-  
-  scatterutil.base(dfxy = x$li[, c(xax, yax)], xax = 1, yax = 2,
-                   xlim = NULL, ylim = NULL, grid = TRUE,
-                   addaxes = TRUE, cgrid = 1, include.origin = TRUE,
-                   origin = c(0, 0), sub = "", csub = 1.25,
-                   possub = "bottomleft", pixmap = NULL,
-                   contour = NULL, area = NULL, add.plot = FALSE)
-  
+  pmar <- t(x$mar) %*% as.matrix(x$c1[, 1:(x$nf + 1)])
+  scatterutil.base(dfxy = x$li[, c(xax, yax)], xax = 1, yax = 2, 
+                   xlim = xlim, ylim = ylim, grid = TRUE, addaxes = FALSE, 
+                   cgrid = 1, include.origin = TRUE, origin = c(0, 0), sub = "", 
+                   csub = 1.25, possub = "bottomleft", pixmap = NULL, contour = NULL, 
+                   area = NULL, add.plot = FALSE)
   if (pts) {
-    points(x$li[, c(xax, yax)], col = colZ)
-    points(x$li[x$pr > 0, c(xax, yax)], col = colS, pch = 16)
+    if (missing (Apch))
+      Apch <- 19
+    if (missing (Upch))
+      Upch <- 19
+    if (missing (Acol))
+      Acol <- gray(0.8)
+                if (missing (Ucol))
+                  Ucol <- "black"
+    if (missing (Abg))
+      Abg <- NA
+    if (missing (Ubg))
+      Ubg <- NA
+    if (missing (Acex))
+      Acex <- 1
+    if (missing (Ucex))
+      Ucex <- 1
+    points(x$li[, c(xax, yax)], pch = Apch, col = Acol, bg = Abg, cex = Acex)
+    points(x$li[rep(1:length(x$pr), x$pr), c(xax, yax)], pch = Upch, col = Ucol, bg = Ubg, cex = Ucex)
+    abline(v=0)
+    abline(h=0)
+    if (nc)
+      points(pmar, pch = 21, bg = "white", cex = Ucex+0.2)
   }
   else {
-    prZ <- pretty(kdZ$z, 50)
-    prS <- pretty(kdS$z, 50)
-    levZ <- prZ[seq(2, length(prZ)-1, length = ncont)]
-    levS <- prS[seq(2, length(prS)-1, length = ncont)]
-    contour(kdZ, drawlabels = FALSE, col = colZ,
-            lwd = lwdZ, levels = levZ, add = TRUE)
-    contour(kdS, drawlabels = FALSE, col = colS, lwd = lwdS,
-            levels = levS, add = TRUE)
+    if (missing(Adensity))
+      Adensity <- NULL
+    if (missing(Udensity))
+      Udensity <- NULL
+    if (missing(Aangle))
+      Aangle <- 45
+    if (missing(Uangle))
+      Uangle <- 45
+    if (missing(Aborder))
+      Aborder <- NULL
+    if (missing(Uborder))
+      Uborder <- NULL
+    if (missing(Acol))
+      Acol <- gray(0.95)
+    if (missing(Ucol))
+      Ucol <- gray(0.6)
+    if (missing(Alty))
+      Alty <- NULL
+    if (missing(Ulty))
+      Ulty <- NULL
+    if (missing (Ucex))
+      Ucex <- 1
+    mcpA <- mcp(x$li[, c(xax, yax)], id = rep(1, dim(x$li)[1]), percent = percent)
+    mcpU <- mcp(x$li[rep(1:length(x$pr), x$pr), c(xax, yax)], id = rep(1, sum(enfa1$pr)), percent = percent)
+    polygon(mcpA[, 2:3], density = Adensity, angle = Aangle, border = Aborder, col = Acol, lty = Alty)
+        polygon(mcpU[, 2:3], density = Udensity, angle = Uangle, border = Uborder, col = Ucol, lty = Ulty)
+    abline(v=0)
+    abline(h=0)
+    if (nc)
+      points(pmar, pch = 21, bg = "white", cex = Ucex+0.2)
   }
-  
-  dfarr <- x$c1[, c(xax,yax)]
+  dfarr <- x$c1[, c(xax, yax)]
   born <- par("usr")
-  k1 <- min(dfarr[, 1])/born[1] 
+  k1 <- min(dfarr[, 1])/born[1]
   k2 <- max(dfarr[, 1])/born[2]
   k3 <- min(dfarr[, 2])/born[3]
   k4 <- max(dfarr[, 2])/born[4]
   k <- c(k1, k2, k3, k4)
-  dfarr <- 0.75*dfarr/max(k)
+  dfarr <- 0.75 * dfarr/max(k)
   s.arrow(dfarr, clabel = clabel, addaxes = FALSE, add.plot = TRUE)
-  
-  if (xax==1)
+  if (xax == 1) 
     xax <- "mar"
-  else
-    xax <- paste("sp", xax-1)
-  if (yax== 1)
+  else xax <- paste("sp", xax - 1)
+  if (yax == 1) 
     yax <- "mar"
-  else
-    yax <- paste("sp", yax-1)
-  if (side == "none")
+  else yax <- paste("sp", yax - 1)
+  if (side == "none") 
     return(invisible())
-  if (side == "top")
-    mtext(text = paste(" xax =", xax, "\n yax =", yax),
-          side = 3, line = -2*csub, adj = 0, cex = csub)
-  else
-    mtext(text = paste(" xax =", xax, "\n yax =", yax),
-          side = 1, line = -2, adj = 0, cex = csub)
+  if (side == "top") 
+    mtext(text = paste(" xax =", xax, "\n yax =", yax), side = 3, 
+          line = -2 * csub, adj = 0, cex = csub)
+  else mtext(text = paste(" xax =", xax, "\n yax =", yax), 
+             side = 1, line = -2, adj = 0, cex = csub)
 }
+
+
+
+
+
+## fit the nearest-neighbor convex hull
+
+NNCH<-function(xy, id=NULL, k=10, unin = c("m", "km"),
+               unout = c("ha", "km2", "m2"))
+  {
+    if (ncol(xy)!=2)
+      stop("xy should have two columns")
+    if (is.null(id))
+      id<-rep(1,nrow(xy))
+    id<-factor(id)
+    
+    if (k>=min(table(u)))
+      stop("too large number of neighbors")
+    if (nrow(xy)!=length(id))
+      stop("id should have the same length as xy")
+      if (min(table(id))<5)
+    stop("At least 5 relocations are required to fit an home range")
+
+    id <- id[!is.na(xy[, 1])]
+    xy <- xy[!is.na(xy[, 1]), ]
+    id <- id[!is.na(xy[, 2])]
+    xy <- xy[!is.na(xy[, 2]), ]
+    unin <- match.arg(unin)
+    unout <- match.arg(unout)
+    class(xy[,1])<-"double"
+    class(xy[,2])<-"double"
+    if (!require(gpclib)) 
+      stop("package gpclib required")
+    res<-list()
+    
+    for (kk in 1:nlevels(id)) {
+      xyt<-xy[id==levels(id)[kk],]
+      
+      li<-list()
+      li2<-list()
+      lin<-list()
+      lin2<-list()
+      ar<-0
+      
+      dij<-as.matrix(dist(xyt))
+      idt<-1:nrow(dij)
+      
+      for (i in 1:nrow(xyt)) {
+        iid<-idt[order(dij[i,])][1:k]
+        xytmp<-xyt[iid,]
+        ch<-chull(xytmp[,1], xytmp[,2])
+        li[[i]]<-as(xytmp[ch,], "gpc.poly")
+        lin[[i]]<-iid
+      }
+    
+      aa<-unlist(lapply(li, area.poly))
+      li<-li[order(aa)]
+      lin<-lin[order(aa)]
+      idbis<-idt[order(aa)]
+      li2[[1]]<-li[[1]]
+      lin2[[1]]<-lin[[1]]
+      
+      for (i in 2:length(li)) {
+        li2[[i]]<-union(li2[[i-1]], li[[i]])
+        lin2[[i]]<-unique(c(lin2[[i-1]], lin[[i]]))
+      }
+      
+      n<-unlist(lapply(lin2, length))/nrow(xyt)
+      ar<-unlist(lapply(li2, area.poly))
+
+      cons<-1:length(ar)
+      
+      if (unin == "m") {
+        if (unout == "ha") 
+          ar <- ar/10000
+        if (unout == "km2") 
+          ar <- ar/1e+06
+      }
+      if (unin == "km") {
+        if (unout == "ha") 
+          ar <- ar * 100
+        if (unout == "m2") 
+          ar <- ar * 1e+06
+      }
+
+      
+      names(li2)<-round(n*100)
+      area<-data.frame(levels=round(n*100,2), area=ar)
+      dup<-!duplicated(area)
+      area=area[dup,]
+      row.names(area)<-1:nrow(area)
+      res[[levels(id)[kk]]]<-list(area=area,
+                                  polygons=li2[dup], xy=xyt)
+      
+
+    }
+    attr(res, "units") <- unout
+    class(res)<-"NNCH"
+    return(res)
+  }
+
+## print method
+
+print.NNCH<-function(x, ...)
+  {
+    cat("***********************************************\n")
+    cat("***\n")
+    cat("***      Nearest-neighbor convex hull\n\n")
+    cat(paste("Home range available for", length(x), "animals:\n"))
+    print(names(x), ...)
+    cat("\n\nEach animal is a component of the object. For each animal,")
+    cat("\nthe following information is available:\n")
+    cat("\n$area:       home-range size estimated at various levels")
+    cat("\n$polygons:   objects of class \"gpc.poly\" storing the home-range limits")
+    cat("\n$xy:         the relocations\n\n")
+  }
+
+
+
+## compute the home-range size
+NNCH.area<-function(x, percent=c(95,90,80,70,60,50,40,30,20,10))
+  {
+    if (!inherits(x, "NNCH"))
+      stop("x should be of class \"NNCH\"")
+
+    res<-matrix(0,nrow=length(percent), ncol=length(x))
+
+    for (kk in 1:length(x)) {
+      for (i in 1:length(percent))
+        res[i,kk]<-x[[kk]]$area[max(which(x[[kk]]$area$levels<=percent[i])),2]
+    }
+    res<-as.data.frame(res)
+    row.names(res)<-percent
+    names(res)<-names(x)
+    class(res) <- c("hrsize", "data.frame")
+    attr(res, "units") <- attr(x, "units")
+    return(res)
+  }
+
+
+## display the home ranges
+
+plot.NNCH<-function(x, which = names(x), add.points=TRUE, pch=21,
+                    bgpts="white", colpts="black",
+                    cex=0.7, add=FALSE, same4all=TRUE, border=NA, ...)
+  {
+    if (!inherits(x, "NNCH"))
+      stop("x should be of class \"NNCH\"")
+    x<-x[which]
+    if (length(x)>1) {
+      opar<-par(mfrow=n2mfrow(length(x)))
+      on.exit(par(opar))
+    }
+    
+    if (same4all) {
+      xxx<-do.call("rbind", lapply(x, function(x) x$xy))
+      rx<-range(xxx[,1])
+      ry<-range(xxx[,2])
+    }
+    
+    for (kk in names(x)) {
+      if (!same4all) {
+        rx<-range(x[[kk]]$xy[,1])
+        ry<-range(x[[kk]]$xy[,2])
+      }
+      if(!add) {
+        if (length(x)>1) 
+          plot(x[[kk]]$xy, ty="n", asp=1, main=kk,
+               xlim=rx, ylim=ry,...)
+        if (length(x)==1) 
+          plot(x[[kk]]$xy, ty="n", asp=1, xlim=rx,
+               ylim=ry,...)
+      }
+      
+      gr<-grey(x[[kk]]$area$levels/100)
+      li2<-x[[kk]]$polygons
+      for (i in length(li2):1)
+        plot(li2[[i]], poly.args=list(col=gr[i], border=border), add=TRUE)
+      if (add.points)
+        points(x[[kk]]$xy, pch=pch, bg=bgpts, col=colpts, cex=cex)
+    }
+  }
+
+
+neighNNCH <- function(xy, id=NULL, rangek, percent=95,
+                      unin = c("m", "km"),
+                      unout = c("ha", "km2", "m2"))
+  {
+    if (max(rangek)>=nrow(xy))
+      stop("too large number of neighbors")
+    if (ncol(xy)!=2)
+      stop("xy should have two columns")
+    if (length(id)!=nrow(xy))
+      stop("id should have the same number of rows as xy")
+    kk <- do.call("rbind", lapply(rangek, function(x) {
+      unlist(NNCH.area(NNCH(xy=xy, id=id, k=x, unin, unout), percent)[1,])
+    }))
+    rownames(kk) <- rangek
+    colnames(kk) <- levels(id)
+    class(kk) <- c("ngNNCH")
+    return(kk)
+  }
+
+
+plot.ngNNCH <- function(x, ...)
+  {
+    if (!inherits(x, "ngNNCH"))
+      stop("x should be of class \"ngNNCH\"")
+    xx<-as.numeric(row.names(x))
+    if (ncol(x)!=1) {
+      opar <- par(mfrow=n2mfrow(ncol(x)))
+      on.exit(par(opar))
+    }
+    if (ncol(x)>1)
+      lapply(1:ncol(x), function(y) plot(as.numeric(rownames(x)), x[,y],
+                                         main=colnames(x)[y],
+                                         xlab="Number of neighbors",
+                                         ylab="Home-range size",
+                                         pch = 16, ty="b",...))
+    if (ncol(x)==1)
+      plot(as.numeric(rownames(x)), x[,1], xlab="Number of neighbors",
+           ylab="Home-range size", pch = 16, ty="b",...)
+    
+  }
+
+
+getverticesNNCH <- function(x, percent = 95)
+  {
+    if (!inherits(x, "NNCH"))
+      stop("x should be of class \"NNCH\"")
+    res<-list()
+    for (kk in 1:length(x))
+      res[[kk]]<-x[[kk]]$polygons[[max(which(x[[kk]]$area$levels<=percent))]]
+    names(res)<-names(x)
+    class(res)<-"NNCHver"
+    return(res)
+  }
+
+plot.NNCHver<-function(x, which = names(x),
+                       colpol = NA,
+                       colborder = rep("black", length(x)),
+                       lwd = 2, add = FALSE, ...)
+  {
+    if (!inherits(x, "NNCHver"))
+      stop("y should be of class NNCHver")
+    xt<-unlist(lapply(x, function(x) lapply(attr(x, "pts"), function(i) i$x)))
+    yt<-unlist(lapply(x, function(x) lapply(attr(x, "pts"), function(i) i$y)))
+
+    if (!add)
+      plot(xt, yt, asp=1, ty = "n", ...)
+
+    res<-list()
+    for (i in which)
+      res[[i]]<-x[[which]]
+    
+    lapply(1:length(res), function(x) plot(res[[x]],
+                                           poly.args = list(col = colpol[x],
+                                           border = colborder[x], lwd = lwd,
+                                           ...), add=TRUE))
+    invisible(NULL)
+    
+  }
+
+NNCH.rast<-function(y, w)
+  {
+    x <- y
+    if (!inherits(x, "NNCHver"))
+      stop("x should be of class NNCHver")
+    if (inherits(w, "kasc"))
+      w <- getkasc(w, names(w)[1])
+    if (!inherits(w, "asc"))
+      stop("w should be of class asc or kasc")
+
+    ## rastérisation des polygones
+    hol<-lapply(lapply(x, function(y) attr(y, "pts")),
+                function(y) unlist(lapply(y, function(z) z$hole)))
+    xt<-lapply(lapply(x, function(y) attr(y, "pts")),
+                function(y) lapply(y, function(z) z$x))
+    yt<-lapply(lapply(x, function(y) attr(y, "pts")),
+                function(y) lapply(y, function(z) z$y))
+    res <- list()
+    
+    for (i in 1:length(hol)) {
+      rr<-lapply(1:length(xt[[i]]),
+                 function(j) mcp.rast(data.frame(x=xt[[i]][[j]],
+                                                 y = yt[[i]][[j]]), w))
+      rr <- lapply(rr, function(o) {o[is.na(o)] <- 0; return(o)})
+      if (hol[[i]][1]) {
+        ee <- -rr[[1]]
+      } else {
+        ee <- rr[[1]]
+      }
+      for (j in 2:length(rr)) {
+        if (hol[[i]][j])
+          ee <- ee - rr[[j]]
+        if (!hol[[i]][j])
+          ee <- ee + rr[[j]]
+      }
+      ee[ee==0] <- NA
+      res[[i]] <- getascattr(w, ee)
+    }
+    names(res) <- names(x)
+    if (length(res)==1)  {
+      res<-res[[1]]
+    } else {
+      res <- as.kasc(res)
+    }
+    return(res)
+  }
+
+
+### A better display of areas
+
+plot.area <- function(x, which=levels(x[,1]),
+                      colpol = rep("green", nlevels(x[,1])),
+                      colborder = rep("black", nlevels(x[,1])),
+                      lwd = 2, add = FALSE, ...)
+  {
+    if (!inherits(x, "area"))
+      stop("x should be of class \"area\"")
+    if (!add)
+      plot.default(x[,2:3], type = "n", asp = 1,...)
+    li <- split(x[,2:3], x[,1])
+    lapply(1:length(which), function(i) polygon(li[[which[i]]],
+                                                col = colpol[i],
+                                                border = colborder[i],
+                                                lwd = lwd))
+    invisible(NULL)
+  }
+
+
+
+perarea <- function(x)
+  {
+    if (!inherits(x, "area"))
+      stop("x should be of class \"area\"")
+    uu <- split(x[,2:3], x[,1])
+    foo <- function(x) {
+      if (!all(x[1,]==x[nrow(x),]))
+        x <- rbind(x,x[nrow(x),])
+      x1 <- x[-1,]
+      x2 <- x[-nrow(x),]
+      di <- sum(sqrt(((x2[,1]-x1[,1])^2)+((x2[,2]-x1[,2])^2)))
+      return(di)
+    }
+    res <- unlist(lapply(uu, foo))
+    names(res) <- names(uu)
+    return(res)
+  }
+  
+ararea <- function(x)
+  {
+    if (!inherits(x, "area"))
+      stop("x should be of class \"area\"")
+    if (!require(gpclib))
+      stop("package gpclib needed for this function")
+    uu <- split(x[,2:3], x[,1])
+    foo <- function(y) {
+      class(y) <- "data.frame"
+      u <- area.poly(as(y, "gpc.poly"))
+    }
+    res <- unlist(lapply(uu, foo))
+    names(res) <- names(uu)
+    return(res)
+  }
+
+
+
+### kernel brownian bridge
+
+kernelbb<- function(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
+  {
+    x <- tr
+    if (!inherits(x, "traj"))
+      stop("x should be of class \"traj\"")
+    sorties <- list()
+    gr <- grid
+    xy<-x[,c("x","y")]
+    sig12<-sig1^2
+    sig22<-sig2^2
+    h<-c(sig1, sig2)
+    names(h)<-c("sig1","sig2")
+    fac<-x$burst
+    if (!byburst)
+      fac<-x$id
+    fac<-factor(fac)
+    lixy<-split(x,fac)
+    
+    if (same4all) {
+      if (length(as.vector(gr)) == 1) {
+        if (!is.numeric(gr)) 
+          stop("grid should be an object of class asc or a number")
+        xli <- range(xy[, 1])
+        yli <- range(xy[, 2])
+        xli <- c(xli[1] - 0.3 * abs(xli[2] - xli[1]), xli[2] + 
+                 0.3 * abs(xli[2] - xli[1]))
+        yli <- c(yli[1] - 0.3 * abs(yli[2] - yli[1]), yli[2] + 
+                 0.3 * abs(yli[2] - yli[1]))
+        xygg <- data.frame(x = xli, y = yli)
+        grid <- ascgen(xygg, nrcol = grid)
+        cellsize <- attr(grid, "cellsize")
+        lx <- nrow(grid) * cellsize
+        ly <- ncol(grid) * cellsize
+        ref <- lx
+        if (ly > lx) 
+          ref <- ly
+        xll <- attr(grid, "xll")
+        yll <- attr(grid, "yll")
+        xll <- xll - lx/2
+        yll <- yll - ly/2
+        arajlig <- ceiling((lx/2)/cellsize)
+        arajcol <- ceiling((ly/2)/cellsize)
+        mrajlig <- matrix(0, ncol = ncol(grid), nrow = arajlig)
+        grid <- rbind(mrajlig, grid, mrajlig)
+        mrajcol <- matrix(0, ncol = arajcol, nrow = nrow(grid))
+        grid <- cbind(mrajcol, grid, mrajcol)
+        attr(grid, "xll") <- xll
+        attr(grid, "yll") <- yll
+        attr(grid, "cellsize") <- cellsize
+        attr(grid, "type") <- "numeric"
+        class(grid) <- "asc"
+      }
+    }
+
+    for (i in 1:length(lixy)) {
+      dft<-lixy[[i]]
+      df<-dft[,c("x","y")]
+      if (length(as.vector(gr)) == 1) {
+        if (!is.numeric(gr)) 
+          stop("grid should be an object of class asc or a number")
+        if (!same4all) {
+          grid <- matrix(0, ncol = gr, nrow = gr)
+          rgx <- range(df[, 1])
+          rgy <- range(df[, 2])
+          lx <- rgx[2] - rgx[1]
+          ly <- rgy[2] - rgy[1]
+          ref <- lx
+          if (ly > lx) 
+            ref <- ly
+          xll <- rgx[1]
+          yll <- rgy[1]
+          cellsize <- ref/ncol(grid)
+          xll <- xll - lx/2
+          yll <- yll - ly/2
+          arajlig <- ceiling((lx/2)/cellsize)
+          arajcol <- ceiling((ly/2)/cellsize)
+          mrajlig <- matrix(0, ncol = ncol(grid), nrow = arajlig)
+          grid <- rbind(mrajlig, grid, mrajlig)
+          mrajcol <- matrix(0, ncol = arajcol, nrow = nrow(grid))
+          grid <- cbind(mrajcol, grid, mrajcol)
+          attr(grid, "xll") <- xll
+          attr(grid, "yll") <- yll
+          attr(grid, "cellsize") <- cellsize
+          attr(grid, "type") <- "numeric"
+          class(grid) <- "asc"
+        }
+      }
+      
+      xyg<-getXYcoords(grid)
+      date<-as.double(dft$date)-min(as.double(dft$date))
+      toto<-.C("kernelbb", as.double(t(grid)), as.double(xyg$x),
+               as.double(xyg$y), as.integer(ncol(grid)),as.integer(nrow(grid)),
+               as.integer(nrow(x)), as.double(sig12), as.double (sig22), 
+               as.double(df$x), as.double(df$y), as.double(date),
+               PACKAGE="adehabitat")
+      UD <- matrix(toto[[1]], nrow = nrow(grid), byrow = TRUE)
+      UD <- getascattr(grid, UD)
+      sorties[[names(lixy)[i]]] <- list(UD = UD, locs = lixy[[i]],
+                                        h = h, hmeth = "bb")
+    }
+    class(sorties) <- c("kbbhrud", "khr")
+    return(sorties)
+  }
+
+
+
+schoener <- function(tr, keep, byburst=TRUE)
+  {
+    if (!inherits(tr, "traj"))
+      stop("tr should be of class traj")
+    li <- split(tr[,c("x","y")], tr$id)
+    if (byburst)
+      li <- split(tr, tr$burst)
+    
+    foo <- function(tr) {
+      d <- unclass(tr$date)
+      x <- tr[,c("x","y")]
+      r2 <- sum(((x[,1]-mean(x[,1]))^2) +
+                ((x[,2]-mean(x[,2]))^2))/(nrow(x) -1)
+      diffd <- outer(d,d,"-")
+      t2tmp <- as.matrix(dist(x)^2)
+      cons <- diffd>keep[1]&diffd<keep[2]
+      t2 <- sum(t2tmp[cons])/sum(cons)
+      rat <- t2/r2
+      n <- nrow(x)
+      m <- sum(cons)
+      return(c(rat, n, m))
+    }
+    
+    rr <- do.call("rbind", lapply(li, foo))
+    rr <- as.data.frame(rr)
+    row.names(rr) <- names(li)
+    names(rr) <- c("value","n","m")
+    return(rr)
+  }
+
+schoener.rtest <- function(tr, keep, byburst=TRUE, nrep=500)
+  {
+    obs <- schoener(tr, keep, byburst)
+    res <- list()
+    trbis <- tr
+    li <- split(tr[,c("x","y")], tr$id)
+    if (byburst)
+      li <- split(tr, tr$burst)
+    
+    foo <- function(trb) {
+      x <- trb[,c("x","y")]
+      r2 <- sum(((x[,1]-mean(x[,1]))^2) +
+                ((x[,2]-mean(x[,2]))^2))/(nrow(x) -1)
+      d <- unclass(trb$date)
+      diffd <- outer(d,d,"-")
+      cons <- diffd>keep[1]&diffd<keep[2]
+      m <- sum(cons)
+      
+      foobis <- function(i) {
+        x <- trb[sample(1:nrow(trb), replace=FALSE),c("x","y")]
+        t2tmp <- as.matrix(dist(x)^2)
+        t2 <- sum(t2tmp[cons])/m
+        rat <- t2/r2
+        return(rat)
+      }
+      res <- unlist(lapply(1:nrep, foobis))
+      return(res)
+    }
+    
+    rr <- lapply(li, foo)
+    rr <- lapply(1:length(rr),
+                 function(x) as.randtest(rr[[x]], obs[x,1]))
+    
+    opar <- par(mfrow=n2mfrow(length(rr)))
+    on.exit(par(opar))
+    rr <- lapply(rr, function(x) { x$pvalue <- 1-x$pvalue; return(x)})
+    names(rr) <- names(li)
+    lapply(1:length(rr),
+           function(x) plot(rr[[x]],
+                            main = paste(names(rr)[x], ": P = ",
+                              round(rr[[x]]$pvalue, 2), sep="")))
+    return(rr)
+  }
+
+
+

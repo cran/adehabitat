@@ -54,7 +54,7 @@ image(u)
 
 ## Get the contour polygons
 p <- getcontour(u)
-area.plot(p, lwd = 2)
+plot(p, lwd = 2)
 
 }
 \keyword{programming}

@@ -174,7 +174,7 @@ Description: Multivariate analyses of objects of class "kasc"
 URL: ../../../library/habitat/html/df2kasc.html
 
 Entry: kernelUD
-Aliases: kernelUD, print.khr, image.khr, plotLSCV, getvolumeUD, kernel.area, getverticeshr
+Aliases: kernelUD, print.khr, image.khr, plotLSCV, getvolumeUD, kernel.area, getverticeshr, kernelbb, plot.kver
 Keywords: spatial
 Description: Estimation of kernel home-range
 URL: ../../../library/habitat/html/kernelUD.html
@@ -185,6 +185,18 @@ Keywords: multivariate
 Description: K-select analysis: Method to Analyse habitat selection by animals
   in case of design III studies
 URL: ../../../library/habitat/html/kselect.html
+
+Entry: labcon
+Aliases: labcon
+Keywords: spatial
+Description: Labelling of Connected Features
+URL: ../../../library/habitat/html/labcon.html
+
+Entry: lowres
+Aliases: lowres, lowres.asc, lowres.kasc
+Keywords: spatial
+Description: Reducing the Resolution of a Map
+URL: ../../../library/habitat/html/lowres.html
 
 Entry: lynxjura
 Aliases: lynxjura
@@ -228,6 +240,12 @@ Keywords: multivariate
 Description: Monte-Carlo Test on Parameters of the Ecological Niche
 URL: ../../../library/habitat/html/niche.test.html
 
+Entry: NNCH
+Aliases: NNCH, print.NNCH, NNCH.area, plot.NNCH, neighNNCH, plot.ngNNCH, getverticesNNCH, plot.NNCHver, NNCH.rast
+Keywords: hplot
+Description: Nearest Neighbor Convex hull
+URL: ../../../library/habitat/html/NNCH.html
+
 Entry: pheasant
 Aliases: pheasant
 Keywords: dataset
@@ -264,6 +282,18 @@ Keywords: datasets
 Description: Habitat selection by the wild boar at Puechabon
 URL: ../../../library/habitat/html/puechdesIII.html
 
+Entry: perarea
+Aliases: perarea, ararea
+Keywords: hplot
+Description: Compute Areas and Perimeters of Objects of Class "area" 
+URL: ../../../library/habitat/html/perarea.html
+
+Entry: plot.area
+Aliases: plot.area
+Keywords: hplot
+Description: Graphical Display of Objects of Class "area"
+URL: ../../../library/habitat/html/plot.area.html
+
 Entry: rand.kselect
 Aliases: rand.kselect, print.rand.kselect
 Keywords: multivariate
@@ -273,13 +303,13 @@ URL: ../../../library/habitat/html/rand.kselect.html
 Entry: randtest.enfa
 Aliases: randtest.enfa
 Keywords: multivariate
-Description: Randomisation Test for the Ecological Niche Factor Analysis
+Description: {Randomisation Test for the Ecological Niche Factor Analysis
 URL: ../../../library/habitat/html/randtest.enfa.html
 
 Entry: rotxy
-Aliases: rotxy, .buffer.point.unic, profilehab, [.kasc, [[.kasc
+Aliases: rotxy, .buffer.point.unic, profilehab
 Keywords: internal
-Description: Internal functions for package adehabitat
+Description: internal functions for package habitat
 URL: ../../../library/habitat/html/rotxy.html
 
 Entry: sahrlocs2kselect
@@ -300,29 +330,11 @@ Keywords: multivariate
 Description: Scatter Plot of the Results of the ENFA
 URL: ../../../library/habitat/html/scatter.enfa.html
 
-Entry: labcon
-Aliases: labcon
-Keywords: spatial
-Description: Labelling of Connected Features
-URL: ../../../library/habitat/html/labcon.html
-
-Entry: lowres
-Aliases: lowres, lowres.asc, lowres.kasc
-Keywords: spatial
-Description: Reducing the Resolution of a Map
-URL: ../../../library/habitat/html/lowres.html
-
-Entry: rotxy
-Aliases: rotxy, .buffer.point.unic, profilehab
-Keywords: internal
-Description: internal functions for package habitat
-URL: ../../../library/habitat/html/rotxy.html
-
-Entry: randtest.enfa
-Aliases: randtest.enfa
-Keywords: multivariate
-Description: {Randomisation Test for the Ecological Niche Factor Analysis
-URL: ../../../library/habitat/html/randtest.enfa.html
+Entry: schoener
+Aliases: schoener, schoener.rtest
+Keywords: math
+Description: Compute Schoener's ratio
+URL: ../../../library/habitat/html/schoener.html
 
 Entry: setmask
 Aliases: setmask

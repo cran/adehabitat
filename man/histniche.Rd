@@ -10,7 +10,7 @@
 }
 \usage{
 histniche(kasc, pts, type = c("h", "l"), adjust = 1,
-          colZ = "blue", colS = "orange", \dots)
+          Acol, Ucol, Aborder, Uborder, \dots)
 }
 \arguments{
   \item{kasc}{a raster map of class \code{kasc}}
@@ -24,8 +24,12 @@ histniche(kasc, pts, type = c("h", "l"), adjust = 1,
     lines}
   \item{adjust}{if \code{type = "l"}, a parameter used to control the
     bandwidth of the density estimate (see \code{?density})}
-  \item{colZ}{color for the histograms of the available pixels}
-  \item{colS}{color for the histograms of the used pixels}
+  \item{Acol}{color for the histograms of the available pixels}
+  \item{Ucol}{color for the histograms of the used pixels}
+  \item{Aborder}{if \code{type = "h"}, color for the border of the
+    histograms of the available pixels (see \code{help(hist.default)})}
+  \item{Uborder}{if \code{type = "h"}, color for the border of the
+    histograms of the used pixels (see \code{help(hist.default)})} 
   \item{\dots}{further arguments passed to or from other methods}
 }
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr} }

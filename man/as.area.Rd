@@ -21,11 +21,12 @@ as.area(x)
   Returns an object of class \code{area}
 }
 \seealso{ \code{\link[ade4]{area.plot}} for other operations on
-  objects of class \code{area}, \code{\link{area2dxf}} for exportation
+  objects of class \code{area}, \code{\link{plot.area}} to display
+  objects of this class, and \code{\link{area2dxf}} for exportation
   of the objects \code{area} toward a GIS. }
 \examples{
 data(elec88)
 ar <- as.area(elec88$area)
-area.plot(ar)
+plot(ar)
 }
 \keyword{spatial}

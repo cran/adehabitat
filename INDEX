@@ -57,7 +57,11 @@ morphology              Morphology: Erosion or Dilatation of Features
                         on a Raster Map
 niche.test              Monte-Carlo Test on Parameters of the
                         Ecological Niche
+NNCH                    Nearest Neighbor Convex hull
+perarea                 Compute Areas and Perimeters of Objects of
+                        Class "area"
 pheasant                Radio-Tracking of Pheasants
+plot.area               Graphical Display of Objects of Class "area"
 plot.sahrlocs           Exploratory Analysis of Habitat Selection
 predict.enfa            Habitat Suitability Maps Built from the ENFA
 puechabon               Radio-Tracking Data of Wild Boar
@@ -70,6 +74,7 @@ randtest.enfa           Randomisation Test for the Ecological Niche
 sahrlocs2kselect        Preparation of K-Select Analysis
 sahrlocs2niche          OMI Analysis of Radio-Tracking Data
 scatter.enfa            Scatter Plot of the Results of the ENFA
+schoener                Compute Schoener's ratio
 setmask                 Applies a Mask on Objects of Class 'asc' or
                         'kasc'
 speed                   Computes the Speed Between Successive

@@ -5,59 +5,90 @@
 Performs the scatter diagrams of objects of class \code{enfa}.
 }
 \usage{
-scatter.enfa(x, xax = 1, yax = 2, h, pts = FALSE,
-             ncont = 1, clabel = 1, colZ = "blue",
-             colS = "orange", lwdZ = 2, lwdS = 3,
-             side = c("top", "bottom", "none"),
-             csub = 1, ...)
+scatter.enfa(x, xax = 1, yax = 2, pts = FALSE,
+             nc = TRUE, percent = 95, 
+             clabel = 1, side = c("top", "bottom", "none"),
+             csub = 1, Adensity, Udensity, Aangle, Uangle,
+             Aborder, Uborder, Acol, 
+             Ucol, Alty, Ulty, Apch, Upch,
+             Abg, Ubg, Acex, Ucex, ...)
 }
 \arguments{
   \item{x}{an object of class \code{enfa}}
   \item{xax}{the column number for the x-axis}
   \item{yax}{the column number for the y-axis}
-  \item{h}{vector of bandwidths for x and y directions, used in the
-    function \code{kde2d} of the package \code{MASS}.  Defaults to
-    normal reference bandwidth (see \code{?kde2d})}
   \item{pts}{logical. Whether the points should be drawn.  If
-    \code{FALSE}, contours of kernel densities estimates are displayed}
-  \item{ncont}{if \code{pts == FALSE}, an integer indicating the number
-    of contour levels desired for the kernel densities estimates.  By
-    default, only the external one is displayed}
+    \code{FALSE}, minimum convex polygons are displayed}
+  \item{nc}{whether or not the niche center should be displayed}
+  \item{percent}{100 minus the proportion of outliers to be excluded from the
+          computation of the minimum convex polygons}
   \item{clabel}{a character size for the columns}
-  \item{colZ}{color for the kernel density estimates of the available
-    pixels}
-  \item{colS}{color for the kernel density estimates of the used
-    pixels}
-  \item{lwdZ}{if \code{pts==FALSE}, the line width for the kernel
-    density estimates of the available pixels}
-  \item{lwdS}{if \code{pts==FALSE}, the line width for the kernel
-    density estimates of the used pixels}
   \item{side}{if \code{"top"}, the legend of the kept axis is upside, if
     \code{"bottom"} it is downside, if \code{"none"} no legend}
   \item{csub}{a character size for the legend}
+  \item{Adensity}{the density of shading lines, in lines per inch, for the 
+    available pixels polygon. See \code{\link{polygon}} for more details}
+  \item{Udensity}{the density of shading lines, in lines per inch, for the 
+    used pixels polygon. See \code{\link{polygon}} for more details}
+  \item{Aangle}{the slope of shading lines, given as an angle in degrees
+    (counter-clockwise), for the available pixels polygon}
+  \item{Uangle}{the slope of shading lines, given as an angle in degrees
+    (counter-clockwise), for the used pixels polygon}
+  \item{Aborder}{the color to draw the border of the available pixels 
+    polygon. See \code{\link{polygon}} for more details}
+  \item{Uborder}{the color to draw the border of the used pixels polygon. 
+    See \code{\link{polygon}} for more details}
+  \item{Acol}{the color for filling the available pixels polygon. 
+    if \code{pts==FALSE}, the color for the points corresponding to available
+    pixels}
+  \item{Ucol}{the color for filling the used pixels polygon. 
+    if \code{pts==FALSE}, the color for the points corresponding to used 
+    pixels}
+  \item{Alty}{the line type for the available pixels polygon, as in 
+    \code{par}.}
+  \item{Ulty}{the line type for the used pixels polygon, as in \code{par}.}
+  \item{Apch}{if \code{pts==FALSE}, plotting "character", i.e., symbol to use
+    for the available pixels. See \code{\link{points}} for more details}
+  \item{Upch}{if \code{pts==FALSE}, plotting "character", i.e., symbol to use
+    for the used pixels. See \code{\link{points}}}
+  \item{Abg}{if \code{pts==FALSE}, background color for open plot symbols of 
+    available pixels.}
+  \item{Ubg}{if \code{pts==FALSE}, background color for open plot symbols of 
+    used pixels.}
+  \item{Acex}{if \code{pts==FALSE}, character expansion of available pixels: 
+    a numerical vector}
+  \item{Ucex}{if \code{pts==FALSE}, character expansion of used pixels: 
+    a numerical vector}
   \item{\dots}{further arguments passed to or from other methods}
 }
 \details{
-\code{scatter.enfa} displays a factorial map of pixels, as well as the
-projection of the vectors of the canonical basis multiplied by a
-constant of rescaling.
-The kept axes for the plot are specified in a corner.
+  \code{scatter.enfa} displays a factorial map of pixels, as well as the
+  projection of the vectors of the canonical basis multiplied by a
+  constant of rescaling.
+  The kept axes for the plot are specified in a corner.
 }
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
-\section{Warning}{
-  \code{biv.test} uses the function \code{kde2d} of the package \code{MASS}.
-}
 \seealso{\code{\link{enfa}}, \code{\link[ade4]{scatter}}}
 \examples{
 \dontrun{
-data("lynxjura")
+data(lynxjura)
+
+map <- lynxjura$map
 
 ## We keep only "wild" indices.
-tmp=lynxjura$loc[,4]!="D"
+tmp <- lynxjura$locs[,4]!="D"
+locs <- lynxjura$locs[tmp, c("X","Y")]
 
-if (require(MASS))
-    scatter(enfa(lynxjura$map, lynxjura$locs[tmp, c("X", "Y")],
-            scannf=FALSE, nf=3))
+
+## We perform a square root transformation
+## of the variable to normalize it
+map[,4] <- sqrt(map[,4])
+
+
+## We perform the ENFA
+(enfa1 <- enfa(map, locs[tmp, c("X","Y")],
+                scannf = FALSE))
+scatter(enfa1)
 }
 }
 \keyword{multivariate}

@@ -7,8 +7,9 @@
 \title{ Arcview ASCII Raster File Importation And Exportation }
 \description{
   \code{import.asc} imports Arcview ASCII raster file
-  created with the Arcview command \code{"File -> Export data
-    source"}.\cr
+  created with the Arcview 3.2 command \code{"File -> Export data
+    source"}, or the Arcview 8 command \code{"Arc Toolbox -> Conversion
+    tools -> From raster -> Raster to ASCII"}.\cr
     Conversely,  \code{export.asc} allows to export an \code{asc}
     object toward Arcview.\cr
     ASCII raster files may also be created using the free program landserf

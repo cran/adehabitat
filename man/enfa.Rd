@@ -11,15 +11,16 @@
 \usage{
 enfa(kasc, pts, scannf = TRUE, nf = 1)
 hist.enfa(x, scores = TRUE, type = c("h", "l"),
-          adjust = 1, colZ = "blue", colS = "orange", \dots) 
+          adjust = 1, Acol, Ucol, Aborder, Uborder, \dots) 
 }
 \arguments{
   \item{kasc}{a raster map of class \code{kasc}}
   \item{pts}{a data frame with two columns, giving the coordinates of
     the species locations}
-  \item{scannf}{logical.  Whether the eigenvalues bar plot should be displayed}
-  \item{nf}{if \code{scannf = FALSE}, an integer indicating the number of kept
-    specialization axes }
+  \item{scannf}{logical.  Whether the eigenvalues bar plot should be
+    displayed}
+  \item{nf}{if \code{scannf = FALSE}, an integer indicating the number of 
+    kept specialization axes }
   \item{x}{an object of class \code{enfa}}
   \item{scores}{logical.  If \code{TRUE}, the histograms display
     the row scores of the ENFA.  If \code{FALSE}, they display the
@@ -33,8 +34,16 @@ hist.enfa(x, scores = TRUE, type = c("h", "l"),
     lines}
   \item{adjust}{if \code{type = "l"}, a parameter used to control the
     bandwidth of the density estimates (see \code{?density})}
-  \item{colZ}{color for the histograms of the available pixels}
-  \item{colS}{color for the histograms of the used pixels}
+  \item{Acol}{if \code{type = "h"}, a color to be used to fill the histogram
+    of the available pixels. if \code{type = "l"}, a color to be used for the
+    kernel density estimates of the available pixels}
+  \item{Ucol}{if \code{type = "h"}, a color to be used to fill the histogram
+    of the used pixels. if \code{type = "l"}, a color to be used for the
+    kernel density estimates of the used pixels}
+  \item{Aborder}{color for the border of the histograms of the available
+    pixels}
+  \item{Uborder}{color for the border of the histograms of the used
+    pixels}
   \item{\dots}{further arguments passed to or from other methods }
 }
 \details{
@@ -45,11 +54,14 @@ hist.enfa(x, scores = TRUE, type = c("h", "l"),
   Factor Analysis (ENFA) has been developped by Hirzel et al. (2002) to
   analyse the position of the niche in the ecological space.  Nicolas
   Perrin (1984) described the position of the niche in the n-dimensional
-  space using two measures: the M-specialization (hereafter termed marginality)
+  space using two measures: the M-specialization (hereafter termed 
+  marginality)
   and the S-specialization (hereafter termed specialization).  The
   marginality represents the squared distance of the niche barycentre from
   the mean available habitat.  A large specialization corresponds to a
-  narrow niche relative to the habitat conditions available to the species.\cr
+  narrow niche relative to the habitat conditions available to the 
+  species.\cr
+
 
   The ENFA first extracts an axis of marginality (vector from the average
   of available habitat conditions to the average used habitat conditions).
@@ -72,6 +84,7 @@ hist.enfa(x, scores = TRUE, type = c("h", "l"),
   \item{l1}{row normed scores, data frame with n rows and nf columns.}
   \item{co}{column coordinates, data frame with p rows and nf columns.}
   \item{c1}{column normed scores, data frame with p rows and nf columns.}
+  \item{mar}{coordinates of the marginality vector.}
   \item{index}{an integer vector giving the position of the rows of
     \code{tab} in the  initial object of class \code{kasc}.}
   \item{attr}{an object of class \code{mapattr} with the attributes of the
@@ -79,7 +92,7 @@ hist.enfa(x, scores = TRUE, type = c("h", "l"),
 }
 \references{
   Hutchinson, G.E. (1957) Concluding Remarks. \emph{Cold Spring Harbor
-  Symposium on Quantitative Biology}, \bold{22}: 415--427. 
+    Symposium on Quantitative Biology}, \bold{22}: 415--427. 
   
   Perrin, N. (1984) Contribution à l'écologie du genre Cepaea
   (Gastropoda) : Approche descriptive et expérimentale de l'habitat et
@@ -91,7 +104,6 @@ hist.enfa(x, scores = TRUE, type = c("h", "l"),
   maps without absence data? \emph{Ecology}, \bold{83}, 2027--2036.  
 }
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr} }
-
 \seealso{
   \code{\link[ade4]{niche}}, \code{\link{kselect}} for other types of
   analysis of the niche, when several species are under studies,
@@ -103,7 +115,9 @@ hist.enfa(x, scores = TRUE, type = c("h", "l"),
 \dontrun{
 data(lynxjura)
 
+
 map <- lynxjura$map
+
 
 ## We keep only "wild" indices.
 tmp <- lynxjura$locs[,4]!="D"
@@ -111,11 +125,13 @@ locs <- lynxjura$locs[tmp, c("X","Y")]
 hist(map, type = "l")
 ## The variable artif is far from symetric
 
+
 ## We perform a square root transformation
 ## of this variable
 ## We therefore normalize the variable 'artif'
 map[,4] <- sqrt(map[,4])
 hist(map, type = "l")
+
 
 ## We perform the ENFA
 (enfa1 <- enfa(map, locs[tmp, c("X","Y")],
@@ -123,11 +139,11 @@ hist(map, type = "l")
 hist(enfa1)
 hist(enfa1, scores = FALSE, type = "l")
 
-## randomization test
+
+## randomization test and scatterplot
 (renfa <- randtest(enfa1))
 plot(renfa)
-if (require(MASS))
-   scatter(enfa1)
+scatter(enfa1)
 }
 }
 \keyword{multivariate}
