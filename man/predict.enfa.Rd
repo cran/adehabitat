@@ -7,10 +7,13 @@
   method.
 }
 \usage{
-predict.enfa(object, nf, \dots)
+predict.enfa(object, index, attr, nf, \dots)
 }
 \arguments{
   \item{object}{an object of class \code{enfa}}
+  \item{index}{an integer vector giving the position of the rows of
+    \code{tab} in the  initial object of class \code{kasc}.}
+  \item{attr}{an object of class \code{kasc} or \code{mapattr}.} 
   \item{nf}{the number of axes of specialization kept for the
     predictions.  By default, all axes kept in \code{object} are
     used}
@@ -49,17 +52,21 @@ computation of habitat suitability maps using the Mahalanobis distances.
 \dontrun{
 data(lynxjura)
 
+map <- lynxjura$map
+
 ## We keep only "wild" indices.
 tmp <- lynxjura$loc[,4] != "D"
-map <- lynxjura$map
-pts <- lynxjura$locs[tmp, c("X","Y")]
-(enfa1 <- enfa(map, pts, scannf = FALSE))
+locs <- lynxjura$locs[tmp, c("X","Y")]
+dataenfa1 <- data2enfa(map, locs[tmp, c("X","Y")])
+
+(enfa1 <- enfa(dataenfa1$tab, dataenfa1$pr,
+               scannf = FALSE))
 
 ## Compute the prediction
-pred <- predict(enfa1)
+pred <- predict(enfa1, dataenfa1$index, dataenfa1$attr)
 image(pred)
 contour(pred, col="green", add=T)
-points(pts, col = "red", pch = 16)
+points(locs, col = "red", pch = 16)
 ## Lighter areas are the most preferred areas
 }
 }

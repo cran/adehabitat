@@ -2775,7 +2775,8 @@ void seqeticorr(double *grille, int *nlig, int *ncol)
    *                                                              *
    **************************************************************** */
 
-void epa(double *X, double *Y, double *xl, double *yl, double *val, double *fen)
+void epa(double *X, double *Y, double *xl, double *yl, 
+	 double *val, double *fen)
 {
   int k,nl;
   double *xy, kx, di2, h;
@@ -2796,6 +2797,7 @@ void epa(double *X, double *Y, double *xl, double *yl, double *val, double *fen)
   *val = *val * (1/(((double) nl)*h*h*2*3.14159265359));
   freevec(xy);
 }
+
 
 
 
@@ -2868,6 +2870,133 @@ void kernelhr(double *grille, double *xgri, double *ygri, int *ncolgri,
 
 
 
+
+/* ****************************************************************
+   *                                                              *
+   *   estimation du DV par kernel                                *
+   *                                                              *
+   **************************************************************** */
+
+void epanechnikov(double *Xo, double *Yo, double *xg, double *yg, 
+		  double *fen, double **grille, int nlo)
+{
+  int i, j, ncg, nlg, imin, imax, jmin, jmax;
+  double X, Y, h, *xgb, *ygb, tmp;
+  
+  /* Déclaration des variables locales */
+  nlg = xg[0];
+  ncg = yg[0];
+  h = *fen;
+  X = *Xo;
+  Y = *Yo;
+  vecalloc(&xgb, nlg);
+  vecalloc(&ygb, ncg);
+  imin=0;
+  jmin=0;
+  imax=0;
+  jmax=0;
+  
+  /* recalcul des valeurs de xg et yg */
+  for (i=1; i<=nlg; i++) {
+    xgb[i] = abs(xg[i]-X);
+    if (xgb[i] < h) {
+      if (imin == 0) {
+	imin = i;
+      }
+    }
+    if (xgb[i] > h) {
+      if (imin != 0) {
+	imax = i;
+      }
+    }
+  }
+  for (i=1; i<=ncg; i++) {
+    ygb[i] = abs(yg[i]-Y);
+    if (ygb[i] < h) {
+      if (jmin == 0) {
+	jmin = i;
+      }
+    }
+    if (ygb[i] > h) {
+      if (jmin != 0) {
+	jmax = i;
+      }
+    }
+  }
+  
+  for (i=imin; i<=imax; i++) {
+    for (j=jmin; j<=jmax; j++) {
+      tmp = ( (xgb[i] / h) * (xgb[i] / h) ) + ( (ygb[j] / h) * (ygb[j] / h) );
+      if (tmp < 1) {
+	grille[i][j] = grille[i][j] + 
+	  2 * (1 - tmp) / (3.14159265359 * nlo *  h * h);
+      }
+    }
+  }
+  
+  freevec(xgb);
+  freevec(ygb);
+}
+
+
+
+
+void kernepan(double *grille, double *xgri, double *ygri, int *ncolgri,
+	      int *nliggri, int *nloc, double *fen, double *xlo, double *ylo)
+{
+  int i, j, k, ncg, nlg, nlo;
+  double **gri, *xg, *yg, *xl, *yl, X, Y, tmp;
+  
+  /* Allocation de mémoire */
+  ncg = *ncolgri;
+  nlg = *nliggri;
+  nlo = *nloc;
+  tmp = 0;
+  
+  taballoc(&gri,nlg, ncg);
+  vecalloc(&xg, nlg);
+  vecalloc(&yg, ncg);
+  vecalloc(&xl, nlo);
+  vecalloc(&yl, nlo);
+  
+  /* passage de valeur aux variables C */
+  
+  for (i=1; i<=nlo; i++) {
+    xl[i] = xlo[i-1];
+    yl[i] = ylo[i-1];
+  }
+  
+  for (i=1; i<=nlg; i++) {
+    xg[i] = xgri[i-1];
+  }
+  
+  for (i=1; i<=ncg; i++) {
+    yg[i] = ygri[i-1];
+  }
+  
+  /* boucle de calcul sur les locs */
+  for (i=1; i<=nlo; i++) {
+    X = xl[i];
+    Y = yl[i];
+    epanechnikov(&X, &Y, xg, yg, fen, gri, nlo);
+  }
+  
+  /* retour vers R */
+  k = 0;
+  for (i=1; i<=nlg; i++) {
+    for (j=1; j<=ncg; j++) {
+      grille[k] = gri[i][j];
+      k++;
+    }
+  }
+  
+  /* libération de la mémoire */
+  freetab(gri);
+  freevec(xg);
+  freevec(yg);
+  freevec(xl);
+  freevec(yl);
+}
 
 
 
@@ -5718,3 +5847,257 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
   freevec(Xgr);
   freevec(alpha);
 }
+
+
+
+
+/* *********************************************************************
+ *                                                                     *
+ *                   Buffer ligne                                      *
+ *                                                                     *
+ ***********************************************************************/
+
+
+void ligpoly(double *x, double *y, double r, double *xp, double *yp)
+{
+  double x1, x2, y1, y2, xx, yy, alpha, beta, xim, xsm, yim, ysm, gamma;
+  double xip, xsp, yip, ysp;
+  
+  x1 = x[1];
+  x2 = x[2];
+  y1 = y[1];
+  y2 = y[2];
+  xx = x2 - x1;
+  yy = y2 - y1;
+  
+  alpha = atan(yy/xx);
+  beta = alpha - (3.1415926/2);
+  xim = x1 + r * (cos(beta));
+  xsm = x2 + r * (cos(beta));
+  yim = y1 + r * (sin(beta));
+  ysm = y2 + r * (sin(beta));
+  
+  gamma = alpha + (3.1415926/2);
+  xip = x1 + r * (cos(gamma));
+  xsp = x2 + r * (cos(gamma));
+  yip = y1 + r * (sin(gamma));
+  ysp = y2 + r * (sin(gamma));
+  
+  xp[1] = xim;
+  xp[2] = xsm;
+  xp[3] = xsp;
+  xp[4] = xip;
+  xp[5] = xim;
+  
+  yp[1] = yim;
+  yp[2] = ysm;
+  yp[3] = ysp;
+  yp[4] = yip;
+  yp[5] = yim;
+  
+}
+
+
+
+void buflig(double **x, double r, double **carte, double *xg, double *yg)
+{
+  int i, j, k, nloc, nr, nc;
+  double **x1, **x2, *xl, *yl, *xp, *yp, **cartebis;
+  
+  /* allocation de mémoire */
+  nloc = x[0][0];
+  k = 0;
+  nr = carte[0][0];
+  nc = carte[1][0];
+  
+  vecalloc(&xl, 2);
+  vecalloc(&yl, 2);
+  vecalloc(&xp, 5);
+  vecalloc(&yp, 5);
+  taballoc(&x1, nloc-1, 2);
+  taballoc(&x2, nloc-1, 2);
+  taballoc(&cartebis, nr, nc);
+  
+  /* on crée les deux tableaux */
+  for (i = 1; i <= nloc; i++) {
+    if (i > 1) {
+      x2[i-1][1] = x[i][1];
+      x2[i-1][2] = x[i][2];
+    }
+    if (i < nloc) {
+      x1[i][1] = x[i][1];
+      x1[i][2] = x[i][2];
+    }
+  }
+
+  /* Remise à 0 de la carte */
+  for (i = 1; i <= nr; i++) {
+    for (j = 1; j <= nc; j++) {
+      carte[i][j] = 0;
+    }
+  }
+  
+
+  /* Buffer autour de la ligne */
+  for (i = 1; i <= (nloc-1); i++) {
+    xl[1] = x1[i][1];
+    xl[2] = x2[i][1];
+    yl[1] = x1[i][2];
+    yl[2] = x2[i][2];
+    
+    ligpoly(xl, yl, r, xp, yp);
+
+    rastpol(xp, yp, xg, yg, cartebis);
+    
+    for (j = 1; j <= nr; j++) {
+      for (k = 1; k <= nc; k++) {
+	carte[j][k] = cartebis[j][k] + carte[j][k];
+      }
+    }
+  }
+  
+  freevec(xl);
+  freevec(yl);
+  freevec(xp);
+  freevec(yp);
+  freetab(x1);
+  freetab(x2);
+  freetab(cartebis);
+
+}
+
+
+void bufligr(double *xr, double *rr, double *carter, 
+	     double *xgr, double *ygr, int *nlr, int *ncr, 
+	     int *nlocr)
+{
+  /* déclaration et allocation de mémoire */
+  int i, j, k, nc, nl, nloc;
+  double **x, r, **carte, *xg, *yg;
+  
+  nc = *ncr;
+  nl = *nlr;
+  nloc = *nlocr;
+  r = *rr;
+  
+  taballoc(&x, nloc, 2);
+  taballoc(&carte, nl, nc);
+  vecalloc(&xg, nl);
+  vecalloc(&yg, nc);
+  
+
+  /* variables locales */
+  k = 0;
+  for (i=1; i<= nl; i++) {
+    for (j = 1; j<=nc; j++) {
+      carte[i][j]=carter[k];
+      k++;
+    }
+  }
+  
+  k = 0;
+  for (i=1; i<= nloc; i++) {
+    for (j = 1; j<=2; j++) {
+      x[i][j]=xr[k];
+      k++;
+    }
+  }
+
+  for (i = 1; i <= nl; i++) {
+    xg[i] = xgr[i-1];
+  }
+  
+  for (i = 1; i <= nc; i++) {
+    yg[i] = ygr[i-1];
+  }
+
+  
+  buflig(x, r, carte, xg, yg);
+  
+  k = 0;
+  for (i=1; i<= nl; i++) {
+    for (j = 1; j<=nc; j++) {
+      carter[k]=carte[i][j];
+      k++;
+    }
+  }
+    
+  freetab(x);
+  freetab(carte);
+  freevec(xg);
+  freevec(yg);
+
+}
+
+
+/* Calcul de distances euclidiennes à partir d'une carte asc */
+
+void distxy(double **xy1, double **xy2, double *di)
+{
+  int i, j, n1, n2;
+  double *dib, mi;
+  
+  n1 = xy1[0][0];
+  n2 = xy2[0][0];
+  
+  vecalloc(&dib, n2);
+  
+  for (i = 1; i <= n1; i++) {
+    for (j = 1; j <= n2; j++) {
+      dib[j] = sqrt( ((xy1[i][1] - xy2[j][1]) * (xy1[i][1] - xy2[j][1])) + 
+		     ((xy1[i][2] - xy2[j][2]) * (xy1[i][2] - xy2[j][2])));
+    }
+    mi = dib[1];
+    for (j = 2; j <= n2; j++) {
+      if (mi > dib[j]) {
+	mi = dib[j];
+      }
+    }
+    di[i] = mi;
+  }
+  freevec(dib);
+}
+
+
+void distxyr(double *xy1r, double *xy2r, int *n1r, 
+	     int *n2r, double *dire)
+{
+  int i, j, k, n1, n2;
+  double **xy1, **xy2, *di;
+  
+  n1 = *n1r;
+  n2 = *n2r;
+  
+  taballoc(&xy1, n1, 2);
+  taballoc(&xy2, n2, 2);
+  vecalloc(&di, n1);
+  
+  k = 0;
+  for (i = 1; i <= n1; i++) {
+    for (j = 1; j <= 2; j++) {
+      xy1[i][j] = xy1r[k];
+      k++;
+    }
+  }
+
+  k = 0;
+  for (i = 1; i <= n2; i++) {
+    for (j = 1; j <= 2; j++) {
+      xy2[i][j] = xy2r[k];
+      k++;
+    }
+  }
+  
+  distxy(xy1, xy2, di);
+  
+  for (i = 1; i <= n1; i++) {
+    dire[i-1] = di[i];
+  }
+  
+  freetab(xy1);
+  freetab(xy2);
+  freevec(di);
+}
+
+
+

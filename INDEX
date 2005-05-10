@@ -18,6 +18,8 @@ compana                 Compositional Analysis of Habitat Use
 convnum                 Conversion from Factor to Numeric for Raster
                         Map
 count.points.id         Number of Points in Each Pixel of a Raster Map
+distfacmap              Compute distances to the different levels of a
+                        factor map
 domain                  Estimation of the Potential Distribution of a
                         Species
 enfa                    Ecological-Niche Factor Analysis
@@ -28,8 +30,7 @@ getcontour              Computes the Contour Polygon of a Raster
 getXYcoords             Computes the X and Y Coordinates of the Pixels
                         of a Raster Map
 hist.kasc               Histograms of Mapped Variables
-histniche               Histograms of the Ecological Niche of a
-                        Species
+histniche               Histograms of the Ecological Niche
 hr.rast                 Rasterisation of Objects of Class 'area'
 image.asc               Displays a Color Image of an Object of Class
                         'asc'
@@ -41,6 +42,7 @@ import.asc              Arcview ASCII Raster File Importation And
 join.asc                Finds the Value of Mapped Variables at some
                         Specified Locations (Spatial Join)
 kasc2df                 Conversion of Objects of Class kasc
+kasc2spixdf             Conversion of maps from/to the package "sp"
 kernelUD                Estimation of Kernel Home-Range
 kselect                 K-Select Analysis: a Method to Analyse the
                         Habitat Selection by Animals

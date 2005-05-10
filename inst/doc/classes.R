@@ -6,30 +6,35 @@ options("width"=80)
 ow <- getOption("warn")
 options("warn"=-1)
 .PngNo <- 0
+argX11<-formals(x11)
 
 
 ###################################################
-### chunk number 2: afig
+### chunk number 2: afig eval=FALSE
 ###################################################
-.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
-png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
-opar <- par(no.readonly = TRUE)
+## if (!is.null(argX11$colortype)) {
+##   graphics.off()
+##   x11(colortype="gray")
+## }
+## .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
+## png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
+## opar <- par(no.readonly = TRUE)
 
 
 ###################################################
-### chunk number 3: zfig
+### chunk number 3: zfig eval=FALSE
 ###################################################
-par(opar)
-dev.null <- dev.off()
-cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
+## par(opar)
+## dev.null <- dev.off()
+## cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 4: zfigkasc
+### chunk number 4: zfigkasc eval=FALSE
 ###################################################
-par(opar)
-dev.null <- dev.off()
-cat("\\includegraphics[height=12cm,keepaspectratio]{", file, "}\n\n", sep="")
+## par(opar)
+## dev.null <- dev.off()
+## cat("\\includegraphics[height=12cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
@@ -39,26 +44,30 @@ library(adehabitat)
 
 
 ###################################################
-### chunk number 6: rand
+### chunk number 6: rand eval=FALSE
 ###################################################
-mat <- matrix(rnorm(10000), 100, 100)
-asc <- as.asc(mat)
-image(asc)
-box()
+## mat <- matrix(rnorm(10000), 100, 100)
+## asc <- as.asc(mat)
+## image(asc)
+## box()
 
 
 ###################################################
-### chunk number 7: 
+### chunk number 7:  eval=FALSE
 ###################################################
-mat <- matrix(rnorm(10000), 100, 100)
-asc <- as.asc(mat)
-image(asc)
-box()
+## mat <- matrix(rnorm(10000), 100, 100)
+## asc <- as.asc(mat)
+## image(asc)
+## box()
 
 
 ###################################################
 ### chunk number 8: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -79,22 +88,26 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 10: elev
+### chunk number 10: elev eval=FALSE
 ###################################################
-el <- import.asc(path.to.file)
-image(el, main = "Elevation")
+## el <- import.asc(path.to.file)
+## image(el, main = "Elevation")
 
 
 ###################################################
-### chunk number 11: 
+### chunk number 11:  eval=FALSE
 ###################################################
-el <- import.asc(path.to.file)
-image(el, main = "Elevation")
+## el <- import.asc(path.to.file)
+## image(el, main = "Elevation")
 
 
 ###################################################
 ### chunk number 12: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -140,22 +153,26 @@ co <- colasc(asp, North = "blue", East = "yellow",
 
 
 ###################################################
-### chunk number 17: asp
+### chunk number 17: asp eval=FALSE
 ###################################################
-image(asp, clfac = co)
-legend(696662, 3166028, legend = levels(asp), fill = co)
+## image(asp, clfac = co)
+## legend(696662, 3166028, legend = levels(asp), fill = co)
 
 
 ###################################################
-### chunk number 18: 
+### chunk number 18:  eval=FALSE
 ###################################################
-image(asp, clfac = co)
-legend(696662, 3166028, legend = levels(asp), fill = co)
+## image(asp, clfac = co)
+## legend(696662, 3166028, legend = levels(asp), fill = co)
 
 
 ###################################################
 ### chunk number 19: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -167,24 +184,28 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 20: kasc
+### chunk number 20: kasc eval=FALSE
 ###################################################
-data(puechabon)
-kasc <- puechabon$kasc
-image(kasc)
+## data(puechabon)
+## kasc <- puechabon$kasc
+## image(kasc)
 
 
 ###################################################
-### chunk number 21: 
+### chunk number 21:  eval=FALSE
 ###################################################
-data(puechabon)
-kasc <- puechabon$kasc
-image(kasc)
+## data(puechabon)
+## kasc <- puechabon$kasc
+## image(kasc)
 
 
 ###################################################
 ### chunk number 22: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -211,36 +232,40 @@ puechabon$locs[1:4,]
 
 
 ###################################################
-### chunk number 25: prespuech
+### chunk number 25: prespuech eval=FALSE
 ###################################################
-el <- getkasc(puechabon$kasc, "Elevation")
-opar <- par(mfrow = c(2,2), mar=c(0,0,4,0))
-for (i in levels(puechabon$locs$Name)) {
-  image(el, 
-        main = paste("Wild boar named", i),
-        axes=FALSE)
-  points(puechabon$locs[puechabon$locs$Name==i,c("X","Y")], pch=16)
-}
-par(opar)
+## el <- getkasc(puechabon$kasc, "Elevation")
+## opar <- par(mfrow = c(2,2), mar=c(0,0,4,0))
+## for (i in levels(puechabon$locs$Name)) {
+##   image(el, 
+##         main = paste("Wild boar named", i),
+##         axes=FALSE)
+##   points(puechabon$locs[puechabon$locs$Name==i,c("X","Y")], pch=16)
+## }
+## par(opar)
 
 
 ###################################################
-### chunk number 26: 
+### chunk number 26:  eval=FALSE
 ###################################################
-el <- getkasc(puechabon$kasc, "Elevation")
-opar <- par(mfrow = c(2,2), mar=c(0,0,4,0))
-for (i in levels(puechabon$locs$Name)) {
-  image(el, 
-        main = paste("Wild boar named", i),
-        axes=FALSE)
-  points(puechabon$locs[puechabon$locs$Name==i,c("X","Y")], pch=16)
-}
-par(opar)
+## el <- getkasc(puechabon$kasc, "Elevation")
+## opar <- par(mfrow = c(2,2), mar=c(0,0,4,0))
+## for (i in levels(puechabon$locs$Name)) {
+##   image(el, 
+##         main = paste("Wild boar named", i),
+##         axes=FALSE)
+##   points(puechabon$locs[puechabon$locs$Name==i,c("X","Y")], pch=16)
+## }
+## par(opar)
 
 
 ###################################################
 ### chunk number 27: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -267,24 +292,28 @@ chamois$locs[1:4,]
 
 
 ###################################################
-### chunk number 29: preschart
+### chunk number 29: preschart eval=FALSE
 ###################################################
-sl <- getkasc(chamois$map, "Slope")
-image(sl, main = "Distribution of chamois occurrences in the Chartreuse mountain")
-points(chamois$locs, pch=16)
+## sl <- getkasc(chamois$map, "Slope")
+## image(sl, main = "Distribution of chamois occurrences in the Chartreuse mountain")
+## points(chamois$locs, pch=16)
 
 
 ###################################################
-### chunk number 30: 
+### chunk number 30:  eval=FALSE
 ###################################################
-sl <- getkasc(chamois$map, "Slope")
-image(sl, main = "Distribution of chamois occurrences in the Chartreuse mountain")
-points(chamois$locs, pch=16)
+## sl <- getkasc(chamois$map, "Slope")
+## image(sl, main = "Distribution of chamois occurrences in the Chartreuse mountain")
+## points(chamois$locs, pch=16)
 
 
 ###################################################
 ### chunk number 31: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -304,45 +333,69 @@ kasc <- puechabon$kasc
 
 
 ###################################################
-### chunk number 33: 
+### chunk number 33: disfm eval=FALSE
+###################################################
+## image(distfacmap(getkasc(puechabon$kasc, "Aspect")))
+
+
+###################################################
+### chunk number 34:  eval=FALSE
+###################################################
+## image(distfacmap(getkasc(puechabon$kasc, "Aspect")))
+
+
+###################################################
+### chunk number 35: 
+###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
+.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
+png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
+opar <- par(no.readonly = TRUE)
+image(distfacmap(getkasc(puechabon$kasc, "Aspect")))
+par(opar)
+dev.null <- dev.off()
+cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
+
+
+###################################################
+### chunk number 36: 
 ###################################################
 er8 <- morphology(el, operation="erode", nt=8)
 di8 <- morphology(el, operation="dilate", nt=8)
 
 
 ###################################################
-### chunk number 34: morpho
+### chunk number 37: morpho eval=FALSE
 ###################################################
-image(di8, col="black")
-image(el, col="gray", add=TRUE)
-image(er8, col="white", add=TRUE)
-
-arrows(703530, 3165169, 703530, (3165169-800), code = 3, lwd = 2, length = 0.1)
-text(704156, 3164775, "800 m")
-arrows(704295, 3159355, 706588, 3157294, col="red", lwd = 2, code = 1)
-text(706240, 3156738, "Boundary of the study area")
-legend(696000, 3165841, c("Buffer area inside the boundary",
-"Buffer area outside the boundary"), fill = c("gray", "black"), cex = 0.7)
+## image(di8, col="black")
+## image(el, col="gray", add=TRUE)
+## image(er8, col="white", add=TRUE)
+## 
+## arrows(704295, 3159355, 706588, 3157294, col="red", lwd = 2, code = 1)
+## text(706240, 3156738, "Boundary of the study area")
 
 
 ###################################################
-### chunk number 35: 
+### chunk number 38:  eval=FALSE
 ###################################################
-image(di8, col="black")
-image(el, col="gray", add=TRUE)
-image(er8, col="white", add=TRUE)
-
-arrows(703530, 3165169, 703530, (3165169-800), code = 3, lwd = 2, length = 0.1)
-text(704156, 3164775, "800 m")
-arrows(704295, 3159355, 706588, 3157294, col="red", lwd = 2, code = 1)
-text(706240, 3156738, "Boundary of the study area")
-legend(696000, 3165841, c("Buffer area inside the boundary",
-"Buffer area outside the boundary"), fill = c("gray", "black"), cex = 0.7)
+## image(di8, col="black")
+## image(el, col="gray", add=TRUE)
+## image(er8, col="white", add=TRUE)
+## 
+## arrows(704295, 3159355, 706588, 3157294, col="red", lwd = 2, code = 1)
+## text(706240, 3156738, "Boundary of the study area")
 
 
 ###################################################
-### chunk number 36: 
+### chunk number 39: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -350,70 +403,74 @@ image(di8, col="black")
 image(el, col="gray", add=TRUE)
 image(er8, col="white", add=TRUE)
 
-arrows(703530, 3165169, 703530, (3165169-800), code = 3, lwd = 2, length = 0.1)
-text(704156, 3164775, "800 m")
 arrows(704295, 3159355, 706588, 3157294, col="red", lwd = 2, code = 1)
 text(706240, 3156738, "Boundary of the study area")
-legend(696000, 3165841, c("Buffer area inside the boundary",
-"Buffer area outside the boundary"), fill = c("gray", "black"), cex = 0.7)
 par(opar)
 dev.null <- dev.off()
 cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 37: 
+### chunk number 40: 
 ###################################################
 data(puechabon)
 puechabon$locs[1:4,]
 
 
 ###################################################
-### chunk number 38: ptsel
+### chunk number 41: ptsel eval=FALSE
 ###################################################
-image(el)
-points(puechabon$locs[,c("X","Y")], pch = 16)
+## image(el)
+## points(puechabon$locs[,c("X","Y")], pch = 16)
 
 
 ###################################################
-### chunk number 39: 
+### chunk number 42:  eval=FALSE
 ###################################################
-image(el)
-points(puechabon$locs[,c("X","Y")], pch = 16)
-
-
-###################################################
-### chunk number 40: 
-###################################################
-.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
-png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
-opar <- par(no.readonly = TRUE)
-image(el)
-points(puechabon$locs[,c("X","Y")], pch = 16)
-par(opar)
-dev.null <- dev.off()
-cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
-
-
-###################################################
-### chunk number 41: buffel
-###################################################
-bu <- buffer(puechabon$locs[,c("X","Y")], el, 500)
-image(bu)
-points(puechabon$locs[,c("X","Y")], pch = 16)
-
-
-###################################################
-### chunk number 42: 
-###################################################
-bu <- buffer(puechabon$locs[,c("X","Y")], el, 500)
-image(bu)
-points(puechabon$locs[,c("X","Y")], pch = 16)
+## image(el)
+## points(puechabon$locs[,c("X","Y")], pch = 16)
 
 
 ###################################################
 ### chunk number 43: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
+.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
+png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
+opar <- par(no.readonly = TRUE)
+image(el)
+points(puechabon$locs[,c("X","Y")], pch = 16)
+par(opar)
+dev.null <- dev.off()
+cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
+
+
+###################################################
+### chunk number 44: buffel eval=FALSE
+###################################################
+## bu <- buffer(puechabon$locs[,c("X","Y")], el, 500)
+## image(bu)
+## points(puechabon$locs[,c("X","Y")], pch = 16)
+
+
+###################################################
+### chunk number 45:  eval=FALSE
+###################################################
+## bu <- buffer(puechabon$locs[,c("X","Y")], el, 500)
+## image(bu)
+## points(puechabon$locs[,c("X","Y")], pch = 16)
+
+
+###################################################
+### chunk number 46: 
+###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -426,7 +483,7 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 44: 
+### chunk number 47: 
 ###################################################
 bubis <- bu * el
 mean(as.vector(bubis), na.rm = TRUE)
@@ -434,20 +491,24 @@ sd(as.vector(bubis), na.rm = TRUE)
 
 
 ###################################################
-### chunk number 45: bufbis
+### chunk number 48: bufbis eval=FALSE
 ###################################################
-image(bubis)
+## image(bubis)
 
 
 ###################################################
-### chunk number 46: 
+### chunk number 49:  eval=FALSE
 ###################################################
-image(bubis)
+## image(bubis)
 
 
 ###################################################
-### chunk number 47: 
+### chunk number 50: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -458,7 +519,7 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 48: 
+### chunk number 51: 
 ###################################################
 vec <- join.asc(puechabon$locs[,c("X", "Y")], el)
 length(vec)
@@ -467,7 +528,7 @@ vec[1:10]
 
 
 ###################################################
-### chunk number 49: 
+### chunk number 52: 
 ###################################################
 df <- join.kasc(puechabon$locs[,c("X", "Y")], puechabon$kasc)
 nrow(df)
@@ -476,59 +537,67 @@ df[1:10,]
 
 
 ###################################################
-### chunk number 50: 
+### chunk number 53: 
 ###################################################
 (cp <- count.points(puechabon$locs[,c("X","Y")],  el))
 
 
 ###################################################
-### chunk number 51: countpoints
+### chunk number 54: countpoints eval=FALSE
 ###################################################
-image(cp)
-box()
+## image(cp)
+## box()
 
 
 ###################################################
-### chunk number 52: 
+### chunk number 55:  eval=FALSE
 ###################################################
-image(cp)
-box()
-
-
-###################################################
-### chunk number 53: 
-###################################################
-.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
-png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
-opar <- par(no.readonly = TRUE)
-image(cp)
-box()
-par(opar)
-dev.null <- dev.off()
-cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
-
-
-###################################################
-### chunk number 54: 
-###################################################
-(cp <- count.points.id(puechabon$locs[,c("X","Y")],  puechabon$locs$Name, el))
-
-
-###################################################
-### chunk number 55: cpid
-###################################################
-image(cp)
+## image(cp)
+## box()
 
 
 ###################################################
 ### chunk number 56: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
+.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
+png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
+opar <- par(no.readonly = TRUE)
 image(cp)
+box()
+par(opar)
+dev.null <- dev.off()
+cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
 ### chunk number 57: 
 ###################################################
+(cp <- count.points.id(puechabon$locs[,c("X","Y")],  puechabon$locs$Name, el))
+
+
+###################################################
+### chunk number 58: cpid eval=FALSE
+###################################################
+## image(cp)
+
+
+###################################################
+### chunk number 59:  eval=FALSE
+###################################################
+## image(cp)
+
+
+###################################################
+### chunk number 60: 
+###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -539,52 +608,60 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 58: ascgen
+### chunk number 61: ascgen eval=FALSE
 ###################################################
-hihi <- ascgen(xy = puechabon$locs[,c("X","Y")], cellsize = 500)
-image(hihi)
-box()
+## hihi <- ascgen(xy = puechabon$locs[,c("X","Y")], cellsize = 500)
+## image(hihi)
+## box()
 
 
 ###################################################
-### chunk number 59: 
+### chunk number 62:  eval=FALSE
 ###################################################
-hihi <- ascgen(xy = puechabon$locs[,c("X","Y")], cellsize = 500)
-image(hihi)
-box()
-
-
-###################################################
-### chunk number 60: 
-###################################################
-.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
-png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
-opar <- par(no.readonly = TRUE)
-hihi <- ascgen(xy = puechabon$locs[,c("X","Y")], cellsize = 500)
-image(hihi)
-box()
-par(opar)
-dev.null <- dev.off()
-cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
-
-
-###################################################
-### chunk number 61: cpidvg
-###################################################
-tmpbis <- count.points.id(xy = puechabon$locs[,c("X","Y")], id = puechabon$locs$Name, hihi)
-image(tmpbis)
-
-
-###################################################
-### chunk number 62: 
-###################################################
-tmpbis <- count.points.id(xy = puechabon$locs[,c("X","Y")], id = puechabon$locs$Name, hihi)
-image(tmpbis)
+## hihi <- ascgen(xy = puechabon$locs[,c("X","Y")], cellsize = 500)
+## image(hihi)
+## box()
 
 
 ###################################################
 ### chunk number 63: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
+.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
+png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
+opar <- par(no.readonly = TRUE)
+hihi <- ascgen(xy = puechabon$locs[,c("X","Y")], cellsize = 500)
+image(hihi)
+box()
+par(opar)
+dev.null <- dev.off()
+cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
+
+
+###################################################
+### chunk number 64: cpidvg eval=FALSE
+###################################################
+## tmpbis <- count.points.id(xy = puechabon$locs[,c("X","Y")], id = puechabon$locs$Name, hihi)
+## image(tmpbis)
+
+
+###################################################
+### chunk number 65:  eval=FALSE
+###################################################
+## tmpbis <- count.points.id(xy = puechabon$locs[,c("X","Y")], id = puechabon$locs$Name, hihi)
+## image(tmpbis)
+
+
+###################################################
+### chunk number 66: 
+###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -596,7 +673,7 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 64: 
+### chunk number 67: 
 ###################################################
 el <- getkasc(puechabon$kasc, "Elevation")
 elcat <- el < 200
@@ -605,63 +682,71 @@ names(attributes(elcat))
 
 
 ###################################################
-### chunk number 65: 
+### chunk number 68: 
 ###################################################
 (elcat<-getascattr(el, elcat, type = "factor", lev = c("> 200 m", "< 200 m")))
 
 
 ###################################################
-### chunk number 66: elcat
+### chunk number 69: elcat eval=FALSE
 ###################################################
-image(elcat)
-legend(698000, 3165000, levels(elcat), fill=rainbow(2))
+## image(elcat)
+## legend(698000, 3165000, levels(elcat), fill=rainbow(2))
 
 
 ###################################################
-### chunk number 67: 
+### chunk number 70:  eval=FALSE
 ###################################################
-image(elcat)
-legend(698000, 3165000, levels(elcat), fill=rainbow(2))
-
-
-###################################################
-### chunk number 68: 
-###################################################
-.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
-png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
-opar <- par(no.readonly = TRUE)
-image(elcat)
-legend(698000, 3165000, levels(elcat), fill=rainbow(2))
-par(opar)
-dev.null <- dev.off()
-cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
-
-
-###################################################
-### chunk number 69: managna
-###################################################
-kasc <- puechabon$kasc
-el <- getkasc(kasc, "Elevation")
-sl <- getkasc(kasc, "Slope")
-el[el < 200] <- NA
-tmp <- as.kasc(list(Elevation = el, Slope = sl))
-image(tmp)
-
-
-###################################################
-### chunk number 70: 
-###################################################
-kasc <- puechabon$kasc
-el <- getkasc(kasc, "Elevation")
-sl <- getkasc(kasc, "Slope")
-el[el < 200] <- NA
-tmp <- as.kasc(list(Elevation = el, Slope = sl))
-image(tmp)
+## image(elcat)
+## legend(698000, 3165000, levels(elcat), fill=rainbow(2))
 
 
 ###################################################
 ### chunk number 71: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
+.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
+png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
+opar <- par(no.readonly = TRUE)
+image(elcat)
+legend(698000, 3165000, levels(elcat), fill=rainbow(2))
+par(opar)
+dev.null <- dev.off()
+cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
+
+
+###################################################
+### chunk number 72: managna eval=FALSE
+###################################################
+## kasc <- puechabon$kasc
+## el <- getkasc(kasc, "Elevation")
+## sl <- getkasc(kasc, "Slope")
+## el[el < 200] <- NA
+## tmp <- as.kasc(list(Elevation = el, Slope = sl))
+## image(tmp)
+
+
+###################################################
+### chunk number 73:  eval=FALSE
+###################################################
+## kasc <- puechabon$kasc
+## el <- getkasc(kasc, "Elevation")
+## sl <- getkasc(kasc, "Slope")
+## el[el < 200] <- NA
+## tmp <- as.kasc(list(Elevation = el, Slope = sl))
+## image(tmp)
+
+
+###################################################
+### chunk number 74: 
+###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -677,22 +762,26 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 72: manna
+### chunk number 75: manna eval=FALSE
 ###################################################
-tmp <- managNAkasc(tmp)
-image(tmp)
+## tmp <- managNAkasc(tmp)
+## image(tmp)
 
 
 ###################################################
-### chunk number 73: 
+### chunk number 76:  eval=FALSE
 ###################################################
-tmp <- managNAkasc(tmp)
-image(tmp)
+## tmp <- managNAkasc(tmp)
+## image(tmp)
 
 
 ###################################################
-### chunk number 74: 
+### chunk number 77: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -704,7 +793,7 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 75: 
+### chunk number 78: 
 ###################################################
 data(puechabon)
 kasc <- puechabon$kasc
@@ -714,7 +803,7 @@ toto
 
 
 ###################################################
-### chunk number 76: 
+### chunk number 79: 
 ###################################################
 huhu <- kasc2df(kasc)
 names(huhu)
@@ -723,29 +812,33 @@ huhu$tab[1:4,]
 
 
 ###################################################
-### chunk number 77: 
+### chunk number 80: 
 ###################################################
 huhu$tab$Aspect <- NULL
 (pc <- dudi.pca(huhu$tab, scannf =FALSE, nf=2))
 
 
 ###################################################
-### chunk number 78: df2kasc
+### chunk number 81: df2kasc eval=FALSE
 ###################################################
-map <- df2kasc(pc$li, huhu$index, kasc)
-image(map)
+## map <- df2kasc(pc$li, huhu$index, kasc)
+## image(map)
 
 
 ###################################################
-### chunk number 79: 
+### chunk number 82:  eval=FALSE
 ###################################################
-map <- df2kasc(pc$li, huhu$index, kasc)
-image(map)
+## map <- df2kasc(pc$li, huhu$index, kasc)
+## image(map)
 
 
 ###################################################
-### chunk number 80: 
+### chunk number 83: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -757,57 +850,65 @@ cat("\\includegraphics[height=12cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 81: 
+### chunk number 84: 
 ###################################################
 (kasc <- chamois$map)
 (si1 <- object.size(kasc))
 
 
 ###################################################
-### chunk number 82: donncham
+### chunk number 85: donncham eval=FALSE
 ###################################################
-image(kasc)
+## image(kasc)
 
 
 ###################################################
-### chunk number 83: 
+### chunk number 86:  eval=FALSE
 ###################################################
-image(kasc)
-
-
-###################################################
-### chunk number 84: 
-###################################################
-.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
-png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
-opar <- par(no.readonly = TRUE)
-image(kasc)
-par(opar)
-dev.null <- dev.off()
-cat("\\includegraphics[height=12cm,keepaspectratio]{", file, "}\n\n", sep="")
-
-
-###################################################
-### chunk number 85: 
-###################################################
-(m <- lowres(kasc, np = 4))
-
-
-###################################################
-### chunk number 86: lowres
-###################################################
-image(m)
+## image(kasc)
 
 
 ###################################################
 ### chunk number 87: 
 ###################################################
-image(m)
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
+.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
+png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
+opar <- par(no.readonly = TRUE)
+image(kasc)
+par(opar)
+dev.null <- dev.off()
+cat("\\includegraphics[height=12cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
 ### chunk number 88: 
 ###################################################
+(m <- lowres(kasc, np = 4))
+
+
+###################################################
+### chunk number 89: lowres eval=FALSE
+###################################################
+## image(m)
+
+
+###################################################
+### chunk number 90:  eval=FALSE
+###################################################
+## image(m)
+
+
+###################################################
+### chunk number 91: 
+###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -818,61 +919,65 @@ cat("\\includegraphics[height=12cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 89: 
+### chunk number 92: 
 ###################################################
 (si2 <- object.size(m))
 (si1 - si2)/si1
 
 
 ###################################################
-### chunk number 90: subset
+### chunk number 93: subset eval=FALSE
 ###################################################
-data(chamois)
-slope <- getkasc(chamois$map, "Slope")
-def.par <- par(no.readonly = TRUE)
-layout(matrix(c(1,1,1,1,1,1,1,1,2), ncol = 3, byrow = TRUE))
-par(mar = c(0,0,0,0))
-image(slope, axes=FALSE)
-box()
-
-x <- c(863603.8, 867286.5)
-y <- c(2042689, 2045797)
-polygon(x = c(x[1], x[2], x[2], x[1]),
-        y = c(y[1], y[1], y[2], y[2]), lwd=2)
-
-sl2 <- subsetmap(slope, xlim = x, ylim = y)
-par(mar = c(0,0,2,0))
-image(sl2, axes = FALSE, main = "Reduced map")
-box()
-par(def.par)
-
-
-###################################################
-### chunk number 91: 
-###################################################
-data(chamois)
-slope <- getkasc(chamois$map, "Slope")
-def.par <- par(no.readonly = TRUE)
-layout(matrix(c(1,1,1,1,1,1,1,1,2), ncol = 3, byrow = TRUE))
-par(mar = c(0,0,0,0))
-image(slope, axes=FALSE)
-box()
-
-x <- c(863603.8, 867286.5)
-y <- c(2042689, 2045797)
-polygon(x = c(x[1], x[2], x[2], x[1]),
-        y = c(y[1], y[1], y[2], y[2]), lwd=2)
-
-sl2 <- subsetmap(slope, xlim = x, ylim = y)
-par(mar = c(0,0,2,0))
-image(sl2, axes = FALSE, main = "Reduced map")
-box()
-par(def.par)
+## data(chamois)
+## slope <- getkasc(chamois$map, "Slope")
+## def.par <- par(no.readonly = TRUE)
+## layout(matrix(c(1,1,1,1,1,1,1,1,2), ncol = 3, byrow = TRUE))
+## par(mar = c(0,0,0,0))
+## image(slope, axes=FALSE)
+## box()
+## 
+## x <- c(863603.8, 867286.5)
+## y <- c(2042689, 2045797)
+## polygon(x = c(x[1], x[2], x[2], x[1]),
+##         y = c(y[1], y[1], y[2], y[2]), lwd=2)
+## 
+## sl2 <- subsetmap(slope, xlim = x, ylim = y)
+## par(mar = c(0,0,2,0))
+## image(sl2, axes = FALSE, main = "Reduced map")
+## box()
+## par(def.par)
 
 
 ###################################################
-### chunk number 92: 
+### chunk number 94:  eval=FALSE
 ###################################################
+## data(chamois)
+## slope <- getkasc(chamois$map, "Slope")
+## def.par <- par(no.readonly = TRUE)
+## layout(matrix(c(1,1,1,1,1,1,1,1,2), ncol = 3, byrow = TRUE))
+## par(mar = c(0,0,0,0))
+## image(slope, axes=FALSE)
+## box()
+## 
+## x <- c(863603.8, 867286.5)
+## y <- c(2042689, 2045797)
+## polygon(x = c(x[1], x[2], x[2], x[1]),
+##         y = c(y[1], y[1], y[2], y[2]), lwd=2)
+## 
+## sl2 <- subsetmap(slope, xlim = x, ylim = y)
+## par(mar = c(0,0,2,0))
+## image(sl2, axes = FALSE, main = "Reduced map")
+## box()
+## par(def.par)
+
+
+###################################################
+### chunk number 95: 
+###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -900,7 +1005,7 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 93: 
+### chunk number 96: 
 ###################################################
 data(elec88)
 ar <- elec88$area
@@ -908,34 +1013,38 @@ ar[1:5,]
 
 
 ###################################################
-### chunk number 94: area
+### chunk number 97: area eval=FALSE
 ###################################################
-ar <- as.area(ar)
-area.plot(ar)
+## ar <- as.area(ar)
+## plot(ar)
 
 
 ###################################################
-### chunk number 95: 
+### chunk number 98:  eval=FALSE
 ###################################################
-ar <- as.area(ar)
-area.plot(ar)
+## ar <- as.area(ar)
+## plot(ar)
 
 
 ###################################################
-### chunk number 96: 
+### chunk number 99: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
 ar <- as.area(ar)
-area.plot(ar)
+plot(ar)
 par(opar)
 dev.null <- dev.off()
 cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 97: 
+### chunk number 100: 
 ###################################################
 data(puechabon)
 lo <- puechabon$locs
@@ -944,33 +1053,37 @@ class(cp)
 
 
 ###################################################
-### chunk number 98: convpol
+### chunk number 101: convpol eval=FALSE
 ###################################################
-opar <- par(mar=c(0,0,0,0))
-area.plot(cp)
-points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
-box()
-par(opar)
+## opar <- par(mar=c(0,0,0,0))
+## plot(cp, colp=NULL)
+## points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
+## box()
+## par(opar)
 
 
 ###################################################
-### chunk number 99: 
+### chunk number 102:  eval=FALSE
 ###################################################
-opar <- par(mar=c(0,0,0,0))
-area.plot(cp)
-points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
-box()
-par(opar)
+## opar <- par(mar=c(0,0,0,0))
+## plot(cp, colp=NULL)
+## points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
+## box()
+## par(opar)
 
 
 ###################################################
-### chunk number 100: 
+### chunk number 103: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
 opar <- par(mar=c(0,0,0,0))
-area.plot(cp)
+plot(cp, colp=NULL)
 points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
 box()
 par(opar)
@@ -980,7 +1093,7 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 101: 
+### chunk number 104: 
 ###################################################
 el <- getkasc(puechabon$kasc, "Elevation")
 cont.el <- getcontour(el)
@@ -989,22 +1102,26 @@ nlevels(cont.el[,1])
 
 
 ###################################################
-### chunk number 102: getcontour
+### chunk number 105: getcontour eval=FALSE
 ###################################################
-image(el)
-polygon(cont.el[,2:3], lwd = 3)
+## image(el)
+## polygon(cont.el[,2:3], lwd = 3)
 
 
 ###################################################
-### chunk number 103: 
+### chunk number 106:  eval=FALSE
 ###################################################
-image(el)
-polygon(cont.el[,2:3], lwd = 3)
+## image(el)
+## polygon(cont.el[,2:3], lwd = 3)
 
 
 ###################################################
-### chunk number 104: 
+### chunk number 107: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -1016,7 +1133,7 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 105: 
+### chunk number 108: 
 ###################################################
 lo <- puechabon$locs
 kasc <- puechabon$kasc
@@ -1024,55 +1141,59 @@ cp <- mcp(lo[,c("X", "Y")], lo[,"Name"])
 
 
 ###################################################
-### chunk number 106: 
+### chunk number 109: 
 ###################################################
 (rast <- hr.rast(cp, kasc))
 
 
 ###################################################
-### chunk number 107: mcprast
+### chunk number 110: mcprast eval=FALSE
 ###################################################
-def.par <- par(no.readonly = TRUE)
-layout(matrix(c(1,1,2,4,3,5),2,3))
-par(mar=c(0,0,4,0))
-area.plot(cp)
-points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
-box()
-for (i in names(rast)) {
-image(getkasc(rast,i), main = paste("Wild boar named", i), axes=FALSE)
-polygon(cont.el[,2:3])
-box()
+## def.par <- par(no.readonly = TRUE)
+## layout(matrix(c(1,1,2,4,3,5),2,3))
+## par(mar=c(0,0,4,0))
+## plot(cp, colp=NULL)
+## points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
+## box()
+## for (i in names(rast)) {
+## image(getkasc(rast,i), main = paste("Wild boar named", i), axes=FALSE)
+## polygon(cont.el[,2:3])
+## box()
+## }
+## par(def.par)
+
+
+###################################################
+### chunk number 111:  eval=FALSE
+###################################################
+## def.par <- par(no.readonly = TRUE)
+## layout(matrix(c(1,1,2,4,3,5),2,3))
+## par(mar=c(0,0,4,0))
+## plot(cp, colp=NULL)
+## points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
+## box()
+## for (i in names(rast)) {
+## image(getkasc(rast,i), main = paste("Wild boar named", i), axes=FALSE)
+## polygon(cont.el[,2:3])
+## box()
+## }
+## par(def.par)
+
+
+###################################################
+### chunk number 112: 
+###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
 }
-par(def.par)
-
-
-###################################################
-### chunk number 108: 
-###################################################
-def.par <- par(no.readonly = TRUE)
-layout(matrix(c(1,1,2,4,3,5),2,3))
-par(mar=c(0,0,4,0))
-area.plot(cp)
-points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
-box()
-for (i in names(rast)) {
-image(getkasc(rast,i), main = paste("Wild boar named", i), axes=FALSE)
-polygon(cont.el[,2:3])
-box()
-}
-par(def.par)
-
-
-###################################################
-### chunk number 109: 
-###################################################
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
 def.par <- par(no.readonly = TRUE)
 layout(matrix(c(1,1,2,4,3,5),2,3))
 par(mar=c(0,0,4,0))
-area.plot(cp)
+plot(cp, colp=NULL)
 points(puechabon$locs[,c("X", "Y")], pch=16, col = as.numeric(puechabon$locs$Name))
 box()
 for (i in names(rast)) {
@@ -1087,62 +1208,70 @@ cat("\\includegraphics[height=12cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 110: polmask
+### chunk number 113: polmask eval=FALSE
 ###################################################
-el <- getkasc(puechabon$kasc, "Elevation")
-pol <- data.frame(x = c(700658, 699222, 698342, 698643, 700427, 701029),
-                  y = c(3160768, 3160676, 3159402, 3158336, 3158869, 3159657))
-image(el)
-polygon(pol, lwd=2)
+## el <- getkasc(puechabon$kasc, "Elevation")
+## pol <- data.frame(x = c(700658, 699222, 698342, 698643, 700427, 701029),
+##                   y = c(3160768, 3160676, 3159402, 3158336, 3158869, 3159657))
+## image(el)
+## polygon(pol, lwd=2)
 
 
 ###################################################
-### chunk number 111: 
+### chunk number 114:  eval=FALSE
 ###################################################
-el <- getkasc(puechabon$kasc, "Elevation")
-pol <- data.frame(x = c(700658, 699222, 698342, 698643, 700427, 701029),
-                  y = c(3160768, 3160676, 3159402, 3158336, 3158869, 3159657))
-image(el)
-polygon(pol, lwd=2)
-
-
-###################################################
-### chunk number 112: 
-###################################################
-.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
-png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
-opar <- par(no.readonly = TRUE)
-el <- getkasc(puechabon$kasc, "Elevation")
-pol <- data.frame(x = c(700658, 699222, 698342, 698643, 700427, 701029),
-                  y = c(3160768, 3160676, 3159402, 3158336, 3158869, 3159657))
-image(el)
-polygon(pol, lwd=2)
-par(opar)
-dev.null <- dev.off()
-cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
-
-
-###################################################
-### chunk number 113: mask
-###################################################
-pr <- mcp.rast(pol, el)
-masked.kasc <- setmask(puechabon$kasc, pr)
-image(masked.kasc, xlim = c(696999, 702373), 
-      ylim = c(3156784, 3162297))
-
-
-###################################################
-### chunk number 114: 
-###################################################
-pr <- mcp.rast(pol, el)
-masked.kasc <- setmask(puechabon$kasc, pr)
-image(masked.kasc, xlim = c(696999, 702373), 
-      ylim = c(3156784, 3162297))
+## el <- getkasc(puechabon$kasc, "Elevation")
+## pol <- data.frame(x = c(700658, 699222, 698342, 698643, 700427, 701029),
+##                   y = c(3160768, 3160676, 3159402, 3158336, 3158869, 3159657))
+## image(el)
+## polygon(pol, lwd=2)
 
 
 ###################################################
 ### chunk number 115: 
 ###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
+.PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
+png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
+opar <- par(no.readonly = TRUE)
+el <- getkasc(puechabon$kasc, "Elevation")
+pol <- data.frame(x = c(700658, 699222, 698342, 698643, 700427, 701029),
+                  y = c(3160768, 3160676, 3159402, 3158336, 3158869, 3159657))
+image(el)
+polygon(pol, lwd=2)
+par(opar)
+dev.null <- dev.off()
+cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
+
+
+###################################################
+### chunk number 116: mask eval=FALSE
+###################################################
+## pr <- mcp.rast(pol, el)
+## masked.kasc <- setmask(puechabon$kasc, pr)
+## image(masked.kasc, xlim = c(696999, 702373), 
+##       ylim = c(3156784, 3162297))
+
+
+###################################################
+### chunk number 117:  eval=FALSE
+###################################################
+## pr <- mcp.rast(pol, el)
+## masked.kasc <- setmask(puechabon$kasc, pr)
+## image(masked.kasc, xlim = c(696999, 702373), 
+##       ylim = c(3156784, 3162297))
+
+
+###################################################
+### chunk number 118: 
+###################################################
+if (!is.null(argX11$colortype)) {
+  graphics.off()
+  x11(colortype="gray")
+}
 .PngNo <- .PngNo + 1; file <- paste("Fig-bitmap-", .PngNo, ".png", sep="")
 png(file=file, width = 700, height = 700, pointsize = 12, bg = "white")
 opar <- par(no.readonly = TRUE)
@@ -1156,7 +1285,7 @@ cat("\\includegraphics[height=7cm,keepaspectratio]{", file, "}\n\n", sep="")
 
 
 ###################################################
-### chunk number 116: 
+### chunk number 119: 
 ###################################################
 def.pol <- function(x) {
   toto<-locator(1)

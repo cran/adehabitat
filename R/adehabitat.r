@@ -578,8 +578,7 @@ managNAkasc<-function(x)
   {
     if (!inherits(x,"kasc")) stop("non convenient data")
     class(x)<-"data.frame"
-    
-### Conservation que des pixels non NA pour toutes les cartes
+    ## Conservation que des pixels non NA pour toutes les cartes
     tmpy<-is.na(x)
     tmp<-apply(tmpy, 1, function(x) sum(as.numeric(x)))
     x[tmp!=0,]<-rep(NA, ncol(x))
@@ -1145,7 +1144,7 @@ kasc2df<-function(x, var=names(x))
     }
     cons<-apply(w, 1, abenner)
     indcons<-index[cons]
-    wcons<-w[cons,]
+    wcons<-data.frame(w[cons,])
     output<-list(index=indcons, tab=wcons)
   }
 
@@ -2486,8 +2485,11 @@ plot.wi<-function(x, caxis=0.7, clab=1, ylog=FALSE, errbar=c("CI", "SE"),
 ###
 ### DV par la méthode kernel
 
+
+
+
 kernelUD<-function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
-                   hlim=c(0.1, 1.5))
+                   hlim=c(0.1, 1.5), kern = "bivnorm")
   {
     if (ncol(xy)!=2)
       stop("xy should have 2 columns")
@@ -2495,7 +2497,8 @@ kernelUD<-function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
       stop("id should have the same length as xy")
     if ((!is.numeric(h))&(h!="href")&(h!="LSCV"))
       stop("h should be numeric or equal to either \"href\" or \"LSCV\"")
-    
+    if ((h == "LSCV")&(kern == "epa"))
+      stop("LSCV is not implemented with an Epanechnikov kernel")
     if (is.null(id))
       id<-rep(1, nrow(xy))
     id<-factor(id)
@@ -2560,6 +2563,8 @@ kernelUD<-function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
       n<-nrow(df)
       ex<-(-1/6)
       href<-sdxy*(n^ex)
+      if (kern=="epa")
+        href <- href*1.77
       
       if (h=="href") {
         htmp<-href
@@ -2617,12 +2622,21 @@ kernelUD<-function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
       xylo<-getXYcoords(grid)
       xg<-xylo$x
       yg<-xylo$y
-      toto<-.C("kernelhr", double(nrow(grid)*ncol(grid)),as.double(xg),
-               as.double(yg),
-               as.integer(ncol(grid)), as.integer(nrow(grid)),
-               as.integer(nrow(df)), as.double(htmp),
-               as.double(df[,1]), as.double(df[,2]), PACKAGE="adehabitat")
 
+      if (kern=="bivnorm") {
+        toto<-.C("kernelhr", double(nrow(grid)*ncol(grid)),as.double(xg),
+                 as.double(yg),
+                 as.integer(ncol(grid)), as.integer(nrow(grid)),
+                 as.integer(nrow(df)), as.double(htmp),
+                 as.double(df[,1]), as.double(df[,2]), PACKAGE="adehabitat")
+      }
+      if (kern=="epa") {
+        toto<-.C("kernepan", double(nrow(grid)*ncol(grid)),as.double(xg),
+                 as.double(yg),
+                 as.integer(ncol(grid)), as.integer(nrow(grid)),
+                 as.integer(nrow(df)), as.double(htmp),
+                 as.double(df[,1]), as.double(df[,2]), PACKAGE="adehabitat")
+      }
       UD<-matrix(toto[[1]], nrow=nrow(grid), byrow=TRUE)
       UD<-getascattr(grid, UD)
       if (typh=="LSCV") {
@@ -2838,56 +2852,46 @@ plot.hrsize<-function(x, ...)
 
 
 
-kernel.area<-function(xy, id, h = "href", grid=40,
-                      same4all=FALSE, hlim=c(0.1,1.5),
-                      levels=seq(20,95, by=5),
-                      unin=c("m", "km"),
-                      unout=c("ha", "km2", "m2"))
-  {
-    unin<-match.arg(unin)
-    unout<-match.arg(unout)
-
-    x<-kernelUD(xy, id, h, grid, same4all, hlim)
-    x<-getvolumeUD(x)
-    area<-rep(0,length(levels))
-    contours<-list()
-    
-    for (j in names(x)) {
-      tmpsurf<-rep(0,length(levels))
-      for (i in 1:length(levels)) {
-        asc<-x[[j]]$UD
-        tmp<-asc<levels[i]
-        cs<-attr(asc, "cellsize")
-        tmpsurf[i]<-sum(as.numeric(tmp))*cs*cs
-      }
-      area<-rbind(area,tmpsurf)
+kernel.area <- function (xy, id, h = "href", grid = 40,
+                         same4all = FALSE, hlim = c(0.1, 1.5),kern = "bivnorm",
+                         levels = seq(20, 95, by = 5), unin = c("m", "km"), 
+                         unout = c("ha", "km2", "m2")) 
+{
+  unin <- match.arg(unin)
+  unout <- match.arg(unout)
+  x <- kernelUD(xy, id, h, grid, same4all, hlim, kern)
+  x <- getvolumeUD(x)
+  area <- list()
+  contours <- list()
+  for (j in names(x)) {
+    tmpsurf <- rep(0, length(levels))
+    for (i in 1:length(levels)) {
+      asc <- x[[j]]$UD
+      tmp <- asc < levels[i]
+      cs <- attr(asc, "cellsize")
+            tmpsurf[i] <- sum(as.numeric(tmp)) * cs * cs
     }
-    area<-as.matrix(area[-1,])
-    area<-t(area)
-    area<-as.data.frame(area)
-    names(area)<-names(x)
-
-    ## modif des unités
-    if (unin=="m") {
-      if (unout=="ha") 
-        area<-area/10000
-      if (unout=="km2")
-        area<-area/1000000
-    }
-    if (unin=="km") {
-      if (unout=="ha")
-        area<-area*100
-      if (unout=="m2")
-        area<-area*1000000
-    }
-    row.names(area)<-levels
-    class(area)<-c("hrsize", "data.frame")
-    attr(area, "units")<-unout
-    return(area)
+    area[[j]] <- tmpsurf
   }
-
-
-
+  area <- data.frame(area)
+  row.names(area) <- levels
+  names(area) <- names(x)
+  if (unin == "m") {
+    if (unout == "ha") 
+      area <- area/10000
+    if (unout == "km2") 
+      area <- area/1e+06
+  }
+  if (unin == "km") {
+    if (unout == "ha") 
+      area <- area * 100
+    if (unout == "m2") 
+      area <- area * 1e+06
+  }
+  class(area) <- c("hrsize", "data.frame")
+  attr(area, "units") <- unout
+  return(area)
+}
 
 
 
@@ -3624,6 +3628,11 @@ as.traj<-function(id, xy, date, burst=id, ...)
                     xy, date=date, burst=burst, ...)
     foo<-function(x) x[order(x$date),]
     li<-split(bas, bas$burst)
+    nl <- unlist(lapply(li, nrow)) > 1
+    li <- li[nl]
+    if (any(!nl))
+      warning(paste("At least two relocations are needed for a burst:\n",
+                    sum(!nl), "circuits have been deleted"))
     li<-lapply(li, foo)
     
     ## Vérification que pas de doublons au niveau des dates
@@ -3895,23 +3904,46 @@ convnum<-function(kasc) {
 #### Calcul des angles
 
 
-angles<-function (x, id = levels(x$id), burst = levels(x$burst), date = NULL) 
+angles<-function (x, id = levels(x$id), burst = levels(x$burst),
+                  date = NULL, slsp = c("remove", "missing")) 
   {
     if (!inherits(x, "traj"))
       stop("x should be of class \"traj\"")
+    slsp <- match.arg(slsp)
+    
+    prepangles <- function(x)
+      {
+        if (!inherits(x, "traj")) 
+          stop("x should be of class \"traj\"")
+        li <- split(x, x$burst)
+        foo <- function(y) {
+          oo <- unlist(lapply(2:nrow(y),
+                              function(i) (!all(y[i,c("x","y")]==y[i-1,c("x","y")]))))
+          oo <- c(TRUE,oo)
+          y <- y[oo,]
+        }
+        res <- do.call("rbind", lapply(li, foo))
+        return(res)
+      }
+    
     x <- getburst(x, burst = burst, id = id, date = date)
+    if (slsp=="remove")
+      x <- prepangles(x)
     li <- split(x, x$burst)
     
     foo <- function(x) {
       xy<-as.matrix(x[,c("x","y")])
       ang<-1:(nrow(xy)-2)
       for (i in 2:(nrow(xy)-1)) {
+        na <- 0
         ref1<-xy[i-1,]
         xyb1<-t(t(xy)-ref1)
         ang1<--atan2(xyb1[i,2],xyb1[i,1])
-        
+
         ## calcul de la position de x2 et x3 rotaté
         x2<-c(sqrt(sum(xyb1[i,]^2)), 0)
+        if (sum(abs(x2)) < 1e-7)
+          na<-1
         x3b<-x3<-xyb1[i+1,]
         x3b[1]= cos(ang1)*x3[1] - sin(ang1)*x3[2]
         x3b[2]= sin(ang1)*x3[1] + cos(ang1)*x3[2]
@@ -3919,7 +3951,12 @@ angles<-function (x, id = levels(x$id), burst = levels(x$burst), date = NULL)
         
         ## et recalcul de l'angle
         x3<-x3-x2
+        if (sum(abs(x3)) < 1e-7)
+          na<-1
         ang[i-1]<-atan2(x3[2],x3[1])
+        if (na > 0.5)
+          if (slsp == "missing")
+            ang[i - 1] <- NA
       }
       so<-data.frame(id=x$id[-c(1,nrow(xy))],
                      x=xy[-c(1,nrow(xy)),1],
@@ -4123,201 +4160,367 @@ storemapattr<-function(x)
 #####   L'enfa
 #####   
 
-biv.test<-function (dfxy, point, cbreaks = 8, h, 
-                    colD = "blue", colP = "orange", 
-                    o.include = FALSE, rem = NULL, ...) 
+biv.test <- function(dfxy, point, br = 10, points = TRUE, density = TRUE, 
+	kernel = TRUE, o.include = FALSE, pch, cex, col, Pcol, h, sub, 
+	side = c("top", "bottom", "none"), ...)
 {
+  side <- match.arg(side)
   if (!inherits(dfxy, "data.frame")) 
     stop("dfxy should be a data frame")
   if (ncol(dfxy) < 2) 
     stop("dfxy should have at least two columns")
-  if (!require(MASS)) 
+  if (!require(MASS) & kernel) 
     stop("This function needs the package MASS")
-  
+  if (missing(pch))
+    pch <- 16
+  if (missing(cex))
+    cex <- 0.5
+  if (missing(col))
+    col <- grey(0.6)
+  if (missing(Pcol))
+    Pcol <- grey(0.6)
   old.par <- par(no.readonly = TRUE)
   on.exit(par(old.par))
-  lay <- layout(matrix(c(2, 4, 1, 3), 2, 2, byrow = TRUE), 
-                c(3, 1), c(1, 3), TRUE)
+  lay <- layout(matrix(c(2,4,1,3),2,2, byrow = TRUE), c(3,1), 
+		c(1,3), TRUE)
   layout.show(lay)
-
-  x <- c(point[1], dfxy[, 1])
-  y <- c(point[2], dfxy[, 2])
-  pX <- as.randtest(x[-1], x[1])$pvalue
-  pY <- as.randtest(y[-1], y[1])$pvalue
-  x1 <- c(x - diff(range(x))/10, x + diff(range(x))/10)
-  y1 <- c(y - diff(range(y))/10, y + diff(range(y))/10)
-
+  
+  x <- dfxy[, 1]
+  y <- dfxy[, 2]
+  xr <- diff(range(x))
+  yr <- diff(range(y))
+  xby <- xr/(br-1)
+  yby <- yr/(br-1)
+  xp <- 0
+  xn <- 0
+  yp <- 0
+  yn <- 0
+  if (max(x)>0 | point[1]>0)
+    xp <- seq(0, max(x, point[1])+xby, by = xby)
+  if (max(y)>0 | point[2]>0)
+    yp <- seq(0, max(y, point[2])+yby, by = yby)
+  if (min(x)<0 | point[1]<0)
+    xn <- seq(0, min(x, point[1])-xby, by = -xby)
+  if (min(y)<0 | point[2]<0)
+    yn <- seq(0, min(y, point[2])-yby, by = -yby)
+  xbr <- c(rev(xn[-1]), xp)
+  ybr <- c(rev(yn[-1]), yp)
+  xhist <- hist(x, plot = FALSE, br = xbr, freq = FALSE)
+  yhist <- hist(y, plot = FALSE, br = ybr, freq = FALSE)
   if (o.include) {
-    if (0 < min(x) && 0 > min(x1)) 
-      xlim <- c(0, max(x1))
-    else if (0 > max(x) && 0 < max(x1)) 
-      xlim <- c(min(x1), 0)
-    else xlim <- range(0, x1)
-    if (0 < min(y) && 0 > min(y1)) 
-      ylim <- c(0, max(y1))
-    else if (0 > max(y) && 0 < max(y1)) 
-      ylim <- c(min(y1), 0)
-    else ylim <- range(0, y1)
+    xlim <- c(min(x, 0, point[1])-xr*0.05, max(x, 0, 
+                                               point[1])+xr*0.05)
+    ylim <- c(min(y, 0, point[2])-yr*0.05, max(y, 0, 
+                                               point[2])+yr*0.05)
   }
   else {
-    xlim <- range(x1)
-    ylim <- range(y1)
+    xlim <- c(min(x, point[1])-xr*0.05, max(x, 
+                                            point[1])+xr*0.05)
+    ylim <- c(min(y, point[2])-yr*0.05, max(y, 
+                                            point[2])+yr*0.05)
   }
+  xhistlim <- c(0, max(xhist$density)*1.05)
+  yhistlim <- c(0, max(yhist$density)*1.05)
+  
   par(mar = c(0.1, 0.1, 0.1, 0.1))
-  plot.default(0, 0, type = "n", xlab = "", ylab = "", xaxt = "n", 
-               yaxt = "n", xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", 
-               frame.plot = FALSE)
-  col <- "lightgray"
-  lty <- 1
-  xmin <- par("xaxp")[1]
-  xmax <- par("xaxp")[2]
-  xampli <- par("xaxp")[3]
-  ax <- (xmax - xmin)/xampli/cbreaks
-  ymin <- par("yaxp")[1]
-  ymax <- par("yaxp")[2]
-  yampli <- par("yaxp")[3]
-  ay <- (ymax - ymin)/yampli/cbreaks
-  while ((xmin - ax) > par("usr")[1]) xmin <- xmin - ax
-  while ((xmax + ax) < par("usr")[2]) xmax <- xmax + ax
-  while ((ymin - ay) > par("usr")[3]) ymin <- ymin - ay
-  while ((ymax + ay) < par("usr")[4]) ymax <- ymax + ay
-  v0 <- seq(xmin, xmax, by = ax)
-  h0 <- seq(ymin, ymax, by = ay)
-  if (par("usr")[1] < xmin) 
-    v0 <- c(par("usr")[1], v0)
-  if (par("usr")[2] > xmax) 
-    v0 <- c(v0, par("usr")[2])
-  if (par("usr")[3] < ymin) 
-    h0 <- c(par("usr")[3], h0)
-  if (par("usr")[4] > ymax) 
-    h0 <- c(h0, par("usr")[4])
-  abline(v = v0[v0 != 0], col = col, lty = lty)
-  abline(h = h0[h0 != 0], col = col, lty = lty)
-  points(0, 0, pch = 13, cex = 2)
-  abline(v = 0)
+  plot.default(min(x), min(y), type = "n", xlab = "", ylab = "", 
+               xaxt = "n", yaxt = "n", xlim = xlim, ylim = ylim, 
+               xaxs = "i", yaxs = "i", frame.plot = FALSE)
+  abline(v = xbr, col = grey(0.9))
+  abline(h = ybr, col = grey(0.9))
   abline(h = 0)
-  para <- par("usr")
+  abline(v = 0)
+  if(points)
+    points(x, y, pch = pch, cex = cex)
+  if(kernel) {
+    if (missing(h)) 
+      h <- c(bandwidth.nrd(x), bandwidth.nrd(y))
+    dens <- kde2d(x, y, h = h, lims = c(xlim, ylim))
+    contour(dens, drawlabels = FALSE, col = col, add = TRUE)
+  }
+  lines(c(point[1], xlim[2]), rep(point[2], 2), lty = 3)
+  lines(rep(point[1], 2), c(point[2], ylim[2]), lty = 3)
+  if (side != "none") {
+    tra <- paste(" dx = ", signif(xby, 2), " ", "\n", " dy = ", 
+                 signif(yby, 2), " ", sep = "")
+    wt <- strwidth(tra, cex = 1)
+    ht <- strheight(tra, cex = 1) * 1.5
+    xl <- par("usr")[1]
+    yu <- par("usr")[4]
+    yd <- par("usr")[3]
+    if (side == "top") {
+      rect(xl, yu - ht, xl + wt, yu, col = "white", border = 0)
+      text(xl + wt/2, yu - ht/2, tra, cex = 1)
+    }
+    if (side == "bottom") {
+      rect(xl, yd + ht, xl + wt, yd, col = "white", border = 0)
+      text(xl + wt/2, yd + ht/2, tra, cex = 1)
+    }
+  }
+  points(point[1], point[2], pch = 18, cex = cex*4, col = Pcol)
   box()
-  points(x[-1], y[-1])
-  points(x[1], y[1], pch = 18, col = colP, cex = 2)
-  if (missing(h)) 
-    h <- c(bandwidth.nrd(x[-1]), bandwidth.nrd(y[-1]))
-  dens <- kde2d(x[-1], y[-1], h = h, lims = c(xlim, ylim))
-  contour(dens, drawlabels = FALSE, col = colD, lwd = 2,
-          levels = pretty(dens$z, 10), add = TRUE, ...)
-  xhist <- hist(x[-1], breaks = v0, plot = FALSE)
-  yhist <- hist(y[-1], breaks = h0, plot = FALSE)
-  topx <- max(xhist$counts)
-  topy <- max(yhist$counts)
-  legx <- pretty(0:topx)
-  legx <- legx[-c(1, length(legx))]
-  legy <- pretty(0:topy)
-  legy <- legy[-c(1, length(legy))]
-  plot.default(0, 0, type = "n", xlab = "", ylab = "", xaxt = "n", 
-               yaxt = "n", xaxs = "i", yaxs = "i", frame.plot = TRUE)
-  par(usr = c(para[1:2], c(0, topx + topx/10)))
-  abline(h = legx, lty = 2)
-  rect(xhist$mids - ax/2, rep(0, length(xhist$mids)), xhist$mids + 
-        ax/2, xhist$counts, col = grey(0.8))
-  lines(c(x[1], x[1]), c(max(xhist$counts/2), 0), col = colP, 
-        lwd = 2)
-  points(x[1], max(xhist$counts/2), pch = 18, cex = 2, 
-         col = colP)
-  mtext(text = paste("p=", signif(pX, 3)), side = 3, adj = 1, 
+  
+  par(mar = c(0.1, 0.1, 0.1, 0.1))
+  if(density) {
+    xdens <- density(x)
+    xhistlim <- c(0, max(xhist$density, xdens$y)*1.05)
+  }
+  plot.default(min(x), 0, type = "n", xlab = "", ylab = "", 
+               xaxt = "n", yaxt = "n", xlim = xlim, ylim = xhistlim, 
+               xaxs = "i", yaxs = "i", frame.plot = FALSE)
+  rect(xbr[-length(xbr)], rep(0, br), xbr[-1], xhist$density)
+  if(density)
+    lines(xdens, col = col)
+  abline(h = 0)
+  lines(rep(point[1], 2), c(0, max(xhist$density*2/3)), 
+        col = Pcol, lwd = 2)
+  points(point[1], max(xhist$density*2/3), pch = 18, cex = 2, 
+         col = Pcol)
+  pX <- (sum(dfxy[,1] >= point[1]) + 1)/(length(dfxy[,1]) + 1)
+  if (pX > 0.5)
+    pX <- (sum(dfxy[,1] <= point[1]) + 1)/(length(dfxy[,1]) + 1)
+  mtext(text = paste("p =", round(pX, 3)), side = 3, adj = 1, 
         line = -1)
-  plot.default(0, 0, type = "n", xlab = "", ylab = "", xaxt = "n", 
-               yaxt = "n", xaxs = "i", yaxs = "i", frame.plot = TRUE)
-  par(usr = c(c(0, topy + topy/10), para[3:4]))
-    abline(v = legy, lty = 2)
-  rect(rep(0, length(yhist$mids)), yhist$mids - ay/2, yhist$counts, 
-       yhist$mids + ay/2, col = grey(0.8))
-  lines(c(0, max(yhist$counts/2)), c(point[2], point[2]), col = colP, 
-        lwd = 2)
-  points(max(yhist$counts/2), point[2], pch = 18, cex = 2, 
-         col = colP)
-  mtext(text = paste("p=", signif(pY, 3)), side = 3, adj = 1, 
+  
+  par(mar = c(0.1, 0.1, 0.1, 0.1))
+  if(density) {
+    ydens <- density(y)
+    yhistlim <- c(0, max(yhist$density, ydens$y)*1.05)
+  }
+  plot.default(min(x), 0, type = "n", xlab = "", ylab = "", 
+               xaxt = "n", yaxt = "n", xlim = yhistlim, ylim = ylim, 
+               xaxs = "i", yaxs = "i", frame.plot = FALSE)
+  rect(rep(0, br), ybr[-length(ybr)], yhist$density, ybr[-1])
+  if(density)		
+    lines(ydens$y, ydens$x, col = col)
+  abline(v = 0)
+  lines(c(0, max(yhist$density*2/3)), rep(point[2], 2), 
+        col = Pcol, lwd = 2)
+  points(max(yhist$density*2/3), point[2], pch = 18, cex = 2, 
+         col = Pcol)
+  pY <- (sum(dfxy[,2] >= point[2]) + 1)/(length(dfxy[,2]) + 1)
+  if (pY > 0.5)
+    pY <- (sum(dfxy[,2] <= point[2]) + 1)/(length(dfxy[,2]) + 1)
+  mtext(text = paste("p =", round(pY, 3)), side = 3, adj = 1, 
         line = -1, las = 0)
+  
   plot.default(0, 0, type = "n", xlab = "", ylab = "", xaxt = "n", 
                yaxt = "n", xaxs = "i", yaxs = "i", frame.plot = FALSE)
-  if (!is.null(rem)) 
-    mtext(text = paste(rem), adj = 0.5, line = -6)
+  if (missing(sub))
+    sub <- "Biplot and\n univariate\ntests"
+  mtext(text = paste(sub), adj = 0.5, line = -8, cex = 1.5)
 }
 
-enfa <- function (kasc, pts, scannf = TRUE, nf = 1) 
+
+
+biv.plot <- function(dfxy, br = 10, points = TRUE, density = TRUE, 
+	kernel = TRUE, o.include = FALSE, pch, cex, col, h, sub, 
+	side = c("top", "bottom", "none"), ...)
 {
-  if (!inherits(kasc, "kasc")) 
-    stop("should be an object of class \"kasc\"")
-  if (ncol(pts) != 2) 
-    stop("pts should have 2 columns")
-  attr <- storemapattr(kasc)
-  call <- match.call()
-  tab <- kasc2df(kasc)
-  index <- tab$index
-  tab <- tab$tab
-  row.w <- rep(1, nrow(tab))/nrow(tab)
-  f1 <- function(v) sum(v * row.w)/sum(row.w)
-  f2 <- function(v) sqrt(sum(v * v * row.w)/sum(row.w))
-  center <- apply(tab, 2, f1)
-  tab <- sweep(tab, 2, center)
-  norm <- apply(tab, 2, f2)
-  norm[norm < 1e-08] <- 1
-  tab <- as.matrix(sweep(tab, 2, norm, "/"))
-  pr <- as.vector(count.points(pts, kasc))[index]
-  lw <- pr/sum(pr)
-  Rg <- crossprod(tab)/nrow(tab)
-  ZtQ <- apply(tab, 2, function(x) x * lw)
-  Rs <- crossprod(ZtQ, tab)
-  mar <- apply(ZtQ, 2, sum)
-  m <- sum(mar^2)
-  eRs <- eigen(Rs)
-  Rs12 <- eRs$vectors %*% diag(eRs$values^(-1/2)) %*% t(eRs$vectors)
-  z <- Rs12 %*% mar
-  y <- z/as.numeric(sqrt(crossprod(z)))
-  W <- Rs12 %*% Rg %*% Rs12
-  H <- (diag(ncol(tab)) - y %*% t(y)) %*% W %*% (diag(ncol(tab)) - 
-                                                 y %*% t(y))
-  s <- eigen(H)$values[-ncol(tab)]
-  if (scannf) {
-    barplot(s)
-    cat("Select the number of specialization axes: ")
-    nf <- as.integer(readLines(n = 1))
+    side <- match.arg(side)
+    if (!inherits(dfxy, "data.frame")) 
+      stop("dfxy should be a data frame")
+    if (ncol(dfxy) < 2) 
+      stop("dfxy should have at least two columns")
+    if (!require(MASS) & kernel) 
+      stop("This function needs the package MASS")
+    if (missing(pch))
+      pch <- 16
+    if (missing(cex))
+      cex <- 0.5
+    if (missing(col))
+      col <- grey(0.7)
+    old.par <- par(no.readonly = TRUE)
+    on.exit(par(old.par))
+    lay <- layout(matrix(c(2,4,1,3),2,2, byrow = TRUE), c(3,1), 
+                  c(1,3), TRUE)
+    layout.show(lay)
+	
+    x <- dfxy[, 1]
+    y <- dfxy[, 2]
+    xr <- diff(range(x))
+    yr <- diff(range(y))
+    xby <- xr/(br-1)
+    yby <- yr/(br-1)
+    xp <- 0
+    xn <- 0
+    yp <- 0
+    yn <- 0
+    if (max(x)>0)
+      xp <- seq(0, max(x)+xby, by = xby)
+    if (max(y)>0)
+      yp <- seq(0, max(y)+yby, by = yby)
+    if (min(x)<0)
+      xn <- seq(0, min(x)-xby, by = -xby)
+    if (min(y)<0)
+      yn <- seq(0, min(y)-yby, by = -yby)
+    xbr <- c(rev(xn[-1]), xp)
+    ybr <- c(rev(yn[-1]), yp)
+    xhist <- hist(x, plot = FALSE, br = xbr, freq = FALSE)
+    yhist <- hist(y, plot = FALSE, br = ybr, freq = FALSE)
+    if (o.include) {
+      xlim <- c(min(x, 0)-xr*0.05, max(x, 0)+xr*0.05)
+      ylim <- c(min(y, 0)-yr*0.05, max(y, 0)+yr*0.05)
+    }
+    else {
+      xlim <- c(min(x)-xr*0.05, max(x)+xr*0.05)
+      ylim <- c(min(y)-yr*0.05, max(y)+yr*0.05)
+    }
+    xhistlim <- c(0, max(xhist$density)*1.05)
+    yhistlim <- c(0, max(yhist$density)*1.05)
+    
+    par(mar = c(0.1, 0.1, 0.1, 0.1))
+    plot.default(min(x), min(y), type = "n", xlab = "", ylab = "", 
+                 xaxt = "n", yaxt = "n", xlim = xlim, ylim = ylim, 
+                 xaxs = "i", yaxs = "i", frame.plot = FALSE)
+    abline(v = xbr, col = grey(0.9))
+    abline(h = ybr, col = grey(0.9))
+    abline(h = 0)
+    abline(v = 0)
+    if(points)
+      points(x, y, pch = pch, cex = cex)
+    if(kernel) {
+      if (missing(h)) 
+        h <- c(bandwidth.nrd(x), bandwidth.nrd(y))
+      dens <- kde2d(x, y, h = h, lims = c(xlim, ylim))
+      contour(dens, drawlabels = FALSE, col = col, add = TRUE)
+    }
+    if (side != "none") {
+      tra <- paste(" dx = ", signif(xby, 2), " ", "\n", " dy = ", 
+                   signif(yby, 2), " ", sep = "")
+      wt <- strwidth(tra, cex = 1)
+      ht <- strheight(tra, cex = 1) * 1.5
+      xl <- par("usr")[1]
+      yu <- par("usr")[4]
+      yd <- par("usr")[3]
+      if (side == "top") {
+        rect(xl, yu - ht, xl + wt, yu, col = "white", border = 0)
+        text(xl + wt/2, yu - ht/2, tra, cex = 1)
+      }
+      if (side == "bottom") {
+        rect(xl, yd + ht, xl + wt, yd, col = "white", border = 0)
+        text(xl + wt/2, yd + ht/2, tra, cex = 1)
+      }
+    }
+    box()
+    
+    par(mar = c(0.1, 0.1, 0.1, 0.1))
+    if(density) {
+      xdens <- density(x)
+      xhistlim <- c(0, max(xhist$density, xdens$y)*1.05)
+    }
+    plot.default(min(x), 0, type = "n", xlab = "", ylab = "", 
+                 xaxt = "n", yaxt = "n", xlim = xlim, ylim = xhistlim, 
+                 xaxs = "i", yaxs = "i", frame.plot = FALSE)
+    rect(xbr[-length(xbr)], rep(0, br), xbr[-1], xhist$density)
+    if(density)
+      lines(xdens, col = col)
+    abline(h = 0)
+    
+    par(mar = c(0.1, 0.1, 0.1, 0.1))
+    if(density) {
+		ydens <- density(y)
+		yhistlim <- c(0, max(yhist$density, ydens$y)*1.05)
+              }
+    plot.default(min(x), 0, type = "n", xlab = "", ylab = "", 
+                 xaxt = "n", yaxt = "n", xlim = yhistlim, ylim = ylim, 
+                 xaxs = "i", yaxs = "i", frame.plot = FALSE)
+    rect(rep(0, br), ybr[-length(ybr)], yhist$density, ybr[-1])
+    if(density)		
+      lines(ydens$y, ydens$x, col = col)
+
+    plot.default(0, 0, type = "n", xlab = "", ylab = "", xaxt = "n", 
+                 yaxt = "n", xaxs = "i", yaxs = "i", frame.plot = FALSE)
+    if (missing(sub))
+      sub <- "Biplot and \nmarginals\ndistributions"
+    mtext(text = paste(sub), adj = 0.5, line = -8, cex = 1.5)
   }
-  if (nf <= 0 | nf > (ncol(tab) - 1)) 
-    nf <- 1
-  co <- matrix(nrow = ncol(tab), ncol = nf + 1)
-  co[, 1] <- mar
-  co[, 2:(nf + 1)] <- (Rs12 %*% eigen(H)$vectors)[, 1:nf]
-  f3 <- function(i) co[, i]/sqrt(crossprod(co[, i])/length(co[, 
-                                                              i]))
-  c1 <- matrix(unlist(lapply(1:(nf + 1), f3)), ncol(tab))
-  li <- data.frame(tab %*% c1[, 1:(nf + 1)])
-  f3 <- function(i) li[, i]/sqrt(crossprod(li[, i])/length(li[, 
-                                                              i]))
-  l1 <- matrix(unlist(lapply(1:(nf + 1), f3)), nrow(tab))
-  co <- data.frame(co)
-  c1 <- data.frame(c1)
-  l1 <- data.frame(l1)
-  names(co) <- c("Mar", paste("Spe", (1:nf), sep = ""))
-  row.names(co) <- dimnames(tab)[[2]]
-  names(c1) <- c("Mar", paste("Spe", (1:nf), sep = ""))
-  row.names(c1) <- dimnames(tab)[[2]]
-  names(li) <- c("Mar", paste("Spe", (1:nf), sep = ""))
-  names(l1) <- c("Mar", paste("Spe", (1:nf), sep = ""))
-  enfa <- list(call = call, tab = data.frame(tab), pr = pr, 
-               nf = nf, m = m, s = s, lw = lw, li = li, l1 = l1, co = co, 
-               c1 = c1, mar = mar, index = index, attr = attr)
-  class(enfa) <- "enfa"
-  return(invisible(enfa))
+
+
+enfa <- function (tab, pr, scannf = TRUE, nf = 1) 
+{
+    call <- match.call()
+    if (any(is.na(tab))) 
+        stop("na entries in table")
+    if (!is.vector(pr))
+        stop("pr should be a vector")
+    row.w <- rep(1, nrow(tab))/nrow(tab)
+    f1 <- function(v) sum(v * row.w)/sum(row.w)
+    f2 <- function(v) sqrt(sum(v * v * row.w)/sum(row.w))
+    center <- apply(tab, 2, f1)
+    tab <- sweep(tab, 2, center)
+    norm <- apply(tab, 2, f2)
+    norm[norm < 1e-08] <- 1
+    tab <- as.matrix(sweep(tab, 2, norm, "/"))
+    lw <- pr/sum(pr)
+    Rg <- crossprod(tab)/nrow(tab)
+    ZtQ <- apply(tab, 2, function(x) x * lw)
+    Rs <- crossprod(ZtQ, tab)
+    mar <- colSums(ZtQ)
+    m <- sum(mar^2)
+    eRs <- eigen(Rs)
+    Rs12 <- eRs$vectors %*% diag(eRs$values^(-1/2)) %*% t(eRs$vectors)
+    z <- Rs12 %*% mar
+    y <- z/as.numeric(sqrt(crossprod(z)))
+    W <- Rs12 %*% Rg %*% Rs12
+    H <- (diag(ncol(tab)) - y %*% t(y)) %*% W %*% (diag(ncol(tab)) - 
+        y %*% t(y))
+    s <- eigen(H)$values[-ncol(tab)]
+    if (scannf) {
+        barplot(s)
+        cat("Select the number of specialization axes: ")
+        nf <- as.integer(readLines(n = 1))
+    }
+    if (nf <= 0 | nf > (ncol(tab) - 1)) 
+        nf <- 1
+    co <- matrix(nrow = ncol(tab), ncol = nf + 1)
+    co[, 1] <- mar
+    co[, 2:(nf + 1)] <- (Rs12 %*% eigen(H)$vectors)[, 1:nf]
+    f3 <- function(i) co[, i]/sqrt(crossprod(co[, i])/length(co[, 
+        i]))
+    c1 <- matrix(unlist(lapply(1:(nf + 1), f3)), ncol(tab))
+    li <- data.frame(tab %*% c1[, 1:(nf + 1)])
+    f3 <- function(i) li[, i]/sqrt(crossprod(li[, i])/length(li[, 
+        i]))
+    l1 <- matrix(unlist(lapply(1:(nf + 1), f3)), nrow(tab))
+    co <- data.frame(co)
+    c1 <- data.frame(c1)
+    l1 <- data.frame(l1)
+    names(co) <- c("Mar", paste("Spe", (1:nf), sep = ""))
+    row.names(co) <- dimnames(tab)[[2]]
+    names(c1) <- c("Mar", paste("Spe", (1:nf), sep = ""))
+    row.names(c1) <- dimnames(tab)[[2]]
+    names(li) <- c("Mar", paste("Spe", (1:nf), sep = ""))
+    names(l1) <- c("Mar", paste("Spe", (1:nf), sep = ""))
+    enfa <- list(call = call, tab = data.frame(tab), pr = pr, 
+        nf = nf, m = m, s = s, lw = lw, li = li, l1 = l1, co = co, 
+        c1 = c1, mar = mar)
+    class(enfa) <- "enfa"
+    return(invisible(enfa))
+}
+
+data2enfa <- function (kasc, pts) 
+{
+    if (!inherits(kasc, "kasc")) 
+        stop("should be an object of class \"kasc\"")
+    if (ncol(pts) != 2) 
+        stop("pts should have 2 columns")
+    attr <- storemapattr(kasc)
+    tab <- kasc2df(kasc)
+    index <- tab$index
+    tab <- tab$tab
+    pr <- as.vector(count.points(pts, kasc))[index]
+    dataenfa <- list(tab = data.frame(tab), pr = pr, 
+        index = index, attr = attr)
+    class(dataenfa) <- "dataenfa"
+    return(invisible(dataenfa))
 }
 
 
 
-
-
-
-
-hist.enfa <- function (x, scores = TRUE, type = c("h", "l"), adjust = 1,
-                       Acol, Ucol, Aborder, Uborder, ...)
+hist.enfa <- function (x, scores = TRUE, type = c("h", "l"),
+                       adjust = 1, Acol, Ucol, 
+                       Aborder, Uborder, Alwd = 1, Ulwd = 1, ...)
 {
   type <- match.arg(type)
   if (!inherits(x, "enfa")) 
@@ -4360,12 +4563,12 @@ hist.enfa <- function (x, scores = TRUE, type = c("h", "l"), adjust = 1,
   par(mar = c(0.5, 0.5, 2, 0.5))
   par(mfrow = rev(n2mfrow(ncol(tab))))
   f1 <- function(j) {
-    tmpS <- rep(tab[, j], pr)
-    tmpZ <- tab[, j]
+    tmpU <- rep(tab[, j], pr)
+    tmpA <- tab[, j]
     name <- names(tab)[j]
     if (clas[j] == "f") {
       par(mar = c(3, 0.5, 2, 0.5))
-      mat <- t(cbind(table(tmpZ), table(tmpS)))
+      mat <- t(cbind(table(tmpA), table(tmpU)))
       mat <- lapply(1:2, function(i) mat[i, ]/sum(mat[i, 
                                                       ]))
       mat <- rbind(mat[[1]], mat[[2]])
@@ -4379,34 +4582,34 @@ hist.enfa <- function (x, scores = TRUE, type = c("h", "l"), adjust = 1,
     }
     else {
       if (type == "h") {
-        xrange <- range(tmpZ)
-        H <- hist(tmpS, plot = FALSE, br = seq(min(xrange), 
-                                        max(xrange), length = 15))
-        G <- hist(tmpZ, plot = FALSE, br = seq(min(xrange), 
-                                        max(xrange), length = 15))
+        xrange <- range(tmpA)
+        H <- hist(tmpU, plot = FALSE, br = seq(min(xrange), 
+					max(xrange), length = 15))
+        G <- hist(tmpA, plot = FALSE, br = seq(min(xrange), 
+					max(xrange), length = 15))
         yrange <- c(0, max(H$density, G$density))
         plot(H, freq = FALSE, col = Ucol, border = Uborder, 
              xlim = xrange, ylim = yrange, main = name, xlab = NULL, 
              ylab = "Density", axes = FALSE, ...)
         plot(G, freq = FALSE, col = Acol, border = Aborder, add = TRUE)
       }
-      else {
-        densZ <- density(tmpZ, adjust = adjust)
-        densS <- density(tmpS, adjust = adjust, from = min(densZ$x), 
-                         to = max(densZ$x))
-        max <- max(densS$y, densZ$y)
+      if (type == "l") {
+        densA <- density(tmpA, adjust = adjust)
+        densU <- density(tmpU, adjust = adjust, from = min(densA$x), 
+                         to = max(densA$x))
+        max <- max(densU$y, densA$y)
         max <- max + max/20
         ylim <- c(0, max)
-        plot(densS, col = Ucol, ylim = ylim, type = "l", 
-             lwd = 2, main = name, xlab = NULL, ylab = "Density", 
+        plot(densU, col = Ucol, ylim = ylim, type = "l", 
+             lwd = Ulwd, main = name, xlab = NULL, ylab = "Density", 
              axes = FALSE, ...)
-        lines(rep(mean(tmpS), 2), c(0, densS$y[512 - sum(densS$x > 
-                                                         mean(tmpS))]),
-              col = Ucol, lty = 2, lwd = 2)
-        lines(densZ, col = Acold, lwd = 2)
-        lines(rep(mean(tmpZ), 2), c(0, densZ$y[512 - sum(densZ$x > 
-                                                         mean(tmpZ))]),
-              col = Acold, lty = 2, lwd = 2)
+        lines(rep(mean(tmpU), 2), c(0, densU$y[512 - sum(densU$x > 
+                                                         mean(tmpU))]),
+              col = Ucol, lty = 2, lwd = Ulwd)
+        lines(densA, col = Acold, lwd = Alwd)
+        lines(rep(mean(tmpA), 2), c(0, densA$y[512 - sum(densA$x > 
+                                                         mean(tmpA))]),
+              col = Acold, lty = 2, lwd = Alwd)
       }
     }
     box()
@@ -4416,23 +4619,15 @@ hist.enfa <- function (x, scores = TRUE, type = c("h", "l"), adjust = 1,
 }
 
 
-
-
-hist.kasc <- function (x, type = c("h", "l"), adjust = 1, col, border, ...) 
+hist.kasc <- function (x, type = c("h", "l"), adjust = 1, col = "blue", ...)
 {
   type <- match.arg(type)
   if (!inherits(x, "kasc")) 
     stop("should be an object of class \"kasc\"")
   old.par <- par(no.readonly = TRUE)
   on.exit(par(old.par))
-  if (missing(col)) {
-    col <- NULL
-    cold <- "black"
-  }
-  else
-    cold <- col
-  if (missing(border)) 
-    border <- "black"
+  par(mar = c(0.5,0.5,2,0.5))
+
   tab <- x
   clas <- rep("", ncol(tab))
   for (j in 1:ncol(tab)) {
@@ -4441,61 +4636,62 @@ hist.kasc <- function (x, type = c("h", "l"), adjust = 1, col, border, ...)
       w1 <- "f"
     clas[j] <- w1
   }
-  par(mar = c(0.5, 0.5, 2, 0.5))
+
   par(mfrow = rev(n2mfrow(ncol(tab))))
+
   f1 <- function(j) {
-    tmpZ <- tab[, j]
+    tmpZ <- tab[,j]
     name <- names(tab)[j]
     if (clas[j] == "f") {
-      par(mar = c(3, 0.5, 2, 0.5))
+      par(mar = c(3,0.5,2,0.5))
       max <- max(table(tmpZ))
       max <- max + max/20
       ylim <- c(0, max)
-      barplot(unclass(summary(tmpZ[!is.na(tmpZ)])), ylim = ylim, 
-              border = border, col = col, main = name, ylab = NULL, 
-              axes = FALSE, ...)
-      par(mar = c(0.5, 0.5, 2, 0.5))
+      
+      barplot(unclass(summary(tmpZ[!is.na(tmpZ)])), ylim = ylim, border = col, 
+              main = name, ylab = NULL, axes = FALSE, ...)
+      par(mar = c(0.5,0.5,2,0.5))
     }
     else {
       xrange <- range(tmpZ)
       G <- hist(tmpZ, plot = FALSE)
-      plot(G, freq = FALSE, border = border, col = col, 
-           main = name, xlab = NULL, ylab = NULL, axes = FALSE, 
-           ...)
+      plot(G, freq = FALSE, border = col, main = name, 
+           xlab = NULL, ylab = NULL, axes = FALSE, ...)
     }
     box()
   }
+
   f2 <- function(j) {
-    tmpZ <- tab[, j]
+    tmpZ <- tab[,j]
     name <- names(tab)[j]
     if (clas[j] == "f") {
-      par(mar = c(3, 0.5, 2, 0.5))
+      par(mar = c(3,0.5,2,0.5))
       max <- max(table(tmpZ))
       max <- max + max/20
       ylim <- c(0, max)
-      barplot(unclass(summary(tmpZ[!is.na(tmpZ)])), ylim = ylim, 
-              border = border, col = col, main = name, ylab = NULL, 
-              axes = FALSE, ...)
-      par(mar = c(0.5, 0.5, 2, 0.5))
+      barplot(unclass(summary(tmpZ[!is.na(tmpZ)])), ylim = ylim, border = col, 
+              main = name, ylab = NULL, axes = FALSE, ...)
+      par(mar = c(0.5,0.5,2,0.5))
     }
     else {
       dens <- density(tmpZ, adjust = adjust, na.rm = TRUE)
-      plot(dens, col = cold, type = "l", lwd = 2, main = name, 
-           xlab = NULL, ylab = "Density", axes = FALSE, 
-           ...)
+      plot(dens,  col = col, type = "l", lwd = 2, 
+           main = name, xlab = NULL, ylab = "Density", 
+           axes = FALSE, ...)
       mean <- mean(tmpZ, na.rm = TRUE)
-      lines(rep(mean, 2), c(0, dens$y[512 - sum(dens$x > 
-                                                mean)]),
-            col = cold, lty = 2, lwd = 2)
+      lines(rep(mean,2),
+            c(0,dens$y[512-sum(dens$x>mean)]),
+            col = col, lty = 2, lwd = 2)
     }
     box()
   }
-  if (type == "h") 
-    lapply(1:ncol(tab), f1)
+
+  if (type == "h")
+    lapply (1:ncol(tab), f1)
   if (type == "l") {
-    if (any(clas == "f")) 
+    if (any(clas == "f"))
       warning("Type = 'l' is not possible for factors, type = 'h' used instead.\n")
-    lapply(1:ncol(tab), f2)
+    lapply (1:ncol(tab), f2)
   }
   return(invisible(NULL))
 }
@@ -4503,14 +4699,15 @@ hist.kasc <- function (x, type = c("h", "l"), adjust = 1, col, border, ...)
 
 
 
+
 histniche <- function (kasc, pts, type = c("h", "l"), adjust = 1, Acol, Ucol, 
-                       Aborder, Uborder, ...)
+                       Aborder, Uborder, Alwd = 1, Ulwd = 1, ...)
 {
   type <- match.arg(type)
   if (!inherits(kasc, "kasc")) 
     stop("should be an object of class \"kasc\"")
-    if (ncol(pts) != 2) 
-      stop("pts should have 2 columns")
+  if (ncol(pts) != 2) 
+    stop("pts should have 2 columns")
   tab <- kasc2df(kasc)
   index <- tab$index
   tab <- tab$tab
@@ -4548,14 +4745,13 @@ histniche <- function (kasc, pts, type = c("h", "l"), adjust = 1, Acol, Ucol,
   par(mar = c(0.5, 0.5, 2, 0.5))
   par(mfrow = rev(n2mfrow(ncol(tab))))
   f1 <- function(j) {
-    tmpS <- rep(tab[, j], pr)
-    tmpZ <- tab[, j]
+    tmpU <- rep(tab[, j], pr)
+    tmpA <- tab[, j]
     name <- names(tab)[j]
     if (clas[j] == "f") {
       par(mar = c(3, 0.5, 2, 0.5))
-      mat <- t(cbind(table(tmpZ), table(tmpS)))
-      mat <- lapply(1:2, function(i) mat[i, ]/sum(mat[i, 
-                                                      ]))
+      mat <- t(cbind(table(tmpA), table(tmpU)))
+      mat <- lapply(1:2, function(i) mat[i, ]/sum(mat[i,]))
       mat <- rbind(mat[[1]], mat[[2]])
       max <- max(mat)
       max <- max + max/20
@@ -4567,34 +4763,34 @@ histniche <- function (kasc, pts, type = c("h", "l"), adjust = 1, Acol, Ucol,
     }
     else {
       if (type == "h") {
-        xrange <- range(tmpZ)
-        H <- hist(tmpS, plot = FALSE, br = seq(min(xrange), 
-                                        max(xrange), length = 15))
-        G <- hist(tmpZ, plot = FALSE, br = seq(min(xrange), 
-                                        max(xrange), length = 15))
+        xrange <- range(tmpA)
+        H <- hist(tmpU, plot = FALSE, br = seq(min(xrange), 
+					max(xrange), length = 15))
+        G <- hist(tmpA, plot = FALSE, br = seq(min(xrange), 
+					max(xrange), length = 15))
         yrange <- c(0, max(H$density, G$density))
         plot(H, freq = FALSE, col = Ucol, border = Uborder, 
              xlim = xrange, ylim = yrange, main = name, xlab = NULL, 
              ylab = "Density", axes = FALSE, ...)
         plot(G, freq = FALSE, col = Acol, border = Aborder, add = TRUE)
       }
-      else {
-        densZ <- density(tmpZ, adjust = adjust)
-        densS <- density(tmpS, adjust = adjust, from = min(densZ$x), 
-                         to = max(densZ$x))
-        max <- max(densS$y, densZ$y)
+      if (type == "l") {
+        densA <- density(tmpA, adjust = adjust)
+        densU <- density(tmpU, adjust = adjust, from = min(densA$x), 
+                         to = max(densA$x))
+        max <- max(densU$y, densA$y)
         max <- max + max/20
         ylim <- c(0, max)
-        plot(densS, col = Ucol, ylim = ylim, type = "l", 
-             lwd = 2, main = name, xlab = NULL, ylab = "Density", 
+        plot(densU, col = Ucol, ylim = ylim, type = "l", 
+             lwd = Ulwd, main = name, xlab = NULL, ylab = "Density", 
              axes = FALSE, ...)
-        lines(rep(mean(tmpS), 2), c(0, densS$y[512 - sum(densS$x > 
-                                                         mean(tmpS))]),
-              col = Ucol, lty = 2, lwd = 2)
-        lines(densZ, col = Acold, lwd = 2)
-        lines(rep(mean(tmpZ), 2), c(0, densZ$y[512 - sum(densZ$x > 
-                                                         mean(tmpZ))]),
-              col = Acold, lty = 2, lwd = 2)
+        lines(rep(mean(tmpU), 2), c(0, densU$y[512 - sum(densU$x > 
+                                                         mean(tmpU))]),
+              col = Ucol, lty = 2, lwd = Ulwd)
+        lines(densA, col = Acold, lwd = Alwd)
+        lines(rep(mean(tmpA), 2), c(0, densA$y[512 - sum(densA$x > 
+                                                         mean(tmpA))]),
+              col = Acold, lty = 2, lwd = Alwd)
       }
     }
     box()
@@ -4605,72 +4801,80 @@ histniche <- function (kasc, pts, type = c("h", "l"), adjust = 1, Acol, Ucol,
 
 
 
-niche.test <- function (kasc, points, nrep = 999, h, o.include = FALSE,
-                        colZ = "blue", colS = "orange", ...)
+
+niche.test <- function (kasc, points, nrep = 999, o.include = TRUE, ...) 
 {
-  if (!inherits(kasc, "kasc")) 
-    stop("should be an object of class \"kasc\"")
-  if (ncol(points) != 2) 
-    stop("points should have 2 columns")
-  nrep<-nrep+1
-  toto<-join.kasc(points, kasc)
-  tutu<-apply(toto, 1, function(x) any(is.na(x)))
-  if (sum(tutu) > 0)
-    stop("points outside the study area")
-  
-  litab<-kasc2df(kasc)
-  dude<-dudi.mix(litab$tab, scannf = FALSE)
-  cw<-dude$cw
-  kasc <- df2kasc(dude$tab, litab$index, kasc)
-  asc<-getkasc(kasc, names(kasc)[1])
-  coo<-getXYcoords(kasc)
-  rc<-lapply(coo, range)
-  kasc<-as.matrix(kasc)
-  kasc[is.na(kasc)]<--9999
-  asc[is.na(asc)]<--9999
-  xp<-as.matrix(points)
-  
-  toto<-.C("randmargtolpts", as.double(t(xp)), as.double(rc$x),
-           as.double(rc$y), as.double(t(asc)), as.double(cw),
-           as.double(t(kasc)), as.double(coo$x),
-           as.double(coo$y), as.double(attr(asc, "cellsize")),
-           double(nrep), double(nrep), as.integer(nrep),
-           as.integer(nrow(asc)), as.integer(ncol(asc)),
-           as.integer(ncol(kasc)), as.integer(nrow(xp)),
-           PACKAGE="adehabitat")
-  mar <- toto[[10]]
-  tol <- toto[[11]]
-  dfxy <- data.frame(marginalite = mar, tolerance = tol)[-1,]
-  obs <- c(mar[1], tol[1])
-  
-  if (missing(h))
-    h <- c(bandwidth.nrd(dfxy[,1]), bandwidth.nrd(dfxy[,2]))
-  biv.test(dfxy, obs, h=h, colD = colZ, colP = colS,
-           o.include = o.include, ...)
-  return(invisible(list(dfxy = dfxy, obs = obs)))
+    if (!inherits(kasc, "kasc")) 
+        stop("should be an object of class \"kasc\"")
+    if (ncol(points) != 2) 
+        stop("points should have 2 columns")
+    nrep <- nrep + 1
+    toto <- join.kasc(points, kasc)
+    tutu <- apply(toto, 1, function(x) any(is.na(x)))
+    if (sum(tutu) > 0) 
+        stop("points outside the study area")
+    litab <- kasc2df(kasc)
+    dude <- dudi.mix(litab$tab, scannf = FALSE)
+    cw <- dude$cw
+    kasc <- df2kasc(dude$tab, litab$index, kasc)
+    asc <- getkasc(kasc, names(kasc)[1])
+    coo <- getXYcoords(kasc)
+    rc <- lapply(coo, range)
+    kasc <- as.matrix(kasc)
+    kasc[is.na(kasc)] <- -9999
+    asc[is.na(asc)] <- -9999
+    xp <- as.matrix(points)
+    toto <- .C("randmargtolpts", as.double(t(xp)), as.double(rc$x), 
+        as.double(rc$y), as.double(t(asc)), as.double(cw), as.double(t(kasc)), 
+        as.double(coo$x), as.double(coo$y), as.double(attr(asc, 
+            "cellsize")), double(nrep), double(nrep), as.integer(nrep), 
+        as.integer(nrow(asc)), as.integer(ncol(asc)), as.integer(ncol(kasc)), 
+        as.integer(nrow(xp)), PACKAGE = "adehabitat")
+    mar <- toto[[10]]
+    tol <- toto[[11]]
+    dfxy <- data.frame(marginalite = mar, tolerance = tol)[-1,]
+    obs <- c(mar[1], tol[1])
+    biv.test(dfxy, obs, sub = "Tests of\nmarginality\nand tolerance", 
+             o.include = o.include, ...)
+    return(invisible(list(dfxy = dfxy, obs = obs)))
 }
 
 
-
-predict.enfa <- function (object, nf, ...) 
+predict.enfa <- function (object, index, attr, nf, ...) 
 {
-  if (!inherits(object, "enfa")) 
-    stop("should be an object of class \"enfa\"")
-  
-  if ((missing(nf)) || (nf > object$nf))
-    nf <- object$nf
-  
-  Zli <- object$li[,1:(nf+1)]
-  f1 <- function(x) rep(x, object$pr)
-  Sli <- apply(Zli, 2, f1)
-  
-  m <- apply(Sli, 2, mean)
-  cov <- t(as.matrix(Sli)) %*% as.matrix(Sli)/nrow(Sli)
-  maha <- mahalanobis(Zli, center = m, cov = cov)
-  
-  map <- getkasc(df2kasc(data.frame(toto=maha, tutu=maha),
-                         object$index, object$attr), "toto")
-  return(invisible(map))
+    if (!inherits(object, "enfa")) 
+        stop("should be an object of class \"enfa\"")
+    if ((missing(nf)) || (nf > object$nf)) 
+        nf <- object$nf
+    Zli <- object$li[, 1:(nf + 1)]
+    f1 <- function(x) rep(x, object$pr)
+    Sli <- apply(Zli, 2, f1)
+    m <- apply(Sli, 2, mean)
+    cov <- t(as.matrix(Sli)) %*% as.matrix(Sli)/nrow(Sli)
+    maha <- mahalanobis(Zli, center = m, cov = cov)
+    map <- getkasc(df2kasc(data.frame(toto = maha, tutu = maha), 
+        index, attr), "toto")
+    return(invisible(map))
+}
+
+print.dataenfa <- function (x, ...)
+{
+    if (!inherits(x, "dataenfa")) 
+        stop("Object of class 'dataenfa' expected")
+    cat("Data ENFA\n")
+    cat("\n List of 4 elements:\n\n")
+    sumry <- array("", c(1, 4), list(1, c("data.frame", "nrow", "ncol", 
+        "content")))
+    sumry[1, ] <- c("$tab", nrow(x$tab), ncol(x$tab), "table of pixels")
+    class(sumry) <- "table"
+    print(sumry)
+    cat("\n")
+    sumry <- array("", c(2, 3), list(1:2, c("vector", "length", "content")))
+    sumry[1, ] <- c("$pr", length(x$pr), "vector of presence")
+    sumry[2, ] <- c("$index", length(x$index), "position of the rows")
+    class(sumry) <- "table"
+    print(sumry)
+    cat("\n$attr: attributes of the initial kasc\n")
 }
 
 
@@ -4711,8 +4915,10 @@ print.enfa <- function (x, ...)
   sumry[5, ] <- c("$c1", nrow(x$c1), ncol(x$c1), "column normed scores")
   class(sumry) <- "table"
   print(sumry)
-  cat("\nother elements: ")
-  cat(names(x)[(11 + 2):(length(x))], "\n")
+  if (length(names(x)) > 12) {
+    cat("\nother elements: ")
+    cat(names(x)[13:(length(x))], "\n")
+  }
 }
 
 
@@ -4730,13 +4936,13 @@ randtest.enfa<-function(xtest, nrepet=999, ...)
   }
 
 
-scatter.enfa <- function(x, xax = 1, yax = 2, pts = FALSE,
-                         nc = TRUE, percent = 95, 
-                         clabel = 1, side = c("top", "bottom", "none"),
-                         csub = 1, Adensity, Udensity, Aangle, Uangle,
-                         Aborder, Uborder, Acol, 
-                         Ucol, Alty, Ulty, Apch, Upch,
-                         Abg, Ubg, Acex, Ucex, ...)
+
+scatter.enfa <- function(x, xax = 1, yax = 2, pts = FALSE, nc = TRUE, 
+                         percent = 95, clabel = 1,
+                         side = c("top", "bottom", "none"),
+                         Adensity, Udensity, Aangle, Uangle,
+                         Aborder, Uborder, Acol, Ucol, Alty,
+                         Ulty, Abg, Ubg, Ainch, Uinch, ...)
 {
   side <- match.arg(side)
   if (!inherits(x, "enfa")) 
@@ -4753,32 +4959,32 @@ scatter.enfa <- function(x, xax = 1, yax = 2, pts = FALSE,
   pmar <- t(x$mar) %*% as.matrix(x$c1[, 1:(x$nf + 1)])
   scatterutil.base(dfxy = x$li[, c(xax, yax)], xax = 1, yax = 2, 
                    xlim = xlim, ylim = ylim, grid = TRUE, addaxes = FALSE, 
-                   cgrid = 1, include.origin = TRUE, origin = c(0, 0), sub = "", 
-                   csub = 1.25, possub = "bottomleft", pixmap = NULL, contour = NULL, 
+                   cgrid = 1, include.origin = TRUE, origin = c(0, 0),
+                   sub = "", csub = 1.25, possub = "bottomleft",
+                   pixmap = NULL, contour = NULL, 
                    area = NULL, add.plot = FALSE)
   if (pts) {
-    if (missing (Apch))
-      Apch <- 19
-    if (missing (Upch))
-      Upch <- 19
     if (missing (Acol))
       Acol <- gray(0.8)
-                if (missing (Ucol))
-                  Ucol <- "black"
+    if (missing (Ucol))
+      Ucol <- "black"
     if (missing (Abg))
-      Abg <- NA
+      Abg <- gray(0.8)
     if (missing (Ubg))
-      Ubg <- NA
-    if (missing (Acex))
-      Acex <- 1
-    if (missing (Ucex))
-      Ucex <- 1
-    points(x$li[, c(xax, yax)], pch = Apch, col = Acol, bg = Abg, cex = Acex)
-    points(x$li[rep(1:length(x$pr), x$pr), c(xax, yax)], pch = Upch, col = Ucol, bg = Ubg, cex = Ucex)
+      Ubg <- "black"
+    if (missing (Ainch))
+      Ainch <- 0.03
+    if (missing (Uinch))
+      Uinch <- Ainch*max(x$pr)
+    symbols(x$li[, c(xax, yax)], circles = rep(1, length(x$pr)),
+            fg = Acol, bg = Abg, inches = Ainch, add = TRUE)
+    symbols(x$li[x$pr>0, c(xax, yax)], circles = x$pr[x$pr>0],
+            fg = Ucol, bg = Ubg, inches = Uinch, add = TRUE)
     abline(v=0)
     abline(h=0)
     if (nc)
-      points(pmar, pch = 21, bg = "white", cex = Ucex+0.2)
+      symbols(pmar, circles = 1, fg = "black", bg = "white",
+              inches = Ainch*2, add = TRUE)
   }
   else {
     if (missing(Adensity))
@@ -4801,16 +5007,20 @@ scatter.enfa <- function(x, xax = 1, yax = 2, pts = FALSE,
       Alty <- NULL
     if (missing(Ulty))
       Ulty <- NULL
-    if (missing (Ucex))
-      Ucex <- 1
-    mcpA <- mcp(x$li[, c(xax, yax)], id = rep(1, dim(x$li)[1]), percent = percent)
-    mcpU <- mcp(x$li[rep(1:length(x$pr), x$pr), c(xax, yax)], id = rep(1, sum(enfa1$pr)), percent = percent)
-    polygon(mcpA[, 2:3], density = Adensity, angle = Aangle, border = Aborder, col = Acol, lty = Alty)
-        polygon(mcpU[, 2:3], density = Udensity, angle = Uangle, border = Uborder, col = Ucol, lty = Ulty)
+                                        #		if (missing (Ucex))
+                                        #			Ucex <- 1
+    mcpA <- mcp(x$li[, c(xax, yax)], id = rep(1, dim(x$li)[1]),
+                percent = percent)
+    mcpU <- mcp(x$li[rep(1:length(x$pr), x$pr), c(xax, yax)],
+                id = rep(1, sum(enfa1$pr)), percent = percent)
+    polygon(mcpA[, 2:3], density = Adensity, angle = Aangle,
+            border = Aborder, col = Acol, lty = Alty)
+    polygon(mcpU[, 2:3], density = Udensity, angle = Uangle,
+            border = Uborder, col = Ucol, lty = Ulty)
     abline(v=0)
     abline(h=0)
     if (nc)
-      points(pmar, pch = 21, bg = "white", cex = Ucex+0.2)
+      points(pmar, pch = 21, bg = "white", cex = 1.5)
   }
   dfarr <- x$c1[, c(xax, yax)]
   born <- par("usr")
@@ -4827,15 +5037,25 @@ scatter.enfa <- function(x, xax = 1, yax = 2, pts = FALSE,
   if (yax == 1) 
     yax <- "mar"
   else yax <- paste("sp", yax - 1)
-  if (side == "none") 
-    return(invisible())
-  if (side == "top") 
-    mtext(text = paste(" xax =", xax, "\n yax =", yax), side = 3, 
-          line = -2 * csub, adj = 0, cex = csub)
-  else mtext(text = paste(" xax =", xax, "\n yax =", yax), 
-             side = 1, line = -2, adj = 0, cex = csub)
+  if (side != "none") {
+    tra <- paste(" xax =", xax, "\n yax =", yax)
+    wt <- strwidth(tra, cex = 1)
+    ht <- strheight(tra, cex = 1) * 1.5
+    xl <- par("usr")[1]
+    yu <- par("usr")[4]
+    yd <- par("usr")[3]
+    if (side == "top") {
+      rect(xl, yu - ht, xl + wt, yu, col = "white", border = 0)
+      text(xl + wt/2, yu - ht/2, tra, cex = 1)
+    }
+    if (side == "bottom") {
+      rect(xl, yd + ht, xl + wt, yd, col = "white", border = 0)
+      text(xl + wt/2, yd + ht/2, tra, cex = 1)
+    }
+    
+  }
+  box()
 }
-
 
 
 
@@ -5084,9 +5304,7 @@ plot.NNCHver<-function(x, which = names(x),
     if (!add)
       plot(xt, yt, asp=1, ty = "n", ...)
 
-    res<-list()
-    for (i in which)
-      res[[i]]<-x[[which]]
+    res<-x[which]
     
     lapply(1:length(res), function(x) plot(res[[x]],
                                            poly.args = list(col = colpol[x],
@@ -5125,11 +5343,13 @@ NNCH.rast<-function(y, w)
       } else {
         ee <- rr[[1]]
       }
-      for (j in 2:length(rr)) {
-        if (hol[[i]][j])
-          ee <- ee - rr[[j]]
-        if (!hol[[i]][j])
-          ee <- ee + rr[[j]]
+      if (length(rr) >1){
+        for (j in 2:length(rr)) {
+          if (hol[[i]][j])
+            ee <- ee - rr[[j]]
+          if (!hol[[i]][j])
+            ee <- ee + rr[[j]]
+        }
       }
       ee[ee==0] <- NA
       res[[i]] <- getascattr(w, ee)
@@ -5383,5 +5603,352 @@ schoener.rtest <- function(tr, keep, byburst=TRUE, nrep=500)
     return(rr)
   }
 
+
+
+### Buffer autour des lignes
+
+buffer.line <- function(xy, x, dist)
+  {
+    if (inherits(x, "kasc"))
+      x <- getkasc(x, 1)
+    if (!inherits(x, "asc"))
+      stop("x should be an object of class asc")
+    ra<- attr(x, "cellsize")/100
+    xy[,1]<-jitter(xy[,1], amount=ra)
+    xy[,2]<-jitter(xy[,2], amount=ra)
+    bu <- buffer(xy, x, dist)
+    bu[is.na(bu)]<-0
+    
+    carter <- matrix(0, nrow=nrow(x), ncol = ncol(x))
+    xyg <- getXYcoords(x)
+    xgr<-xyg$x
+    ygr<-xyg$y
+    
+    toto <- .C("bufligr", as.double(t(xy)), as.double(dist),
+               as.double(t(carter)), as.double(xgr),
+               as.double(ygr), as.integer(nrow(x)),
+               as.integer(ncol(x)), as.integer(nrow(xy)),
+               PACKAGE="adehabitat")[[3]]
+
+    output <- matrix(toto, nrow = nrow(x), byrow = TRUE)
+    output <- output + bu
+    output[output>0]<-1
+    
+    output[output == 0] <- NA
+    attr(output, "xll") <- attr(x, "xll")
+    attr(output, "yll") <- attr(x, "yll")
+    attr(output, "cellsize") <- attr(x, "cellsize")
+    attr(output, "type") <- "numeric"
+    class(output) <- "asc"
+    return(output)
+}
+
+
+
+##############################################################################################
+##############################################################################################
+#####
+##### Interface vers "sp"
+
+
+kasc2spixdf <- function(ka)
+  {
+    if (!inherits(ka, "kasc"))
+      stop("ka should be of class \"kasc\"")
+    if (!require(sp))
+      stop("the package sp is required for this function")
+    xyc <- getXYcoords(ka)
+    xc <- rep(xyc$x, times=length(xyc$y))
+    yc <- rep(xyc$y, each=length(xyc$x))
+    xyc<-data.frame(x=xc,y=yc)
+    ka <- managNAkasc(ka)
+    cons <- (1:nrow(ka))[!is.na(ka[,1])]
+    df <- ka[cons,]
+    class(df) <- "data.frame"
+    xyc <- xyc[cons,]
+    names(xyc) <- c("x","y")
+    df1 <- data.frame(xyc, df)
+    coordinates(df1) <- c("x","y")
+    gridded(df1) <- TRUE
+    return(df1)
+  }
+
+asc2spixdf <- function(a)
+  {
+    if (!inherits(a, "asc"))
+      stop("a should be of class \"asc\"")
+    if (!require(sp))
+      stop("the package sp is required for this function")
+    xyc <- getXYcoords(a)
+    xc <- rep(xyc$x, times=length(xyc$y))
+    yc <- rep(xyc$y, each=length(xyc$x))
+    xyc<-data.frame(x=xc,y=yc)
+    cons <- (1:length(c(a)))[!is.na(c(a))]
+    var <- c(a)[cons]
+    xyc <- xyc[cons,]
+    names(xyc) <- c("x","y")
+    df1 <- data.frame(xyc, var)
+    coordinates(df1) <- c("x","y")
+    gridded(df1) <- TRUE
+    return(df1)
+  }
+
+spixdf2kasc <- function(sg)
+  {
+    if (!require(sp))
+      stop("the package sp is required for this function")
+    if (inherits(sg, "SpatialPixelsDataFrame"))
+      sg <- as(sg, "SpatialGridDataFrame")
+    if (!inherits(sg, "SpatialGridDataFrame"))
+      stop(paste("sg should be of class \"SpatialPixelsDataFrame\"",
+                 "\nor \"SpatialGridDataFrame\""))
+    gr <- gridparameters(sg)
+    if (nrow(gr)>2)
+      stop("sg should be defined in two dimensions")
+    if (gr[1,2]!=gr[2,2])
+      stop("the cellsize should be the same in x and y directions")
+    fullgrid(sg) <- TRUE
+    xy <- coordinates(sg)
+    ka <- sg@data
+    ka <- ka[order(xy[,1]),]
+    xy <- xy[order(xy[,1]),]
+    ka <- ka[order(xy[,2]),]
+    xy <- xy[order(xy[,2]),]
+    nxy <- colnames(xy)
+    ka <- ka[,is.na(match(names(ka), nxy))]
+    attr(ka, "cellsize") <- gr[2,2]
+    attr(ka, "xll") <- gr[1,1]
+    attr(ka, "yll") <- gr[2,1]
+    attr(ka,"ncol") <- gr[1,3]
+    attr(ka,"nrow") <- gr[2,3]
+    class(ka) <- c("kasc", "data.frame")
+    if (ncol(ka)==1) {
+      v <- ka[,1]
+      if ((is.numeric(v)) | (is.logical(v))) {
+        e <- matrix(v, ncol = attr(ka, "nrow"))
+        attr(e, "type") <- "numeric"
+      }
+      else {
+        tc2 <- levels(v)
+        v <- as.numeric(v)
+        e <- matrix(v, ncol = attr(ka, "nrow"))
+        attr(e, "type") <- "factor"
+        attr(e, "levels") <- tc2
+      }
+      attr(e, "cellsize") <- attr(ka, "cellsize")
+      attr(e, "xll") <- attr(ka, "xll")
+      attr(e, "yll") <- attr(ka, "yll")
+      class(e) <- "asc"
+      ka <- e
+    }
+    return(ka)
+  }
+
+area2sr <- function(ar)
+  {
+    if (!inherits(ar, "area"))
+      stop("ka should be of class \"area\"")
+    if (!require(sp))
+      stop("the package sp is required for this function")
+    class(ar) <- "data.frame"
+    li <- split(ar[,2:3],ar[,1])
+    res <- lapply(li, function(x) {
+      if (!all(unlist(x[1,]==x[nrow(x),])))
+        x <- rbind(x,x[1,])
+      x <- as.matrix(x)
+      y <- Sring(x, hole=FALSE)
+      if (y@ringDir<0)
+        y <- Sring(x[nrow(x):1,], hole=FALSE)
+      return(y)
+    })
+    resb <- SpatialRings(lapply(1:length(res),
+                               function(i) Srings(list(res[[i]]),
+                                                  names(res)[i])))
+    return(resb)
+  }
+
+
+sr2area <- function(sr)
+  {
+    if (!require(sp))
+      stop("the package sp is required for this function")
+    if (inherits(sr, "SpatialRingsDataFrame"))
+      sr <- rings(sr)    
+    if (!inherits(sr, "SpatialRings"))
+      stop("sr should be of class \"SpatialRings\" or \"SpatialRingsDataFrame\"")
+    pol <- sr@polygons
+    warh <- 0
+    warh2 <- 0
+    warz <- 0
+    res <- lapply(pol, function(x) {
+      y <- x@Srings
+      nom <- x@ID
+      ll <- length(y)
+      hh <- unlist(lapply(y, function(o) o@hole))
+      hol <- sum(hh)
+      ll <- ll-hol
+      if (ll == 1) {
+        if (hol == 0) {
+          re <- as.data.frame(y[[1]]@coords)
+          re <- data.frame( fac = factor(rep(nom,length(re[,1]))), re)
+          names(re) <- c("fac", "x", "y")
+        }
+        if (hol != 0) {
+          warh <- warh+hol
+          warh2 <- warh2+1
+          re <- as.data.frame(y[!hh][[1]]@coords)
+          re <- data.frame( fac = factor(rep(nom,length(re[,1]))), re)
+          names(re) <- c("fac", "x", "y")
+        }
+      }
+      if (ll > 1) {
+        warz <- warz+1
+        if (hol == 0) {
+          nom <- paste(nom, 1:ll, sep=".")
+          re1 <- lapply(y, function(o) as.data.frame(o@coords))
+          re <- do.call("rbind.data.frame", lapply(1:length(re1), function(i) {
+            u <- data.frame(fac=factor(rep(nom[i], length(re1[[i]][,1]))), re1[[i]])
+            names(u) <- c("fac", "x", "y")
+            return(u)
+          }))
+        }
+        if (hol!=0) {
+          warh <- warh+hol
+          warh2 <- warh2+1
+          nom <- paste(nom, 1:ll, sep=".")
+          y <- y[!hh]
+          re1 <- lapply(y, function(o) as.data.frame(o@coords))
+          re <- do.call("rbind.data.frame", lapply(1:length(re1), function(i) {
+            u <- data.frame(fac=factor(rep(nom[i], length(re1[[i]][,1]))), re1[[i]])
+            names(u) <- c("fac", "x", "y")
+            return(u)
+          }))
+        }
+      }
+      return(list(re,warh2, warh, warz))
+    })
+    warh2 <- sum(unlist(lapply(res, function(x) x[[2]])))
+    warh <- sum(unlist(lapply(res, function(x) x[[3]])))
+    warz <- sum(unlist(lapply(res, function(x) x[[4]])))
+    res <- lapply(res, function(x) x[[1]])
+    res <- do.call("rbind.data.frame", res)
+    res <- as.area(res)
+    if (warh2>0) {
+      warning(paste("Area objects do not take into account holes in polygon.\n",
+                    warh, "holes have been deleted from the data, belonging to\n",
+                    warh2, "polygons"))
+    }
+##    if (warz>0) {
+##      warning(paste("Some spatial rings contained several polygons.\n",
+##                    "Labels have therefore been changed for", warz, "objects"))
+##    }
+    return(res)
+  }
+
+
+attsr2area <- function(srdf)
+  {
+    if (!inherits(srdf, "SpatialRingsDataFrame"))
+      stop("sr should be of class \"SpatialRingsDataFrame\"")
+    dat <- srdf@data
+    sr <- rings(srdf)
+    
+    res <- lapply(1:length(sr@polygons), function(i) {
+      x <- sr@polygons[[i]]
+      y <- x@Srings
+      nom <- x@ID
+      ll <- length(y)
+      hh <- unlist(lapply(y, function(o) o@hole))
+      hol <- sum(hh)
+      ll <- ll-hol
+      if (ll == 1) {
+        re <- data.frame(nom=nom,dat[i,])
+      }
+      if (ll > 1) {
+        nom <- paste(nom, 1:ll, sep=".")
+        re <- data.frame(nom=nom, dat[rep(i,ll),])
+      }
+      return(re)
+    })
+    res <- do.call("rbind.data.frame", res)
+    row.names(res) <- 1:nrow(res)
+    return(res)
+  }
+
+
+
+traj2spdf <- function(tr)
+  {
+    if (!inherits(tr, "traj"))
+      stop("tr should be of class \"traj\"")
+    class(tr) <- "data.frame"
+    xy <- tr[,c("x","y")]
+    tr$y <- tr$x <- NULL
+    res <- SpatialPointsDataFrame(xy, tr)
+    return(res)
+  }
+
+
+traj2sldf <- function(tr, byid = FALSE)
+  {
+    if (!inherits(tr, "traj"))
+      stop("tr should be of class \"traj\"")
+    class(tr) <- "data.frame"
+    lixy <- lapply(split(tr[,c("x","y")], tr$burst), function(x) Sline(as.matrix(x)))
+    id <- unlist(lapply(split(tr$id, tr$burst), function(x) x[1]))
+    bu <- unlist(lapply(split(tr$burst, tr$burst), function(x) x[1]))
+    
+    if (byid) {
+      lev <- as.numeric(levels(factor(id)))
+      re1 <- lapply(lev, function(x) Slines(lixy[id==x]))
+      res <- SpatialLines(re1)
+      df <- data.frame(id=lev)
+    } else {
+      res <- lapply(lixy, function(x) Slines(list(x)))
+      res <- SpatialLines(res)
+      df <- data.frame(id=id, burst=bu)
+    }
+    res <- SpatialLinesDataFrame(res, data=df)
+    return(res)
+  }
+
+
+
+##############################################################################################
+##############################################################################################
+#####
+##### Calcul de distances aux patchs d'habitat
+
+distfacmap <- function(x)
+  {
+    if (!inherits(x, "asc"))
+      stop("x should be of class \"asc\"")
+    if (attr(x, "type")!="factor")
+      stop("x should be of type \"factor\"")
+    xyc <- getXYcoords(x)
+    xc <- rep(xyc$x, times=length(xyc$y))
+    yc <- rep(xyc$y, each=length(xyc$x))
+    xyc<-data.frame(x=xc,y=yc)
+    lev <- as.numeric(levels(factor(c(x))))
+    li <- list()
+    
+    for (i in lev) {
+      tmp <- x
+      tmp[x!=i] <- NA
+      tmp[x==i] <- 1
+      ptsoui <- xyc[!is.na(c(tmp)),]
+      toto <- .C("distxyr", as.double(t(as.matrix(xyc))),
+                 as.double(t(as.matrix(ptsoui))),
+                 as.integer(nrow(xyc)), as.integer(nrow(ptsoui)),
+                 double(nrow(xyc)), PACKAGE="adehabitat")
+      li[[i]] <- toto[[5]]
+    }
+    names(li) <- levels(x)
+    ka <- as.kasc(list(x1=x))
+    li <- as.data.frame(li)
+    li <- getkascattr(ka,li)
+    li <- setmask(li, x)
+    return(li)
+  }
 
 

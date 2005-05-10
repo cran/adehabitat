@@ -5,13 +5,11 @@
 Performs the scatter diagrams of objects of class \code{enfa}.
 }
 \usage{
-scatter.enfa(x, xax = 1, yax = 2, pts = FALSE,
-             nc = TRUE, percent = 95, 
-             clabel = 1, side = c("top", "bottom", "none"),
-             csub = 1, Adensity, Udensity, Aangle, Uangle,
-             Aborder, Uborder, Acol, 
-             Ucol, Alty, Ulty, Apch, Upch,
-             Abg, Ubg, Acex, Ucex, ...)
+scatter.enfa(x, xax = 1, yax = 2, pts = FALSE, nc = TRUE, 
+             percent = 95, clabel = 1, side = c("top", "bottom", "none"),
+             Adensity, Udensity, Aangle, Uangle, Aborder, Uborder, 
+             Acol, Ucol, Alty, Ulty, Abg, Ubg, Ainch, Uinch, \dots) 
+
 }
 \arguments{
   \item{x}{an object of class \code{enfa}}
@@ -21,11 +19,10 @@ scatter.enfa(x, xax = 1, yax = 2, pts = FALSE,
     \code{FALSE}, minimum convex polygons are displayed}
   \item{nc}{whether or not the niche center should be displayed}
   \item{percent}{100 minus the proportion of outliers to be excluded from the
-          computation of the minimum convex polygons}
+    computation of the minimum convex polygons}
   \item{clabel}{a character size for the columns}
   \item{side}{if \code{"top"}, the legend of the kept axis is upside, if
     \code{"bottom"} it is downside, if \code{"none"} no legend}
-  \item{csub}{a character size for the legend}
   \item{Adensity}{the density of shading lines, in lines per inch, for the 
     available pixels polygon. See \code{\link{polygon}} for more details}
   \item{Udensity}{the density of shading lines, in lines per inch, for the 
@@ -44,33 +41,27 @@ scatter.enfa(x, xax = 1, yax = 2, pts = FALSE,
   \item{Ucol}{the color for filling the used pixels polygon. 
     if \code{pts==FALSE}, the color for the points corresponding to used 
     pixels}
-  \item{Alty}{the line type for the available pixels polygon, as in 
-    \code{par}.}
+  \item{Alty}{the line type for the available pixels polygon, as in \code{par}.}
   \item{Ulty}{the line type for the used pixels polygon, as in \code{par}.}
-  \item{Apch}{if \code{pts==FALSE}, plotting "character", i.e., symbol to use
-    for the available pixels. See \code{\link{points}} for more details}
-  \item{Upch}{if \code{pts==FALSE}, plotting "character", i.e., symbol to use
-    for the used pixels. See \code{\link{points}}}
-  \item{Abg}{if \code{pts==FALSE}, background color for open plot symbols of 
-    available pixels.}
-  \item{Ubg}{if \code{pts==FALSE}, background color for open plot symbols of 
-    used pixels.}
-  \item{Acex}{if \code{pts==FALSE}, character expansion of available pixels: 
-    a numerical vector}
-  \item{Ucex}{if \code{pts==FALSE}, character expansion of used pixels: 
-    a numerical vector}
+  \item{Abg}{if \code{pts==TRUE}, background color for open plot symbols of 
+    available pixels}
+  \item{Ubg}{if \code{pts==TRUE}, background color for open plot symbols of 
+    used pixels}
+  \item{Ainch}{if \code{pts==TRUE}, heigth in inches of the available pixels} 
+  \item{Uinch}{if \code{pts==TRUE}, heigth in inches of the largest used pixels}
   \item{\dots}{further arguments passed to or from other methods}
 }
 \details{
-  \code{scatter.enfa} displays a factorial map of pixels, as well as the
-  projection of the vectors of the canonical basis multiplied by a
-  constant of rescaling.
-  The kept axes for the plot are specified in a corner.
+\code{scatter.enfa} displays a factorial map of pixels, as well as the
+projection of the vectors of the canonical basis multiplied by a
+constant of rescaling.
+The kept axes for the plot are specified in a corner.
 }
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
 \seealso{\code{\link{enfa}}, \code{\link[ade4]{scatter}}}
 \examples{
 \dontrun{
+## Not run: 
 data(lynxjura)
 
 map <- lynxjura$map
@@ -79,11 +70,9 @@ map <- lynxjura$map
 tmp <- lynxjura$locs[,4]!="D"
 locs <- lynxjura$locs[tmp, c("X","Y")]
 
-
 ## We perform a square root transformation
 ## of the variable to normalize it
 map[,4] <- sqrt(map[,4])
-
 
 ## We perform the ENFA
 (enfa1 <- enfa(map, locs[tmp, c("X","Y")],

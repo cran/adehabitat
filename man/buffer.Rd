@@ -1,6 +1,7 @@
 \name{buffer}
 \alias{buffer}
 \alias{buffer.ani}
+\alias{buffer.line}
 \title{Compute Buffers}
 \description{
   \code{buffer} compute buffers around a set of
@@ -8,11 +9,13 @@
   \code{buffer.ani} is to be used when the
   points can be grouped into several categories  (e.g. the relocations
   of several animals monitored using radio-tracking; the function
-  \code{buffer} is then applied to each animal).
+  \code{buffer} is then applied to each animal).\cr
+  \code{buffer.line} compute buffers around a line.
 }
 \usage{
 buffer(pts, x, dist)
 buffer.ani(pts, fac, x, dist)
+buffer.line(xy, x, dist)
 }
 
 \arguments{
@@ -23,9 +26,12 @@ buffer.ani(pts, fac, x, dist)
     \code{mapattr} (see \code{storemapattr})}
   \item{dist}{a value of distance}
   \item{fac}{a factor defining the categories of the points}
+  \item{xy}{a data frame containing the coordinates of the vertices of
+    the lines}
 }
 \value{
-  \code{buffer} returns an object of class \code{asc}, with 1 for pixels
+  \code{buffer} and \code{buffer.line} return an object of class
+  \code{asc}, with 1 for pixels 
   located within a specified distance of given points, and \code{NA}
   otherwise.\cr 
   \code{buffer.ani} returns a data frame of class \code{kasc},
@@ -57,6 +63,15 @@ image(bu)
 # of a relocation of each monitored wild boar
 buani <- buffer.ani(locs[,4:5], locs[,1], sa, 500)
 image(buani)
- 
+
+
+## buffer around a trajectory
+data(puechcirc)
+uu <- getburst(puechcirc, burst = "CH930824")    
+w <- ascgen(uu[,c("x","y")], nrcol = 100)
+out <- buffer.line(uu[,c("x","y")], w, 100)
+image(out)
+plot(uu, asc = out)
+
 }
 \keyword{spatial}

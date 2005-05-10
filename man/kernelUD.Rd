@@ -24,14 +24,14 @@
 }
 \usage{
 kernelUD(xy, id = NULL, h = "href", grid = 40, same4all = FALSE,
-         hlim = c(0.1, 1.5))
+         hlim = c(0.1, 1.5), kern = "bivnorm")
 print.khr(x, \dots)
 image.khr(x, axes = FALSE, mar = c(0,0,2,0),
           addcontour = TRUE, addpoints = TRUE, \dots)
 plotLSCV(x)
 getvolumeUD(x)
 kernel.area(xy, id, h = "href", grid=40,
-            same4all = FALSE, hlim = c(0.1,1.5),
+            same4all = FALSE, hlim = c(0.1,1.5), kern = "bivnorm",
             levels = seq(20,95, by = 5),
             unin = c("m", "km"),
             unout = c("ha", "km2", "m2"))
@@ -51,7 +51,8 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
   \item{h}{a character string or a number.  If \code{h} is set to
     \code{"href"}, the ad hoc method is used for the smoothing parameter
     (see details).  If \code{h} is set to 
-    \code{"LSCV"}, the least-square cross validation method is used.
+    \code{"LSCV"}, the least-square cross validation method is
+    used. Note that \code{"LSCV"} is not available if \code{kern = "epa"}. 
     Alternatively, \code{h} may be set to any given numeric value}
   \item{grid}{a number giving the size of the grid on
     which the UD should be estimated.  Alternatively, this parameter may
@@ -64,6 +65,9 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
     h ranging from \code{hlim[1]*href} to \code{hlim[2]*href}, where
     \code{href} is the smoothing parameter computed with the ad hoc
     method (see below)}
+  \item{kern}{a character string.  If \code{"bivnorm"}, a bivariate
+    normal kernel is used.  If \code{"epa"}, an Epanechnikov kernel is
+    used.}
   \item{x}{an object of class \code{khr} returned by \code{kernelUD}.
     For \code{plot.kver}, an object of class \code{kver} returned by
     \code{getverticeshr} }
@@ -106,16 +110,19 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
   the home range as the minimum area in which an animal has some
   specified probability of being located. The
   functions used here correspond to the approach described in Worton
-  (1995). \cr
+  (1995).\cr
 
   The kernel method has been recommended by many authors for the
   estimation of the utilization distribution (e.g. Worton, 1989, 1995).
   The default method for the estimation of the
-  smoothing parameter is the \emph{ad hoc} method, i.e.
+  smoothing parameter is the \emph{ad hoc} method, i.e. for a bivariate
+  normal kernel
   \deqn{h = \sigma n^{- \frac{1}{6}}}{h = Sigma*n^(-1/6)}
   where \deqn{\sigma = 0.5 (\sigma(x)+\sigma(y))}{Sigma =
     0.5*(sd(x)+sd(y))} which supposes that the UD is
-  bivariate normal.  Alternatively, the smoothing parameter h may be
+  bivariate normal.  If an Epanechnikov kernel is used, this value is
+  multiplied by 1.77 (Silverman, 1986, p. 86).
+  Alternatively, the smoothing parameter h may be
   computed by Least Square Cross Validation (LSCV).  The estimated value
   then minimizes the Mean Integrated Square Error (MISE), i.e. the
   difference in volume between the true UD and the estimated UD.  Note
@@ -129,6 +136,10 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
   know whether the minimum of the CV criterion occurs within the scanned
   range).  Finally, the UD is then estimated over a grid.\cr
 
+  The default kernel is the bivariate normal kernel, but the
+  Epanechnikov kernel, which requires less computer time is also
+  available for the estimation of the UD. \cr
+  
   The function \code{getvolumehr} modifies the UD component of the
   object passed as argument, so
   that the contour of the UD displayed by the functions \code{contour}

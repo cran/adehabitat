@@ -7,7 +7,8 @@
   for a clearer definition.
 }
 \usage{
-angles(x, id = levels(x$id), burst = levels(x$burst), date = NULL)
+angles(x, id = levels(x$id), burst = levels(x$burst),
+       date = NULL, slsp =  c("remove", "missing"))
 }
 \arguments{
   \item{x}{an object of class \code{traj} }
@@ -17,6 +18,11 @@ angles(x, id = levels(x$id), burst = levels(x$burst), date = NULL)
     the angles are to be computed (see \code{as.traj})}
   \item{date}{a vector of class \code{POSIXct} of length 2 (beginning, end)
     delimiting the period of interest}
+  \item{slsp}{a character string.  If \code{"remove"}, successive
+    relocations located at the same place are replaced by a single
+    relocation, allowing the computation of the angles.  If
+    \code{"missing"}, a missing value is returned for the angles when
+    successive relocations located at the same place. }
 }
 \value{
   Returns a data frame with the following components:

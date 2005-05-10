@@ -1,6 +1,6 @@
 \name{histniche}
 \alias{histniche}
-\title{Histograms of the Ecological Niche of a Species}
+\title{Histograms of the Ecological Niche}
 \description{
   \code{histniche} draws histograms of the variables mapped in an
   object of class \code{kasc} (habitat available for the species). The
@@ -10,7 +10,7 @@
 }
 \usage{
 histniche(kasc, pts, type = c("h", "l"), adjust = 1,
-          Acol, Ucol, Aborder, Uborder, \dots)
+          Acol, Ucol, Aborder, Uborder, Alwd = 1, Ulwd = 1, \dots)
 }
 \arguments{
   \item{kasc}{a raster map of class \code{kasc}}
@@ -30,6 +30,10 @@ histniche(kasc, pts, type = c("h", "l"), adjust = 1,
     histograms of the available pixels (see \code{help(hist.default)})}
   \item{Uborder}{if \code{type = "h"}, color for the border of the
     histograms of the used pixels (see \code{help(hist.default)})} 
+  \item{Alwd}{if \code{type = "l"}, line width for the density estimate
+    of the available pixels} 
+  \item{Ulwd}{if \code{type = "l"}, line width for the density estimate
+    of the used pixels} 
   \item{\dots}{further arguments passed to or from other methods}
 }
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr} }
@@ -38,6 +42,9 @@ histniche(kasc, pts, type = c("h", "l"), adjust = 1,
 ## Example with factors and numeric variables
 data(puechabon)
 histniche(puechabon$kasc, puechabon$locs[, c("X", "Y")])
+
+## Aspect is a factor, then it's not possible to use 
+## kernel density estimates for it :
 histniche(puechabon$kasc, puechabon$locs[, c("X", "Y")], type = "l")
 }
 }

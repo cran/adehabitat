@@ -7,24 +7,16 @@
   Monte-Carlo methods.  This is a bivariate test.
 }
 \usage{
-niche.test(kasc, points, nrep = 999, h, o.include = FALSE,
-           colZ = "blue", colS = "orange", \dots) 
+niche.test(kasc, points, nrep = 999, o.include = TRUE, \dots) 
 }
 \arguments{
   \item{kasc}{a raster map of class \code{kasc}}
   \item{points}{a data frame with two columns, giving the coordinates of
     the species locations}
   \item{nrep}{the number of permutations}
-  \item{h}{vector of bandwidths for x and y directions passed to
-    \code{biv.test}, used in the function \code{kde2d} of the package
-    \code{MASS}.  Defaults to normal reference bandwidth (see \code{?kde2d}).}
   \item{o.include}{logical, passed to \code{biv.test}.  If \code{TRUE},
     the origin is included in the plot}
-  \item{colZ}{a color passed to \code{biv.test} for the color of the kernel
-    density estimation of the randomized values}
-  \item{colS}{a color passed to \code{biv.test} for the actual values of
-    marginality and tolerance of the object of class \code{enfa}}
-  \item{\dots}{further arguments passed to or from other methods}
+  \item{\dots}{further arguments passed to \code{biv.test}}
 }
 \details{
   \code{niche.test} tests the significance of two parameters describing
@@ -57,16 +49,20 @@ components:
 \section{Warning}{
   \code{biv.test} uses the function \code{kde2d} of the package \code{MASS}.
 }
-\seealso{\code{\link{biv.test}} for more details on bivariate tests. }
+\seealso{
+  \code{\link{biv.test}} for more details on bivariate tests. 
+  \code{\link{histniche}} for the histograms of the variables of the niche.
+}
 \examples{
 \dontrun{
 data(lynxjura)
 
 ## We keep only "wild" indices.
 tmp=lynxjura$loc[,4]!="D"
-if (require(MASS))
-   niche=niche.test(lynxjura$map,
-                    lynxjura$locs[tmp, c("X", "Y")])
+niche=niche.test(lynxjura$map,
+                 lynxjura$locs[tmp, c("X", "Y")],
+                 side = "bottom")
+names(niche)
 }
 }
 \keyword{multivariate}

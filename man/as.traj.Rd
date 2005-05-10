@@ -1,5 +1,6 @@
 \name{as.traj}
 \alias{as.traj}
+\alias{traj}
 \alias{print.traj}
 \alias{summary.traj}
 \alias{plot.traj}

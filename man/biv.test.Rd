@@ -1,29 +1,44 @@
 \name{biv.test}
+\alias{biv.plot}
 \alias{biv.test}
 \title{Bivariate Test}
 \description{
+  \code{biv.plot} displays a bivariate plot.
   \code{biv.test} displays the results of a bivariate randomisation test.
 }
 \usage{
-biv.test(dfxy, point, cbreaks = 8, h, colD = "blue", colP = "orange",
-         o.include = FALSE, rem = NULL, \dots) 
+biv.plot(dfxy, br = 10, points = TRUE, density = TRUE, 
+         kernel = TRUE, o.include = FALSE, pch, cex, col, h, sub, 
+         side = c("top", "bottom", "none"), \dots)
+biv.test(dfxy, point, br = 10, points = TRUE, density = TRUE, 
+         kernel = TRUE, o.include = FALSE, pch, cex, col, Pcol, h, sub, 
+         side = c("top", "bottom", "none"), \dots)
 }
 \arguments{
   \item{dfxy}{a data frame with N lines (couples of values) and two
     columns}
-  \item{point}{a vector of length 2, representing
-    the observation to be compared with the simulated values of the
-    randomisation test}
-  \item{cbreaks}{a parameter used to define the numbers of breaks of the
+  \item{br}{a parameter used to define the numbers of breaks of the
     histograms.  A larger value leads to a larger number of breaks}
+  \item{points}{logical.  Whether the points should be displayed}
+  \item{density}{logical.  Whether the kernel density estimation should be 
+    displayed for the marginal histograms}
+  \item{kernel}{logical.  Whether the kernel density estimation should be 
+    displayed for the bivariate plot}
+  \item{o.include}{logical.  If \code{TRUE}, the origin is included in
+    the plot}
+  \item{pch}{plotting "character", i.e., symbol to use for the points.  (see 
+    \code{?points})}
+  \item{cex}{character expansion for the points}
+  \item{col}{color code or name for the points, see \code{?par}}
   \item{h}{vector of bandwidths for x and y directions, used in the
     function \code{kde2d} of the package \code{MASS}.  Defaults to normal
     reference bandwidth (see \code{?kde2d})}
-  \item{colD}{a color used for the contours}
-  \item{colP}{a color used for the observation}
-  \item{o.include}{logical.  If \code{TRUE}, the origin is included in
-    the plot}
-  \item{rem}{a character string to be inserted in the plot}
+  \item{sub}{a character string to be inserted in the plot as a title}
+  \item{side}{if \code{"top"}, the x and y scales of the grid are upside, 
+    if \code{"bottom"} they are downside, if \code{"none"} no legend}
+  \item{point}{a vector of length 2, representing the observation to be 
+    compared with the simulated values of the randomisation test}
+  \item{Pcol}{color code or name for the observed point}
   \item{\dots}{further arguments passed to or from other methods}
 }
 \details{
@@ -40,19 +55,25 @@ biv.test(dfxy, point, cbreaks = 8, h, colD = "blue", colP = "orange",
 }
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
 \section{Warning}{
-  \code{biv.test} uses the function \code{kde2d} of the package
-  \code{MASS}.
+  \code{biv.plot} and \code{biv.test} uses the function \code{kde2d} of the 
+    package \code{MASS}.
 }
 \seealso{
   \code{\link[ade4]{as.randtest}}, \code{\link{niche.test}}
 }
 \examples{
+
 \dontrun{
-if (require(MASS)) {
-  dfxy <- data.frame(x = rnorm(1000,5), y = rnorm(1000,5))
-  p <- c(3.5, 3.5)
-  biv.test(dfxy, p, rem = "Bivariate\nnormal distribution")
-}
+x = rnorm(1000,2)
+y = 2*x+rnorm(1000,2)
+dfxy = data.frame(x, y)
+
+biv.plot(dfxy)
+biv.plot(dfxy, points=F, col="lightblue", br=20)
+
+p = c(3, 4)
+biv.test(dfxy, p)
+biv.test(dfxy, p, points=F, Pcol="darkred", col="lightblue", br=20)
 }
 }
 \keyword{multivariate}

@@ -1,5 +1,6 @@
 \name{as.area}
 \alias{as.area}
+\alias{area}
 \title{Objects of Class "area"}
 \description{
   Objects of class \code{area} are used to store the information on

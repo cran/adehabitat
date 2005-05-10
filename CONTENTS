@@ -11,7 +11,7 @@ Description: Exportation of Areas
 URL: ../../../library/habitat/html/area2dxf.html
 
 Entry: as.area
-Aliases: as.area
+Aliases: as.area, area
 Keywords: spatial
 Description: Objects of Class "area"
 URL: ../../../library/habitat/html/as.area.html
@@ -29,7 +29,7 @@ Description: Exploratory Analysis of Habitat Selection
 URL: ../../../library/habitat/html/as.sahrlocs.html
 
 Entry: as.traj
-Aliases: as.traj, print.traj, plot.traj, summary.traj, getburst, traj2df, df2traj
+Aliases: as.traj, print.traj, plot.traj, summary.traj, getburst, traj2df, df2traj, area
 Keywords: spatial
 Description: Working with Trajectories in 2D Space
 URL: ../../../library/habitat/html/as.traj.html
@@ -53,13 +53,13 @@ Description: Radio-Tracking of Bighorn Sheeps
 URL: ../../../library/habitat/html/bighorn.html
 
 Entry: biv.test
-Aliases: biv.test
+Aliases: biv.test, biv.plot
 Keywords: multivariate
 Description: Bivariate Test
 URL: ../../../library/habitat/html/biv.test.html
 
 Entry: buffer
-Aliases: buffer, buffer.ani
+Aliases: buffer, buffer.ani, buffer.line
 Keywords: spatial
 Description: Compute Buffers
 URL: ../../../library/habitat/html/buffer.html
@@ -94,6 +94,12 @@ Keywords: spatial
 Description: Number of Points in Each Pixel of a Raster Map
 URL: ../../../library/habitat/html/count.points.id.html
 
+Entry: distfacmap
+Aliases: distfacmap
+Keywords: spatial
+Description: Compute distances to the different levels of a factor map
+URL: ../../../library/habitat/html/distfacmap.html
+
 Entry: domain
 Aliases: domain
 Keywords: spatial
@@ -101,7 +107,7 @@ Description: Estimation of the Potential Distribution of a Species
 URL: ../../../library/habitat/html/domain.html
 
 Entry: enfa
-Aliases: enfa, hist.enfa, print.enfa
+Aliases: enfa, hist.enfa, print.enfa, data2enfa, print.dataenfa
 Keywords: multivariate
 Description: Ecological-Niche Factor Analysis
 URL: ../../../library/habitat/html/enfa.html
@@ -172,6 +178,12 @@ Aliases: kasc2df, df2kasc
 Keywords: multivariate
 Description: Multivariate analyses of objects of class "kasc"
 URL: ../../../library/habitat/html/df2kasc.html
+
+Entry: kasc2spixdf
+Aliases: kasc2spixdf, asc2spixdf, spixdf2kasc, area2sr, sr2area, attsr2area, traj2spdf, traj2sldf
+Keywords: hplot
+Description: Conversion of maps from/to the package "sp"
+URL: ../../../library/habitat/html/kasc2sgdf.html
 
 Entry: kernelUD
 Aliases: kernelUD, print.khr, image.khr, plotLSCV, getvolumeUD, kernel.area, getverticeshr, kernelbb, plot.kver

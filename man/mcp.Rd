@@ -14,7 +14,7 @@
 }
 \usage{
 mcp(xy, id, percent = 95)
-mcp.area(xy, id, percent = seq(20,95, by=5)
+mcp.area(xy, id, percent = seq(20,95, by=5),
          unin = c("m", "km"),
          unout = c("ha", "km2", "m2"))
 plot.hrsize(x, \dots)
