@@ -5,16 +5,20 @@
 \alias{summary.ltraj}
 \alias{traj2ltraj}
 \alias{ltraj2traj}
+\alias{rec}
 \title{Working with Trajectories in 2D Space: the Class ltraj}
 \description{
   The class \code{ltraj} is intended to store trajectories of
-  animals monitored using radio-tracking.\cr
+  animals monitored using telemetry (radio-tracking, GPS, Argos).\cr
   \code{as.ltraj} creates an object of this class.\cr
-  \code{summary.ltraj} returns the number of relocations for each "burst"
-  of relocations and each animal.\cr
+  \code{summary.ltraj} returns the number of relocations (and missing
+  values) for each "burst" of relocations and each animal.\cr
   \code{traj2ltraj}, and the reciprocal function \code{ltraj2traj}
   respectively converts an object of class \code{ltraj} to an object of
   class \code{traj}, and conversely.
+  \code{rec} recalculates the descriptive parameters of an object of
+  class ltraj (e.g. after a modification of the contents of this object,
+  see examples)
 }
 \usage{
 as.ltraj(xy, date, id, burst = id, slsp = c("remove", "missing"))
@@ -22,6 +26,7 @@ print.ltraj(x, \dots)
 summary.ltraj(object, \dots)
 traj2ltraj(traj, slsp =  c("remove", "missing"))
 ltraj2traj(x)
+rec(x, slsp = c("remove", "missing"))
 }
 \arguments{
   \item{x, object}{an object of class \code{ltraj}}
@@ -29,9 +34,11 @@ ltraj2traj(x)
   relocations} 
   \item{date}{a vector of class \code{POSIXct} giving the date for
   each relocation}
-  \item{id}{a character string indicating the identity of the animal}
-  \item{burst}{a character string indicating the identity of the burst
-  of relocations}
+  \item{id}{either a character string indicating the identity of the
+    animal or a factor with length equal to \code{nrow(xy)} }
+  \item{burst}{either a character string indicating the identity of the
+    burst of relocations or a factor with length equal to
+    \code{nrow(xy)}}
   \item{slsp}{a character string used for the computation of the
     turning angles (see details)}
   \item{traj}{an object of class \code{traj}}
@@ -65,6 +72,21 @@ ltraj2traj(x)
     "missing"}, a missing value is returned also for the relocation r3.
   If \code{slsp == "remove"}, the turning angle computed in r3 is the
   angle between the moves r1-r2 and r3-r4.\cr
+
+  In theory, it is expected that the time lag between two relocations is
+  constant in all the bursts and all the ids of one object of class
+  \code{ltraj} (don't mix animals located every 10 minutes and animals
+  located every day in the same object).  Nevertheless, This class allows 
+  for some negligible imprecision in the time of collection of the data
+  (which may occur with some modes of data collection, e.g. with Argos
+  collars).\cr
+  
+  Missing values are frequent in the trajectories of animals collected
+  using telemetry, and are therefore allowed in objects of class
+  \code{ltraj}.  For example, GPS collar may not receive the
+  signal of the satellite at the time of relocation. Most functions
+  dealing with the class \code{ltraj} have a specified behavior in case of
+  missing values.
 }
 \value{
   \code{summary.ltraj} returns a data frame.\cr
@@ -78,14 +100,24 @@ ltraj2traj(x)
 \item{x}{the x coordinate for each relocation}
 \item{y}{the y coordinate for each relocation}
 \item{date}{the date for each relocation}
-\item{dx}{the increase of the move in the x direction}
-\item{dy}{the increase of the move in the y direction}
-\item{dist}{the length of each move}
+\item{dx}{the increase of the move in the x direction.  At least two
+  successive relocations are needed to compute \code{dx}.  Missing
+  values are returned otherwise.}
+\item{dy}{the increase of the move in the y direction.  At least two
+  successive relocations are needed to compute \code{dy}.  Missing
+  values are returned otherwise.}
+\item{dist}{the length of each move.  At least two
+  successive relocations are needed to compute \code{dist}.  Missing
+  values are returned otherwise.}
 \item{dt}{the time interval between successive relocations}
 \item{R2n}{the squared net displacement between the current relocation
   and the first relocation of the trajectory}
-\item{abs.angle}{the angle between each move and the x axis}
-\item{rel.angle}{the turning angles between successive moves.}
+\item{abs.angle}{the angle between each move and the x axis.  At least two
+  successive relocations are needed to compute \code{abs.angle}.  Missing
+  values are returned otherwise.}
+\item{rel.angle}{the turning angles between successive moves.  At least
+  three successive relocations are needed to compute \code{rel.angle}.
+  Missing values are returned otherwise.}
 }
 \references{
   Dunn, J.E. and Gipson, P.S. (1977) Analysis of radio telemetry data in
@@ -116,26 +148,33 @@ ltraj2traj(x)
 data(puechabon)
 locs <- puechabon$locs
 locs[1:4,]
-lixy <- split(locs[,c("X","Y")],locs$Name)
+xy <- locs[,c("X","Y")]
 
 ### Conversion of the date to the format POSIX
 da <- as.character(locs$Date)
 da <- as.POSIXct(strptime(as.character(locs$Date),"\%y\%m\%d"))
-lidat <- split(da,locs$Name)
 
 
 ### Creation of an object of class "ltraj", with for 
 ### example the first animal
-(tr1 <- as.ltraj(lixy[[1]], date = lidat[[1]], id="Brock"))
+(tr1 <- as.ltraj(xy[locs$Name=="Brock",],
+                 date = da[locs$Name=="Brock"],
+                 id="Brock"))
 
 ## The components of the object of class "ltraj"
 head(tr1[[1]])
 
 ## With all animals
-litr <- lapply(1:4, function(i) as.ltraj(lixy[[i]], 
-               date = lidat[[i]], id = names(lidat)[i]))
+(litr <- as.ltraj(xy, da, id = locs$Name))
 
-(tr <- do.call("c.ltraj", litr))
+## Change something Manually in the first burst:
+head(litr[[1]])
+litr[[1]][3,"x"] <- 700000
+
+## Recompute the trajectory
+litr <- rec(litr)
+## Note that descriptive statistics have changed (e.g. dx)
+head(litr[[1]])
 
 }
 \keyword{spatial}

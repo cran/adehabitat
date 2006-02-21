@@ -50,8 +50,9 @@ data(chamois)
 locs <- chamois$locs
 map <- chamois$map
 map$Vegetation <- NULL
-en <- enfa(map, locs, scannf=F)
-(tutu <- randtest(en))
+da <- data2enfa(map, locs)
+en <- enfa(da$tab, da$pr, scannf = F)
+(tutu <- randtest(en, nrepet = 100))
 plot(tutu)
 }
 }

@@ -2,11 +2,11 @@
 \alias{mahasuhab}
 \title{Habitat Suitability Mapping with Mahalanobis Distances.}
 \description{
-This function computes the habitat suitability map of an area
-for a species, given a set of locations of the species occurences (Clark
-et al. 1993).  This function is
-to be used in habitat selection studies, when animals are not
-identified.
+  This function computes the habitat suitability map of an area
+  for a species, given a set of locations of the species occurences (Clark
+  et al. 1993).  This function is
+  to be used in habitat selection studies, when animals are not
+  identified.
 }
 \usage{
 mahasuhab(kasc, pts, type = c("distance", "probability"))
@@ -36,18 +36,18 @@ mahasuhab(kasc, pts, type = c("distance", "probability"))
   The function \code{mahasuhab} first computes this mean vector as well
   as the variance-covariance matrix of the niche density function, based
   on the value of habitat variables in the sample of locations.
-  Then, the Mahalanobis distance from this optimum is computed for each pixel
-  of the map.  Thus, the smaller this
+  Then, the *squared* Mahalanobis distance from this optimum is computed
+  for each pixel of the map.  Thus, the smaller this squared
   distance is for a given pixel, and the better is the habitat in this
   pixel.
 
-  Assuming multivariate normality, Mahalanobis distances are
+  Assuming multivariate normality, squared Mahalanobis distances are
   approximately distributed as Chi-square with n-1 degrees of freedom,
   where n equals the number of habitat characteristics.  If the
   argument \code{type = "probability"}, maps of these p-values are
   returned by the function. As such these are the probabilities of a
-  larger Mahalanobis distance than that observed when x is sampled from
-  a population whose mean is ideal.
+  larger squared Mahalanobis distance than that observed when x is
+  sampled from a population whose mean is ideal.
 }
 \value{
   Returns a raster map of class \code{asc}.
@@ -59,7 +59,7 @@ system. \emph{Journal of Wildlife Management}, \bold{57}, 519--526.
 }
 \author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \note{
-  The computation of the Mahalanobis distances inverts the
+  The computation of the squared Mahalanobis distances inverts the
   variance-covariance matrix of the niche density function (see
   \code{?mahalanobis}).
   It is therefore important that the habitat variables considered

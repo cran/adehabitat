@@ -7,6 +7,8 @@
 \alias{attpol2area}
 \alias{traj2spdf}
 \alias{traj2sldf}
+\alias{ltraj2spdf}
+\alias{ltraj2sldf}
 \title{ Conversion of maps from/to the package "sp" }
 \description{
   These functions convert maps of classes available in adehabitat toward
@@ -37,6 +39,12 @@
   \cr
   \code{traj2sldf} converts an object of class \code{traj} into an
   object of class \code{SpatialLinesDataFrame}.\cr
+  \cr
+  \code{ltraj2sldf} converts an object of class \code{ltraj} into an
+  object of class \code{SpatialLinesDataFrame}.\cr
+  \cr
+  \code{ltraj2spdf} converts an object of class \code{ltraj} into an
+  object of class \code{SpatialPointsDataFrame}.\cr
 }
 \usage{
 kasc2spixdf(ka)
@@ -47,6 +55,8 @@ spol2area(sr)
 attpol2area(srdf)
 traj2spdf(tr)
 traj2sldf(tr, byid = FALSE)
+ltraj2spdf(ltr)
+ltraj2sldf(ltr, byid = FALSE)
 }
 \arguments{
   \item{ka}{an object of class \code{kasc}.}
@@ -58,6 +68,7 @@ traj2sldf(tr, byid = FALSE)
     \code{SpatialPolygonsDataFrame}.}
   \item{srdf}{an object of class \code{SpatialPolygonsDataFrame}.}
   \item{tr}{an object of class \code{traj}.}
+  \item{ltr}{an object of class \code{ltraj}.}
   \item{byid}{logical.  If \code{TRUE}, one objects of class
     \code{Lines} correspond to one animal.  if \code{FALSE},
     one object of class \code{Lines} correspond to one burst.}
@@ -75,7 +86,9 @@ traj2sldf(tr, byid = FALSE)
 \seealso{ \code{\link{import.asc}} for information on objects of
   class \code{asc}, \code{\link{as.kasc}} for info on objects of
   class \code{kasc}, \code{\link{as.area}} for info on objects of
-  class \code{area}, \code{\link{as.traj}} for objects of class \code{traj}.}
+  class \code{area}, \code{\link{as.traj}} for objects of class
+  \code{traj}, \code{\link{as.ltraj}} for objects of class
+  \code{ltraj}.}
 \examples{
 \dontrun{
 if (require(sp)) {
@@ -138,25 +151,23 @@ area.plot(coincoin, values = haha$Waechter)
 
 #########################################
 ##
-## Conversion traj -> SpatialPointsDataFrame
+## Conversion ltraj -> SpatialPointsDataFrame
 ##
 
 data(puechcirc)
 plot(puechcirc)
 
-toto <- traj2spdf(puechcirc)
+toto <- ltraj2spdf(puechcirc)
 plot(toto)
+
 
 
 #########################################
 ##
-## Conversion traj -> SpatialLinesDataFrame
+## Conversion ltraj -> SpatialLinesDataFrame
 ##
 
-data(puechcirc)
-plot(puechcirc)
-
-toto <- traj2sldf(puechcirc)
+toto <- ltraj2sldf(puechcirc)
 plot(toto)
 
 }

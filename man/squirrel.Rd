@@ -4,7 +4,8 @@
 \title{Radio-Tracking Data of Squirrels}
 \description{
 This data set describes the use and availability of 5 habitat types for
-17 squirrels monitored using radio-tracking. 
+17 squirrels monitored using radio-tracking.  See also the dataset
+\code{squirreloc}.
 }
 \usage{data(squirrel)}
 \format{

@@ -1,9 +1,9 @@
 "kernelbb" <-
 function(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
   {
-    x <- tr
+    x <- ltraj2traj(tr)
     if (!inherits(x, "traj"))
-      stop("x should be of class \"traj\"")
+      stop("tr should be of class \"ltraj\"")
     sorties <- list()
     gr <- grid
     xy<-x[,c("x","y")]

@@ -1571,7 +1571,7 @@ void sahr2ksel(double *Usa, double *Uhr,  double *Ulo, int *nhab,
   /* Calculs */
   /* Calcul du nombre de lignes du tableau de sortie */
   for (i=1; i<=np; i++) {
-    if (SA[i][1] != -9999) {
+    if (fabs(SA[i][1] + 9999) > 0.000000001) {
       idna[i] = 1; /* = 1 si non NA */
     }
   }
@@ -1581,7 +1581,7 @@ void sahr2ksel(double *Usa, double *Uhr,  double *Ulo, int *nhab,
   
   for (i=1; i<=np; i++) {
     for (j=1; j<=na; j++) {
-      if ((idna[i]==1)&&(HR[i][j]==1)) {
+      if ((idna[i]==1)&&(((int) HR[i][j])==1)) {
 	l++;
 	for (k=1; k<=nh; k++) {
 	  sortie[l][k] = SA[i][k]; /* Que l'on passera à dud après */
@@ -1663,7 +1663,7 @@ void nls2k(double *Usa, double *Uhr, int *nhab,
   /* Calculs */
   /* Calcul du nombre de lignes du tableau de sortie */
   for (i=1; i<=np; i++) {
-    if (SA[i][1] == -9999) {
+    if (fabs(SA[i][1] + 9999) < 0.000000001) {
       idna[i] = 0; /* = 1 si non NA */
     }
   }
@@ -1676,7 +1676,7 @@ void nls2k(double *Usa, double *Uhr, int *nhab,
   for (i=1; i<=np; i++) {
     if (idna[i] == 1) {
       for (j=1; j<=na; j++) {
-	if (HR[i][j]==1) {
+	if (((int) HR[i][j]) == 1) {
 	  ni[j] = ni[j]+1;
 	}
       }
@@ -1805,7 +1805,7 @@ void shifthr(double **dispo, double **util, int *idl, int *idc)
     for (i=1; i<=nlpe; i++) {
       for (j=1; j<=ncpe; j++) {
 	if (util[i][j]>0) {
-	  if (dispo[i+lrand-1][j+crand-1]==-9999) {
+	  if (fabs(dispo[i+lrand-1][j+crand-1] + 9999) < 0.000000001) {
 	    l=0;
 	  }
 	}
@@ -2161,7 +2161,7 @@ void comptePasNA(double **tab, int *nombre)
   nl = tab[0][0];
 
   for (i=1; i<=nl; i++) {
-    if (tab[i][1]!=-9999) {
+    if (fabs(tab[i][1] + 9999) > 0.000000001) {
       nb++;
     }
   }
@@ -2187,7 +2187,7 @@ void videNA(double **entree, double **sortie, int *idcons)
 
   k=1;
   for (i=1; i<=nl; i++) {
-    if (entree[i][1]!=-9999) {
+    if (fabs(entree[i][1] + 9999) > 0.000000001) {
       idcons[k] = i;
       for (j=1; j<=nc; j++) {
 	sortie[k][j] = entree[i][j];
@@ -2572,7 +2572,7 @@ void levels(double *vec, double *lev, int *lvec)
   for (i=2; i<=n; i++) {
     l=0;
     for (j=1; j<=k; j++) {
-      if (vec[i]==lev[j])
+      if (fabs(vec[i] - lev[j]) < 0.000000001)
 	l=1;
     }
     if (l==0) {
@@ -2674,7 +2674,7 @@ void seqeticorr(double *grille, int *nlig, int *ncol)
 	      vecalloc(&etcons, m-1);
 	      n=1;
 	      for (l=1; l<=m; l++) {
-		if (x[i][j] != tmp2[l]) {
+		if (fabs(x[i][j] - tmp2[l]) > 0.000000001) {
 		  etcons[n] = tmp2[l];
 		  n++;
 		}
@@ -2732,7 +2732,7 @@ void seqeticorr(double *grille, int *nlig, int *ncol)
     /* Deuxième passage */
     for (i=1; i<=nl; i++) {
       for (j=1; j<=nc; j++) {
-        if (x[i][j]!=0) {
+        if (fabs(x[i][j]) > 0.000000001) {
           x[i][j] = Tc[(int) x[i][j]];
 	}
       }
@@ -3253,7 +3253,7 @@ void wml(double **used, double **avail, double *wmla, int na, int nh,
     vecalea[i] = aleamu[1];
   }
   
-  /* cas où krep ==1 : première répétition de la
+  /* cas où krep == 1 : première répétition de la
      randomisation: on calcule le "vrai" lambda (pas
      randomisé) */
   if (krep == 1) {
@@ -3291,7 +3291,7 @@ void wml(double **used, double **avail, double *wmla, int na, int nh,
       jb = vecindice[j];
       idcol = (nh - 1) * (k - 1) + j;
       for (i = 1; i <= na; i++) {
-	if ((avail[i][jb]!=0)&&(avail[i][k]!=0)) {
+	if ((fabs(avail[i][jb]) > 0.000000001)&&(fabs(avail[i][k]) > 0.000000001)) {
 	  dlr[i][idcol] = (log(used[i][jb] / used[i][k]) - 
 	    log(avail[i][jb] / avail[i][k])) * vecalea[i];
 	  
@@ -3311,7 +3311,7 @@ void wml(double **used, double **avail, double *wmla, int na, int nh,
       idcol = (nh - 1) * (k - 1) + j;
       jb = vecindice[j];
       for (i = 1; i <= na; i++) {
-	if ((avail[i][jb]==0)||(avail[i][k]==0))
+	if ( (fabs(avail[i][jb]) < 0.000000001)||(fabs(avail[i][k])< 0.000000001))
 	  dlr[i][idcol] = moydlr[j];
       }
     }
@@ -3410,7 +3410,7 @@ void aclambda(double *util, double *dispo, int *nani, int *nhab,
   for (i = 1; i <= na; i++) {
     for (j = 1; j <= nh; j++) {
       ut[i][j] = util[k];
-      if (ut[i][j] == 0)
+      if (fabs(ut[i][j]) < 0.000000001)
 	ut[i][j] = *rnv;
       k++;
     }
@@ -3512,7 +3512,7 @@ void rankma(double *used, double *avail, double *rankmap, double *rankmam,
     for (j = 1; j <= nh; j++) {
       u[i][j] = used[k];
       a[i][j] = avail[k];
-      if (u[i][j] == 0)
+      if (fabs(u[i][j]) < 0.000000001)
 	u[i][j] = *rnv;
       k++;
     }
@@ -3536,7 +3536,7 @@ void rankma(double *used, double *avail, double *rankmap, double *rankmam,
 	moy = 0;
 	/* premier remplissage des dlr par ani */
 	for (i = 1; i <= na; i++) {
-	  if ((a[i][j]!=0)&&(a[i][k]!=0)) {
+	  if ((fabs(a[i][j])> 0.000000001)&&(fabs(a[i][k]) > 0.000000001)) {
 	    dlrtmp[i] = (log(u[i][j]/u[i][k]) - log(a[i][j]/a[i][k])) * tabani[r][i];
 	    moy = moy + dlrtmp[i];
 	    if (r == 1)
@@ -3635,7 +3635,7 @@ void erodil(double *grille, int *nlig, int *ncol, int *ntour, int *oper)
 	voisin[8] = x[i+1][j+1];
 	voisin[9] = x[i][j];
 	for (l=1;l<=9; l++) {
-	  if (voisin[l]==0) {
+	  if (((int) voisin[l])==0) {
 	    etat0 = etat0 + 1;
 	  } else {
 	    etat1 = etat1 + 1;
@@ -3725,13 +3725,13 @@ void inout(double *x, double *y, double *xp, double *yp,
       if (sig < 0) {
 	/* calcul de la pente et ord ori */
 	/* Cas 1: on n'a pas de pente infinie */
-	if ((xpc[i+1] - xpc[i])!=0)
+	if (fabs(xpc[i+1] - xpc[i]) > 0.000000001)
 	  {
 	    a = (ypc[i+1] - ypc[i]) / (xpc[i+1] - xpc[i]);
 	    b = (ypc[i]- a * xpc[i]);
 	    /* calcul de x à y = 0 */
 	    /* ayant un sens seulement si a != 0 */
-	    if (((ypc[i+1] - ypc[i])!=0)) {
+	    if ((fabs(ypc[i+1] - ypc[i]) > 0.000000001)) {
 	      x0 = - b / a;
 	      if (x0 >= 0)
 		wm = abs(wm - 1);
@@ -3740,7 +3740,7 @@ void inout(double *x, double *y, double *xp, double *yp,
 	/* Cas 2: On a une pente infinie
 	   il faut alors vérifier que à droite du point, soit
 	   xi >0 */
-	if (((xpc[i+1] - xpc[i])==0))
+	if ((fabs(xpc[i+1] - xpc[i]) < 0.000000001))
 	  {
 	    if (xpc[i] >= 0)
 	      wm = abs(wm - 1);
@@ -3967,8 +3967,8 @@ void calcniche(double **kasc, int *nvar, int *nlg, int *ncg,
     /* calcul de la moyenne utilisée */
     for (i = 1; i <= nl; i++) {
       for (j = 1; j <= nc; j++) {
-	if (carte[i][j] == 1) {
-	  if (cartevar[i][j] != -9999) {
+	if (fabs(carte[i][j] - 1) < 0.000000001) {
+	  if (fabs(cartevar[i][j] + 9999) > 0.000000001) {
 	    margvar[l] = margvar[l] + cartevar[i][j];
 	    npixpol++;
 	  }
@@ -3980,8 +3980,8 @@ void calcniche(double **kasc, int *nvar, int *nlg, int *ncg,
     /* Calcul de la tolérance */
     for (i = 1; i <= nl; i++) {
       for (j = 1; j <= nc; j++) {
-	if (carte[i][j] == 1) {
-	  if (cartevar[i][j]!=-9999) {
+	if (fabs(carte[i][j] - 1) < 0.000000001) {
+	  if (fabs(cartevar[i][j] + 9999) > 0.000000001) {
 	    tolvar[l] = tolvar[l] + (cartevar[i][j] - margvar[l])*(cartevar[i][j] - margvar[l]);
 	  }
 	}
@@ -4296,7 +4296,7 @@ void rpath(double **xp, double *rcx, double *rcy, double **asc,
     
     /* Vérifie que la loc tombe bien dans la zone d'étude */
     dedans(pts, xc, yc, &na, *cs, asc);
-    if (na != -9999)
+    if (fabs(na + 9999) > 0.000000001)
       k = 1;
     
   }
@@ -4309,7 +4309,7 @@ void rpath(double **xp, double *rcx, double *rcy, double **asc,
     /* combien y-a-t-il de distances pour l'intervalle observé ? */
     nsam = 0;
     for (j = 1; j <= nltd; j++) {
-      if (tabdist[j][1]==interv)
+      if (fabs(tabdist[j][1] - interv) < 0.000000001)
 	nsam++;
     }
       
@@ -4326,7 +4326,7 @@ void rpath(double **xp, double *rcx, double *rcy, double **asc,
        on récupère les distances correspondantes */
     m = 1;
     for (j = 1; j <= nltd; j++) {
-      if (tabdist[j][1]==interv) {
+      if (fabs(tabdist[j][1] - interv) < 0.000000001) {
 	dobs[m] = tabdist[j][2];
 	m++;
       }
@@ -4354,7 +4354,7 @@ void rpath(double **xp, double *rcx, double *rcy, double **asc,
       pts[2] = xp[i+1][2];
       
       dedans(pts, xc, yc, &na, *cs, asc);
-      if (na != -9999)
+      if (fabs(na + 9999) > 0.000000001)
 	k = 1;
     }
     freevec(dobs);
@@ -4780,7 +4780,7 @@ void rpoint(double **xp, double *rcx, double *rcy, double **asc,
       
       /* Vérifie que la loc tombe bien dans la zone d'étude */
       dedans(pts, xc, yc, &na, *cs, asc);
-      if (na != -9999)
+      if (fabs(na + 9999) > 0.000000001)
 	k = 1;
       
     }
@@ -4997,9 +4997,9 @@ void regroufacasc(double **asce, double **ascs, int *np,
       na = 0;
       for (k = dr; k <= fr; k++) {
 	for (l = dc; l <= fc; l++) {
-	  if (asce[k][l] != -9999)
+	  if (fabs(asce[k][l] + 9999) > 0.000000001)
 	    ll[(int) asce[k][l]]++;
-	  if (asce[k][l] == -9999)
+	  if (fabs(asce[k][l] + 9999) < 0.000000001)
 	    na++;
 	}
       }
@@ -5113,17 +5113,20 @@ void regrouascnum(double **ascent, double **ascso)
       for (k = 1; k <= nreg; k++) {
 	for (l = 1; l <= nreg; l++) {
 	  tmp = ascent[((i - 1) * nreg) + k][((j - 1) * nreg) + l];
-	  if (tmp != -9999) {
+	  if (fabs(tmp + 9999) > 0.000000001) {
 	    moy = tmp + moy;
 	  }
-	  if (tmp == -9999) {
+	  if (fabs(tmp + 9999) < 0.000000001) {
 	    n++;
 	  }
 	}
       }
-      ascso[i][j] = moy / ((double) (nreg * nreg));
-      if (n == (nreg * nreg))
+      if (n == (nreg * nreg)) {
 	ascso[i][j] = -9999;
+      } else {
+	ascso[i][j] = moy / (((double) (nreg * nreg))- ((double) n));
+	
+      }
     }
   }
   

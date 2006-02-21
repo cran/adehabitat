@@ -82,6 +82,23 @@ ii <- eisera(us, av, scannf = FALSE)
 
 scatter(ii, grid = FALSE, clab = 0.7)
 
+## The following graph may help the interpretation
+## (see Calenge and Dufour 2006)
+data(squirreloc)
+locs <- squirreloc$locs
+are <- squirreloc$map
+co <- attr(are, "info")
+
+li <- split(locs[,2:3], locs[,1])
+opar <- par(mfrow=n2mfrow(length(li)), mar=c(0,0,2,0))
+lapply(1:length(li), function(i) {
+plot(are, colp = co[,2], main=names(li)[i], axes=FALSE)
+points(li[[i]], pch=16, cex=1.5)
+box()
+})
+par(opar)
+
+
 ###########################################################
 ###########################################################
 ###

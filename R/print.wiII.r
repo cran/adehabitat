@@ -5,7 +5,7 @@ function(x, ...)
       stop("x should be of class \"wiII\"")
     cat("\n\n************** Manly's Selection ratios for design II ********\n\n")
     cat("1. Test of identical use of habitat by all animals\n")
-    cat("   (Classical Khi² performed on the used matrix):\n")
+    cat("   (Classical Khi-2 performed on the used matrix):\n")
     print(x$Khi2L1)
 
     cat("2. Test of overall habitat selection:\n")

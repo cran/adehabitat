@@ -35,6 +35,8 @@ function(id, xy, date, burst=id, ...)
     li<-lapply(li, foob)
     bas<-do.call("rbind", li)
     row.names(bas)<-as.character(1:nrow(bas))
+    bas$id <- factor(bas$id)
+    bas$burst <- factor(bas$burst)
     class(bas)<-c("traj", "data.frame")
     return(bas)
   }

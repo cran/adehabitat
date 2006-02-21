@@ -141,7 +141,7 @@ map[,4] <- sqrt(map[,4])
 hist(map, type = "l")
 
 ## We prepare the data for the ENFA
-(dataenfa1 <- data2enfa(map, locs[tmp, c("X","Y")]))
+(dataenfa1 <- data2enfa(map, locs))
 
 ## We then perform the ENFA
 (enfa1 <- enfa(dataenfa1$tab, dataenfa1$pr,

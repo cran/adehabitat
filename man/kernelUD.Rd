@@ -93,11 +93,11 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
     square meters, \code{"km2"} for square kilometers or \code{"ha"} for
     hectares (default)}
   \item{lev}{the percentage level for home range contour estimation.}
-  \item{tr}{an object of class \code{traj}.}
+  \item{tr}{an object of class \code{ltraj}.}
   \item{sig1}{first smoothing parameter for the brownian bridge method
-    (related to the imprecision of the relocations).}
-  \item{sig2}{second smoothing parameter for the brownian bridge method
     (related to the speed of the animals).}
+  \item{sig2}{second smoothing parameter for the brownian bridge method
+    (related to the imprecision of the relocations).}
   \item{byburst}{logical. Whether the brownian bridge estimation should
     be done by burst.}
   \item{\dots}{additionnal parameters to be passed to the generic
@@ -140,7 +140,7 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
   Epanechnikov kernel, which requires less computer time is also
   available for the estimation of the UD. \cr
   
-  The function \code{getvolumehr} modifies the UD component of the
+  The function \code{getvolumeUD} modifies the UD component of the
   object passed as argument, so
   that the contour of the UD displayed by the functions \code{contour}
   and \code{image.khr} corresponds to the different percentage levels of
@@ -330,20 +330,19 @@ par(opar)
 data(puechcirc)
 
 ## gets one circuit
-x <- getburst(puechcirc, burst = "CH930824")
+x <- puechcirc[burst = "CH930824"]
 
 ## fits the home range
 (tata <- kernelbb(x, 10, 10, same4all = TRUE))
 image(tata)
-lines(x$x, x$y, lwd = 2, col = "red")
+lines(x[[1]]$x, x[[1]]$y, lwd = 2, col = "red")
 
 ## Image of a brownian bridge. Fit with two relocations:
-fac <- factor(c("a", "a"))
 xx <- c(0,1)
 yy <- c(0,1)
 date <- c(0,1)
 class(date) <- c("POSIXt", "POSIXct")
-tr <- as.traj(fac, data.frame(x = xx,y = yy), date)
+tr <- as.ltraj(data.frame(x = xx,y = yy), date, id="a")
 
 ## Use of different smoothing parameters
 sig1 <- c(0.05, 0.1, 0.2, 0.4, 0.6)
@@ -362,7 +361,7 @@ opar <- par(mar = c(0,0,2,0), mfrow = c(5,5))
 foo <- function(x)
    {
      image(y[[x]], main = names(y)[x], axes = F)
-     points(tr[,c("x","y")], pch = 16, col = "red")
+     points(tr[[1]][,c("x","y")], pch = 16, col = "red")
    }
 lapply(1:length(y), foo)
 

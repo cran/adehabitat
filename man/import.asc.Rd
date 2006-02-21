@@ -84,7 +84,7 @@ Landserf: \url{http://www.soi.city.ac.uk/~jwo/landserf/}
 ## Importation of asc files: numeric
 ## Path of the file to be imported
 (file1 <-  paste(system.file(package = "adehabitat"),
-               "ascfiles/Elevation.asc", sep = "/"))
+               "ascfiles/elevation.asc", sep = "/"))
 
 el <- import.asc(file1)
 image(el)
@@ -93,9 +93,9 @@ el
 
 ## Importation of asc files: factor
 (file2 <- paste(system.file(package = "adehabitat"),
-              "ascfiles/Aspect.asc", sep = "/"))
+              "ascfiles/aspect.asc", sep = "/"))
 (levelfile <- paste(system.file(package = "adehabitat"),
-              "ascfiles/Aspect.txt", sep = "/"))
+              "ascfiles/aspect.txt", sep = "/"))
 asp <- import.asc(file2, lev = levelfile, type = "factor")
 image(asp)
 asp
