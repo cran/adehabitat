@@ -75,8 +75,8 @@ locs <- lynxjura$locs[tmp, c("X","Y")]
 map[,4] <- sqrt(map[,4])
 
 ## We perform the ENFA
-(enfa1 <- enfa(map, locs[tmp, c("X","Y")],
-                scannf = FALSE))
+tmp <- data2enfa(map, locs[tmp, c("X","Y")])
+(enfa1 <- enfa(tmp$tab, tmp$pr, scannf = FALSE))
 scatter(enfa1)
 }
 }

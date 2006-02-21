@@ -57,7 +57,7 @@ plot.hrsize(x, \dots)
   \bold{37}, 223-249.}
 \author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{chull}}, \code{\link{plot.area}} to have a
+\seealso{ \code{\link[grDevices]{chull}}, \code{\link{plot.area}} to have a
   graphical display of the home ranges, \code{\link{as.area}} for
   additionnal information on the class \code{area}, and
   \code{\link{area2dxf}} for further exportation toward a GIS.

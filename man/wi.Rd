@@ -154,8 +154,9 @@ plot.wi(x, caxis = 0.7, clab = 1, ylog = FALSE, errbar = c("CI", "SE"),
 }
 \author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 
-\seealso{\code{\link{compana}} for another analysis with this kind of
-  data.} 
+\seealso{\code{\link{compana}} for compositional analysis, and
+  \code{\link{eisera}} to perform an eigenanalysis of selection
+  ratios.}
 
 \examples{
 

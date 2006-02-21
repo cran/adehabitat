@@ -67,9 +67,9 @@ image(buani)
 
 ## buffer around a trajectory
 data(puechcirc)
-uu <- getburst(puechcirc, burst = "CH930824")    
-w <- ascgen(uu[,c("x","y")], nrcol = 100)
-out <- buffer.line(uu[,c("x","y")], w, 100)
+uu <- puechcirc[burst = "CH930824"]
+w <- ascgen(uu[[1]][,c("x","y")], nrcol = 100)
+out <- buffer.line(uu[[1]][,c("x","y")], w, 100)
 image(out)
 plot(uu, asc = out)
 

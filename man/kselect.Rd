@@ -81,9 +81,9 @@ plot.kselect(x, xax = 1, yax = 2, \dots)
 \code{dudi} (see \code{\link[ade4]{dudi}}). 
 }
 \references{
-  Calenge, C., Dufour, A.B. and Maillard,
-  D. (\emph{submitted}). K-select analysis, a new method to analyse
-  habitat selection in radio-tracking studies.
+  Calenge, C., Dufour, A.B. and Maillard, D. (2005) K-select analysis: a
+  new method to analyse habitat selection in radio-tracking
+  studies. \emph{Ecological modelling}, \bold{186}, 143--153.
 }
 \author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 

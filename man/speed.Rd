@@ -1,6 +1,7 @@
 \name{speed}
 \alias{speed}
-\title{Computes the Speed Between Successive Relocations of an Animal }
+\title{Computes the Speed Between Successive Relocations of an Animal
+  - Deprecated}
 \description{
   \code{speed} measures the speed between successive relocations of
   animals, using objects of class \code{traj}.
@@ -26,11 +27,11 @@ speed(x, id = levels(x$id), burst = levels(x$burst), date = NULL,
   Returns a data frame with the following components:
   \item{id}{the identity of the animal}
   \item{x}{if the speed is computed between the relocation 1 and 2,
-    the x coordinate of the relocation 2.}
+    the x coordinate of the relocation 1.}
   \item{y}{if the speed is computed between the relocation 1 and 2,
-    the y coordinate of the relocation 2.}
+    the y coordinate of the relocation 1.}
   \item{date}{a vector of class \code{POSIXct}, giving the date of
-    relocation 2.}
+    relocation 1.}
   \item{burst}{the identity of the circuit}
   \item{sp.x}{the computed speed of the animal in the x direction}
   \item{sp.y}{the computed speed of the animal in the y direction}
@@ -39,17 +40,23 @@ speed(x, id = levels(x$id), burst = levels(x$burst), date = NULL,
   by the parameter \code{units}).}
 }
 \author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\note{
+  The function \code{speed} is deprecated.  The class \code{ltraj}
+  computes the speeds automatically (see \code{as.ltraj}).
+}
 \seealso{ \code{\link{as.traj}}}
 \examples{
-
+\dontrun{
 #### Computes the speed for each wild boar
 #### monitored at Puechabon
 data(puechcirc)
+puechcirc <- ltraj2traj(puechcirc)
 puechcirc
+
 plot(puechcirc)
 sp <- speed(puechcirc)
 sp[1:4,]
-
+}
 }
 \keyword{spatial}
 

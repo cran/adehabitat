@@ -17,7 +17,8 @@
 \arguments{
   \item{x}{an object of class \code{asc}}
   \item{w}{an object of class \code{kasc}}
-  \item{pts}{the x and y coordinates of points to be placed on the map.}
+  \item{pts}{a data frame containing the x and y coordinates of the points
+    to be placed on the map.}
 }
 
 

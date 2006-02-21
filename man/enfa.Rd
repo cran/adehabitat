@@ -8,7 +8,7 @@
 \description{
   \code{enfa} performs an Ecological-Niche Factor Analysis.
   \code{hist.enfa} draws histograms of the row scores or of the initial
-  variables of the ENFA.
+  variables of the ENFA.\cr
   \code{data2enfa} prepares data (kasc and localizations) to be analyzed
   by the ENFA.
 }
@@ -88,9 +88,7 @@ data2enfa(kasc, pts)
   \item{s}{a vector with all the eigenvalues of the analysis.}
   \item{lw}{row weights, a vector with n components.}
   \item{li}{row coordinates, data frame with n rows and nf columns.}
-  \item{l1}{row normed scores, data frame with n rows and nf columns.}
   \item{co}{column coordinates, data frame with p rows and nf columns.}
-  \item{c1}{column normed scores, data frame with p rows and nf columns.}
   \item{mar}{coordinates of the marginality vector.}
   \code{data2enfa} returns a list of class \code{dataenfa} containing the
   following components: 

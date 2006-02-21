@@ -7,7 +7,7 @@
 \alias{getburst}
 \alias{traj2df}
 \alias{df2traj}
-\title{Working with Trajectories in 2D Space}
+\title{Working with Trajectories in 2D Space - Deprecated}
 \description{
   The class \code{traj} is intended to explore trajectories of
   animals monitored using radio-tracking.\cr
@@ -102,10 +102,15 @@ df2traj(df)
   studies of home range. \emph{Biometrics}. \bold{59}, 794--800.
 }
 \author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\note{
+  The class \code{traj} is deprecated.  Please rather use the class
+    \code{ltraj}.
+}
 \seealso{ \code{\link{as.POSIXct}} and \code{\link{strptime}} for
   additional information of the class \code{POSIX}. }
 \examples{
 
+\dontrun{
 data(puechabon)
 locs <- puechabon$locs
 locs[1:4,]
@@ -126,12 +131,8 @@ plot(tr)
 k <- puechabon$kasc
 ele <- getkasc(k, "Elevation")
 plot(tr, asc = ele)
+}
 
-
-### Case with several burst per animal
-data(puechcirc)
-plot(puechcirc, asc = ele)
-plot(puechcirc, asc = ele, perani = FALSE)
 
 }
 \keyword{spatial}

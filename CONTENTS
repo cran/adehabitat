@@ -22,6 +22,12 @@ Keywords: hplot
 Description: Working with several Raster Maps
 URL: ../../../library/habitat/html/as.kasc.html
 
+Entry: as.ltraj
+Aliases: as.ltraj, ltraj, print.ltraj, summary.ltraj, traj2ltraj, ltraj2traj
+Keywords: spatial
+Description: Working with Trajectories in 2D Space: the Class ltraj
+URL: ../../../library/habitat/html/as.ltraj.html
+
 Entry: as.sahrlocs
 Aliases: as.sahrlocs, getsahrlocs, print.sahrlocs
 Keywords: spatial
@@ -63,6 +69,12 @@ Aliases: buffer, buffer.ani, buffer.line
 Keywords: spatial
 Description: Compute Buffers
 URL: ../../../library/habitat/html/buffer.html
+
+Entry: c.ltraj
+Aliases: c.ltraj
+Keywords: spatial
+Description: Combine Bursts of Relocations in Objects of Class "ltraj"
+URL: ../../../library/habitat/html/c.ltraj.html
 
 Entry: chamois
 Aliases: chamois
@@ -106,11 +118,29 @@ Keywords: spatial
 Description: Estimation of the Potential Distribution of a Species
 URL: ../../../library/habitat/html/domain.html
 
+Entry: eisera
+Aliases: eisera, print.esr, scatter.esr
+Keywords: multivariate
+Description: Eigenanalysis of Selection Ratios
+URL: ../../../library/habitat/html/eisera.html
+
+Entry: Extract.ltraj
+Aliases: Extract.ltraj, [.ltraj, [<-.ltraj
+Keywords: spatial
+Description: Extract or Replace Parts of an Object of Class ltraj
+URL: ../../../library/habitat/html/Extract.ltraj.html
+
 Entry: enfa
 Aliases: enfa, hist.enfa, print.enfa, data2enfa, print.dataenfa
 Keywords: multivariate
 Description: Ecological-Niche Factor Analysis
 URL: ../../../library/habitat/html/enfa.html
+
+Entry: gdltraj
+Aliases: gdltraj
+Keywords: spatial
+Description: Working with Trajectories: Specify a Time Period
+URL: ../../../library/habitat/html/gdltraj.html
 
 Entry: getascattr
 Aliases: getascattr
@@ -180,7 +210,7 @@ Description: Multivariate analyses of objects of class "kasc"
 URL: ../../../library/habitat/html/df2kasc.html
 
 Entry: kasc2spixdf
-Aliases: kasc2spixdf, asc2spixdf, spixdf2kasc, area2sr, sr2area, attsr2area, traj2spdf, traj2sldf
+Aliases: kasc2spixdf, asc2spixdf, spixdf2kasc, area2spol, spol2area, attpol2area, traj2spdf, traj2sldf
 Keywords: hplot
 Description: Conversion of maps from/to the package "sp"
 URL: ../../../library/habitat/html/kasc2sgdf.html
@@ -263,6 +293,12 @@ Aliases: pheasant
 Keywords: dataset
 Description: Radio-Tracking of Pheasants
 URL: ../../../library/habitat/html/pheasant.html
+
+Entry: plot.ltraj
+Aliases: plot.ltraj
+Keywords: hplot
+Description: Graphical Display of an Object of Class "ltraj"
+URL: ../../../library/habitat/html/plot.ltraj.html
 
 Entry: plot.sahrlocs
 Aliases: plot.sahrlocs, print.plotsahr

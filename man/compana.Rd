@@ -110,8 +110,8 @@ in the paper. Actually, Aebischer (pers. com.) indicated that the
 ranking matrix given in this example is correct.
 }
 \seealso{ \code{\link{wiII}} and \code{\link{wiIII}}
-  for other analyses of habitat selection 
-  with this kind of data. }
+  for computation of selection ratios, and \code{\link{eisera}} to perform an 
+  eigenanalysis of selection ratios. }
 
 \examples{
 

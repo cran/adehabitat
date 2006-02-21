@@ -51,18 +51,22 @@ schoener.rtest(tr, keep, byburst = TRUE, nrep = 500)
   returns an object of class \code{schoener}.
 }
 \references{
+  Schoener, T.W. (1981) An empirically based estimate of home
+  range. \emph{Theoretical Population Biology}, \bold{20}, 281--325.
+
   Swihart, R.K. and Slade, N.A. (1985) Testing for independence of
   observations in animal movements. \emph{Ecology}, \bold{66},
   1176--1184.
   
-  Schoener, T.W. (1981) An empirically based estimate of home
-  range. \emph{Theoretical Population Biology}, \bold{20}, 281--325.
+  Solow, A.R. (1989) A randomization test for independence of animal
+  locations. \emph{Ecology}, \bold{70}, 1546--1549. 
 }
 \author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 
 \examples{
 
 data(puechcirc)
+puechcirc <- ltraj2traj(puechcirc)
 puechcirc$date[1:10]
 
 ## Relocations are taken every 10 minutes

@@ -1,0 +1,33 @@
+\name{c.ltraj}
+\alias{c.ltraj}
+\title{Combine Bursts of Relocations in Objects of Class "ltraj"}
+\description{
+  This function combines several objects of class \code{ltraj}.
+}
+\usage{
+c.ltraj(...)
+}
+\arguments{
+  \item{\dots}{objects of class \code{ltraj} to be combined}
+}
+\value{
+  An object of class \code{ltraj}.
+}
+\author{
+  Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}
+}
+\seealso{\code{\link{as.ltraj}} for further information on the class
+  \code{ltraj}, \code{\link{Extract.ltraj}} to extract or replace 
+  bursts of relocations, \code{\link{plot.ltraj}} for graphical
+  displays, \code{\link{gdltraj}} to specify a time period}
+\examples{
+
+data(puechcirc)
+
+(i <- puechcirc[1])
+(j <- puechcirc[4])
+
+(toto <- c(i,j))
+
+}
+\keyword{spatial}

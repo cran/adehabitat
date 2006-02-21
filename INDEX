@@ -1,15 +1,20 @@
-angles                  Compute Turning Angles
+angles                  Compute Turning Angles - Deprecated
 area2dxf                Exportation of Areas
 as.area                 Objects of Class "area"
 as.kasc                 Working with Several Raster Maps
+as.ltraj                Working with Trajectories in 2D Space: the
+                        Class ltraj
 as.sahrlocs             Exploratory Analysis of Habitat Selection
-as.traj                 Working with Trajectories in 2D Space
+as.traj                 Working with Trajectories in 2D Space -
+                        Deprecated
 asc2im                  Conversion of Maps of Class 'asc' and 'im'
                         (Package spatstat)
 ascgen                  Creation of Raster Maps
 bighorn                 Radio-Tracking of Bighorn Sheeps
 biv.test                Bivariate Test
 buffer                  Compute Buffers
+c.ltraj                 Combine Bursts of Relocations in Objects of
+                        Class "ltraj"
 chamois                 Location of Chamois Groups in the Chartreuse
                         Mountains
 colasc                  Creates a Vector of Colors for a Raster Map of
@@ -22,11 +27,15 @@ distfacmap              Compute distances to the different levels of a
                         factor map
 domain                  Estimation of the Potential Distribution of a
                         Species
+eisera                  Eigenanalysis of Selection Ratios
 enfa                    Ecological-Niche Factor Analysis
-getascattr              Copy the Attributes of an Object of Class
-                        'asc' or 'kasc' to another Object
-getcontour              Computes the Contour Polygon of a Raster
-                        Object
+Extract.ltraj           Extract or Replace Parts of an Object of Class
+                        ltraj
+gdltraj                 Working with Trajectories: Specify a Time
+                        Period
+getascattr              Copy the Attributes of an Object of Class 'asc'
+                        or 'kasc' to another Object
+getcontour              Computes the Contour Polygon of a Raster Object
 getXYcoords             Computes the X and Y Coordinates of the Pixels
                         of a Raster Map
 hist.kasc               Histograms of Mapped Variables
@@ -34,8 +43,8 @@ histniche               Histograms of the Ecological Niche
 hr.rast                 Rasterisation of Objects of Class 'area'
 image.asc               Displays a Color Image of an Object of Class
                         'asc'
-image.sahrlocs          Graphical Display of the Habitat Composition
-                        of the Home Ranges of Animals Monitored Using
+image.sahrlocs          Graphical Display of the Habitat Composition of
+                        the Home Ranges of Animals Monitored Using
                         Radio-Tracking
 import.asc              Arcview ASCII Raster File Importation And
                         Exportation
@@ -64,12 +73,12 @@ perarea                 Compute Areas and Perimeters of Objects of
                         Class "area"
 pheasant                Radio-Tracking of Pheasants
 plot.area               Graphical Display of Objects of Class "area"
+plot.ltraj              Graphical Display of an Object of Class "ltraj"
 plot.sahrlocs           Exploratory Analysis of Habitat Selection
 predict.enfa            Habitat Suitability Maps Built from the ENFA
 puechabon               Radio-Tracking Data of Wild Boar
 puechcirc               Movements of wild boars tracked at Puechabon
-puechdesIII             Habitat Selection by the Wild Boar at
-                        Puechabon
+puechdesIII             Habitat Selection by the Wild Boar at Puechabon
 rand.kselect            Test of the Third-Order Habitat Selection
 randtest.enfa           Randomisation Test for the Ecological Niche
                         Factor Analysis
@@ -80,7 +89,7 @@ schoener                Compute Schoener's ratio
 setmask                 Applies a Mask on Objects of Class 'asc' or
                         'kasc'
 speed                   Computes the Speed Between Successive
-                        Relocations of an Animal
+                        Relocations of an Animal - Deprecated
 squirrel                Radio-Tracking Data of Squirrels
 storemapattr            Store attributes of maps of class asc and kasc
 subsetmap               Storing a Part of a Map

@@ -1,6 +1,6 @@
 \name{angles}
 \alias{angles}
-\title{Compute Turning Angles}
+\title{Compute Turning Angles - Deprecated}
 \description{
   \code{angles} computes the turning angles (in radians) between
   consecutive moves from an object of class \code{traj}. See examples
@@ -40,18 +40,25 @@ angles(x, id = levels(x$id), burst = levels(x$burst),
   Sunderland, Massachusetts: Sinauer Associates.
 }
 \author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\note{
+  The function \code{angles} is deprecated.  The class \code{ltraj}
+  computes the turning angles automatically (see \code{as.ltraj}).
+}
 \seealso{ \code{\link{speed}} for computation of movement speeds,
   \code{\link{as.traj}} for additional information about objects of
   class \code{traj}  }
 \examples{
+
+\dontrun{
 ## loads an object of class "traj"
 data(puechcirc)
-puechcirc
+puechcir <- ltraj2traj(puechcirc)
+puechcir
 
 ## Gets a part of the trajectory of the wild boar named
 ## CH93 and draws it
 ## Also displays the turning angles
-toto <- puechcirc[2:5,]
+toto <- puechcir[2:5,]
 plot(toto$x, toto$y, asp = 1, ylim = c(3158300, 3158550),
      pch = 16,
      main = "Turning angles between\nthree consecutive moves",
@@ -77,11 +84,12 @@ text(c(700301, 700231), c(3158399, 3158487),
 
 ## Computation of the turning angles with real data
 ## on wild boars
-plot(puechcirc)
-ang <- angles(puechcirc)
+plot(puechcir)
+ang <- angles(puechcir)
 
 ## The angles are in the column Angles:
 ang[1:4,]
+}
 
 }
 \keyword{spatial}
