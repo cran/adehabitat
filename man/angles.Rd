@@ -15,7 +15,7 @@ angles(x, id = levels(x$id), burst = levels(x$burst),
   \item{id}{a character vector giving the identity of the animals for which
     the angles are to be computed}
   \item{burst}{a character vector giving the identity of the circuits for which
-    the angles are to be computed (see \code{as.traj})}
+    the angles are to be computed (see \code{traj})}
   \item{date}{a vector of class \code{POSIXct} of length 2 (beginning, end)
     delimiting the period of interest}
   \item{slsp}{a character string.  If \code{"remove"}, successive
@@ -31,7 +31,7 @@ angles(x, id = levels(x$id), burst = levels(x$burst),
   \item{y}{the y coordinate of the relocation at which the angle is computed}
   \item{date}{a vector of class \code{POSIXct}, giving the date at which
     the relocation has been taken}
-  \item{burst}{the id of the circuit (see \code{help(as.traj)})}
+  \item{burst}{the id of the circuit (see \code{help(traj)})}
   \item{angles}{the turning angles between the successive moves.}
 }
 \references{
@@ -39,13 +39,13 @@ angles(x, id = levels(x$id), burst = levels(x$burst),
     and modeling population redistribution in animals and plants.}
   Sunderland, Massachusetts: Sinauer Associates.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \note{
   The function \code{angles} is deprecated.  The class \code{ltraj}
-  computes the turning angles automatically (see \code{as.ltraj}).
+  computes the turning angles automatically (see \code{ltraj}).
 }
 \seealso{ \code{\link{speed}} for computation of movement speeds,
-  \code{\link{as.traj}} for additional information about objects of
+  \code{\link{traj}} for additional information about objects of
   class \code{traj}  }
 \examples{
 
@@ -87,7 +87,7 @@ text(c(700301, 700231), c(3158399, 3158487),
 plot(puechcir)
 ang <- angles(puechcir)
 
-## The angles are in the column Angles:
+## The angles are in the column angles:
 ang[1:4,]
 }
 

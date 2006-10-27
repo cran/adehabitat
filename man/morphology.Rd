@@ -18,9 +18,9 @@ morphology(x, operation = c("erode", "dilate"), nt = 5)
 Returns a matrix of class \code{asc}, containing 1 when the pixel belong
 to one feature of the image and \code{NA} otherwise (see examples).  
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
-\seealso{\code{\link{as.asc}} for further information on objects of
-  class \code{asc}} 
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\seealso{\code{\link{asc}} for further information on objects of
+  class \code{asc}.} 
 \examples{
 data(puechabon)
 a <- getkasc(puechabon$kasc,"Elevation")
@@ -30,17 +30,19 @@ toto1 <- morphology(a, operation = "dilate", nt = 1)
 toto2 <- morphology(a, operation = "dilate", nt = 2)
 toto3 <- morphology(a, operation = "dilate", nt = 3)
 toto5 <- morphology(a, operation = "dilate", nt = 5)
-image(toto5, col = "red")
-image(toto3, add = TRUE, col = "orange")
-image(toto2, add = TRUE, col = "yellow")
-image(toto1, add = TRUE, col = "green")
+colo <- grey((1:5)/6)
+image(toto5, col = colo[1])
+image(toto3, add = TRUE, col = colo[2])
+image(toto2, add = TRUE, col = colo[3])
+image(toto1, add = TRUE, col = colo[4])
 image(a, add = TRUE)
 
 ## erosion
+colo <- grey((1:20)/21)
 image(a, col = 1)
 for (i in 1:19) {
   toto <- morphology(a, operation = "erode", nt = i)
-  image(toto, add = TRUE, col = palette()[(i+1)\%\%8])
+  image(toto, add = TRUE, col = colo[i])
 }
 
 

@@ -15,9 +15,11 @@ distfacmap(x)
 \value{
   An object of class \code{kasc}.
 }
-\author{  Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
-\seealso{ \code{\link{import.asc}} for further info on objects of class
-  \code{asc}. }
+\author{  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\seealso{ \code{\link{asc}} for further info on objects of class
+  \code{asc}. To compute distance maps from points, lines or polygons,
+  see \code{\link[spatstat]{distmap}} in the package \code{spatstat}.
+}
 \examples{
 \dontrun{
 data(puechabon)

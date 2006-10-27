@@ -5,7 +5,7 @@
 \description{
 This data set contains two data frames describing the use and the
 availability of 3 elevation classes for 6 wild boars (\emph{Sus scrofa}
-L.) monitored using radio-tracking at Puéchabon (South of France).
+L.) monitored using radio-tracking at Puechabon (South of France).
 These data have been collected by Daniel Maillard (Office national de la
 chasse et de la faune sauvage).
 }
@@ -21,7 +21,7 @@ chasse et de la faune sauvage).
 }
 \source{
 Maillard, D. (1996) \emph{Occupation et utilisation de la garrigue et du
-vignoble méditerranéens par le Sanglier}.
-Université d'Aix-Marseille III:  PhD thesis.
+vignoble mediterraneens par le Sanglier}.
+Universite d'Aix-Marseille III:  PhD thesis.
 }
 \keyword{datasets}

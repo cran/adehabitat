@@ -20,15 +20,16 @@ function(x,  var=names(x),
           clf<-NULL
         }
         if (length(var)>1)
-          image.asc(el, main=i, axes=axes, clfac=clf, ... )
+            image.asc(el, main=i, axes=axes, clfac=clf, ... )
         if (length(var)==1)
-          image.asc(el, axes=axes, clfac=clf, ... )
+            image.asc(el, axes=axes, clfac=clf, ... )
       } else {
         if (length(var)>1)
           image.asc(el, main=i, axes=axes, col=col, ...)
         if (length(var)==1)
           image.asc(el, axes=axes, col=col, ... )
       }
+      box()
     }
   }
 

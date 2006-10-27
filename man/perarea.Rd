@@ -21,8 +21,8 @@ ararea(x)
 \section{Warning }{
   \code{ararea} requires the package \code{gpclib}.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
-\seealso{\code{\link{as.area}}, \code{\link{plot.area}}}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\seealso{\code{\link{area}}, \code{\link{plot.area}}}
 \examples{
 
 data(puechabon)

@@ -5,7 +5,7 @@
 \description{
   \code{count.points} counts the number of points in
   each pixel of a raster map of class \code{kasc} or \code{asc}.\cr
-  \code{count.points.id} counts the number of points falling in
+  \code{count.points.id} counts the number of points in
   each pixel of a raster map of class \code{kasc} or \code{asc}, for
   different sets of points (e.g. the relocations of several animals
   monitored using radio-tracking) 
@@ -15,7 +15,8 @@ count.points(xy, w)
 count.points.id(xy, id, w)
 }
 \arguments{
-  \item{xy}{a data frame containing the x and y coordinates of the points.}
+  \item{xy}{a data frame with 2 columns containing the x and y
+    coordinates of the points.}
   \item{id}{a factor giving, for each point, the membership of a point
     to a set.}
   \item{w}{an object of class \code{asc}, \code{kasc} or \code{mapattr}.}
@@ -29,9 +30,9 @@ count.points.id(xy, id, w)
   containing the number of points numbered in each cell of the raster
   map.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{as.kasc}} for additionnal information on objects
+\seealso{ \code{\link{kasc}} for additionnal information on objects
   of class \code{kasc}, and \code{\link{storemapattr}} for further
   information on objects of class \code{mapattr}.}
 

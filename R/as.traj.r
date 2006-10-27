@@ -1,6 +1,8 @@
 "as.traj" <-
 function(id, xy, date, burst=id, ...)
   {
+    if (!is.data.frame(xy))
+      stop("xy should be a data.frame")
     if (ncol(xy)!=2)
       stop("xy should have two columns")
     if (!inherits(date, "POSIXct"))
@@ -9,7 +11,7 @@ function(id, xy, date, burst=id, ...)
     burst <- factor(burst)
     if (!all(apply(table(id,burst)>0,2,sum)==1))
       stop("one burst level should belong to only one id level")
-  
+
     names(xy)<-c("x", "y")
     bas<-data.frame(id=id,
                     xy, date=date, burst=burst, ...)
@@ -21,7 +23,7 @@ function(id, xy, date, burst=id, ...)
       warning(paste("At least two relocations are needed for a burst:\n",
                     sum(!nl), "circuits have been deleted"))
     li<-lapply(li, foo)
-    
+
     ## Vérification que pas de doublons au niveau des dates
     foob<-function(x) {
       ind<-rep(0,nrow(x))
@@ -31,7 +33,7 @@ function(id, xy, date, burst=id, ...)
       }
       return(x[ind==0,])
     }
-    
+
     li<-lapply(li, foob)
     bas<-do.call("rbind", li)
     row.names(bas)<-as.character(1:nrow(bas))

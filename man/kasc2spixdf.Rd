@@ -28,11 +28,11 @@
   object of class \code{SpatialPolygons}.\cr
   \cr
   \code{spol2area} converts an object of class \code{SpatialPolygons} or
-  \code{SpatialPolygonsDataFrame} into anobject of class
+  \code{SpatialPolygonsDataFrame} into an object of class
   \code{area}.\cr
   \cr
   \code{attpol2area} gets the data attribute of an object of class
-  \code{SpatialPolygonsDataFrame} and stores is into a data frame.\cr
+  \code{SpatialPolygonsDataFrame} and stores it into a data frame.\cr
   \cr
   \code{traj2spdf} converts an object of class \code{traj} into an
   object of class \code{SpatialPointsDataFrame}.\cr
@@ -40,11 +40,11 @@
   \code{traj2sldf} converts an object of class \code{traj} into an
   object of class \code{SpatialLinesDataFrame}.\cr
   \cr
-  \code{ltraj2sldf} converts an object of class \code{ltraj} into an
-  object of class \code{SpatialLinesDataFrame}.\cr
-  \cr
   \code{ltraj2spdf} converts an object of class \code{ltraj} into an
   object of class \code{SpatialPointsDataFrame}.\cr
+  \cr
+  \code{ltraj2sldf} converts an object of class \code{ltraj} into an
+  object of class \code{SpatialLinesDataFrame}.\cr
 }
 \usage{
 kasc2spixdf(ka)
@@ -82,12 +82,12 @@ ltraj2sldf(ltr, byid = FALSE)
   \code{spol2area} ignore them and returns only the external contour of
   the polygon (though a warning is returned).
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
-\seealso{ \code{\link{import.asc}} for information on objects of
-  class \code{asc}, \code{\link{as.kasc}} for info on objects of
-  class \code{kasc}, \code{\link{as.area}} for info on objects of
-  class \code{area}, \code{\link{as.traj}} for objects of class
-  \code{traj}, \code{\link{as.ltraj}} for objects of class
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\seealso{ \code{\link{asc}} for information on objects of
+  class \code{asc}, \code{\link{kasc}} for info on objects of
+  class \code{kasc}, \code{\link{area}} for info on objects of
+  class \code{area}, \code{\link{traj}} for objects of class
+  \code{traj}, \code{\link{ltraj}} for objects of class
   \code{ltraj}.}
 \examples{
 \dontrun{
@@ -122,7 +122,7 @@ image(cuicui)
 
 #########################################
 ##
-## Conversion area -> SpatialRings
+## Conversion area -> SpatialPolygons
 ##
 
 data(elec88)
@@ -134,7 +134,7 @@ plot(toto)
 
 #########################################
 ##
-## Conversion SpatialRings -> area
+## Conversion SpatialPolygons -> area
 ##
 
 ## First create an object of class "SpatialRingsDataFrame"
@@ -142,8 +142,8 @@ tutu <- SpatialPolygonsDataFrame(toto, elec88$tab)
 
 ## and then conversion:
 coincoin <- spol2area(tutu)
-
 plot(coincoin)
+
 ## gets the attributes
 haha <- attpol2area(tutu)
 area.plot(coincoin, values = haha$Waechter)

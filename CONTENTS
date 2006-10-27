@@ -4,6 +4,12 @@ Keywords: spatial
 Description: Compute Turning Angles
 URL: ../../../library/habitat/html/angles.html
 
+Entry: area2asc
+Aliases: area2asc
+Keywords: spatial
+Description: Converts a polygon to raster
+URL: ../../../library/habitat/html/area2asc.html
+
 Entry: area2dxf
 Aliases: area2dxf
 Keywords: hplot
@@ -29,7 +35,7 @@ Description: Working with Trajectories in 2D Space: the Class ltraj
 URL: ../../../library/habitat/html/as.ltraj.html
 
 Entry: as.sahrlocs
-Aliases: as.sahrlocs, getsahrlocs, print.sahrlocs
+Aliases: as.sahrlocs, sahrlocs, getsahrlocs, print.sahrlocs
 Keywords: spatial
 Description: Exploratory Analysis of Habitat Selection
 URL: ../../../library/habitat/html/as.sahrlocs.html
@@ -82,6 +88,12 @@ Keywords: dataset
 Description: Location of Chamois Groups in the Chartreuse Mountains
 URL: ../../../library/habitat/html/chamois.html
 
+Entry: clusthr
+Aliases: clusthr, print.clusthr, plot.clusthr, clusthr.area, getverticesclusthr
+Keywords: spatial
+Description: Estimation of Home Range by Clustering
+URL: ../../../library/habitat/html/clusthr.html
+
 Entry: colasc
 Aliases: colasc
 Keywords: programming
@@ -124,6 +136,12 @@ Keywords: multivariate
 Description: Eigenanalysis of Selection Ratios
 URL: ../../../library/habitat/html/eisera.html
 
+Entry: explore.kasc
+Aliases: explore.kasc
+Keywords: spatial
+Description: Interactive interaction of maps of class kasc (requires the package tkrplot)
+URL: ../../../library/habitat/html/explore.kasc.html
+
 Entry: Extract.ltraj
 Aliases: Extract.ltraj, [.ltraj, [<-.ltraj
 Keywords: spatial
@@ -135,6 +153,12 @@ Aliases: enfa, hist.enfa, print.enfa, data2enfa, print.dataenfa
 Keywords: multivariate
 Description: Ecological-Niche Factor Analysis
 URL: ../../../library/habitat/html/enfa.html
+
+Entry: fpt
+Aliases: fpt, plot.fipati, varlogfpt, meanfpt
+Keywords: spatial
+Description: Computation of the First Passage Time From Trajectories
+URL: ../../../library/habitat/html/fpt.html
 
 Entry: gdltraj
 Aliases: gdltraj
@@ -216,7 +240,7 @@ Description: Conversion of maps from/to the package "sp"
 URL: ../../../library/habitat/html/kasc2sgdf.html
 
 Entry: kernelUD
-Aliases: kernelUD, print.khr, image.khr, plotLSCV, getvolumeUD, kernel.area, getverticeshr, kernelbb, plot.kver
+Aliases: kernelUD, print.khr, image.khr, plotLSCV, getvolumeUD, kernel.area, getverticeshr, kernelbb
 Keywords: spatial
 Description: Estimation of kernel home-range
 URL: ../../../library/habitat/html/kernelUD.html
@@ -227,6 +251,12 @@ Keywords: multivariate
 Description: K-select analysis: Method to Analyse habitat selection by animals
   in case of design III studies
 URL: ../../../library/habitat/html/kselect.html
+
+Entry: kver
+Aliases: kver, kver.rast, kver2shapefile, plot.kver
+Keywords: spatial
+Description: Handling of Objects of Class kver
+URL: ../../../library/habitat/html/kver.html
 
 Entry: labcon
 Aliases: labcon
@@ -245,6 +275,12 @@ Aliases: lynxjura
 Keywords: datasets
 Description: Monitoring of Lynx
 URL: ../../../library/habitat/html/lynxjura.html
+
+Entry: madifa
+Aliases: madifa, print.madifa, hist.madifa, scatter.madifa, predict.madifa, plot.madifa, s.madifa
+Keywords: multivariate
+Description: The MADIFA: a Factorial Decomposition of the Mahalanobis Distances
+URL: ../../../library/habitat/html/madifa.html
 
 Entry: mahasuhab
 Aliases: mahasuhab
@@ -283,10 +319,22 @@ Description: Monte-Carlo Test on Parameters of the Ecological Niche
 URL: ../../../library/habitat/html/niche.test.html
 
 Entry: NNCH
-Aliases: NNCH, print.NNCH, NNCH.area, plot.NNCH, neighNNCH, plot.ngNNCH, getverticesNNCH, plot.NNCHver, NNCH.rast
-Keywords: hplot
-Description: Nearest Neighbor Convex hull
+Aliases: NNCH
+Keywords: spatial
+Description: Nearest Neighbor Convex Hulls (LoCoH)
 URL: ../../../library/habitat/html/NNCH.html
+
+Entry: NNCH.select
+Aliases: NNCH.select,summary.NNCH, print.NNCH, plot.NNCH, NNCH.shapefile, NNCH.asciigrid
+Keywords: spatial
+Description: LoCoH (NNCH): Useful Functions
+URL: ../../../library/habitat/html/NNCH.select.html
+
+Entry: NNCH.area
+Aliases: NNCH.area, NNCH.n.area, NNCH.k.area, NNCH.r.area, NNCH.a.area, plot.narea, NNCH.der.n.area, NNCH.der.k.area, NNCH.der.r.area, NNCH.der.a.area
+Keywords: spatial
+Description: LoCoH (NNCH): Home Range Area
+URL: ../../../library/habitat/html/NNCH.area.html
 
 Entry: pheasant
 Aliases: pheasant
@@ -351,8 +399,14 @@ URL: ../../../library/habitat/html/rand.kselect.html
 Entry: randtest.enfa
 Aliases: randtest.enfa
 Keywords: multivariate
-Description: {Randomisation Test for the Ecological Niche Factor Analysis
+Description: Randomisation Test for the Ecological Niche Factor Analysis
 URL: ../../../library/habitat/html/randtest.enfa.html
+
+Entry: redisltraj
+Aliases: redisltraj
+Keywords: spatial
+Description: Rediscretization of a Trajectory With Regular Step Length
+URL: ../../../library/habitat/html/redisltraj.html
 
 Entry: rotxy
 Aliases: rotxy, .buffer.point.unic, profilehab
@@ -377,6 +431,12 @@ Aliases: scatter.enfa
 Keywords: multivariate
 Description: Scatter Plot of the Results of the ENFA
 URL: ../../../library/habitat/html/scatter.enfa.html
+
+Entry: scatterniche
+Aliases: scatterniche
+Keywords: hplot
+Description: Display the Niche in the Ecological Space 
+URL: ../../../library/habitat/html/scatterniche.html
 
 Entry: schoener
 Aliases: schoener, schoener.rtest
@@ -403,7 +463,7 @@ Description: Radio-Tracking Data of Squirrels
 URL: ../../../library/habitat/html/squirrel.html
 
 Entry: storemapattr
-Aliases: storemapattr
+Aliases: storemapattr, mapattr
 Keywords: programming
 Description: Store attributes of maps of class asc and kasc
 URL: ../../../library/habitat/html/storemapattr.html

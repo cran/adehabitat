@@ -149,6 +149,24 @@ void enfar(double *Zr, double *pr, int *nvar, int *npix,
 void randenfa(double **Z, double *p, int *nrep, double *res);
 void randenfar(double *Zr, double *pr, int *nvar, int *npix,
 	       int *nrep, double *resr);
+void fptt(double *x, double *y, double *t, int pos, double radius, 
+	  double *fptto, int nlo);
+void fipatir(double *xr, double *yr, double *tr, 
+	     int *nlocs, double *radius, int *nrad, 
+             double *fptr);
+void perclu(double **map, int nr, int nc, double *x, double *y,
+	    int nmax, int *nreel, double *pm);
+void perclur(double *mapr, int *nrm, int *ncm, double *probamr,
+	     double *xr, double *yr, int *nmaxr, int *nreel);
+void resolpol(double a, double b, double c, double *x1, double *x2, 
+	      int *warn);
+void discretraj(double *x, double *y, double *dat, double *xn, 
+		double *yn, int n, int nn, double *datn, 
+		double u, int *neff);
+void discretrajr(double *xr, double *yr, double *datr, double *xnr, 
+		 double *ynr, int *nr, int *nnr, double *datnr, 
+		 double *xdeb, double *ydeb, double *ur, double *dat0, 
+		 int *neff);
 
 
 
@@ -200,8 +218,8 @@ void vecpermut (double *A, int *num, double *B)
 /*---------------------------------------
 * A est un vecteur n elements
 * B est une vecteur n elements
-* num est une permutation al�atoire des n premiers entiers
-* B contient en sortie les elements de A permut�es
+* num est une permutation alatoire des n premiers entiers
+* B contient en sortie les elements de A permutes
 * ---------------------------------------*/
 
 	int lig, lig1, lig2, i, k;
@@ -2599,7 +2617,7 @@ void seqeticorr(double *grille, int *nlig, int *ncol)
     nl=*nlig;
     nc=*ncol;
     taballoc(&x, nl, nc);
-    vecalloc(&Tc, 1000);
+    vecalloc(&Tc, nl*nc);
     
     k=0;
     for (i=1; i<=nl; i++) {
@@ -2764,7 +2782,7 @@ void seqeticorr(double *grille, int *nlig, int *ncol)
 
     freetab(x);
     freevec(Tc);
-    
+    freevec(lf);
   }
 
 
@@ -6104,3 +6122,1018 @@ void distxyr(double *xy1r, double *xy2r, int *n1r,
 
 
 
+void dtmp(double x1, double x2, double y1, double y2, 
+	  double *di)
+{
+  *di = sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
+}
+
+
+void fptt(double *x, double *y, double *t, int pos, double radius, double *fptto, int nlo)
+{
+  int ok, pos2, naar, naav, na;
+  double di, dt, dt2, di2, fptar, fptav;
+  
+  ok = 0;
+  di = 0;
+  di2 = 0;
+  dt = 0;
+  dt2 = 0;
+  naar = 1;
+  naav = 1;
+  fptar = 0;
+  fptav = 0;
+  
+  
+  /* recherche de la première loc qui sort du cercle en arrière*/
+  pos2 = pos;
+  while (ok == 0) {
+    pos2 = pos2 - 1;
+    if (pos2 > 0) {
+      dtmp(x[pos2], x[pos], y[pos2], y[pos], &di);
+      if (di >= radius)
+	ok = 1;
+    } else {
+      ok = 1;
+      naar = 0;
+    }
+  }
+  
+  /* calcul de l'approximation linéaire */
+  if (naar > 0) {
+    dt = abs(t[pos] - t[pos2]);
+    dt2 = abs(t[pos] - t[(pos2+1)]);
+    dtmp(x[(pos2+1)], x[pos], y[(pos2+1)], y[pos], &di2);
+    fptar = dt2 + ( (dt - dt2) * (radius - di2) / (di - di2) );
+  }
+  
+  
+  /* recherche de la première loc qui sort du cercle en avant*/
+  pos2 = pos;
+  ok = 0;
+  while (ok == 0) {
+    pos2 = pos2 + 1;
+    if (pos2 <= nlo) {
+      dtmp(x[pos2], x[pos], y[pos2], y[pos], &di);
+      if (di >= radius)
+	ok = 1;
+    } else {
+      ok = 1;
+      naav = 0;
+    }
+  }
+  
+  /* calcul de l'approximation linéaire */
+  if (naav > 0) {
+    dt = abs(t[pos2] - t[pos]);
+    dt2 = abs(t[(pos2-1)] - t[pos]);
+    dtmp(x[(pos2-1)], x[pos], y[(pos2-1)], y[pos], &di2);
+    fptav = dt2 + ( (dt - dt2) * (radius - di2) / (di - di2) );
+  }
+  
+  na = naar * naav;
+  if (na > 0) {
+    *fptto = fptar + fptav;
+  } else {
+    *fptto = -1;
+  }
+  
+}
+
+
+void fipati(double *x, double *y, double *t, 
+	     int nlo, int nra, double *rad, 
+             double **fpt)
+{
+  int i, j;
+  double val;
+  
+
+
+  /* Calcul de la matrice de distances et dtime */
+  for (i=1; i<=nra; i++) {
+    for (j=1; j<=nlo; j++) {
+      fptt(x, y, t, j, rad[i], &val, nlo);
+      fpt[j][i] = val;
+    }
+  }
+}
+
+
+void fipatir(double *xr, double *yr, double *tr, 
+	     int *nlocs, double *radius, int *nrad, 
+             double *fptr)
+{
+  int i, j, k, nlo, nra;
+  double *x, *y, *t, *rad, **fpt;
+  
+  nlo = *nlocs;
+  nra = *nrad;
+  
+  vecalloc(&x, nlo);
+  vecalloc(&y, nlo);
+  vecalloc(&t, nlo);
+  vecalloc(&rad, nra);
+  taballoc(&fpt, nlo, nra);
+  
+  for (i = 1; i <= nlo; i++) {
+    x[i] = xr[i-1];
+    y[i] = yr[i-1];
+    t[i] = tr[i-1];
+  }
+
+  for (i = 1; i <= nra; i++) {
+    rad[i] = radius[i-1];
+  }
+
+  fipati(x,y,t, nlo, nra, rad, fpt);
+  k = 0;
+  for (i=1; i<= nlo; i++) {
+    for (j = 1; j<=nra; j++) {
+      fptr[k]=fpt[i][j];
+      k++;
+    }
+  }
+  
+  
+  freetab(fpt);
+  freevec(x);
+  freevec(y);
+  freevec(t);
+  freevec(rad);
+}
+
+
+
+
+void perclu(double **map, int nr, int nc, double *x, double *y,
+	    int nmax, int *nreel, double *pm)
+{
+  int i,j, encore, k, l, dir, *vois, *rvois, *cvois, choix, xt, yt, cons, *reord, len;
+  double **rr, **cc, *cs, ptir;
+  
+  xt = (int) x[1];
+  yt = (int) y[1];
+  len = nr;
+  if (nc < nr)
+    len = nc;
+  encore = 1;
+  i = 1;
+  j = 1;
+  l = 0;
+  k = 2;
+  ptir = 0;
+  dir = 1;
+  choix = 1;
+  cons = 0;
+  
+  taballoc(&rr, nr, nc);
+  taballoc(&cc, nr, nc);
+  vecintalloc(&vois, 4);
+  vecintalloc(&reord, 4);
+  vecintalloc(&rvois, 4);
+  vecintalloc(&cvois, 4);
+  vecalloc(&cs, 4);
+  
+
+  
+  for (i = 1; i <= nr; i++) {
+    for (j = 1; j <= nc; j++) {
+      rr[i][j] = (double) i;
+      cc[i][j] = (double) j;
+    }
+  }
+  
+  cs[1] = pm[1];
+  for (i = 2; i <= 4; i++) {
+    cs[i] = cs[i-1] + pm[i];
+  }
+  
+  while (encore == 1) {
+    
+    /* Stockage du voisinage */
+    vois[1] = (int) map[xt][yt+1];
+    vois[2] = (int) map[xt+1][yt];
+    vois[3] = (int) map[xt][yt-1];
+    vois[4] = (int) map[xt-1][yt];
+    
+    rvois[1] = (int) rr[xt][yt+1];
+    rvois[2] = (int) rr[xt+1][yt];
+    rvois[3] = (int) rr[xt][yt-1];
+    rvois[4] = (int) rr[xt-1][yt];
+    
+    cvois[1] = (int) cc[xt][yt+1];
+    cvois[2] = (int) cc[xt+1][yt];
+    cvois[3] = (int) cc[xt][yt-1];
+    cvois[4] = (int) cc[xt-1][yt];
+    
+    /* RÃÂ©ordonnons le voisinage en fonction de 
+       la direction */
+    l = 1;
+    for (i = dir; i <= 4; i++) {
+      reord[l] = i;
+      l++;
+    }
+    i = 1;
+    while (l != 4) {
+      reord[l] = i;
+      l++;
+      i++;
+    }
+    
+    /* tirage alÃÂ©atoire de la direction */
+    ptir = alea();
+    choix = 4;
+    if (ptir <= pm[1]) {
+      choix = 1;
+    }
+    if ((ptir > pm[1])&&(ptir <= pm[2])) {
+      choix = 2;
+    }
+    if ((ptir > pm[2])&&(ptir <= pm[3])) {
+      choix = 3;
+    }
+    
+    /* Et re, jusqu'ÃÂ  ce qu'on aille dans une zone accessible */
+    cons = reord[choix];
+    
+    while (vois[cons] == 1) {
+      ptir = alea();
+      choix = 4;
+      if (ptir <= pm[1]) {
+	choix = 1;
+      }
+      if ((ptir > pm[1])&&(ptir <= pm[2])) {
+	choix = 2;
+      }
+      if ((ptir > pm[2])&&(ptir <= pm[3])) {
+	choix = 3;
+      }
+      cons = reord[choix];
+    }
+    
+    /* Stockage de toutes les infos */
+    xt = (int) (rvois[choix]);
+    yt = (int) (cvois[choix]);
+    
+    x[k] = (double) xt;
+    y[k] = (double) yt;
+    
+    if ((xt==1)|(xt==len)|(yt==1)|(yt==len))
+      encore = 0;
+    if (k==nmax)
+      encore = 0;
+    
+    for (i = 1; i <= 4; i++) {
+      if ( ((int) rvois[i]) == xt) {
+	if ( ((int) cvois[i]) == yt) {
+	  dir = i;
+	}
+      }
+    }
+    
+    *nreel = k;
+    k++;
+  }
+  
+  freeintvec(vois);
+  freeintvec(rvois);
+  freeintvec(cvois);
+  freeintvec(reord);
+  freevec(cs);
+  freetab(rr);
+  freetab(cc);
+}
+
+
+
+
+
+
+void perclur(double *mapr, int *nrm, int *ncm, double *probamr,
+	     double *xr, double *yr, int *nmaxr, int *nreel)
+{
+  double **map, *pm, *x, *y;
+  int i, j, k, nr, nc, nmax;
+  
+  nr = *nrm;
+  nc = *ncm;
+  nmax = *nmaxr;
+  
+  taballoc(&map, nr, nc);
+  vecalloc(&x, nmax);
+  vecalloc(&y, nmax);
+  vecalloc(&pm, 4);
+  
+  x[1] = xr[0];
+  y[1] = yr[0];
+  
+  k = 0;
+  for (i = 1; i <= nr; i++) {
+    for (j = 1; j <= nc; j++) {
+      map[i][j] = mapr[k];
+      k++;
+    }
+  }
+  
+  for (i = 1; i <= 4; i++) {
+    pm[i] = probamr[i-1];
+  }
+  
+  perclu(map, nr, nc, x, y, nmax, nreel, pm);
+  
+  for (i = 1; i <= *nreel; i++) {
+    xr[i-1] = x[i];
+    yr[i-1] = y[i];
+  }
+  
+  freevec(x);
+  freevec(y);
+  freevec(pm);
+  freetab(map);
+}
+
+
+
+void resolpol(double a, double b, double c, double *x1, double *x2, int *warn)
+{
+  double delta;
+  delta = (b * b) - 4 * a * c;
+  *warn = 0;
+  if (delta > 0) {
+    *x1 = (-b - sqrt(delta)) / (2 * a);
+    *x2 = (-b + sqrt(delta)) / (2 * a);
+  } else {
+    *warn = 1;
+  }
+}
+
+void discretraj(double *x, double *y, double *dat, double *xn, 
+		double *yn, int n, int nn, double *datn, 
+		double u, int *neff)
+{
+  double R, xt, yt, a, b, c, pente, ori, x1, x2, di1, di2;
+  int k, m, p, fini, ok, warn, *dedans, lo, new, pp;
+  
+  fini = 0;
+  k = 1;
+  p = 2;
+  m = 1;
+  ok = 0;
+  a = 0;
+  b = 0;
+  c = 0;
+  pente = 0;
+  ori = 0;
+  x1 = 0;
+  x2 = 0;
+  lo = 0;
+  di1 = 0;
+  di2 = 0;
+  *neff = 0;
+  new = 0;
+  pp = 1;
+  
+  
+  vecintalloc(&dedans,2);
+
+  while (fini == 0) {
+    
+    dedans[1] = 0;
+    dedans[2] = 0;
+    ok = 0;
+    xt = xn[k];
+    yt = yn[k];
+    k++;
+    new = 0;
+    
+    /* DÃÂ©termination de la loc supÃÂ©rieure */
+    while (ok == 0) {
+      if (new == 1)
+	p++;
+      R = sqrt((((x[p] - xt) * (x[p] - xt)) + ((y[p] - yt) * (y[p] - yt))));
+      if (R > u) {
+	ok = 1;
+      } else {
+	if (p == n) {
+	  fini = 1;
+	  ok = 1;
+	}
+      }
+      new = 1;
+    }
+    m = p-1;
+    
+    if (fini == 0) {
+      /* Calcul de la pente entre m et p */
+      pente = (y[p] - y[m]) / (x[p] - x[m]);
+      /* Calcul de l'ordonnÃÂ©e ÃÂ  l'origine */
+      ori = y[p] - (pente * x[p]);
+      /* Calcul des paramÃÂ¨tres du polynÃÂ´me */
+      a = 1 + (pente * pente);
+      b = (-2 * xt) + (2 * pente * ori) - (2 * pente * yt);
+      c = (xt * xt) + (yt * yt) + (ori * ori) - (2 * ori * yt) - (u * u);
+      resolpol(a, b, c, &x1, &x2, &warn);
+      
+      /* 
+	 Une droite intersecte un cercle de rayon u 
+	 en deux points, il faut déterminer 
+	 1. quel point est le plus proche de m
+	 2. conserver celui qui est sur le segment m-p
+      */
+      
+      
+      /* lesquels sont dans l'intervalle ? */
+      if (x1 >= x[m]) {
+	if (x1 < x[p]) {
+	  dedans[1] = 1;
+	  lo = 1;
+	}
+      }
+      if (x1 >= x[p]) {
+	if (x1 < x[m]) {
+	  dedans[1] = 1;
+	  lo = 1;
+	}
+      }
+      if (x2 >= x[m]) {
+	if (x2 < x[p]) {
+	  dedans[2] = 1;
+	  lo = 2;
+	}
+      }
+      if (x2 >= x[p]) {
+	if (x2 < x[m]) {
+	  dedans[2] = 1;
+	  lo = 2;
+	}
+      }
+      
+      /* quelle est la distance minimale a m ? */
+      if ((dedans[1] + dedans[2]) > 1) {
+	di1 = fabs((double) (x[p] - x1));
+	di2 = fabs((double) (x[p] - x2));
+		
+	/* vérifier que xk-1 pas dans le même 
+	   intervalle, sinon, on augmente d'un cran */
+	if (di1 < di2) {
+	  lo = 2;
+	} else {
+	  lo = 1;
+	}
+	if (pp == p) {
+	  if (di1 < di2) {
+	    lo = 1;
+	  } 
+	  if (di2 < di1) {
+	    lo = 2;
+	  } 
+	}
+      }
+      
+      /* stockage des coordonnÃÂ©es */
+      if (lo == 1) {
+	xn[k] = x1;
+	yn[k] = (pente * x1) + ori;
+      }
+      if (lo == 2) {
+	xn[k] = x2;
+	yn[k] = (pente * x2) + ori;
+      }
+      
+      /* Calcul de la nouvelle date */
+      di1 = sqrt((((xn[k] - x[m]) * (xn[k] - x[m])) + ((yn[k] - y[m]) * (yn[k] - y[m]))));
+      R = sqrt((((x[p] - x[m]) * (x[p] - x[m])) + ((y[p] - y[m]) * (y[p] - y[m]))));
+      di2 = dat[p] - dat[m];
+      datn[k] = dat[m] + (di1 * di2 / R);
+    }
+    if (k == nn) {
+      fini = 1;
+    }
+    pp = p;
+  }
+  
+  *neff = k;
+  freeintvec(dedans);
+}
+
+
+
+
+
+void discretrajr(double *xr, double *yr, double *datr, double *xnr, 
+		 double *ynr, int *nr, int *nnr, double *datnr, 
+		 double *xdeb, double *ydeb, double *ur, double *dat0, int *neff)
+{
+  int i, n, nn;
+  double *x, *y, *xn, *yn, *dat, *datn, u;
+  
+  n = *nr;
+  nn = *nnr;
+  u = *ur;
+  
+  vecalloc(&x, n);
+  vecalloc(&y, n);
+  vecalloc(&xn, nn);
+  vecalloc(&yn, nn);
+  vecalloc(&dat, n);
+  vecalloc(&datn, nn);
+  
+  /* passage aux variables locales */
+  for (i = 1; i <= n; i++) {
+    x[i] = xr[i-1];
+    y[i] = yr[i-1];
+    dat[i] = datr[i-1];
+  }
+  
+  xn[1] = *xdeb;
+  yn[1] = *ydeb;
+  datn[1] = *dat0;
+  
+  /* passage a discretraj  */
+  discretraj(x, y, dat, xn, yn, n, nn, datn, u, neff);
+  
+  for (i = 1; i <= nn; i++) {
+    xnr[i-1] = xn[i];
+    ynr[i-1] = yn[i];
+    datnr[i-1] = datn[i];
+  }
+    
+  freevec(x);
+  freevec(y);
+  freevec(xn);
+  freevec(yn);
+  freevec(dat);
+  freevec(datn);
+}
+
+
+
+
+
+
+
+
+
+
+/* *********************************************************************
+ *                                                                     *
+ *              Home range par Clustering (Kenward)                    *
+ *                                                                     *
+ ***********************************************************************/
+
+
+
+void trouveclustmin(double **xy, int *clust, int *lo1, int *lo2,
+		    int *lo3, double *dist)
+{
+    int i, j, k, m, npas, nr, *indice;
+    double **xy2, di1, di2, di3, ditmp;
+    
+    nr = (int) xy[0][0];
+    npas = 0;
+    di1 = 0;
+    di2 = 0;
+    di3 = 0;
+    ditmp = 0;
+    
+    for (i = 1; i <= nr; i++) {
+	if (clust[i] == 0) {
+	    npas++;
+	}
+    }
+    taballoc(&xy2, npas, 2);
+    vecintalloc(&indice, npas);
+    k = 1;
+    for (i = 1; i <= nr; i++) {
+	if (clust[i] == 0) {
+	    xy2[k][1] = xy[i][1];
+	    xy2[k][2] = xy[i][2];
+	    indice[k] = i;
+	    k++;
+	}
+    }
+    
+    *dist = 0;
+    m=0;
+    for (i = 1; i <= (npas-2); i++) {
+	for (j = (i+1); j <= (npas-1); j++) {
+	    for (k = (j+1); k <= npas; k++) {
+		di1 = sqrt((xy2[i][1] - xy2[j][1]) * (xy2[i][1] - xy2[j][1]) + 
+			   (xy2[i][2] - xy2[j][2]) * (xy2[i][2] - xy2[j][2]) );
+		di2 = sqrt((xy2[i][1] - xy2[k][1]) * (xy2[i][1] - xy2[k][1]) + 
+			   (xy2[i][2] - xy2[k][2]) * (xy2[i][2] - xy2[k][2]));
+		di3 = sqrt((xy2[k][1] - xy2[j][1]) * (xy2[k][1] - xy2[j][1]) + 
+			   (xy2[k][2] - xy2[j][2]) * (xy2[k][2] - xy2[j][2]));
+		
+		ditmp = (di1 + di2 + di3) / 3;
+		if ((m == 0) || (ditmp < *dist)) {
+		    *dist = ditmp;
+		    *lo1 = indice[i];
+		    *lo2 = indice[j];
+		    *lo3 = indice[k];
+		}
+		m = 1;
+	    }
+	}
+    }
+    freeintvec(indice);
+    freetab(xy2);
+}
+
+
+void trouveclustminr(double *xyr, int *nr, int *clustr, int *lo1, int *lo2,
+		     int *lo3, double *dist)
+{
+    double **xy;
+    int i, j, k, *clust;
+    taballoc(&xy, *nr, 2);
+    vecintalloc(&clust, *nr);
+    
+    k = 0;
+    for (i = 1; i <= *nr; i++) {
+	for (j = 1; j <= 2; j++) {
+	    xy[i][j] = xyr[k];
+	    k++;
+	}
+    }
+    for (i = 1; i <= *nr; i++) {
+	clust[i] = clustr[i-1];
+    }
+    
+    trouveclustmin(xy, clust, lo1, lo2, lo3, dist);
+    
+    freetab(xy);
+    freeintvec(clust);
+}
+
+
+void nndistclust(double **xy, double *xyp, double *dist)
+{
+    int n, i, m;
+    double di;
+    m = 0;
+    di =0;
+    n = (int) xy[0][0];
+    *dist = 0;
+    for (i = 1; i <= n; i++) {
+	di = sqrt( (xy[i][1] - xyp[1]) * (xy[i][1] - xyp[1]) + 
+		   (xy[i][2] - xyp[2]) * (xy[i][2] - xyp[2]) );
+	if ( (di < *dist) || (m == 0) ) {
+	    *dist = di;
+	}
+	m = 1;
+    }
+}
+
+
+void parclust(double **xy, int *clust, int *noclust, 
+	      int *noloc, double *dist)
+{
+    int i, k, m, nr2, nr, nocl;
+    double **xy2, *xyp, di, di2;
+    nocl = *noclust;
+    nr = xy[0][0];
+    nr2 = 0;
+    for (i = 1; i <= nr; i++) {
+	if (clust[i] == nocl) {
+	    nr2++;
+	}
+    }
+    taballoc(&xy2, nr2, 2);
+    vecalloc(&xyp, 2);
+    k = 1;
+    for (i = 1; i <= nr; i++) {
+	if (clust[i] == nocl) {
+	    xy2[k][1] = xy[i][1];
+	    xy2[k][2] = xy[i][2];
+	    k++;
+	}
+    }
+    
+    di = 0;
+    di2 = 0;
+    m = 0;
+    *dist = 0;
+    for (i = 1; i <= nr; i++) {
+	if (clust[i] != nocl) {
+	    xyp[1] = xy[i][1];
+	    xyp[2] = xy[i][2];
+	    nndistclust(xy2, xyp, &di);
+	    if ( (di < *dist) || (m == 0) ) {
+		*dist = di;
+		*noloc = i;
+	    }
+	    m = 1;
+	}
+    }
+    freetab(xy2);
+    freevec(xyp);
+}
+
+
+void trouveminclust(double **xy, int *liclust, int *clust, 
+		    int *noclust, int *noloc, double *dist)
+{
+    int i, nr, nc, m, labclust, nolo;
+    double di;
+    nr = (int) xy[0][0];
+    nc = 0;
+    di = 0;
+    labclust = 0;
+    nolo = 0;
+    
+    for (i = 1; i <= nr; i++) {
+	if (liclust[i] > 0) {
+	    nc++;
+	}
+    }
+    m = 0;
+    *dist = 0;
+    for (i = 1; i <= nc; i++) {
+	labclust = liclust[i];
+	parclust(xy, clust, &labclust, &nolo, &di);
+	if ( (m == 0) || (di < *dist) ) {
+	    *dist = di;
+	    *noloc = nolo;
+	    *noclust = labclust;
+	}
+	m = 1;
+    }
+}
+
+
+void choisnvclust(double **xy, int *liclust, int *clust, int *ordre)
+{
+    int i, k, nr, noloat, cluat, nolo1, nolo2, nolo3, maxclust;
+    int maxindiceclust, clu1, *liclub, nz;
+    double dmoyclust, dminloc;
+    nz = 0;
+    i = 0;
+    k = 0;
+    nr = (int) xy[0][0];
+    maxclust = 0;
+    maxindiceclust = 0;
+    nolo1 = 0;
+    nolo2 = 0;
+    nolo3 = 0;
+    noloat = 0;
+    cluat = 0;
+    clu1 = 0;
+    vecintalloc(&liclub, nr);
+    
+    for (i = 1; i <= nr; i++) {
+	if (clust[i] != 0) {
+	    if (clust[i] > maxclust) {
+		maxclust = clust[i];
+	    }
+	    if (liclust[i] != 0) {
+		maxindiceclust = i;
+	    }
+	}
+    }
+
+    /* Calcul de la distance min � la locs la plus proche */
+    trouveminclust(xy, liclust, clust, &cluat, &noloat, &dminloc);
+    
+    /* Calcul de la distance moyenne entre les locs du plus petit cluster */
+    /* On v�rifie tout d'abord qu'il reste au moins trois locs vides */
+    dmoyclust = dminloc +1;
+    for (i = 1; i <= nr; i++) {
+	if (clust[i] == 0) {
+	    nz++;
+	}
+    }
+    if (nz > 3) {
+	dmoyclust = 0;
+	trouveclustmin(xy, clust, &nolo1, &nolo2, &nolo3, &dmoyclust);
+    }
+    
+    /* Premier cas: on a un nouveau cluster ind�pendant des autres */
+    if (dmoyclust < dminloc) {
+	ordre[nolo1] = 1;
+	ordre[nolo2] = 1;
+	ordre[nolo3] = 1;
+	
+	clust[nolo1] = maxclust + 1;
+	clust[nolo2] = maxclust + 1;
+	clust[nolo3] = maxclust + 1;
+	
+	liclust[maxindiceclust+1] = maxclust + 1;
+
+    } else {
+	/* Deuxi�me cas: on a une loc qui s'ajoute � un cluster */
+	
+	/* Cas 2.1: la loc n'appartient pas � un cluster */
+	if (clust[noloat] == 0) {
+	    ordre[noloat] = 1;
+	    clust[noloat] = cluat;
+	} else {
+	    
+	    /* Cas 2.2: la loc appartient � un cluster: fusion */
+	    clu1 = clust[noloat];
+	    for (i = 1; i <= nr; i++) {
+		if (clust[i] == clu1) {
+		    clust[i] = cluat;
+		    ordre[i] = 1;
+		}
+		if (liclust[i] == clu1) {
+		    liclust[i] = 0;
+		}
+	    }
+	    /* Et nettoyage de liclust */
+	    k = 1;
+	    for (i = 1; i <= nr; i++) {
+		if (liclust[i] != 0) {
+		    liclub[k] = liclust[i];
+		    k++;
+		}
+	    }
+	    for (i = 1; i <= nr; i++) {
+		liclust[i] = liclub[i];
+	    }
+	}
+    }
+    freeintvec(liclub);
+}
+
+
+
+void clusterhr(double **xy, int *facso, int *nolocso, int *cluso)
+{
+    
+    int i, nr, lo1, lo2, lo3, *clust, len, con, *ordre, *liclust, courant;
+    double di;
+    courant = 1;
+    nr = (int) xy[0][0];
+    vecintalloc(&clust, nr);
+    vecintalloc(&ordre, nr);
+    vecintalloc(&liclust, nr);
+    lo1 = 0;
+    lo2 = 0;
+    lo3 = 0;
+    di = 0;
+    con = 1;
+    len = 0;
+    
+    /* debut: recherche du premier cluster */
+    trouveclustmin(xy, clust, &lo1, &lo2,
+		   &lo3, &di);
+    
+    clust[lo1] = 1;
+    clust[lo2] = 1;
+    clust[lo3] = 1;
+    liclust[1] = 1;
+    len = 3;
+    
+    /* qu'on stocke dans les sorties */
+    cluso[1] = 1;
+    cluso[2] = 1;
+    cluso[3] = 1;
+    nolocso[1] = lo1;
+    nolocso[2] = lo2;
+    nolocso[3] = lo3;
+    facso[1] = 1;
+    facso[2] = 1;
+    facso[3] = 1;
+    
+    
+    while (con == 1) {
+	courant++;
+	
+	for (i = 1; i <= nr; i++) {
+	    ordre[i] = 0;
+	}
+	
+	choisnvclust(xy, liclust, clust, ordre);
+	
+	for (i = 1; i <= nr; i++) {
+	    if (ordre[i] != 0) {
+		len++;
+		cluso[len] = clust[i];
+		nolocso[len] = i;
+		facso[len] = courant;
+	    }
+	}
+	
+	con = 0;
+	for (i = 2; i <= nr; i++) {
+	    if (clust[i] != clust[1])
+		con = 1;
+	}
+	if (con == 0) {
+	    con = 0;
+	}
+
+    }
+    freeintvec(clust);
+    freeintvec(ordre);
+    freeintvec(liclust);
+}
+
+
+
+void longfacclust(double **xy, int *len2)
+{
+    int i, nr, lo1, lo2, lo3, *clust, len, con, *ordre, *liclust, courant;
+    double di;
+    courant = 1;
+    nr = (int) xy[0][0];
+    vecintalloc(&clust, nr);
+    vecintalloc(&ordre, nr);
+    vecintalloc(&liclust, nr);
+    lo1 = 0;
+    lo2 = 0;
+    lo3 = 0;
+    di = 0;
+    con = 1;
+    len = 0;
+    
+    /* debut: recherche du premier cluster */
+    
+    trouveclustmin(xy, clust, &lo1, &lo2,
+		   &lo3, &di);
+    clust[lo1] = 1;
+    clust[lo2] = 1;
+    clust[lo3] = 1;
+    liclust[1] = 1;
+    len = 3;
+    
+    while (con == 1) {
+	courant++;
+	
+	for (i = 1; i <= nr; i++) {
+	    ordre[i] = 0;
+	}
+	
+	choisnvclust(xy, liclust, clust, ordre);
+	
+	for (i = 1; i <= nr; i++) {
+	    if (ordre[i] != 0) {
+		len++;
+	    }
+	}
+	con = 0;
+	for (i = 2; i <= nr; i++) {
+	    if (clust[i] != clust[1])
+		con = 1;
+	}
+	if (con == 0) {
+	    con = 0;
+	}
+    }
+    *len2 = len;
+    freeintvec(clust);
+    freeintvec(ordre);
+    freeintvec(liclust);
+}
+
+
+
+void longfacclustr(double *xyr, int *nr, int *len2)
+{
+    double **xy;
+    int i, j, k;
+    taballoc(&xy, *nr, 2);
+    
+    k = 0;
+    for (i = 1; i <= *nr; i++) {
+	for (j = 1; j <= 2; j++) {
+	    xy[i][j] = xyr[k];
+	    k++;
+	}    }
+    longfacclust(xy, len2);
+    freetab(xy);
+}
+
+void clusterhrr(double *xyr, int *nr, int *facsor, 
+		int *nolocsor, int *clusor, int *len)
+{
+    double **xy;
+    int i, j, k, *facso, *nolocso, *cluso;
+    taballoc(&xy, *nr, 2);
+    vecintalloc(&facso, *len);
+    vecintalloc(&nolocso, *len);
+    vecintalloc(&cluso, *len);
+        
+    k = 0;
+    for (i = 1; i <= *nr; i++) {
+	for (j = 1; j <= 2; j++) {
+	    xy[i][j] = xyr[k];
+	    k++;
+	}
+    }
+    
+    clusterhr(xy, facso, nolocso, cluso);
+    
+    for (i = 1; i <= *len; i++) {
+	facsor[i-1] = facso[i];
+	nolocsor[i-1] = nolocso[i];
+	clusor[i-1] = cluso[i];
+    }
+    
+    freetab(xy);
+    freeintvec(facso);
+    freeintvec(nolocso);
+    freeintvec(cluso);
+}

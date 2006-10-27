@@ -13,13 +13,13 @@
   by the ENFA.
 }
 \usage{
-enfa(tab, pr, scannf = TRUE, nf = 1)
+enfa(dudi, pr, scannf = TRUE, nf = 1)
 hist.enfa(x, scores = TRUE, type = c("h", "l"), adjust = 1, Acol, Ucol, 
           Aborder, Uborder, Alwd = 1, Ulwd = 1, \dots)
 data2enfa(kasc, pts)
 }
 \arguments{
-  \item{tab}{a data frame describing the available units}
+  \item{dudi}{a duality diagram, object of class \code{dudi} (see Details)}
   \item{pr}{a vector giving the utilization weights associated to each unit}
   \item{scannf}{logical.  Whether the eigenvalues barplot should be displayed}
   \item{nf}{an integer indicating the number of kept
@@ -74,7 +74,26 @@ data2enfa(kasc, pts)
   of available habitat conditions to the average used habitat conditions).
   Then the analysis extracts successives orthogonal axes (i.e. uncorrelated),
   which maximises the specialization of the species.  The calculations
-  used in the function are described in Hirzel et al. (2002).
+  used in the function are described in Hirzel et al. (2002).\cr
+
+  The function \code{enfa} can be used on both quantitative and
+  qualitative variables, provided that the table containing the values
+  of habitat variables (columns) for each resource unit (rows) is
+  correctly transformed (e.g. column-centered and standardised for
+  tables containing only quantitative variables), and that
+  appropriate column weights are given (e.g. the sum of the weights for
+  the levels of a factor should be the same as the weight of one
+  quantitative variable). Therefore, the function \code{enfa} requires
+  that a preliminary multivariate analysis is performed on the table
+  (using analysis of the family of duality diagram, e.g. principal
+  component analysis or Hill and Smith analysis). The object returned
+  by this preliminary analysis contains the appropriate weights and
+  transformation of the original data frame. For example, 
+  the function \code{dudi.mix} can be used first on the data.frame
+  containing the value of both quantitative (e.g. slope, elevation) and
+  qualitative habitat variables (e.g. vegetation) for each pixel of a
+  raster map. The result of this analysis can then be passed as argument
+  to the function \code{enfa} (see examples below).\cr
 }
 \value{
   \code{enfa} returns a list of class \code{enfa} containing the
@@ -88,6 +107,7 @@ data2enfa(kasc, pts)
   \item{s}{a vector with all the eigenvalues of the analysis.}
   \item{lw}{row weights, a vector with n components.}
   \item{li}{row coordinates, data frame with n rows and nf columns.}
+  \item{cw}{column weights, a vector with p components.}
   \item{co}{column coordinates, data frame with p rows and nf columns.}
   \item{mar}{coordinates of the marginality vector.}
   \code{data2enfa} returns a list of class \code{dataenfa} containing the
@@ -104,9 +124,9 @@ data2enfa(kasc, pts)
   Hutchinson, G.E. (1957) Concluding Remarks. \emph{Cold Spring Harbor
   Symposium on Quantitative Biology}, \bold{22}: 415--427. 
   
-  Perrin, N. (1984) Contribution à l'écologie du genre Cepaea
-  (Gastropoda) : Approche descriptive et expérimentale de l'habitat et
-  de la niche écologique. Thèse de Doctorat. Université de Lausanne,
+  Perrin, N. (1984) Contribution à l'ecologie du genre Cepaea
+  (Gastropoda) : Approche descriptive et experimentale de l'habitat et
+  de la niche ecologique. These de Doctorat. Universite de Lausanne,
   Lausanne. 
   
   Hirzel, A.H., Hausser, J., Chessel, D. & Perrin, N. (2002)
@@ -120,10 +140,12 @@ data2enfa(kasc, pts)
   analysis of the niche, when several species are under studies,
   \code{\link{niche.test}} to perform a test of the marginality and the
   tolerance of the niche, and \code{\link{scatter.enfa}} to have a
-  graphical display of objects of class \code{enfa}.
+  graphical display of objects of class
+  \code{enfa}.  See \code{\link{madifa}} for another factorial analysis of
+  the ecological niche.
 }
 \examples{
-\dontrun{
+
 data(lynxjura)
 
 map <- lynxjura$map
@@ -143,13 +165,22 @@ hist(map, type = "l")
 ## We prepare the data for the ENFA
 (dataenfa1 <- data2enfa(map, locs))
 
-## We then perform the ENFA
-(enfa1 <- enfa(dataenfa1$tab, dataenfa1$pr,
+## We then perform the PCA before the ENFA
+pc <- dudi.pca(dataenfa1$tab, scannf = FALSE)
+
+## The object 'pc' contains the transformed table (i.e.
+## centered so that all columns have a mean of 0
+## and scaled so that all columns have a variance of 1
+## 'pc' also contains the weights of the habitat variables,
+## and the weights of the pixels in the analysis
+
+(enfa1 <- enfa(pc, dataenfa1$pr,
                scannf = FALSE))
 hist(enfa1)
 hist(enfa1, scores = FALSE, type = "l")
 
 ## randomization test and scatterplot
+\dontrun{
 (renfa <- randtest(enfa1))
 plot(renfa)
 scatter(enfa1)

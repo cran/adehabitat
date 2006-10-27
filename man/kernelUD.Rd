@@ -7,7 +7,6 @@
 \alias{kernel.area}
 \alias{getverticeshr}
 \alias{kernelbb}
-\alias{plot.kver}
 \title{Estimation of Kernel Home-Range}
 \description{
   \code{kernelUD} is used to estimate the utilization distribution (UD)
@@ -17,30 +16,25 @@
   \code{getverticeshr} stores the
   home range contour as objects of class \code{area} in a list of class
   \code{kver}, with one component per animal.\cr
-  \code{plot.kver} is used to display these home-range contours.\cr
   \code{kernelbb} is used to fit an utilization distribution using the
   brownian bridge approach of the kernel method (for autocorrelated
   relocations; Bullard, 1991). 
 }
 \usage{
 kernelUD(xy, id = NULL, h = "href", grid = 40, same4all = FALSE,
-         hlim = c(0.1, 1.5), kern = "bivnorm")
+         hlim = c(0.1, 1.5), kern = c("bivnorm", "epa"))
 print.khr(x, \dots)
 image.khr(x, axes = FALSE, mar = c(0,0,2,0),
           addcontour = TRUE, addpoints = TRUE, \dots)
 plotLSCV(x)
 getvolumeUD(x)
-kernel.area(xy, id, h = "href", grid=40,
+kernel.area(xy, id, h = "href", grid = 40,
             same4all = FALSE, hlim = c(0.1,1.5), kern = "bivnorm",
             levels = seq(20,95, by = 5),
             unin = c("m", "km"),
             unout = c("ha", "km2", "m2"))
 getverticeshr(x, lev = 95)
-plot.kver(x, which = names(x), colpol=rainbow(length(which)),
-          colborder=rep("black", length(which)), lwd = 2,
-          add=FALSE, \dots)
-kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
-
+kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
 }
 
 \arguments{
@@ -68,22 +62,12 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
   \item{kern}{a character string.  If \code{"bivnorm"}, a bivariate
     normal kernel is used.  If \code{"epa"}, an Epanechnikov kernel is
     used.}
-  \item{x}{an object of class \code{khr} returned by \code{kernelUD}.
-    For \code{plot.kver}, an object of class \code{kver} returned by
-    \code{getverticeshr} }
-  \item{which}{a vector of character indicating the polygons to be plotted}
-  \item{colpol}{a vector of the color for filling the polygon.  The default,
-    \code{NA}, is to leave polygons unfilled }
-  \item{colborder}{a vector of the color to draw the border.  The
-    default.  Use \code{border = NA} to omit borders}
-  \item{lwd}{the border width, a \strong{positive} number}
-  \item{add}{logical. if \code{TRUE}, the polygons are added to a
-    previous plot}
+  \item{x}{an object of class \code{khr} returned by \code{kernelUD}.}
   \item{axes}{logical.  Whether the axes are to be plotted}
   \item{mar}{the margin parameter (see \code{help(par)})}
-  \item{addcontour}{logical. if \code{TRUE}, contours are drawn on the
+  \item{addcontour}{logical. If \code{TRUE}, contours are drawn on the
     graphics}
-  \item{addpoints}{logical. if \code{TRUE}, the animal relocations are
+  \item{addpoints}{logical. If \code{TRUE}, the animal relocations are
     drawn on the graphics}
   \item{levels}{a vector of percentage levels for home-range size
     estimation}
@@ -209,7 +193,7 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
   \code{getvolumeUD} returns a list of class \code{khrvol},
   with the same components as lists of class \code{khrud}.  \cr
 
-  \code{kernel.area} returns a data frame of subclass \code{"hrsize"},
+  \code{kernel.area} returns a data frame of subclass \code{hrsize},
   with one column per animal and one row per level of
   estimation of the home range.\cr
 
@@ -236,12 +220,13 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all=FALSE, byburst=FALSE)
     program (kernelhr)}. Documentation of the
   program. \url{ftp://ftp.im.nbs.gov/pub/software/CSE/wsb2695/KERNELHR.ZIP}.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{import.asc}} for additionnal informations on
+\seealso{ \code{\link{asc}} for additionnal informations on
   objects of class \code{asc},  \code{\link{mcp}} for estimation of home
   ranges using the minimum convex polygon, and for help on the function
-  \code{plot.hrsize}. }
+  \code{plot.hrsize}. \code{\link{kver}} for information on objects of
+  class \code{kver}}
 
 \examples{
 
@@ -250,8 +235,7 @@ loc <- puechabon$locs[, c("X", "Y")]
 id <- puechabon$locs[, "Name"]
 
 ## Estimation of UD for the four animals
-ud <- kernelUD(loc, id)
-ud
+(ud <- kernelUD(loc, id))
 
 image(ud) ## Note that the contours
           ## corresponds to values of probability density
@@ -334,7 +318,7 @@ x <- puechcirc[burst = "CH930824"]
 
 ## fits the home range
 (tata <- kernelbb(x, 10, 10, same4all = TRUE))
-image(tata)
+image(tata, addpoints=FALSE)
 lines(x[[1]]$x, x[[1]]$y, lwd = 2, col = "red")
 
 ## Image of a brownian bridge. Fit with two relocations:

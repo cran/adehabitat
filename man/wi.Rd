@@ -152,7 +152,7 @@ plot.wi(x, caxis = 0.7, clab = 1, ylog = FALSE, errbar = c("CI", "SE"),
   comparing resource use and availability. \emph{Journal of Wildlife
   Management}, \bold{54}, 322--330.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 
 \seealso{\code{\link{compana}} for compositional analysis, and
   \code{\link{eisera}} to perform an eigenanalysis of selection

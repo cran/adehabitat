@@ -16,8 +16,8 @@ setmask(x, mask)
 \value{
   Returns an object of class \code{asc} or \code{kasc}
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
-\seealso{ \code{\link{import.asc}} for additionnal information on
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\seealso{ \code{\link{asc}} for additionnal information on
   objects of class \code{asc}. }
 
 \examples{

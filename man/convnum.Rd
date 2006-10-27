@@ -4,10 +4,11 @@
 \description{
 The objects of class \code{kasc} may contain maps of type \code{"numeric"}
 (e.g. the elevation) or of type \code{"factor"} (e.g. the type of
-vegetation).  \code{convnum} centres and scales the maps of type
-\code{"numeric"}, and factor maps are transformed into a collection of k
-maps of type \code{"numeric"} (where k is the number of levels of the
-factor), with zero means and unit variance (see \code{dudi.mix} in the
+vegetation).  With \code{convnum}, factor maps are transformed into a
+collection of k maps of type "numeric" (where k is the number of levels
+of the factor), with zero means and unit variance (see dudi.mix in the
+ade4 package for further details). Additionaly, maps of type "numeric"
+are also centered and scaled (see \code{dudi.mix} in the
 \code{ade4} package for further details).
 }
 \usage{
@@ -21,11 +22,11 @@ convnum(kasc)
   \item{kasc}{an object of class \code{kasc}}
   \item{weight}{the weights associated with
     each map of the object kasc, so that the collection of maps defining
-    a categorical variable has the same weight that a numeric variable
+    a categorical variable has the same weight as a numeric variable
     (see examples).} 
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
-\seealso{\code{\link[ade4]{dudi.mix}}, \code{\link{as.kasc}}}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\seealso{\code{\link[ade4]{dudi.mix}} (package ade4), \code{\link{kasc}}}
 \examples{
 
 ## loads the data

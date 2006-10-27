@@ -31,24 +31,24 @@ scatter.enfa(x, xax = 1, yax = 2, pts = FALSE, nc = TRUE,
     (counter-clockwise), for the available pixels polygon}
   \item{Uangle}{the slope of shading lines, given as an angle in degrees
     (counter-clockwise), for the used pixels polygon}
-  \item{Aborder}{the color to draw the border of the available pixels 
+  \item{Aborder}{the color for drawing the border of the available pixels 
     polygon. See \code{\link{polygon}} for more details}
-  \item{Uborder}{the color to draw the border of the used pixels polygon. 
+  \item{Uborder}{the color for drawing the border of the used pixels polygon. 
     See \code{\link{polygon}} for more details}
   \item{Acol}{the color for filling the available pixels polygon. 
-    if \code{pts==FALSE}, the color for the points corresponding to available
+    if \code{pts == FALSE}, the color for the points corresponding to available
     pixels}
   \item{Ucol}{the color for filling the used pixels polygon. 
-    if \code{pts==FALSE}, the color for the points corresponding to used 
+    if \code{pts == FALSE}, the color for the points corresponding to used 
     pixels}
-  \item{Alty}{the line type for the available pixels polygon, as in \code{par}.}
-  \item{Ulty}{the line type for the used pixels polygon, as in \code{par}.}
-  \item{Abg}{if \code{pts==TRUE}, background color for open plot symbols of 
+  \item{Alty}{the line type for the available pixels polygon, as in \code{par}}
+  \item{Ulty}{the line type for the used pixels polygon, as in \code{par}}
+  \item{Abg}{if \code{pts == TRUE}, background color for open plot symbols of 
     available pixels}
-  \item{Ubg}{if \code{pts==TRUE}, background color for open plot symbols of 
+  \item{Ubg}{if \code{pts == TRUE}, background color for open plot symbols of 
     used pixels}
-  \item{Ainch}{if \code{pts==TRUE}, heigth in inches of the available pixels} 
-  \item{Uinch}{if \code{pts==TRUE}, heigth in inches of the largest used pixels}
+  \item{Ainch}{if \code{pts == TRUE}, heigth in inches of the available pixels} 
+  \item{Uinch}{if \code{pts == TRUE}, heigth in inches of the largest used pixels}
   \item{\dots}{further arguments passed to or from other methods}
 }
 \details{
@@ -60,8 +60,6 @@ The kept axes for the plot are specified in a corner.
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
 \seealso{\code{\link{enfa}}, \code{\link[ade4]{scatter}}}
 \examples{
-\dontrun{
-## Not run: 
 data(lynxjura)
 
 map <- lynxjura$map
@@ -76,9 +74,10 @@ map[,4] <- sqrt(map[,4])
 
 ## We perform the ENFA
 tmp <- data2enfa(map, locs[tmp, c("X","Y")])
-(enfa1 <- enfa(tmp$tab, tmp$pr, scannf = FALSE))
+(enfa1 <- enfa(dudi.pca(tmp$tab, scannf=FALSE),
+               tmp$pr, scannf = FALSE))
 scatter(enfa1)
-}
+
 }
 \keyword{multivariate}
 \keyword{hplot}

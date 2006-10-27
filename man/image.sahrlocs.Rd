@@ -51,15 +51,14 @@ image.sahrlocs(x, ani = names(x$hr), var = names(x$sa),
   \item{\dots}{additionnal parameters to be passed to the generic
     function \code{image}}
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
 \seealso{ \code{\link{as.sahrlocs}} for additionnal information on
   objects of class \code{sahrlocs} }
 
 \examples{
 data(puechabon)
-sahr <- puechabon$sahr
-sahr
+(sahr <- puechabon$sahr)
 
 ## Displays all the variables for a given animal
 image(sahr, ani = "Chou")

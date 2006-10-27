@@ -3,23 +3,23 @@
 \alias{persp.asc}
 \alias{contour.asc}
 \alias{plot.asc}
-\title{Displays a Color Image of an Object of Class 'asc' }
+\title{Displays a Color Image of a Matrix of Class 'asc' }
 \description{
   These functions display a raster matrix of class \code{asc}.
 }
 \usage{
-image.asc(x, clfac = NULL, col = gray((240:1)/256), \dots)
+image.asc(x, col = gray((240:1)/256), clfac = NULL, \dots)
 contour.asc(x, \dots)
 persp.asc(x, \dots)
 plot.asc(x, \dots)
 }
 \arguments{
-  \item{x}{an object of class \code{asc}}
+  \item{x}{a matrix of class \code{asc}}
+  \item{col}{for maps of type \code{"numeric"}, the colors to be used
+    (see \code{help(par)})} 
   \item{clfac}{for maps of type \code{"factor"}, a character vector giving
     the names of colors for each level of the factor (see
     \code{help(colasc)})}
-  \item{col}{for maps of type \code{"numeric"}, the colors to be used
-    (see \code{help(par)})} 
   \item{\dots}{additional arguments to be passed to the generic
     function \code{image}, \code{persp}, \code{contour}, and
     \code{filled.contour} (but see below)}
@@ -39,11 +39,11 @@ graphics commands in the \code{plot.axes} argument of the function
 An example is given below.
 }
 
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
 \seealso{ \code{\link{image}},  \code{\link{contour}},
   \code{\link{persp}}, \code{\link{filled.contour}},
-  \code{\link{import.asc}}
+  \code{\link{asc}}
 }
 
 \examples{

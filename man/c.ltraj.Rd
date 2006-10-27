@@ -14,11 +14,12 @@ c.ltraj(...)
   An object of class \code{ltraj}.
 }
 \author{
-  Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}
+  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}
 }
-\seealso{\code{\link{as.ltraj}} for further information on the class
+\seealso{\code{\link{ltraj}} for further information on the class
   \code{ltraj}, \code{\link{Extract.ltraj}} to extract or replace 
-  bursts of relocations, \code{\link{plot.ltraj}} for graphical
+  bursts of relocations, \code{\link{plot.ltraj}} and
+  \code{\link{trajdyn}} for graphical
   displays, \code{\link{gdltraj}} to specify a time period}
 \examples{
 

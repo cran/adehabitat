@@ -1,5 +1,6 @@
 \name{as.sahrlocs}
 \alias{as.sahrlocs}
+\alias{sahrlocs}
 \alias{getsahrlocs}
 \alias{print.sahrlocs}
 \title{Exploratory Analysis of Habitat Selection}
@@ -55,11 +56,11 @@ print.sahrlocs(x, \dots)
   \code{cellsize}, \code{nrow}, and \code{ncol}).\cr
   
   \code{getsahrlocs} returns
-  an object of class \code{kasc} (see \code{\link{as.kasc}}).
+  an object of class \code{kasc} (see \code{\link{kasc}}).
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{\code{\link{as.kasc}} for additionnal information on objects
+\seealso{\code{\link{kasc}} for additionnal information on objects
   of class \code{kasc}, \code{\link{hr.rast}} and \code{\link{buffer.ani}}
   for the creation of the \code{"hr"}
   component of this object, \code{\link{count.points.id}} for the

@@ -15,7 +15,7 @@ speed(x, id = levels(x$id), burst = levels(x$burst), date = NULL,
   \item{id}{a character vector giving the identity of the animals for
     which the speed is to be computed}
   \item{burst}{a character vector giving the identity of the circuits
-    for which the speed is to be computed (see \code{as.traj})}
+    for which the speed is to be computed (see \code{traj})}
   \item{date}{a vector of class \code{POSIXct} of length 2 (beginning, end)
     delimiting the period of interest}
   \item{units}{a character string. It determines how the
@@ -39,12 +39,12 @@ speed(x, id = levels(x$id), burst = levels(x$burst), date = NULL,
   \item{dt}{the duration between the two relocations (in the units given
   by the parameter \code{units}).}
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \note{
   The function \code{speed} is deprecated.  The class \code{ltraj}
-  computes the speeds automatically (see \code{as.ltraj}).
+  computes the speeds automatically (see \code{ltraj}).
 }
-\seealso{ \code{\link{as.traj}}}
+\seealso{ \code{\link{traj}}}
 \examples{
 \dontrun{
 #### Computes the speed for each wild boar

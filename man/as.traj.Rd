@@ -7,7 +7,7 @@
 \alias{getburst}
 \alias{traj2df}
 \alias{df2traj}
-\title{Working with Trajectories in 2D Space - Deprecated}
+\title{Working with Trajectories in 2D Space}
 \description{
   The class \code{traj} is intended to explore trajectories of
   animals monitored using radio-tracking.\cr
@@ -39,17 +39,18 @@ traj2df(x)
 df2traj(df)
 }
 \arguments{
-  \item{id}{a factor giving for each relocation the
+  \item{id}{a factor or a character vector giving for each relocation the
     identity of the individual monitored in \code{as.traj}. \cr
     a character vector containing the identity of the
     individuals of interest in other functions}
-  \item{xy}{a data frame containing the coordinates of the relocations}
+  \item{xy}{a data frame with 2 columns containing the x and y
+    coordinates of the relocations}
   \item{date}{a vector of class \code{POSIXct}
     giving the date for each relocation in \code{as.traj}.\cr
     a vector of class \code{POSIXct} with length 2, indicating the
     beginning and the end of the period of interest in other
     functions}
-  \item{burst}{a factor giving the identity of each
+  \item{burst}{a factor or a character vector giving the identity of each
     "burst" of relocations in \code{as.traj} (e.g. the circuit id, see
     details).  The burst level needs to be unique (two animals cannot
     have the same burst levels).  \cr
@@ -101,16 +102,11 @@ df2traj(df)
   Dunn, J.E. and Gipson, P.S. (1977) Analysis of radio telemetry data in
   studies of home range. \emph{Biometrics}. \bold{59}, 794--800.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
-\note{
-  The class \code{traj} is deprecated.  Please rather use the class
-    \code{ltraj}.
-}
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \seealso{ \code{\link{as.POSIXct}} and \code{\link{strptime}} for
   additional information of the class \code{POSIX}. }
 \examples{
 
-\dontrun{
 data(puechabon)
 locs <- puechabon$locs
 locs[1:4,]
@@ -131,7 +127,6 @@ plot(tr)
 k <- puechabon$kasc
 ele <- getkasc(k, "Elevation")
 plot(tr, asc = ele)
-}
 
 
 }

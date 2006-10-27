@@ -13,10 +13,14 @@
               of a polygon object}
   \item{w}{an object of class \code{kasc}, or of class \code{asc}}
 }
+\details{
+  The raster map is needed to pass the format for the output raster
+  object to the function.
+}
 \value{
 Returns an object of class \code{asc}.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \seealso{ \code{\link{hr.rast}}}
 \examples{
 data(puechabon)

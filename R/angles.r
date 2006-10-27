@@ -1,15 +1,15 @@
 "angles" <-
 function (x, id = levels(x$id), burst = levels(x$burst),
-                  date = NULL, slsp = c("remove", "missing")) 
+                  date = NULL, slsp = c("remove", "missing"))
   {
     .Deprecated("as.ltraj")
     if (!inherits(x, "traj"))
       stop("x should be of class \"traj\"")
     slsp <- match.arg(slsp)
-    
+
     prepangles <- function(x)
       {
-        if (!inherits(x, "traj")) 
+        if (!inherits(x, "traj"))
           stop("x should be of class \"traj\"")
         li <- split(x, x$burst)
         foo <- function(y) {
@@ -21,12 +21,12 @@ function (x, id = levels(x$id), burst = levels(x$burst),
         res <- do.call("rbind", lapply(li, foo))
         return(res)
       }
-    
+
     x <- getburst(x, burst = burst, id = id, date = date)
     if (slsp=="remove")
       x <- prepangles(x)
     li <- split(x, x$burst)
-    
+
     foo <- function(x) {
       xy<-as.matrix(x[,c("x","y")])
       ang<-1:(nrow(xy)-2)
@@ -44,7 +44,7 @@ function (x, id = levels(x$id), burst = levels(x$burst),
         x3b[1]= cos(ang1)*x3[1] - sin(ang1)*x3[2]
         x3b[2]= sin(ang1)*x3[1] + cos(ang1)*x3[2]
         x3<-x3b
-        
+
         ## et recalcul de l'angle
         x3<-x3-x2
         if (sum(abs(x3)) < 1e-7)
@@ -63,6 +63,6 @@ function (x, id = levels(x$id), burst = levels(x$burst),
     }
     lo <- do.call("rbind", lapply(li, foo))
     row.names(lo) <- 1:nrow(lo)
-    return(lo)    
+    return(lo)
   }
 

@@ -27,7 +27,7 @@ managNAkasc(x)
 }
 \author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{\code{\link{as.kasc}} for additional information on
+\seealso{\code{\link{kasc}} for additional information on
   objects of class \code{kasc}.
 }
 \keyword{multivariate}

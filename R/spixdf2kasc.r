@@ -15,7 +15,7 @@ function(sg)
       stop("the cellsize should be the same in x and y directions")
     fullgrid(sg) <- TRUE
     xy <- coordinates(sg)
-    ka <- as.data.frame(attr(sg@data, "att"))
+    ka <- sg@data
     ka <- ka[order(xy[,1]),]
     xy <- xy[order(xy[,1]),]
     ka <- ka[order(xy[,2]),]

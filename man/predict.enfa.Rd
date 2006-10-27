@@ -28,7 +28,10 @@ Mahalanobis distances from the barycentre of the niche.\cr
 
 Actually, the function \code{predict.enfa} is identical to the function
 \code{mahasuhab}, except that the habitat suitability map is computed
-using the axes of the ENFA, instead of the raw data.
+using the axes of the ENFA, instead of the raw data.\cr
+
+Note that the MADIFA allows a more consistent factorial decomposition of
+the Mahalanobis distances.
 }
 \value{
 Returns a raster map of class \code{kasc}.
@@ -46,7 +49,9 @@ Returns a raster map of class \code{kasc}.
 \seealso{
 \code{\link[stats]{mahalanobis}} for information on the computation of
 Mahalanobis distances.  \code{\link{mahasuhab}} for more details on the
-computation of habitat suitability maps using the Mahalanobis distances. 
+computation of habitat suitability maps using the Mahalanobis distances.
+\code{\link{madifa}} for a more consistent factorial decomposition of
+the Mahalanobis distances
 }
 \examples{
 \dontrun{
@@ -57,10 +62,10 @@ map <- lynxjura$map
 ## We keep only "wild" indices.
 tmp <- lynxjura$loc[,4] != "D"
 locs <- lynxjura$locs[tmp, c("X","Y")]
-dataenfa1 <- data2enfa(map, locs[tmp, c("X","Y")])
+dataenfa1 <- data2enfa(map, locs)
 
-(enfa1 <- enfa(dataenfa1$tab, dataenfa1$pr,
-               scannf = FALSE))
+(enfa1 <- enfa(dudi.pca(dataenfa1$tab, scannf=FALSE),
+               dataenfa1$pr, scannf = FALSE))
 
 ## Compute the prediction
 pred <- predict(enfa1, dataenfa1$index, dataenfa1$attr)

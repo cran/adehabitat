@@ -14,7 +14,7 @@ function(xy, id, percent=95)
   id<-factor(id)
   if (min(table(id))<5)
     stop("At least 5 relocations are required to fit an home range")
-  
+
   r<-split(xy, id)
   est.cdg<-function(xy) apply(xy, 2, mean)
   cdg<-lapply(r,est.cdg)
@@ -38,15 +38,15 @@ function(xy, id, percent=95)
 
 	di<-apply(df.t, 1, dist.cdg)
 	key<-c(1:length(di))
-	
+
 	acons<-key[di<=quantile(di,percent/100)]
 	xy.t<-df.t[acons,]
-	
-	
+
+
                                         ## Coordonnées du MCP
 	coords.t<-chull(xy.t[,1], xy.t[,2])
-	xy.bord<-xy.t[coords.t,]	
-	
+	xy.bord<-xy.t[coords.t,]
+
 	X<-c(X,xy.bord[,1])
 	Y<-c(Y,xy.bord[,2])
 	ID<-c(ID, rep(as.character(levid[i]), nrow(xy.bord)))
@@ -56,6 +56,7 @@ function(xy, id, percent=95)
   res<-cbind.data.frame(ID,X,Y)
   res<-res[-1,]
   res[,1]<-factor(res[,1])
+  names(res) <- c("ID","X","Y")
   res<-as.area(res)
   return(res)
 }

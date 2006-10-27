@@ -15,7 +15,7 @@
   values) for each "burst" of relocations and each animal.\cr
   \code{traj2ltraj}, and the reciprocal function \code{ltraj2traj}
   respectively converts an object of class \code{ltraj} to an object of
-  class \code{traj}, and conversely.
+  class \code{traj}, and conversely.\cr
   \code{rec} recalculates the descriptive parameters of an object of
   class ltraj (e.g. after a modification of the contents of this object,
   see examples)
@@ -49,7 +49,7 @@ rec(x, slsp = c("remove", "missing"))
   Objects of class \code{ltraj} allow the analysis of animal
   movements.  They contain the information generally used in such
   studies (angles, length of moves, increases in the x and y
-  direction, etc., See below).\cr 
+  direction, etc., see below).\cr 
   
   For a given individual, trajectories are often sampled as "bursts"
   of relocations (Dunn and Gipson, 1977).  For example,
@@ -76,7 +76,7 @@ rec(x, slsp = c("remove", "missing"))
   In theory, it is expected that the time lag between two relocations is
   constant in all the bursts and all the ids of one object of class
   \code{ltraj} (don't mix animals located every 10 minutes and animals
-  located every day in the same object).  Nevertheless, This class allows 
+  located every day in the same object).  Nevertheless, this class allows 
   for some negligible imprecision in the time of collection of the data
   (which may occur with some modes of data collection, e.g. with Argos
   collars).\cr
@@ -124,8 +124,8 @@ rec(x, slsp = c("remove", "missing"))
   studies of home range. \emph{Biometrics}. \bold{59}, 794--800.
 }
 \author{
-  Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}\cr
-  Stéphane Dray \email{dray@biomserv.univ-lyon1.fr}
+  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}\cr
+  Stephane Dray \email{dray@biomserv.univ-lyon1.fr}
 }
 \note{
   The class \code{ltraj} is a better alternative to the class
@@ -140,9 +140,10 @@ rec(x, slsp = c("remove", "missing"))
 }
 \seealso{ \code{\link{c.ltraj}} to combine several objects of class
   \code{ltraj}, \code{\link{Extract.ltraj}} to extract or replace
-  bursts of relocations, \code{\link{plot.ltraj}} for graphical
-  displays, \code{\link{gdltraj}} to specify a time period.  For further
-  information on the class \code{traj}, see \code{\link{as.traj}}. }
+  bursts of relocations, \code{\link{plot.ltraj}} and
+  \code{\link{trajdyn}} for graphical displays, \code{\link{gdltraj}} to
+  specify a time period.  For further information on the class
+  \code{traj}, see \code{\link{traj}}. }
 \examples{
 
 data(puechabon)
@@ -167,7 +168,7 @@ head(tr1[[1]])
 ## With all animals
 (litr <- as.ltraj(xy, da, id = locs$Name))
 
-## Change something Manually in the first burst:
+## Change something manually in the first burst:
 head(litr[[1]])
 litr[[1]][3,"x"] <- 700000
 

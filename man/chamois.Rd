@@ -12,18 +12,15 @@ data(chamois)
 }
 \details{
   The object \code{chamois} is a list containing the following
-  components:
-  \describe{
-    \item{\code{locs}}{A data frame containing the x and y coordinates
-      of 198 chamois groups.}
-    \item{\code{map}}{a map of class \code{kasc} describing the
-      vegetation (Forest or Open areas), the
-      distance from the ecotone Open/Forest and the slopes on the
-      area.}
-    }
+  components:\cr
+  \code{locs} is a data frame containing the x and y coordinates
+  of 198 chamois groups.\cr
+  \code{map} is a map of class \code{kasc} describing the
+  vegetation (Forest or Open areas), the distance from the ecotone
+  Open/Forest and the slopes on the area.
 }
 \references{
-  Fédération Départementale des Chasseurs de l'Isère,
-  65 av Jean Jaurès, 38320 Eybens. France.
+  Federation Departementale des Chasseurs de l'Isere,
+  65 av Jean Jaures, 38320 Eybens. France.
 }
 \keyword{datasets}

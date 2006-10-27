@@ -3,10 +3,10 @@ function(tr, keep, byburst=TRUE)
   {
     if (!inherits(tr, "traj"))
       stop("tr should be of class traj")
-    li <- split(tr[,c("x","y")], tr$id)
+    li <- split(tr, tr$id)
     if (byburst)
       li <- split(tr, tr$burst)
-    
+
     foo <- function(tr) {
       d <- unclass(tr$date)
       x <- tr[,c("x","y")]
@@ -21,7 +21,7 @@ function(tr, keep, byburst=TRUE)
       m <- sum(cons)
       return(c(rat, n, m))
     }
-    
+
     rr <- do.call("rbind", lapply(li, foo))
     rr <- as.data.frame(rr)
     row.names(rr) <- names(li)

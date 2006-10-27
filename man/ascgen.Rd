@@ -10,8 +10,8 @@ ascgen(xy = NULL, cellsize = NULL, nrcol = 10, count = TRUE)
 }
 
 \arguments{
-  \item{xy}{a data frame with two columns: the x and y coordinates of the
-    points}
+  \item{xy}{a data frame with two columns containing the x and y
+    coordinates of the points}
   \item{cellsize}{the \code{cellsize} attribute
     of the object of class \code{asc} to be created}
   \item{nrcol}{the size of the square raster map to
@@ -23,8 +23,8 @@ ascgen(xy = NULL, cellsize = NULL, nrcol = 10, count = TRUE)
 \value{
   Returns an object of class \code{asc}.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
-\seealso{\code{\link{import.asc}} for additional information on objects
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\seealso{\code{\link{asc}} for additional information on objects
   of class \code{asc}.}
 
 \examples{

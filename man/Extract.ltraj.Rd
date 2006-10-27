@@ -12,24 +12,23 @@
 }
 \arguments{
 \item{x}{an object of class \code{ltraj} }
-\item{i}{the elements to extract or replace. \code{i} is
-  \code{numeric}}
-\item{id}{a vector indicating the identity of the animals to extract
-  or replace}
-\item{burst}{a vector indicating the identity of the bursts of
+\item{i}{numeric.  The elements to extract or replace}
+\item{id}{a character vector indicating the identity of the animals to
+  extract or replace}
+\item{burst}{a character vector indicating the identity of the bursts of
   relocations to extract or replace}
 \item{value}{an object of class \code{ltraj}}
 }
 \details{
   Objects of class \code{ltraj} contain several bursts of
   relocations. This function subsets or replaces these bursts, based
-  on their indices or on the attributes \code{id} and \code{burst}.
+  on their indices or on the attributes \code{id} *or* \code{burst}.
 }
 \value{
   An object of class \code{ltraj}.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
-\seealso{ \code{\link{as.ltraj}}, \code{\link{gdltraj}} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\seealso{ \code{\link{ltraj}}, \code{\link{gdltraj}} }
 \examples{
   data(puechcirc)
   puechcirc
@@ -42,7 +41,7 @@
 
   
   ## Replace one burst
-  (toto[2] <- puechcirc[1:2])
-
+  toto[2] <- puechcirc[1]
+  toto
 }
 \keyword{spatial}

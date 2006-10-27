@@ -16,10 +16,10 @@ hr.rast(mcp, w)
 \value{
   Returns an object of class \code{kasc}.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{  \code{\link{as.kasc}} for additional information on
-  objects of class \code{kasc}, \code{\link{as.area}} for further
+\seealso{  \code{\link{kasc}} for additional information on
+  objects of class \code{kasc}, \code{\link{area}} for further
   information on the class \code{area} }
 \examples{
 data(puechabon)

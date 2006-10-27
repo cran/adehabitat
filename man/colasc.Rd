@@ -19,9 +19,9 @@ colasc(x, \dots)
 \value{
   Returns a character vector.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{import.asc}} }
+\seealso{ \code{\link{asc}} }
 
 \examples{
 data(puechabon)

@@ -16,10 +16,10 @@
 \usage{
 as.kasc(l)
 getkasc(x, var)
-image.kasc(x,  var=names(x),
-           mar=if (length(var)>1) c(0,0,2,0) else c(5.1,4.1,4.1,2.1),
-           axes=(length(var) == 1),
-           clfac=NULL, col=gray((240:1)/256), mfrow=NULL, \dots)
+image.kasc(x,  var = names(x),
+           mar = if (length(var) > 1) c(0,0,2,0) else c(5.1,4.1,4.1,2.1),
+           axes = (length(var) == 1),
+           clfac = NULL, col = gray((240:1)/256), mfrow = NULL, \dots)
 print.kasc(x, \dots)
 }
 
@@ -52,11 +52,11 @@ print.kasc(x, \dots)
   frame of class \code{kasc}.  This data frame has the following
   attributes:
   
-  \item{xll}{the X-coordinate of the center of the lower left
+  \item{xll}{the x coordinate of the center of the lower left
     pixel of the map}
-  \item{yll}{the Y-coordinate of the center of the lower left
+  \item{yll}{the y coordinate of the center of the lower left
     pixel of the map}
-  \item{cellsize}{the size of a pixel}
+  \item{cellsize}{the size of a pixel on the studied map}
   \item{nrow}{the number of rows of the map.  Caution ! the number of
     rows of the raster map is the number of columns of the matrix of
     class \code{asc}}
@@ -68,9 +68,11 @@ print.kasc(x, \dots)
   should describe the same area (same attributes: same \code{cellsize},
   same \code{xll}, same \code{yll}, and same dimensions). 
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
-\seealso{ \code{\link{import.asc}} for additionnal information on
-  objects of class \code{asc}}
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\seealso{ \code{\link{asc}} for additionnal information on
+  objects of class \code{asc}.  \code{\link{image.kasc}} and
+  \code{\link{explore.kasc}} for graphical displays of objects of class
+  \code{kasc}.}
 
 \examples{
 
@@ -87,7 +89,7 @@ data(puechabon)
 
 
 ## Displays the slopes on the area (numeric)
-image(sl, main = "Aspect", xlab = "Lambert X", ylab = "Lambert Y")
+image(sl, main = "Slope", xlab = "Lambert X", ylab = "Lambert Y")
 
 
 ## Aspect is a factor:
@@ -115,9 +117,9 @@ image(cuicui, col = cm.colors(256), clfac = list(Aspect = cl))
 
 
 ## plots only slope
-image(cuicui, "Slope", main="Slope")
+image(cuicui, var = "Slope", main="Slope")
 ## similar to
-image(cuicui, 1, main = "Slope")
+image(cuicui, var = 1, main = "Slope")
 
 }
 \keyword{programming}

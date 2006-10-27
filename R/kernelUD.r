@@ -1,7 +1,8 @@
 "kernelUD" <-
 function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
-                   hlim=c(0.1, 1.5), kern = "bivnorm")
+         hlim=c(0.1, 1.5), kern = c("bivnorm", "epa"))
   {
+      kern <- match.arg(kern)
     if (ncol(xy)!=2)
       stop("xy should have 2 columns")
     if ((!is.null(id))&(length(id)!=nrow(xy)))
@@ -24,7 +25,7 @@ function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
     htmp<-h
     gr<-grid
 
-    ## 
+    ##
     if (same4all) {
       if (length(as.vector(gr))==1) {
         if (!is.numeric(gr))
@@ -43,7 +44,7 @@ function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
           ref<-ly
         xll<-attr(grid, "xll")
         yll<-attr(grid, "yll")
-        
+
         ## On rajoute des colonnes et des lignes
         xll<-xll-lx/2
         yll<-yll-ly/2
@@ -53,7 +54,7 @@ function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
         grid<-rbind(mrajlig, grid, mrajlig)
         mrajcol<-matrix(0, ncol=arajcol, nrow=nrow(grid))
         grid<-cbind(mrajcol, grid, mrajcol)
-        
+
         ## rajout des attributs
         attr(grid, "xll")<-xll
         attr(grid, "yll")<-yll
@@ -62,11 +63,11 @@ function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
         class(grid)<-"asc"
       }
     }
-      
+
     ## Boucle estimation UD pour chaque ani
     for (i in 1:nlevels(id)) {
       df<-lixy[[i]]
-      
+
       ## 1. Calcul de h
       varx<-var(df[,1])
       vary<-var(df[,2])
@@ -76,7 +77,7 @@ function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
       href<-sdxy*(n^ex)
       if (kern=="epa")
         href <- href*1.77
-      
+
       if (h=="href") {
         htmp<-href
       }
@@ -90,8 +91,8 @@ function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
         if ((CV[CV==min(CV)]==CV[1])|(CV[CV==min(CV)]==CV[length(CV)]))
           warning("The algorithm did not converge \nwithin the specified range of hlim: try to increase it")
       }
-      
-      
+
+
       ## 3. Construction de la grille
       if (length(as.vector(gr))==1) {
         if (!is.numeric(gr))
@@ -106,11 +107,11 @@ function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
           ref<-lx
           if (ly>lx)
             ref<-ly
-          
+
           xll<-rgx[1]
           yll<-rgy[1]
           cellsize<-ref/ncol(grid)
-          
+
           ## On rajoute des colonnes et des lignes
           xll<-xll-lx/2
           yll<-yll-ly/2
@@ -120,7 +121,7 @@ function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
           grid<-rbind(mrajlig, grid, mrajlig)
           mrajcol<-matrix(0, ncol=arajcol, nrow=nrow(grid))
           grid<-cbind(mrajcol, grid, mrajcol)
-          
+
           ## rajout des attributs
           attr(grid, "xll")<-xll
           attr(grid, "yll")<-yll

@@ -11,13 +11,13 @@ function(poly, w)
     xy<-getXYcoords(w)
     huhu<-getkasc(w, names(w)[1])
     huhu[is.na(huhu)]<--9999
-    
+
     toto<-.C("rastpolaire", as.double(poly[,1]), as.double(poly[,2]),
              as.double(xy$x), as.double(xy$y), as.double(t(huhu)),
              as.integer(nrow(huhu)), as.integer(ncol(huhu)),
              as.integer(nrow(poly)), PACKAGE="adehabitat")
-    
-    output<-matrix(toto[[5]], nrow = nrow(huhu), byrow = TRUE)    
+
+    output<-matrix(toto[[5]], nrow = nrow(huhu), byrow = TRUE)
     output[output==0]<-NA
 
     attr(output, "xll")<-attr(w, "xll")
@@ -28,3 +28,4 @@ function(poly, w)
     return(output)
   }
 
+"area2asc" <- mcp.rast

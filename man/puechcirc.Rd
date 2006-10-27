@@ -4,7 +4,7 @@
 \title{Movements of wild boars tracked at Puechabon}
 \description{
 This data set is an object of class \code{ltraj}, giving the results of the
-monitoring of 2 wild boars by radio-tracking at Puéchabon (Mediterranean
+monitoring of 2 wild boars by radio-tracking at Puechabon (Mediterranean
 habitat, South of France).  These data have been
 collected by Daniel Maillard (Office national de la chasse et de la
 faune sauvage), and correspond to the activity period of the wild boar
@@ -19,7 +19,7 @@ faune sauvage), and correspond to the activity period of the wild boar
 }
 \source{
 Maillard, D. (1996). \emph{Occupation et utilisation de la garrigue et
-  du vignoble méditerranéens par le Sanglier}.
-Université d'Aix-Marseille III: PhD thesis.
+  du vignoble mediterraneens par le Sanglier}.
+Universite d'Aix-Marseille III: PhD thesis.
 }
 \keyword{datasets}

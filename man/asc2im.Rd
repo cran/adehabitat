@@ -13,9 +13,9 @@ im2asc(x)
 \arguments{
   \item{x}{an object of class \code{asc} or \code{im}}
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{import.asc}} for additionnal information on
+\seealso{ \code{\link{asc}} for additionnal information on
   objects of class \code{asc}, and \code{\link[spatstat]{im}} for
   additionnal information on objects of class \code{im}}
 \examples{

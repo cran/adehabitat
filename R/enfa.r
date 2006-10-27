@@ -1,57 +1,89 @@
-"enfa" <-
-function (tab, pr, scannf = TRUE, nf = 1) 
+#######################################################################
+#######################################################################
+#######                                                          ######
+#######                                                          ######
+#######                  ENFA généralisée                        ######
+#######                                                          ######
+#######                                                          ######
+#######################################################################
+#######################################################################
+
+
+enfa <- function(dudi, pr, scannf = TRUE, nf = 1)
 {
+    if (!inherits(dudi, "dudi"))
+        stop("object of class dudi expected")
     call <- match.call()
-    if (any(is.na(tab))) 
+    if (any(is.na(dudi$tab)))
         stop("na entries in table")
     if (!is.vector(pr))
         stop("pr should be a vector")
-    if (any(unlist(lapply(tab, is.factor))))
-      stop("factors not yet implemented")
-    row.w <- rep(1, nrow(tab))/nrow(tab)
-    f1 <- function(v) sum(v * row.w)/sum(row.w)
-    f2 <- function(v) sqrt(sum(v * v * row.w)/sum(row.w))
-    center <- apply(tab, 2, f1)
-    tab <- sweep(tab, 2, center)
-    norm <- apply(tab, 2, f2)
-    norm[norm < 1e-08] <- 1
-    tab <- as.matrix(sweep(tab, 2, norm, "/"))
-    lw <- pr/sum(pr)
-    Rg <- crossprod(tab)/nrow(tab)
-    ZtQ <- apply(tab, 2, function(x) x * lw)
-    Rs <- crossprod(ZtQ, tab)
-    mar <- colSums(ZtQ)
-    m <- sum(mar^2)
-    eRs <- eigen(Rs)
-    Rs12 <- eRs$vectors %*% diag(eRs$values^(-1/2)) %*% t(eRs$vectors)
-    z <- Rs12 %*% mar
-    y <- z/as.numeric(sqrt(crossprod(z)))
-    W <- Rs12 %*% Rg %*% Rs12
-    H <- (diag(ncol(tab)) - y %*% t(y)) %*% W %*% (diag(ncol(tab)) - 
-        y %*% t(y))
-    s <- eigen(H)$values[-ncol(tab)]
+
+    ## Les "ingrédients" de l'analyse
+    prb <- pr
+    pr <- pr/sum(pr)
+    row.w <- dudi$lw/sum(dudi$lw)
+    col.w <- dudi$cw
+    Z <- as.matrix(dudi$tab)
+    n <- nrow(Z)
+    f1 <- function(v) sum(v * row.w)
+    center <- apply(Z, 2, f1)
+    Z <- sweep(Z, 2, center)
+
+
+    ## Passage à l'espace étoilé
+    Ze <- sweep(Z, 2, sqrt(col.w), "*")
+
+    ## Calcul des matrices d'inertie S et G
+    DpZ <- apply(Ze, 2, function(x) x*pr)
+
+    ## Calcul de la marginalité
+    mar <- apply(Z,2,function(x) sum(x*pr))
+    me <- mar*sqrt(col.w)
+    Se <- crossprod(Ze, DpZ)
+    Ge <- crossprod(Ze, apply(Ze,2,function(x) x*row.w))
+
+
+    ## Calcul de S^(-1/2)
+    eS <- eigen(Se)
+    S12 <- eS$vectors %*% diag(eS$values^(-0.5)) %*% t(eS$vectors)
+
+    ## Passage au pb 3
+    W <- S12 %*% Ge %*% S12
+    x <- S12%*%me
+    b <- x / sqrt(sum(x^2))
+
+    H <- (diag(ncol(Ze)) - b%*%t(b)) %*% W %*% (diag(ncol(Ze)) - b%*%t(b))
+    s <- eigen(H)$values[-ncol(Z)]
+
     if (scannf) {
         barplot(s)
         cat("Select the number of specialization axes: ")
         nf <- as.integer(readLines(n = 1))
     }
-    if (nf <= 0 | nf > (ncol(tab) - 1)) 
+
+    if (nf <= 0 | nf > (ncol(Ze) - 1))
         nf <- 1
-    co <- matrix(nrow = ncol(tab), ncol = nf + 1)
-    co[, 1] <- mar
-    co[, 2:(nf + 1)] <- (Rs12 %*% eigen(H)$vectors)[, 1:nf]
-    f3 <- function(i) co[, i]/sqrt(crossprod(co[, i])/length(co[, 
-        i]))
-    c1 <- matrix(unlist(lapply(1:(nf + 1), f3)), ncol(tab))/sqrt(nrow(co))
-    li <- data.frame(tab %*% c1[, 1:(nf + 1)])
-    c1 <- data.frame(c1)
-    names(c1) <- c("Mar", paste("Spe", (1:nf), sep = ""))
-    row.names(c1) <- dimnames(tab)[[2]]
+
+    co <- matrix(nrow = ncol(Z), ncol = nf + 1)
+    tt <- data.frame((S12 %*% eigen(H)$vectors)[, 1:nf])
+    ww <- apply(tt, 2, function(x) x/sqrt(col.w))
+    norw <- sqrt(diag(t(as.matrix(tt))%*%as.matrix(tt)))
+    co[, 2:(nf + 1)] <- sweep(ww, 2, norw, "/")
+    m <- me/sqrt(col.w)
+    co[, 1] <- m/sqrt(sum(m^2))
+    m <- sum(m^2)
+
+    li <- Z %*% apply(co, 2, function(x) x*col.w)
+    co <- as.data.frame(co)
+    li <- as.data.frame(li)
+    names(co) <- c("Mar", paste("Spe", (1:nf), sep = ""))
+    row.names(co) <- dimnames(dudi$tab)[[2]]
     names(li) <- c("Mar", paste("Spe", (1:nf), sep = ""))
-    enfa <- list(call = call, tab = data.frame(tab), pr = pr, 
-                 nf = nf, m = m, s = s, lw = lw, li = li, co = c1, 
-                 mar = mar)
+
+    enfa <- list(call = call, tab = data.frame(Z), pr = prb, cw = col.w,
+                 nf = nf, m = m, s = s, lw = row.w, li = li,
+                 co = co, mar = mar)
     class(enfa) <- "enfa"
     return(invisible(enfa))
 }
-

@@ -2,7 +2,9 @@
 function(xtest, nrepet=999, ...)
   {
     if (!inherits(xtest,"enfa"))
-      stop("should be an object of class \"enfa\"")
+        stop("should be an object of class \"enfa\"")
+    if (!isTRUE(all.equal(xtest$cw, rep(1,length(xtest$cw)))))
+        warning("not yet implemented for unequal column weightsw: \n column weights not taken into account")
     tab<-as.matrix(xtest$tab)
     pr<-xtest$pr
     res<-.C("randenfar", as.double(t(tab)), as.double(pr),

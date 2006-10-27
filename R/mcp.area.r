@@ -1,7 +1,7 @@
 "mcp.area" <-
-function(xy, id, percent = seq(20,95, by=5),
+function(xy, id, percent = seq(20,100, by=5),
                      unin=c("m", "km"),
-                     unout=c("ha", "km2", "m2"))
+                     unout=c("ha", "km2", "m2"), plotit = TRUE)
   {
     xy <- xy[!is.na(xy[, 1]), ]
     xy <- xy[!is.na(xy[, 2]), ]
@@ -9,11 +9,11 @@ function(xy, id, percent = seq(20,95, by=5),
     id <- id[!is.na(xy[, 2])]
     unin<-match.arg(unin)
     unout<-match.arg(unout)
-    if (length(id) != nrow(xy)) 
+    if (length(id) != nrow(xy))
       stop("xy and id should be of the same length")
     if (!require(gpclib))
       stop("package gpclib required")
-    
+
     lev<-percent
     res<-list()
     ar<-matrix(0,nrow=length(lev),
@@ -29,7 +29,7 @@ function(xy, id, percent = seq(20,95, by=5),
     names(ar)<-levels(factor(id))
     ## modif des unités
     if (unin=="m") {
-      if (unout=="ha") 
+      if (unout=="ha")
         ar<-ar/10000
       if (unout=="km2")
         ar<-ar/1000000
@@ -43,6 +43,8 @@ function(xy, id, percent = seq(20,95, by=5),
     row.names(ar)<-lev
     class(ar)<-c("hrsize", "data.frame")
     attr(ar, "units")<-unout
+    if (plotit)
+        plot(ar)
     return(ar)
   }
 

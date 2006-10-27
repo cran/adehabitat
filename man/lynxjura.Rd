@@ -12,7 +12,7 @@
 \format{
   The list \code{lynxjura} has two components:
   \item{\code{map}}{an object of class \code{kasc} (see
-    \code{help(as.kasc)}) that describes several variables on the study
+    \code{help(kasc)}) that describes several variables on the study
     area:  \code{forets} is the density of forests, \code{hydro} is the
     density of rivers, \code{routes} is the density of roads and
     \code{artif} is the distance from urbanized areas.}
@@ -25,8 +25,8 @@
     \code{O}: sightings and \code{P}: attacks on wild prey).}
 }
 \source{
-Vandel, J.M. (2001) \emph{Répartition du Lynx (Lynx lynx) en France (Massif
-Alpin, Jurassien et Vosgien). Méthodologie d'étude et statut
+Vandel, J.M. (2001) \emph{Repartition du Lynx (Lynx lynx) en France (Massif
+Alpin, Jurassien et Vosgien). Methodologie d'etude et statut
 actuel}. Ecole Pratique des Haute Etudes de Montpellier II:
 Dissertation.
 }

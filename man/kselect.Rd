@@ -27,7 +27,7 @@ plot.kselect(x, xax = 1, yax = 2, \dots)
   \item{dudi}{an object of class \code{dudi}}
   \item{factor}{a factor with the same length as \code{nrow(dudi$tab)}}
   \item{weight}{a numeric vector of integer values giving the weight
-    associated to the rows of \code{dudi$tab}.}
+    associated to the rows of \code{dudi$tab}}
   \item{scannf}{logical. Whether the eigenvalues bar plot
     should be displayed}
   \item{nf}{if \code{scannf = FALSE}, an integer indicating the number
@@ -37,15 +37,14 @@ plot.kselect(x, xax = 1, yax = 2, \dots)
     given by the proportion of relocations of each animal (i.e. an
     animal with 10 relocations has a weight 10 times lower than an
     animal with 100 relocations)}
-  \item{x}{an object of class \code{kselect}}
-  \item{object}{an object of class \code{kselect}}
+  \item{x, object}{an object of class \code{kselect}}
   \item{xax}{the column number for the x-axis}
   \item{yax}{the column number for the y-axis}
   \item{addval}{logical.  If \code{TRUE}, the frequency of the
     relocations per animal is displayed (see examples)}
   \item{cpoint}{the size of the points (if 0, the points where no
     relocations are found are not displayed)}
-  \item{mar}{the margin parameter (see \code{help(par)}).}
+  \item{mar}{the margin parameter (see \code{help(par)})}
   \item{ampl}{the amplification factor (i.e. \code{ylim = c(-1 , 1) /
       ampl})} 
   \item{col.out}{character string.  The color of the upper histogram}
@@ -63,7 +62,7 @@ plot.kselect(x, xax = 1, yax = 2, \dots)
   \item{lwdout}{the line width for the upper histogram}
   \item{lwdin}{the line width for the lower histogram}
   \item{maxy}{the maximum Y coordinate (since the histogram draws
-    frequencies, default value of \code{maxy} is 1)}
+    relative frequencies, default value of \code{maxy} is 1)}
   \item{csub}{the character size for the legend, used with
     \code{par("cex")*csub}}
   \item{csize}{the size coefficient for the points}
@@ -76,6 +75,43 @@ plot.kselect(x, xax = 1, yax = 2, \dots)
   \code{hist}, \code{print} or, in the case of \code{plot.kselect},
   \code{s.distri}}
 }
+\details{
+  The K-select analysis is intended for hindcasting studies of habitat
+  selection by animals using radio-tracking data.  Each habitat variable
+  defines one dimension in the ecological space.  For each animal, the
+  difference between the vector of average available habitat conditions
+  and the vector of average used conditions defines the marginality
+  vector. Its size is proportional to the importance of habitat
+  selection, and its direction indicates which variables are
+  selected. By performing a non-centered principal component analysis of
+  the table containing the coordinates of the marginality vectors of
+  each animal (row) on the habitat variables (column), the K-select
+  analysis returns a linear combination of habitat variables for which
+  the average marginality is greatest. It is a synthesis of variables
+  which contributes the most to the habitat selection. As with principal
+  component analysis, the biological significance of the factorial axes is
+  deduced from the loading of variables.\cr
+  
+  \code{plot.kselect} returns a summary of the analysis: it displays (i)
+  a graph of the correlations between the principal axes of the PCA of
+  the objects of class \code{dudi} passed as argument and the factorial
+  axes of the K-select analysis; (ii) a graph giving the scores of the
+  habitat variables on the factorial axes of the K-select analysis;
+  (iii) the barplot of the eigenvalues of the analysis (each eigenvalue
+  measure the mean marginality explained by the axis; (iv) the
+  projection of the non-recentred marginality vectors on the factorial
+  plane (the origin of the arrow indicates the average used habitat
+  conditions, and the end of the arrow indicates the average used
+  conditions); (v) the projection of the resource units available to
+  each animal on the first factorial plane and (vi) the coordinates of
+  the recentred marginality vectors (i.e. recentred so that they have a
+  common origin) on the first factorial plane.\cr
+
+  \code{kplot.kselect} returns one graph per animal showing the
+  projections of the available resource units on the factorial plane, as
+  well as their use by the animal.  \code{hist.kselect} does the same
+  thing, but on one dimension instead of two.
+}
 \value{
   \code{kselect} returns a list of the class \code{kselect} and
 \code{dudi} (see \code{\link[ade4]{dudi}}). 
@@ -85,7 +121,7 @@ plot.kselect(x, xax = 1, yax = 2, \dots)
   new method to analyse habitat selection in radio-tracking
   studies. \emph{Ecological modelling}, \bold{186}, 143--153.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
 \seealso{\code{\link{sahrlocs2kselect}} for
   conversion of objects class \code{sahrlocs} to objects suitable for a

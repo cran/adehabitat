@@ -51,7 +51,7 @@ biv.test(dfxy, point, br = 10, points = TRUE, density = TRUE,
   density is estimated to indicate the contours of the distribution of
   randomised values.  The two marginal histograms correspond to the
   univariate tests on each axis, for which the p-values are computed with
-  \code{as.randtest} (one-sided tests).
+  \code{as.randtest} (package ade4, one-sided tests).
 }
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
 \section{Warning}{
@@ -59,21 +59,20 @@ biv.test(dfxy, point, br = 10, points = TRUE, density = TRUE,
     package \code{MASS}.
 }
 \seealso{
-  \code{\link[ade4]{as.randtest}}, \code{\link{niche.test}}
+  \code{\link[ade4]{as.randtest}} (package ade4), \code{\link{niche.test}}
 }
 \examples{
 
-\dontrun{
 x = rnorm(1000,2)
 y = 2*x+rnorm(1000,2)
 dfxy = data.frame(x, y)
 
 biv.plot(dfxy)
-biv.plot(dfxy, points=F, col="lightblue", br=20)
+biv.plot(dfxy, points=FALSE, col="lightblue", br=20)
 
 p = c(3, 4)
 biv.test(dfxy, p)
-biv.test(dfxy, p, points=F, Pcol="darkred", col="lightblue", br=20)
-}
+biv.test(dfxy, p, points=FALSE, Pcol="darkred", col="lightblue", br=20)
+
 }
 \keyword{multivariate}

@@ -25,7 +25,7 @@ mahasuhab(kasc, pts, type = c("distance", "probability"))
   is independent from the habitat variables, then we can consider that
   the habitat found at these sites reflects the habitat use by the animals.\cr
   
-  The Mahalanobis distance method has become more and more popular
+  The Mahalanobis distances method has become more and more popular
   during the past few years to derive habitat suitability maps.  The
   niche of a species is defined as the probability density function of
   presence of a species in the multidimensionnal space defined by the
@@ -47,7 +47,7 @@ mahasuhab(kasc, pts, type = c("distance", "probability"))
   argument \code{type = "probability"}, maps of these p-values are
   returned by the function. As such these are the probabilities of a
   larger squared Mahalanobis distance than that observed when x is
-  sampled from a population whose mean is ideal.
+  sampled from the niche.
 }
 \value{
   Returns a raster map of class \code{asc}.
@@ -57,7 +57,7 @@ Clark, J.D., Dunn, J.E. and Smith, K.G. (1993) A multivariate model of
 female black bear habitat use for a geographic information
 system. \emph{Journal of Wildlife Management}, \bold{57}, 519--526.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \note{
   The computation of the squared Mahalanobis distances inverts the
   variance-covariance matrix of the niche density function (see
@@ -71,11 +71,11 @@ system. \emph{Journal of Wildlife Management}, \bold{57}, 519--526.
   computation, so that they all have the same variance, and therefore
   the same weight in the analysis (see examples below).
 }
-\seealso{ \code{\link{as.asc}} for further information on objects of
-  class \code{asc}, \code{\link{as.kasc}} for additional information on
+\seealso{ \code{\link{asc}} for further information on objects of
+  class \code{asc}, \code{\link{kasc}} for additional information on
   objects of class \code{kasc}, \code{\link{domain}} for another method
   of habitat suitability mapping, and \code{\link[stats]{mahalanobis}} for
-  information on the computation of mahalanobis distances. }
+  information on the computation of Mahalanobis distances. }
 \examples{
 ## loads the data
 data(lynxjura)

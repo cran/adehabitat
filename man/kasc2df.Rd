@@ -15,7 +15,7 @@
   After these analyses, \code{df2kasc} may be used to convert the
   modified data frame to an object of 
   class \code{kasc} for mapping (e.g. for maps of factorial axes,
-  using \code{dudi} analyses, see \code{help(dudi)}).
+  using \code{dudi} analyses, see \code{help(dudi.pca)}).
 }
 \usage{
 kasc2df(x, var = names(x))
@@ -27,8 +27,8 @@ df2kasc(df, index, x)
   an object of class \code{kasc} or \code{mapattr} in \code{df2kasc}}
   \item{var}{a character vector.  The names of the variables in the
     \code{kasc} that are to be kept in the output}
-  \item{df}{a data frame resulting of a computation of the component
-    \code{tab} of the list previously returned by the  \code{kasc2df}
+  \item{df}{a data frame resulting from a computation of the component
+    \code{tab} of the list previously returned by the function \code{kasc2df}
     (see section \code{Value} below).  This computation may be any form
     of analysis (Principal component analysis, modelling techniques,
     etc.) }
@@ -44,9 +44,9 @@ df2kasc(df, index, x)
     for the analyses (that is, not \code{NA}).}
   \code{df2kasc} returns an object of class \code{kasc}.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{\code{\link{as.kasc}} for additional information on
+\seealso{\code{\link{kasc}} for additional information on
   objects of class \code{kasc}.
 }
 
@@ -64,7 +64,7 @@ x$tab <- x$tab[, (names(x$tab) != "Aspect")]
 # Principal component analysis
 ana <- dudi.pca(x$tab, scannf = FALSE)
 
-s.arrow(ana$co)
+s.corcircle(ana$co)
 s.label(ana$li, clab = 0)
 
 

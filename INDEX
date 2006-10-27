@@ -1,22 +1,23 @@
 angles                  Compute Turning Angles - Deprecated
+area2asc                Converts a Polygon to Raster
 area2dxf                Exportation of Areas
 as.area                 Objects of Class "area"
+asc2im                  Conversion of Maps of Class 'asc' and 'im'
+                        (Package spatstat)
+ascgen                  Creation of Raster Maps
 as.kasc                 Working with Several Raster Maps
 as.ltraj                Working with Trajectories in 2D Space: the
                         Class ltraj
 as.sahrlocs             Exploratory Analysis of Habitat Selection
-as.traj                 Working with Trajectories in 2D Space -
-                        Deprecated
-asc2im                  Conversion of Maps of Class 'asc' and 'im'
-                        (Package spatstat)
-ascgen                  Creation of Raster Maps
+as.traj                 Working with Trajectories in 2D Space
 bighorn                 Radio-Tracking of Bighorn Sheeps
 biv.test                Bivariate Test
 buffer                  Compute Buffers
-c.ltraj                 Combine Bursts of Relocations in Objects of
-                        Class "ltraj"
 chamois                 Location of Chamois Groups in the Chartreuse
                         Mountains
+c.ltraj                 Combine Bursts of Relocations in Objects of
+                        Class "ltraj"
+clusthr                 Estimation of Home Range by Clustering
 colasc                  Creates a Vector of Colors for a Raster Map of
                         Type 'factor'
 compana                 Compositional Analysis of Habitat Use
@@ -29,8 +30,12 @@ domain                  Estimation of the Potential Distribution of a
                         Species
 eisera                  Eigenanalysis of Selection Ratios
 enfa                    Ecological-Niche Factor Analysis
+explore.kasc            Interactive Exploration of Maps of Class kasc
+                        (requires the package tkrplot)
 Extract.ltraj           Extract or Replace Parts of an Object of Class
                         ltraj
+fpt                     Computation of the First Passage Time From
+                        Trajectories
 gdltraj                 Working with Trajectories: Specify a Time
                         Period
 getascattr              Copy the Attributes of an Object of Class 'asc'
@@ -41,7 +46,7 @@ getXYcoords             Computes the X and Y Coordinates of the Pixels
 hist.kasc               Histograms of Mapped Variables
 histniche               Histograms of the Ecological Niche
 hr.rast                 Rasterisation of Objects of Class 'area'
-image.asc               Displays a Color Image of an Object of Class
+image.asc               Displays a Color Image of a Matrix of Class
                         'asc'
 image.sahrlocs          Graphical Display of the Habitat Composition of
                         the Home Ranges of Animals Monitored Using
@@ -55,9 +60,12 @@ kasc2spixdf             Conversion of maps from/to the package "sp"
 kernelUD                Estimation of Kernel Home-Range
 kselect                 K-Select Analysis: a Method to Analyse the
                         Habitat Selection by Animals
+kver                    Handling of Objects of Class kver
 labcon                  Labelling Connected Features
 lowres                  Reducing the Resolution of a Map
 lynxjura                Monitoring of Lynx
+madifa                  The MADIFA: a Factorial Decomposition of the
+                        Mahalanobis Distances
 mahasuhab               Habitat Suitability Mapping with Mahalanobis
                         Distances.
 managNAkasc             "Cleaning" Objects of Class 'kasc'
@@ -68,7 +76,9 @@ morphology              Morphology: Erosion or Dilatation of Features
                         on a Raster Map
 niche.test              Monte-Carlo Test on Parameters of the
                         Ecological Niche
-NNCH                    Nearest Neighbor Convex hull
+NNCH                    Nearest Neighbor Convex Hulls (LoCoH)
+NNCH.area               LoCoH (NNCH): Home Range Area
+NNCH.select             LoCoH (NNCH): Useful Functions
 perarea                 Compute Areas and Perimeters of Objects of
                         Class "area"
 pheasant                Radio-Tracking of Pheasants
@@ -82,17 +92,22 @@ puechdesIII             Habitat Selection by the Wild Boar at Puechabon
 rand.kselect            Test of the Third-Order Habitat Selection
 randtest.enfa           Randomisation Test for the Ecological Niche
                         Factor Analysis
+redisltraj              Rediscretization of a Trajectory With Regular
+                        Step Length
 sahrlocs2kselect        Preparation of K-Select Analysis
 sahrlocs2niche          OMI Analysis of Radio-Tracking Data
 scatter.enfa            Scatter Plot of the Results of the ENFA
+scatterniche            Display the Niche in the Ecological Space
 schoener                Compute Schoener's ratio
 setmask                 Applies a Mask on Objects of Class 'asc' or
                         'kasc'
 speed                   Computes the Speed Between Successive
                         Relocations of an Animal - Deprecated
 squirrel                Radio-Tracking Data of Squirrels
-storemapattr            Store attributes of maps of class asc and kasc
+squirreloc              Radio-tracking of squirrels
+storemapattr            Store Attributes of Maps of Class asc and kasc
 subsetmap               Storing a Part of a Map
+trajdyn                 Interactive Display of Objects of Class 'ltraj'
 vanoise                 Habitat Use by Three Species of Galliformes in
                         the Vanoise National Parc
 wi                      Computation of Selection Ratios for Habitat

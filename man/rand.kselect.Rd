@@ -74,7 +74,7 @@ print.rand.kselect(x, \dots)
   D. (\emph{submitted}). K-select analysis, a new method to analyse
   habitat selection in radio-tracking studies.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \seealso{ \code{\link{kselect}} to perform a K-select analysis. }
 
 \examples{

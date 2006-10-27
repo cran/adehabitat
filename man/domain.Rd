@@ -36,10 +36,10 @@ domain(kasc, pts, type = c("value", "potential"), thresh = 0.95)
   procedure for mapping potential distributions of plants and
   animals. \emph{Biodiversity and conservation}, \bold{2}, 667--680.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{as.kasc}} for additionnal information on objects
-  of class \code{kasc}, \code{\link{import.asc}} for information on
+\seealso{ \code{\link{kasc}} for additionnal information on objects
+  of class \code{kasc}, \code{\link{asc}} for additionnal information on
   matrices of class \code{asc}.  }
 
 \examples{

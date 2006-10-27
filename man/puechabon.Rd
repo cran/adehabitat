@@ -4,7 +4,7 @@
 \title{ Radio-Tracking Data of Wild Boar }
 \description{
 This data set stores the results of the monitoring of 4 wild boars at
-Puéchabon (Mediterranean habitat, South of France).
+Puechabon (Mediterranean habitat, South of France).
 These data have been collected by Daniel Maillard (Office national de la
 chasse et de la faune sauvage).
 }
@@ -14,7 +14,7 @@ data(puechabon)
 \details{
   The list \code{puechabon} has three components:\cr
   \code{puechabon$kasc}
-  is an  object of class \code{kasc} (see \code{help(as.kasc)}) that
+  is an  object of class \code{kasc} (see \code{help(kasc)}) that
   describes several variables on the study area.\cr
   \code{locs} is a data frame of the relocations of the wild boar
   resting sites in summer. Information on
@@ -26,8 +26,8 @@ data(puechabon)
 }
 \references{
 Maillard, D. (1996). \emph{Occupation et utilisation de la garrigue et
-  du vignoble méditerranéens par le Sanglier}.
-Université d'Aix-Marseille III: PhD thesis.
+  du vignoble mediterraneens par le Sanglier}.
+Universite d'Aix-Marseille III: PhD thesis.
 }
 
 \keyword{datasets}

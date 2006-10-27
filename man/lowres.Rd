@@ -20,7 +20,7 @@ lowres(x, np = 2, ...)
 \details{
   The function merges together squares of \code{np * np} pixels.  For
   maps of type \code{"numeric"} (see
-  \code{help(as.asc)}), the function averages the value of the variable.
+  \code{help(asc)}), the function averages the value of the variable.
   For maps of type \code{"factor"}, the function gives the most
   frequent level in the square of \code{np * np} pixels.  When several
   levels are equally represented in the square of \code{np * np} pixels,
@@ -29,8 +29,10 @@ lowres(x, np = 2, ...)
 \value{
   Returns an object of class \code{asc} or \code{kasc}.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
-\seealso{\code{\link{as.asc}}, \code{\link{as.kasc}} }
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\seealso{\code{\link{asc}} and \code{\link{kasc}} for further
+  information on objects of class \code{asc} and \code{kasc}
+  respectively.}
 \examples{
 data(puechabon)
 kasc <- puechabon$kasc

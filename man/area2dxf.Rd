@@ -16,19 +16,19 @@ area2dxf(x, file, lay = 1:nlevels(factor(x[, 1])))
     polygons in \code{x}. This vector is then stored in the field
     "Layer" of the DXF file (see examples), for GIS mapping}
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{as.area}}, \code{\link[ade4]{area.plot}}}
+\seealso{ \code{\link{area}}, \code{\link[ade4]{area.plot}}}
 \examples{
 
 \dontrun{
   ## Loads the dataset elec88 from the package ade4
   data(elec88)
   ar <- as.area(elec88$area)
-  area.plot(ar, lab = elec88$lab, clab = 0.75)
+  area.plot(ar, values=elec88$tab[,1])
   
-  ## exportation of the departments toward a dxf file
-  area2dxf(ar, file = "Dept", lay = elec88$lab)
+  ## exportation of the election results toward a dxf file
+  area2dxf(ar, file = "Dept", lay = elec88$tab[,1])
   
   ## Removes the file
   file.remove("Dept.dxf")

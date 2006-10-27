@@ -6,14 +6,9 @@
 \alias{print.asc}
 \title{ Arcview ASCII Raster File Importation And Exportation }
 \description{
-  \code{import.asc} imports Arcview ASCII raster file
-  created with the Arcview 3.2 command \code{"File -> Export data
-    source"}, or the Arcview 8 command \code{"Arc Toolbox -> Conversion
-    tools -> From raster -> Raster to ASCII"}.\cr
-    Conversely,  \code{export.asc} allows to export an \code{asc}
-    object toward Arcview.\cr
-    ASCII raster files may also be created using the free program landserf
-    (\url{http://www.soi.city.ac.uk/~jwo/landserf/}).
+  \code{import.asc} imports ESRI ArcInfo ASCII raster file ; conversely,
+  \code{export.asc} allows to export an asc object to a ESRI ArcInfo ASCII
+  raster file.  
 }
 \usage{
 import.asc(file, type = c("numeric", "factor"), lev = NULL,
@@ -38,7 +33,7 @@ print.asc(x, \dots)
     correspondence table exported from Arcview, the column number in
     this table where the factor labels are stored (i.e. the character
     strings indicating the labels associated with each level of the factor)}
-  \item{x}{an object of class \code{asc}.  For the function \code{as.asc}, a
+  \item{x}{a matrix of class \code{asc}.  For the function \code{as.asc}, a
     matrix}
   \item{xll}{the x coordinate of the center of the lower left pixel of the map}
   \item{yll}{the y coordinate of the center of the lower left pixel of the map}
@@ -47,19 +42,32 @@ print.asc(x, \dots)
     \code{print}}
 }
 \details{
-The raster maps may be of type \code{"numeric"} (e.g. elevation on an area) or
-\code{"factor"} (e.g. the type of vegetation
-on an area).  If the map is of type \code{factor}, the levels should be
-indicated.  The \code{".asc"} files store the values of the mapped variable 
-with numeric values.  Each level of the factor is coded on the map by a
-number.  The argument \code{lev} of \code{import.asc} or \code{as.asc}
-gives the labels corresponding to each
-number. Alternatively, these levels may be specified using a
-correspondence table exported from Arcview (with this software, command
-\code{"Theme -> table"}, then \code{"File -> Export"},
-and finally export in delimited text format). An example of such file is
-provided in the directory "ascfiles" of the package, see the examples below.
-\code{export.asc} allows only exportation of numeric maps.
+  With Arcview 3.x: ASCII raster files are created using the command
+  \code{"File -> Export data source"}\cr
+  With Arcview 8/9: ASCII raster files are created by the command
+  \code{"Arc Toolbox -> Conversion tools -> From raster -> Raster to
+    ASCII"}.\cr
+  With GRASS, the best way to import a raster map within R is to use the
+  package \code{spgrass6}, and then to use the function
+  \code{spixdf2kasc} to convert the files to format that can be managed
+  by adehabitat.\cr
+  ASCII raster files may also be created using other free programs, such
+  as landserf (\url{http://www.soi.city.ac.uk/~jwo/landserf/}).\cr
+
+  Raster maps are stored as matrices of class \code{asc} with
+  adehabitat. They may be of type \code{"numeric"} (e.g. elevation on an
+  area) or \code{"factor"} (e.g. the type of vegetation on an area).  If
+  the map is of type \code{factor}, the levels should be indicated.  The
+  \code{".asc"} files store the values of the mapped variable  with
+  numeric values.  Each level of the factor is coded on the map by a
+  number.  The argument \code{lev} of \code{import.asc} or \code{as.asc}
+  gives the labels corresponding to each number.  Alternatively, these
+  levels may be specified using a correspondence table exported from
+  Arcview (with this software, command \code{"Theme -> table"}, then
+  \code{"File -> Export"}, and finally export in delimited text
+  format). An example of such file is provided in the directory
+  "ascfiles" of the package, see the examples below. \code{export.asc}
+  allows only exportation of numeric maps.
 }
 \value{
   Returns a raster matrix of the class \code{asc}, with the following
@@ -75,7 +83,7 @@ provided in the directory "ascfiles" of the package, see the examples below.
 \references{Arcview: \url{http://www.esri.com}\cr
 Landserf: \url{http://www.soi.city.ac.uk/~jwo/landserf/}
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
 \seealso{ \code{\link{image.asc}} }
 
@@ -85,7 +93,6 @@ Landserf: \url{http://www.soi.city.ac.uk/~jwo/landserf/}
 ## Path of the file to be imported
 (file1 <-  paste(system.file(package = "adehabitat"),
                "ascfiles/elevation.asc", sep = "/"))
-
 el <- import.asc(file1)
 image(el)
 el

@@ -24,7 +24,7 @@ plot.area(x, which = levels(x[,1]),
   \item{\dots}{additional arguments to be passed to the generic function
     \code{plot} }
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 \seealso{\code{\link[ade4]{area.plot}} for another way to display
   objects of class \code{"area"} }
 \examples{

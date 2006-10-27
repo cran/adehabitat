@@ -46,14 +46,18 @@ scatter.esr(x, xax = 1, yax = 2,
   recommendations of Calenge and Dufour (2006).
 }
 \value{
-  An object of class \code{esr}
+  A list of class \code{esr} and \code{dudi} containing also:
+  \item{available}{available proportions}
+  \item{used}{number of relocations}
+  \item{wij}{selection ratios}
 }
 \references{
   Calenge, C. and Dufour, A.B. (2006) Eigenanalysis of selection ratios
-  from animal radio-tracking data. \emph{Ecology}. \bold{in press}.
+  from animal radio-tracking data. \emph{Ecology}. \bold{87},
+  2349--2355.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
-\seealso{ \code{\link{widesII}} for further information about the
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\seealso{ \code{\link{wi}} for further information about the
   selection ratios, \code{\link{compana}} for compositional analysis.}
 \examples{
 
@@ -96,6 +100,8 @@ plot(are, colp = co[,2], main=names(li)[i], axes=FALSE)
 points(li[[i]], pch=16, cex=1.5)
 box()
 })
+plot(0,0, axes=FALSE, ty="n", xlim=c(-1,1), asp=1)
+legend(-0.8,0.8, unique(co[,1]), fill=unique(co[,2]))
 par(opar)
 
 

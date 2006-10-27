@@ -23,7 +23,7 @@ getkascattr(xkfrom, xkto)
     variables, and \code{"numeric"} otherwise)}
   \item{lev}{if \code{type = "factor"},
     a character vector giving the levels of the mapped variable
-    (see \code{help(import.asc)})}
+    (see \code{help(asc)})}
   \item{xkfrom}{an object of class \code{kasc}}
   \item{xkto}{a data frame with the same number of rows and columns
     as \code{xkfrom}}
@@ -32,9 +32,11 @@ getkascattr(xkfrom, xkto)
   \code{getascattr} returns a raster matrix of class \code{asc},\cr
   \code{getkascattr} returns a data frame of class \code{kasc}
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{import.asc}}, \code{\link{as.kasc}} }
+\seealso{ \code{\link{kasc}} for additionnal information on objects of
+  class \code{kasc}, \code{\link{asc}} for additionnal information on
+  objects of class \code{asc}}
 
 \examples{
 data(puechabon)
@@ -49,7 +51,7 @@ sl <- matrix(sl, ncol = ncol(my.map))
 toto <- getascattr(my.map, sl)
 image(toto)
 
-## same rationale with aspect
+## Same rationale with aspect
 asp <- getkasc(puechabon$kasc, "Aspect")
 le <- levels(asp)
 attributes(asp) <- NULL

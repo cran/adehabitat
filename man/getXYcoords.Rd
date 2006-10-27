@@ -17,10 +17,11 @@ getXYcoords(w)
   \item{x}{the x coordinates of the columns of pixels of the map}
   \item{y}{the y coordinates of the rows of pixels of the map}
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
-\seealso{ \code{\link{import.asc}}, \code{\link{as.kasc}},
-  \code{\link{as.sahrlocs}}, \code{\link{storemapattr}}}
-
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\seealso{ \code{\link{asc}}, \code{\link{kasc}},
+  \code{\link{as.sahrlocs}}, \code{\link{storemapattr}} for additionnal
+  informations on objects of class \code{area}, \code{kasc},
+  \code{sahrlocs}, \code{mapattr} respectively}
 \examples{
 data(puechabon)
 (elev <- getkasc(puechabon$kasc, "Elevation"))

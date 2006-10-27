@@ -61,7 +61,7 @@ schoener.rtest(tr, keep, byburst = TRUE, nrep = 500)
   Solow, A.R. (1989) A randomization test for independence of animal
   locations. \emph{Ecology}, \bold{70}, 1546--1549. 
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 
 \examples{
 

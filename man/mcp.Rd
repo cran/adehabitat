@@ -6,7 +6,7 @@
   Estimator}
 \description{
   \code{mcp} computes the home range of several
-  animals using the minimum convex polygon estimator.\cr
+  animals using the Minimum Convex Polygon estimator.\cr
   \code{mcp.area} is used for home-range size estimation.  This function
   requires the package \code{gpclib}.\cr
   \code{plot.hrsize} is used to display the home-range size estimated at
@@ -14,15 +14,16 @@
 }
 \usage{
 mcp(xy, id, percent = 95)
-mcp.area(xy, id, percent = seq(20,95, by=5),
+mcp.area(xy, id, percent = seq(20,100, by = 5),
          unin = c("m", "km"),
-         unout = c("ha", "km2", "m2"))
+         unout = c("ha", "km2", "m2"), plotit = TRUE)
 plot.hrsize(x, \dots)
 }
 \arguments{
-  \item{xy}{a data frame containing the coordinates of the relocation
-    of the monitored animals}
-  \item{id}{a factor giving the identity of the animal for each relocation}
+  \item{xy}{a data frame with two columns containing the coordinates of
+    the relocations of the monitored animals}
+  \item{id}{a factor giving the identity of the
+    animal for each relocation}
   \item{percent}{100 minus the proportion of outliers to be excluded
     from the computation }
   \item{unin}{the units of the relocations coordinates.  Either
@@ -31,9 +32,9 @@ plot.hrsize(x, \dots)
   \item{unout}{the units of the output areas.  Either \code{"m2"} for
     square meters, \code{"km2"} for square kilometers or \code{"ha"} for
     hectares (default)}
+  \item{plotit}{logical.  Whether the plot should be drawn.}
   \item{x}{an objet of class \code{hrsize} returned by the function
-    \code{mcp.area}, or \code{kernel.area} (see the help page of this
-    function)}
+    \code{mcp.area}, or \code{kernel.area} (see \code{kernelUD()})}
   \item{\dots}{additionnal arguments to be passed to the function
     \code{plot}}
 }
@@ -49,19 +50,19 @@ plot.hrsize(x, \dots)
   per level of the factor ID.\cr
   \code{mcp.area} returns a data frame of class \code{hrsize}, 
   with one column per animal and one row per level of
-  estimation of the home range
+  estimation of the home range.
 }
 \references{
   Mohr, C.O. (1947) Table of equivalent populations of north
   american small mammals. \emph{The American Midland Naturalist},
   \bold{37}, 223-249.}
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
 \seealso{ \code{\link[grDevices]{chull}}, \code{\link{plot.area}} to have a
-  graphical display of the home ranges, \code{\link{as.area}} for
+  graphical display of the home ranges, \code{\link{area}} for
   additionnal information on the class \code{area}, and
   \code{\link{area2dxf}} for further exportation toward a GIS.
-  \code{\link[ade4]{s.chull}} for another way to display MCP}
+  \code{\link[ade4]{s.chull}} for another way to display MCP.}
 \examples{
 data(puechabon)
 locs <-  puechabon$locs
@@ -78,7 +79,7 @@ par(opar)
 
 ## Computation of the home-range size:
 if (require(gpclib)) {
-  (cuicui1 <- mcp.area(locs[,4:5], locs[,1]))
+  cuicui1 <- mcp.area(locs[,4:5], locs[,1])
   plot(cuicui1)
 }
 

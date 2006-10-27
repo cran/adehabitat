@@ -41,7 +41,7 @@ randtest.enfa(xtest, nrepet = 999, \dots)
   Ecological-niche factor analysis: How to compute habitat suitability
   maps without absence data? \emph{Ecology}, \bold{83}, 2027--2036.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}
 }
 \seealso{\code{\link{enfa}}}
 \examples{
@@ -51,7 +51,7 @@ locs <- chamois$locs
 map <- chamois$map
 map$Vegetation <- NULL
 da <- data2enfa(map, locs)
-en <- enfa(da$tab, da$pr, scannf = F)
+en <- enfa(dudi.pca(da$tab, scannf=FALSE), da$pr, scannf = FALSE)
 (tutu <- randtest(en, nrepet = 100))
 plot(tutu)
 }

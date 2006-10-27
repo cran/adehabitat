@@ -11,7 +11,7 @@ compana(used, avail, test = c("randomisation", "parametric"),
         rnv = 0.01, nrep = 500, alpha = 0.1)
 }
 \arguments{
-  \item{used}{a matrix or a data frame giving the percentage of use
+  \item{used}{a matrix or a data frame describing the percentage of use
     of habitats (in columns) by animals (in rows). }
   \item{avail}{a matrix or a data frame describing the percentage of
     availability of habitats (in columns) by animals (in rows). }
@@ -38,11 +38,11 @@ compana(used, avail, test = c("randomisation", "parametric"),
   matrix is built, indicating whether the habitat type in row is
   significantly used more or less than the habitat type in column.
   When this analysis is performed on radio-tracking data, Aebischer et
-  al. recommend to study habitat selection at two scales: (i) selection
+  al. recommend to study habitat selection at two levels: (i) selection
   of the home range within the study area, and (ii) selection of the
-  relocations within the home range.  The first scale is termed
-  second-order habitat selection by Johnson (1980), and the second,
-  third-order habitat selection.\cr
+  relocations within the home range.  The first level is termed
+  second-order habitat selection on Johnson's scale (1980), and the
+  second one, third-order habitat selection.\cr
 
   When zero values are found
   in the matrix of used habitats, they are replaced by a small value (by
@@ -76,12 +76,12 @@ compana(used, avail, test = c("randomisation", "parametric"),
   \item{rank}{the rank of the habitat types.  It is equal to the number
     of \code{"+"} for each habitat type in row of \code{rm}.}
   \item{rmv}{the matrix of statistics used to build \code{rm}.
-    if \code{(test = "parametric")}, the matrix contains the
+    If \code{(test = "parametric")}, the matrix contains the
     values of \code{t}, in the t-test comparing the row and the column
-    habitat.  if \code{(test = "randomisation")}, the matrix contains
+    habitat.  If \code{(test = "randomisation")}, the matrix contains
     the mean difference between the used and available log-ratios (see
     Aebischer et al., 1993).}
-  \item{profile}{The profile of preferences: resource types are sorted
+  \item{profile}{the profile of preferences: resource types are sorted
     so that the left type is the most preferred and the right type is
     the most avoided.  Habitats for which the intensity of habitat
     selection is similar (no significant difference) are connected by a
@@ -101,7 +101,7 @@ Johnson, D. H. (1980) The comparison of usage and availability
 measurements for evaluating resource preference. \emph{Ecology}, \bold{61},
 65--71.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 \note{
 In the examples below, the results differ from those published in
 Aebischer et al. (squirrel example, selection of the relocations within

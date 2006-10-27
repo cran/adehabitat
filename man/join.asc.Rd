@@ -17,8 +17,8 @@
 \arguments{
   \item{x}{an object of class \code{asc}}
   \item{w}{an object of class \code{kasc}}
-  \item{pts}{a data frame containing the x and y coordinates of the points
-    to be placed on the map.}
+  \item{pts}{a data frame with two columns containing the x and y
+    coordinates of the points to be placed on the map}
 }
 
 
@@ -29,9 +29,9 @@
   to the number of variables in the object of class \code{kasc}, and
   with each row corresponding to the rows of \code{pts}.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{as.kasc}} and \code{\link{import.asc}}}
+\seealso{ \code{\link{kasc}} and \code{\link{asc}}}
 
 \examples{
 data(puechabon)

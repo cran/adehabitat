@@ -19,10 +19,10 @@ getcontour(x)
 \section{Warning }{
   Holes in the polygons are not taken into account by the function.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
-\seealso{ \code{\link{import.asc}} for additionnal information on
-  objects of class \code{asc}, \code{\link{as.area}} for
-  information on objects of class \code{area}, and
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\seealso{ \code{\link{asc}} for additionnal information on
+  objects of class \code{asc}, \code{\link{area}} for
+  additional information on objects of class \code{area}, and
   \code{\link{area2dxf}} to export the results toward a GIS.}
 
 \examples{

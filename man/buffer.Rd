@@ -37,10 +37,10 @@ buffer.line(xy, x, dist)
   \code{buffer.ani} returns a data frame of class \code{kasc},
   with each column corresponding to one level of the factor \code{fac}.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
-\seealso{ \code{\link{as.kasc}} for additionnal information on
-  objects of class \code{kasc}, \code{\link{import.asc}} for further
+\seealso{ \code{\link{kasc}} for additionnal information on
+  objects of class \code{kasc}, \code{\link{asc}} for further
   information on objects of class \code{asc}, \code{\link{storemapattr}}
   for further information on objects of class \code{mapattr}.
 }

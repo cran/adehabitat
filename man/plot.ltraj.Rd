@@ -40,9 +40,9 @@ plot.ltraj(x, id = unique(unlist(lapply(x, attr, which = "id"))),
   \item{\dots}{arguments to be passed to the generic
     function \code{plot} }
 }
-\author{  Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \seealso{For further information on the class \code{ltraj},
-  \code{\link{as.ltraj}}. }
+  \code{\link{ltraj}}. }
 \examples{
 
 data(puechcirc)
