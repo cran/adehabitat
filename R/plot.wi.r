@@ -6,15 +6,15 @@ function(x, caxis=0.7, clab=1, ylog=FALSE, errbar=c("CI", "SE"),
     opar<-par(ask=TRUE)
     on.exit(par(opar))
     if (!inherits(x, "wi"))
-      stop("x should be of class \wi")
+      stop("x should be of class wi")
     eb<-ifelse(errbar=="SE", 1, abs(qnorm(x$alpha/length(x$wi))) )
-      
+
     ## plot de wi
     if (noorder)
       wi<-sort(x$wi, decreasing=TRUE)
     else
       wi<-x$wi
-    
+
     if ((any(wi==0))&(ylog)) {
       warning("zero values in x, ylog has been set to FALSE")
       ylog<-FALSE
@@ -46,7 +46,7 @@ function(x, caxis=0.7, clab=1, ylog=FALSE, errbar=c("CI", "SE"),
       lines(c(i-0.1,i+0.1), c(wi[i]-eb*sewi[i], wi[i]-eb*sewi[i]))
       lines(c(i-0.1,i+0.1), c(wi[i]+eb*sewi[i], wi[i]+eb*sewi[i]))
     }
-    
+
     ## plot de Bi
     if (inherits(x, "wiI")) {
       if (noorder)
@@ -59,7 +59,7 @@ function(x, caxis=0.7, clab=1, ylog=FALSE, errbar=c("CI", "SE"),
       lines(1:length(wi), Bi)
       points(c(1:length(wi)), Bi, pch=16)
       box()
-        
+
       ## plot de utilisé et disponible
       if (noorder) {
         ut<-x$used.prop[order(x$wi, decreasing=TRUE)]
@@ -92,7 +92,7 @@ function(x, caxis=0.7, clab=1, ylog=FALSE, errbar=c("CI", "SE"),
           lines(c(i-0.02,i+0.02)-0.05, c(av[i]+eb*sea[i], av[i]+eb*sea[i]))
         }
       }
-        
+
       axis(side=1, at=c(1:length(wi)), labels=names(wi), cex.axis=caxis, las=2)
       axis(side=2, cex.axis=caxis)
       box()
@@ -113,7 +113,7 @@ function(x, caxis=0.7, clab=1, ylog=FALSE, errbar=c("CI", "SE"),
       axis(side=2, cex.axis=caxis)
       box()
       pt<-seq(-0.1, 0.1, by=0.2/nrow(wij))
-      
+
       for (j in 1:nrow(wij)) {
         points(c(1:length(wi)), wij[j,], pch=16, col=j)
         lines(1:length(wi), wij[j,], col=j)
