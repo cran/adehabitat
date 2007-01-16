@@ -1,8 +1,10 @@
-"getkascattr" <-
-function(xkfrom, xkto)
-  {
+"getkascattr" <- function(xkfrom, xkto)
+{
+    ## Verifications
     if (!inherits(xkfrom, "kasc"))
-      stop("xkfrom should be a kasc object")
+        stop("xkfrom should be a kasc object")
+
+    ## Copy the attributes from xkfrom to xkto
     attr(xkto, "xll")<-attr(xkfrom, "xll")
     attr(xkto, "yll")<-attr(xkfrom, "yll")
     attr(xkto, "cellsize")<-attr(xkfrom, "cellsize")

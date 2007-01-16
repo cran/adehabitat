@@ -1,8 +1,7 @@
-"as.kasc" <-
-function(l)
-  {
+"as.kasc" <- function(l)
+{
 
-### 1. Verification que les attributs de tous les asc sont identiques
+### 1. Verification that all "asc" attributes are similar
     clobj<-unlist(lapply(l,class))
     if (!all(clobj=="asc")) stop("input should be a list of \"asc\" objects")
     u<-TRUE
@@ -15,8 +14,8 @@ function(l)
     o<-o[names(o)!="type"]
     o<-o[names(o)!="dimnames"]
 
-### 2. stockage des attributs, mais on benne le type de variable
-###    et un éventuel levels
+### 2. storage of attributes, but we delete the variable type and an
+### eventual "levels" attribute
     if (length(l)>1) {
       for (i in 2:length(l))
         {
@@ -26,13 +25,13 @@ function(l)
           }
           tmp<-tmp[names(tmp)!="type"]
           tmp<-tmp[names(tmp)!="dimnames"]
-          
+
           u[i]<-all(sort(unlist(tmp))==sort(unlist(o)))
         }
       if (!all(u)) stop("all the objects should have the same attributes")
     }
-    
-### 3. Calcul du kasc
+
+### 3. Computation of the kasc
     u<-as.vector(l[[1]])
     if (attr(l[[1]], "type")=="factor") {
       ct<-levels(l[[1]])
@@ -61,7 +60,7 @@ function(l)
       }
     }
 
-### 5. Les attributs
+### 5. The attributes
     attr(output, "cellsize")<-attr(l[[1]], "cellsize")
     attr(output, "xll")<-attr(l[[1]], "xll")
     attr(output, "yll")<-attr(l[[1]], "yll")
@@ -70,6 +69,6 @@ function(l)
     attr(output, "type")<-unlist(lapply(l, function(x) attr(x, "type")))
     names(output)<-names(l)
     class(output)<-c("kasc","data.frame")
-    return(output)    
+    return(output)
   }
 

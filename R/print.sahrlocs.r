@@ -1,8 +1,9 @@
-"print.sahrlocs" <-
-function(x, ...)
-  {
+"print.sahrlocs" <- function(x, ...)
+{
+    ## Verifications
     if (!inherits(x, "sahrlocs")) stop("object should be of type \"sahrlocs\"")
 
+    ## The output
     cat("************** Object of type sahrlocs **************\n\n")
     nr<-attr(x, "nrow")
     nc<-attr(x, "ncol")
@@ -14,11 +15,11 @@ function(x, ...)
     print(names(as.data.frame(unclass(x$sa))), ...)
 
     if (!is.null(x$descan)) {
-      cat("\nthe following variables are available for each monitored animal:\n")
-      print(names(x$descan), ...)
+        cat("\nthe following variables are available for each monitored animal:\n")
+        print(names(x$descan), ...)
     } else {
-      cat("\nno variables have been measured on the animals\n")
+        cat("\nno variables have been measured on the animals\n")
     }
-    
-  }
+
+}
 

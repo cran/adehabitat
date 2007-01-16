@@ -360,6 +360,12 @@ Keywords: multivariate
 Description: Habitat Suitability Maps Built from the ENFA
 URL: ../../../library/habitat/html/predict.enfa.html
 
+Entry: puech
+Aliases: puech
+Keywords: datasets
+Description: Radio-Tracking Data of Wild Boars (2)
+URL: ../../../library/habitat/html/puech.html
+
 Entry: puechabon
 Aliases: puechabon
 Keywords: datasets

@@ -1,20 +1,24 @@
-"image.asc" <-
-function (x, col = gray((240:1)/256), clfac = NULL, ...)
+"image.asc" <- function (x, col = gray((240:1)/256), clfac = NULL, ...)
 {
+    ## Verifications
     if (!inherits(x, "asc"))
         stop("not an \"asc\" object")
-    z <- x
-    xy <- getXYcoords(z)
-    x <- xy$x
-    y <- xy$y
-    if (attr(z, "type") == "numeric")
-        image(x = x, y = y, z, asp = 1, col = col, ...)
-    if (attr(z, "type") == "factor") {
+
+    ## Coordinates of the pixels
+    xy <- getXYcoords(x)
+    xx <- xy$x
+    yy <- xy$y
+
+    ## If the variable is numeric
+    if (attr(x, "type") == "numeric")
+        image(x = xx, y = yy, x, asp = 1, col = col, ...)
+
+    ## For a factor: creates colors
+    if (attr(x, "type") == "factor") {
         if (is.null(clfac)) {
-            clfac <- rainbow(nlevels(z))
-            clfac <- clfac[as.numeric(levels(factor(z)))]
+            clfac <- rainbow(nlevels(x))
+            clfac <- clfac[as.numeric(levels(factor(x)))]
         }
-        image(x = x, y = y, z, asp = 1, col = clfac, ...)
+        image(x = xx, y = yy, x, asp = 1, col = clfac, ...)
     }
 }
-

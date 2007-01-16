@@ -1,10 +1,11 @@
-"im2asc" <-
-function(x)
-  {
+"im2asc" <- function(x)
+{
+    ## Verifications
     if (!inherits(x, "im"))
-      stop("xshould be of class \"im\"")
+        stop("xshould be of class \"im\"")
     if (x$xstep!=x$ystep)
-      stop("the grid cellsize should be identical for both X and Y directions.")
+        stop("the grid cellsize should be identical for both X and Y directions.")
+    ## output
     mat<-x$v
     xll<-min(x$xcol)
     yll<-min(x$yrow)

@@ -26,7 +26,7 @@ c.ltraj(...)
 data(puechcirc)
 
 (i <- puechcirc[1])
-(j <- puechcirc[4])
+(j <- puechcirc[3])
 
 (toto <- c(i,j))
 

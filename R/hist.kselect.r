@@ -1,14 +1,16 @@
-"hist.kselect" <-
-function(x, xax = 1, mar=c(0,0,0,0), ampl=1,
-                       col.out=gray(0.75), col.in=gray(0.75), ncell=TRUE,
-                       denout=NULL, denin=NULL, lwdout=1, lwdin=1,
-                       maxy=1, csub=2,
-                       possub=c("bottomleft", "topleft", "bottomright", "topright"),
-                       ncla=15, ...)
-  {
+"hist.kselect" <- function(x, xax = 1, mar=c(0,0,0,0), ampl=1,
+                           col.out=gray(0.75), col.in=gray(0.75), ncell=TRUE,
+                           denout=NULL, denin=NULL, lwdout=1, lwdin=1,
+                           maxy=1, csub=2,
+                           possub=c("bottomleft", "topleft",
+                           "bottomright", "topright"),
+                           ncla=15, ...)
+{
+    ## Verifications
     possub<-match.arg(possub)
     if (!inherits(x, "kselect")) stop("should be a 'kselect' object")
-    
+
+
     ## 1. Creation de la liste
     Xi<-x$initab
     Xrecalc<-t(as.matrix(apply(Xi, 1, function(y) y*x$lw/sum(x$lw))))%*%as.matrix(x$l1)
@@ -16,7 +18,8 @@ function(x, xax = 1, mar=c(0,0,0,0), ampl=1,
     li.wei<-split(x$initwei, x$initfac)
     rx<-range(Xrecalc[,xax])
     br<-seq(rx[1]-(rx[2]-rx[1])/100, rx[2]+(rx[2]-rx[1])/100, length=ncla)
-    
+
+    ## Graphical settings
     def.par <- par(no.readonly = TRUE)
     on.exit(par(def.par))
     ngraph<-length(li.Xi)
@@ -28,7 +31,7 @@ function(x, xax = 1, mar=c(0,0,0,0), ampl=1,
 
       ## Histogramme extérieur
       vext<-Xtmp[,xax]
-      
+
       ## Histogramme interieur
       poids<-wgtmp
       if (ncell) poids[poids>0]<-1
@@ -40,7 +43,7 @@ function(x, xax = 1, mar=c(0,0,0,0), ampl=1,
       plot(rx, c(-maxy, maxy), type="n",
                      axes=FALSE, ylim=c(-maxy,maxy),
                      main="")
-      
+
       ## Trace des histogrammes
       p<--hhr$counts/sum(hhr$counts)
       q<-h$counts/sum(h$counts)
@@ -55,9 +58,9 @@ function(x, xax = 1, mar=c(0,0,0,0), ampl=1,
                        csub=csub, possub=possub)
       box()
 
-      
+
     }
-    
+
     plot(c(-2,2),c(-2,2), type="n", axes=FALSE, xlab="", ylab="")
     lines(c(0,0), c(-1, 1), lwd=2)
     lines(c(-0.1,0.1), c(-1, -1), lwd=2)

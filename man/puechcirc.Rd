@@ -14,8 +14,8 @@ faune sauvage), and correspond to the activity period of the wild boar
 \usage{data(puechcirc)}
 \format{
   This object has, in total, 204 relocations distributed among two
-  animals and four bursts of relocations (\code{CH930803}, \code{CH930824},
-  \code{CH930827}, \code{JE930819}, and \code{JE930827}).
+  animals and three bursts of relocations (\code{CH930803}, \code{CH930824},
+  \code{CH930827}, and \code{JE930827}).
 }
 \source{
 Maillard, D. (1996). \emph{Occupation et utilisation de la garrigue et

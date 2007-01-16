@@ -1,16 +1,21 @@
-"join.kasc" <-
-function(pts, w)
-  {
-    x<-w
-    if (!inherits(x, "kasc")) stop("non convenient data")
+"join.kasc" <- function(pts, w)
+{
+    ## Verifications
+    if (!inherits(w, "kasc")) stop("non convenient data")
+
+    ## output
     sorties<-1:nrow(pts)
-    for (i in 1:length(x)) {
-      carp<-getkasc(x, names(x)[i])
-      fac<-join.asc(pts, carp)
-      sorties<-cbind.data.frame(sorties, fac)
+
+    ## applies the function join.asc to each map of w
+    for (i in 1:length(w)) {
+        carp<-getkasc(w, names(w)[i])
+        fac<-join.asc(pts, carp)
+        sorties<-cbind.data.frame(sorties, fac)
     }
+
+    ## output
     sorties<-sorties[,-1]
-    names(sorties)<-names(x)
+    names(sorties)<-names(w)
     return(sorties)
-  }
+}
 

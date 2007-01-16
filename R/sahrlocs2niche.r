@@ -1,9 +1,12 @@
-"sahrlocs2niche" <-
-function(x,  ani=names(x$hr),
-                         var=names(x$sa), used=c("hr", "locs"))
-  {
+"sahrlocs2niche" <- function(x, ani=names(x$hr),
+                             var=names(x$sa), used=c("hr", "locs"))
+{
+    ## Verifications
     used<-match.arg(used)
-    if (!inherits(x,"sahrlocs")) stop("non convenient data")
+    if (!inherits(x,"sahrlocs"))
+        stop("non convenient data")
+
+    ## The "available" table
     output<-list()
     sa<-getsahrlocs(x)
     sa<-sa[var]
@@ -14,16 +17,16 @@ function(x,  ani=names(x$hr),
     output$tab<-e$tab
     output$index<-e$index
 
+    ## The "use" table
     if (used=="hr") {
-      Y<-hr
-      for (i in 1:ncol(hr)) Y[is.na(Y[,i]),i]<-0
+        Y<-hr
+        for (i in 1:ncol(hr)) Y[is.na(Y[,i]),i]<-0
     }
     if (used=="locs") Y<-locs
     Y<-Y[e$index,]
-
     output$y<-as.data.frame(Y)
 
+    ## The output
     return(output)
-        
-  }
+}
 

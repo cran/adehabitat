@@ -86,6 +86,7 @@ plot.area               Graphical Display of Objects of Class "area"
 plot.ltraj              Graphical Display of an Object of Class "ltraj"
 plot.sahrlocs           Exploratory Analysis of Habitat Selection
 predict.enfa            Habitat Suitability Maps Built from the ENFA
+puech                   Radio-Tracking Data of Wild Boar (2)
 puechabon               Radio-Tracking Data of Wild Boar
 puechcirc               Movements of wild boars tracked at Puechabon
 puechdesIII             Habitat Selection by the Wild Boar at Puechabon

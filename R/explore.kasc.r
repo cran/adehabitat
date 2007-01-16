@@ -4,7 +4,9 @@ explore.kasc <- function (ka, coltxt="blue",
     if (!inherits(ka,"kasc"))
       stop("ka should be of class kasc")
     nn <<- NULL
-    whi <<- 1
+    whi <<- 1 ## current graph
+
+    ## function replot: to replot the content of the object
     replot <- function() {
         if (lim) {
             xlim <- range(getXYcoords(ka)$x)
@@ -21,23 +23,24 @@ explore.kasc <- function (ka, coltxt="blue",
             opar <- par(mar=c(0,0,2,0))
             image(getkasc(ka,i), main=i, axes=F, xlim=xlim, ylim=ylim)
             if (ajoupo) {
-            text(a5[1], a5[2], ka[ia5,i], col=coltxt, font=2, cex=1.15)
-        }
+                text(a5[1], a5[2], ka[ia5,i], col=coltxt, font=2, cex=1.15)
+            }
+            box()
+            par(opar)
+        })
+        screen(1)
+        opar <- par(mar=c(0,0,2,0))
+        image(getkasc(ka,whi), main=na[whi], axes=FALSE,
+              xlim=xlim, ylim=ylim)
+        cusr <<- par("usr")
+        cplt <<- par("plt")
+        if (ajouli)
+            lines(c(a1[1], a2[1]), c(a1[2], a2[2]), lwd = 2,
+                  col = "red")
         box()
         par(opar)
-      })
-        screen(1)
-      opar <- par(mar=c(0,0,2,0))
-      image(getkasc(ka,whi), main=na[whi], axes=FALSE,
-            xlim=xlim, ylim=ylim)
-      cusr <<- par("usr")
-      cplt <<- par("plt")
-      if (ajouli)
-          lines(c(a1[1], a2[1]), c(a1[2], a2[2]), lwd = 2,
-                col = "red")
-      box()
-      par(opar)
     }
+
 
     N <- length(ka)
     D <- 0

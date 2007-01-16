@@ -1,5 +1,4 @@
-"lowres.kasc" <-
-function(x, np=2, ...)
+"lowres.kasc" <- function(x, np=2, ...)
   {
     if (!inherits(x, "kasc"))
       stop("x sould be of class \"kasc\"")

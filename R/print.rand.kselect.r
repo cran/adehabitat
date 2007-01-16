@@ -1,6 +1,5 @@
-"print.rand.kselect" <-
-function(x, ...)
-  {
+"print.rand.kselect" <- function(x, ...)
+{
     cat("****** Randomization tests of the k-select analysis ******\n\n")
     cat("Test of the first eigenvalue:\n")
     cat("Observed value:", x$global[1], "\n")
@@ -15,5 +14,5 @@ function(x, ...)
     cat("\n\nOther elements of the list $per.ind:")
     cat("\n  $obsval: mean of variables for each animal")
     cat("\n  $pvalue: P-value of the means in $obsval\n\n")
-  }
+}
 

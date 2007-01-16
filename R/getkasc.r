@@ -1,23 +1,27 @@
-"getkasc" <-
-function(x, var)
-  {
-    w<-x
-    if (!inherits(w, "kasc")) stop("Non convenient data")
+"getkasc" <- function(x, var)
+{
+    ## Verifications
+    if (!inherits(x, "kasc")) stop("Non convenient data")
+    if (length(var)>1)
+        stop("var should be of length one")
 
+    ## gets the specified variable and transform them into a matrix
     v<-x[[var]]
     if ((is.numeric(v))|(is.logical(v))) {
-      e<-matrix(w[[var]], ncol=attr(w, "nrow"))
-      attr(e, "type")<-"numeric"
+        e<-matrix(x[[var]], ncol=attr(x, "nrow"))
+        attr(e, "type")<-"numeric"
     } else {
-      tc2<-levels(v)
-      v<-as.numeric(v)
-      e<-matrix(v, ncol=attr(w, "nrow"))
-      attr(e, "type")<-"factor"
-      attr(e, "levels")<-tc2
+        tc2<-levels(v)
+        v<-as.numeric(v)
+        e<-matrix(v, ncol=attr(x, "nrow"))
+        attr(e, "type")<-"factor"
+        attr(e, "levels")<-tc2
     }
-    attr(e, "cellsize")<-attr(w, "cellsize")
-    attr(e, "xll")<-attr(w, "xll")
-    attr(e, "yll")<-attr(w, "yll")
+
+    ## Other attributes
+    attr(e, "cellsize")<-attr(x, "cellsize")
+    attr(e, "xll")<-attr(x, "xll")
+    attr(e, "yll")<-attr(x, "yll")
     class(e)<-"asc"
     return(e)
   }

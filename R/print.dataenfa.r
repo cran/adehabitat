@@ -1,11 +1,10 @@
-"print.dataenfa" <-
-function (x, ...)
+"print.dataenfa" <- function (x, ...)
 {
-    if (!inherits(x, "dataenfa")) 
+    if (!inherits(x, "dataenfa"))
         stop("Object of class 'dataenfa' expected")
     cat("Data ENFA\n")
     cat("\n List of 4 elements:\n\n")
-    sumry <- array("", c(1, 4), list(1, c("data.frame", "nrow", "ncol", 
+    sumry <- array("", c(1, 4), list(1, c("data.frame", "nrow", "ncol",
         "content")))
     sumry[1, ] <- c("$tab", nrow(x$tab), ncol(x$tab), "table of pixels")
     class(sumry) <- "table"

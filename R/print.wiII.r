@@ -1,8 +1,7 @@
-"print.wiII" <-
-function(x, ...)
-  {
+"print.wiII" <- function(x, ...)
+{
     if (!inherits(x,"wiII"))
-      stop("x should be of class \"wiII\"")
+        stop("x should be of class \"wiII\"")
     cat("\n\n************** Manly's Selection ratios for design II ********\n\n")
     cat("1. Test of identical use of habitat by all animals\n")
     cat("   (Classical Khi-2 performed on the used matrix):\n")
@@ -16,8 +15,9 @@ function(x, ...)
     print(x$Khi2L2MinusL1)
     cat("\n\nTable of selection ratios:\n")
     print(data.frame(Available=x$avail.prop, Used=x$used.prop, Wi=x$wi,
-                     SE=x$se.wi, IClower=x$ICwilower, ICupper=x$ICwiupper), ...)
-    cat("\n\nBonferroni classement \nBased on", (1 - x$alpha) * 
+                     SE=x$se.wi, IClower=x$ICwilower, ICupper=x$ICwiupper),
+          ...)
+    cat("\n\nBonferroni classement \nBased on", (1 - x$alpha) *
         100, "% confidence intervals on the differences of Wi :\n")
     print(x$profile, quote = FALSE)
     cat("\n")

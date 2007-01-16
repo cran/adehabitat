@@ -1,6 +1,5 @@
-"print.NNCH" <-
-function(x, ...)
-  {
+"print.NNCH" <- function(x, ...)
+{
     cat("***********************************************\n")
     cat("***\n")
     cat("***      Nearest-neighbor convex hull\n\n")
@@ -11,5 +10,5 @@ function(x, ...)
     cat("\n$area:       home-range size estimated at various levels")
     cat("\n$polygons:   objects of class \"gpc.poly\" storing the home-range limits")
     cat("\n$xy:         the relocations\n\n")
-  }
+}
 
