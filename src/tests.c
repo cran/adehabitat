@@ -434,19 +434,18 @@ void matmodifcn (double **tab, double *poili)
 /*********************************************************/
 void matmodifcs (double **tab, double *poili)
 /*--------------------------------------------------
- * tab is a tableau n rows, p columns
+ * tab is a table n rows, p columns
  * poili is a vector with n components
  * The function returns tab standardised by column
  * for the weighting poili (sum=1)
  --------------------------------------------------*/
 {
-	double		poid, x, z, y, v2;
+	double		x,poid, z, y, v2;
 	int 			i, j, l1, c1;
-	double		*moy, *var;
+	double		*var;
 	
 	l1 = tab[0][0];
 	c1 = tab[1][0];
-	
 	vecalloc(&var, c1);
 	
 
@@ -470,7 +469,6 @@ void matmodifcs (double **tab, double *poili)
 	}
 	
 	for (i=1;i<=c1;i++) {
-	    x = moy[i];
 	    y = var[i];
 	    for (j=1;j<=l1;j++) {
 		z = tab[j][i];
