@@ -15,7 +15,7 @@ trajdyn(x, burst = attr(x[[1]], "burst"), hscale = 1, vscale = 1,
     explore}
   \item{hscale}{passed to tkrplot}
   \item{vscale}{passed to tkrplot}
-  \item{recycle}{logical.  Whether the trajectory should be recycled
+  \item{recycle}{logical.  Whether the traject should be recycled
   at the end of the display}
   \item{display}{type of display.  The default \code{guess} uses a
     windows graphics device if \code{getOption('device')=='windows'},

@@ -3,7 +3,7 @@
 \title{Graphical Display of an Object of Class "ltraj"}
 \description{
   \code{plot.ltraj} allows various graphical displays of the
-  trajectories.
+  trajects.
 }
 \usage{
 plot.ltraj(x, id = unique(unlist(lapply(x, attr, which = "id"))),

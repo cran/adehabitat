@@ -1,16 +1,17 @@
 \name{gdltraj}
 \alias{gdltraj}
-\title{Working with Trajectories: Specify a Time Period}
+\title{Working with Trajects: Specify a Time Period}
 \description{
-  Gets the parts of the trajectories stored in an object of class
-  \code{ltraj}, corresponding to a specified time period.
+  Gets the parts of the trajects stored in an object of class
+  \code{ltraj} of type II (time recorded), corresponding to a specified
+  time period.
 }
 \usage{
 gdltraj(x, min, max, type = c("POSIXct", "sec", "min", "hour", "mday",
         "mon", "year", "wday", "yday")) 
 }
 \arguments{
-  \item{x}{an object of class \code{ltraj} }
+  \item{x}{an object of class \code{ltraj} of type II (time recorded)}
   \item{min}{numeric.  The beginning of the period to consider}
   \item{max}{numeric.  The end of the period to consider}
   \item{type}{character.  The time units of \code{min} and

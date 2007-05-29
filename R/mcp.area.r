@@ -21,18 +21,23 @@
     res<-list()
     ar<-matrix(0,nrow=length(lev),
                ncol=nlevels(factor(id)))
+    lixy <- split(xy, id)
+    le <- names(lixy)
 
     ## For each home range level, computes the MCP, and its area
     for (i in 1:length(lev)) {
-        res[[i]]<-mcp(xy, id, percent=lev[i])
-        class(res[[i]])<-"data.frame"
-        res[[i]]<-split(res[[i]][,2:3], res[[i]][,1])
-        for (j in 1:nlevels(factor(id)))
-            ar[i,j]<-area.poly(as(res[[i]][[j]], "gpc.poly"))
+
+        ## Computes the MCP for each animal
+        ar[i,] <- unlist(lapply(lixy, function(z) {
+            res<-mcp(z, rep(1,nrow(z)), percent=lev[i])
+            class(res)<-"data.frame"
+            return(area.poly(as(res[,2:3], "gpc.poly")))
+        }))
+
     }
 
     ar <- as.data.frame(ar)
-    names(ar)<-levels(factor(id))
+    names(ar)<-le
 
     ## output units
     if (unin=="m") {

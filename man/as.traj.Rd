@@ -7,15 +7,15 @@
 \alias{getburst}
 \alias{traj2df}
 \alias{df2traj}
-\title{Working with Trajectories in 2D Space}
+\title{Working with Trajects in 2D Space}
 \description{
-  The class \code{traj} is intended to explore trajectories of
+  The class \code{traj} is intended to explore trajects of
   animals monitored using radio-tracking.\cr
   \code{as.traj} creates an object of this class.\cr
   \code{summary.traj} returns the number of relocations for each "burst"
   of relocations and each animal.\cr
   \code{plot.traj} allows various graphical displays of the
-  trajectories.\cr
+  trajects.\cr
   \code{getburst} returns an object of class \code{traj} satisfying the
   specified criteria (selection of one focus animal, of a period of interest,
   of special "bursts" (see details)).\cr
@@ -84,7 +84,7 @@ df2traj(df)
     the generic functions \code{plot}, \code{summary} and \code{print}}
 }
 \details{
-  For a given individual, trajectories are often sampled as "bursts"
+  For a given individual, trajects are often sampled as "bursts"
   of relocations (Dunn and Gipson, 1977).  For example,
   when an animal is monitored using radio-tracking, the data may consist
   of several circuits of activity (two successive relocations on one

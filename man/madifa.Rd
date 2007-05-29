@@ -28,7 +28,7 @@ hist.madifa(x, scores = TRUE, type = c("h", "l"), adjust = 1, Acol,
             Ucol, Aborder, Uborder, Alwd = 1, Ulwd = 1, \dots)
 predict.madifa(object, index, attr, nf, \dots)
 s.madifa(x, xax = 1, yax = 2, cgrid = 1, clab = 1, \dots)
-plot.madifa(x, index, attr, xax = 1, yax = 2, cont = TRUE, \dots)
+plot.madifa(x, index, attr, xax = 1, yax = 2, cont = FALSE, \dots)
 }
 \arguments{
   \item{dudi}{a duality diagram, an object of class \code{dudi}}
@@ -127,7 +127,9 @@ plot.madifa(x, index, attr, xax = 1, yax = 2, cont = TRUE, \dots)
   scores of any resource unit on all the axes of the analysis is equal
   to the squared Mahalanobis distances for this resource unit.  Thus,
   the MADIFA partitions the Mahalanobis distances into several axes of
-  biological meaning (see examples).\cr
+  biological meaning (see examples).  \code{predict.madifa} allows to
+  compute approximate Mahalanobis distances from the axes of the
+  MADIFA.\cr
 
   \code{plot.madifa} returns a graphical summary of the analysis: it
   returns graphs of (i) the eigenvalues of the analysis (each eigenvalue
@@ -150,7 +152,7 @@ plot.madifa(x, index, attr, xax = 1, yax = 2, cont = TRUE, \dots)
   factorial axis.\cr
 
   \code{hist.madifa} returns a graph of the niche and the available
-  resource units on the factorial axes of the analysis.
+  resource units on the factorial axes of the analysis.\cr
 }
 \value{
   \code{madifa} returns a list of class \code{madifa} containing the
@@ -168,7 +170,7 @@ plot.madifa(x, index, attr, xax = 1, yax = 2, cont = TRUE, \dots)
   \item{co}{column coordinates, data frame with p rows and nf columns.}
   \item{mahasu}{a vector of length n containing the squared Mahalanobis
     distances for the n units.}
-  \item{corav}{the correlation between the MADIFA axes and the original
+  \item{cor}{the correlation between the MADIFA axes and the original
     variable}
   \code{predict.madifa} returns a matrix of class \code{asc}. 
 }
@@ -185,33 +187,22 @@ plot.madifa(x, index, attr, xax = 1, yax = 2, cont = TRUE, \dots)
   Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}
 }
 \seealso{\code{\link{mahasuhab}} for a detailed description of the
-  Mahalanobis distances, \code{\link{enfa}} for a closely related
-  method.}
+  Mahalanobis distances, \code{\link{enfa}} and \code{\link{gnesfa}} for
+  closely related methods.}
 \examples{
 \dontrun{
-data(lynxjura)
 
-map <- lynxjura$map
+data(bauges)
 
-## We keep only "wild" indices.
-tmp <- lynxjura$locs[,4]!="D"
-locs <- lynxjura$locs[tmp, c("X","Y")]
-hist(map, type = "l")
-## The variable artif is far from symetric
-
-
-## We perform a square root transformation
-## of this variable
-## We therefore normalize the variable 'artif'
-map[,4] <- sqrt(map[,4])
-hist(map, type = "l")
+map <- bauges$kasc
+locs <- bauges$loc
 
 ## We prepare the data for the MADIFA
 (datamad1 <- data2enfa(map, locs))
 
 ## We then perform the PCA before the MADIFA
 pc <- dudi.pca(datamad1$tab, scannf = FALSE)
-(mad <- madifa(pc, datamad1$pr, nf=4,
+(mad <- madifa(pc, datamad1$pr, nf=7,
                scannf = FALSE))
 
 #########################################
@@ -222,6 +213,10 @@ pc <- dudi.pca(datamad1$tab, scannf = FALSE)
 
 hist(mad)
 plot(mad, datamad1$index, datamad1$attr)
+
+## predict with just the first axis
+plot(sqrt(predict(mad, datamad1$index, datamad1$attr, 1)))
+
 
 ## this plot represents:
 ##  - the eigenvalues diagram

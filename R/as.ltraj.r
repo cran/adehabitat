@@ -1,8 +1,13 @@
-as.ltraj <- function(xy, date, id, burst=id, slsp =  c("remove", "missing"))
+as.ltraj <- function(xy, date=NULL, id, burst=id, typeII = TRUE,
+                     slsp =  c("remove", "missing"))
 {
     ## Various verifications
-    if (!inherits(date,"POSIXct"))
-        stop("date should be of class \"POSIXct\"")
+    if (typeII) {
+        if (!inherits(date,"POSIXct"))
+            stop("For objects of type II,\n date should be of class \"POSIXct\"")
+    } else {
+        date <- 1:nrow(xy)
+    }
     if (length(date) != nrow(xy))
         stop("date should be of the same length as xy")
 
@@ -99,6 +104,8 @@ as.ltraj <- function(xy, date, id, burst=id, slsp =  c("remove", "missing"))
 
     ## Output
     class(res) <- c("ltraj","list")
+    attr(res,"typeII") <- typeII
+    attr(res,"regular") <- is.regular(res)
     return(res)
 }
 
@@ -107,15 +114,15 @@ as.ltraj <- function(xy, date, id, burst=id, slsp =  c("remove", "missing"))
 
 
 traj2ltraj <- function(traj,slsp =  c("remove", "missing"))
-  {
+{
     if (!inherits(traj, "traj"))
-      stop("traj should be of class \"traj\"")
+        stop("traj should be of class \"traj\"")
     slsp <- match.arg(slsp)
     traj <- traj2df(traj)
     res <- as.ltraj(xy=traj[,c("x","y")], date=traj$date, id=traj$id,
-                    burst=traj$burst, slsp)
+                    burst=traj$burst, typeII=TRUE, slsp)
     return(res)
-  }
+}
 
 
 
@@ -126,21 +133,27 @@ traj2ltraj <- function(traj,slsp =  c("remove", "missing"))
       stop("x should be of class \"ltraj\"")
     if (sum((!missing(i))+(!missing(id))+(!missing(burst)))!=1)
       stop("non convenient subset")
-    x <- unclass(x)
 
-    if (!missing(i))
-      y <- x[i]
+    if (!missing(i)) {
+        x <- unclass(x)
+        y <- x[i]
+    }
     if (!missing(id)) {
-      idb <- unlist(lapply(x,function(z) attr(z,"id")))
-      y <- x[idb%in%id]
+        idb <- id(x)
+        x <- unclass(x)
+        y <- x[idb%in%id]
     }
     if (!missing(burst)) {
-      idb <- unlist(lapply(x,function(z) attr(z,"burst")))
+      idb <- burst(x)
+      x <- unclass(x)
       y <- x[idb%in%burst]
     }
+
     class(y) <- c("ltraj","list")
+    attr(y,"typeII") <- attr(x,"typeII")
+    attr(y,"regular") <- is.regular(y)
     return(y)
-  }
+}
 
 
 
@@ -150,19 +163,27 @@ traj2ltraj <- function(traj,slsp =  c("remove", "missing"))
       stop("x should be of class \"ltraj\"")
     if (sum((!missing(i))+(!missing(id))+(!missing(burst)))!=1)
       stop("non convenient subset")
-    x <- unclass(x)
+    typII <- attr(x,"typeII")
+    regg <- attr(x,"regular")
 
-    if (!missing(i))
-      x[i] <- value
+
+    if (!missing(i)) {
+        x <- unclass(x)
+        x[i] <- value
+    }
     if (!missing(id)) {
-      idb <- unlist(lapply(x,function(z) attr(z,"id")))
+      idb <- id(x)
+      x <- unclass(x)
       x[idb%in%id] <-  value
     }
     if (!missing(burst)) {
-      idb <- unlist(lapply(x,function(z) attr(z,"burst")))
+      idb <- burst(x)
+      x <- unclass(x)
       x[idb%in%burst] <- value
     }
     class(x) <- c("ltraj","list")
+    attr(x,"typeII") <- typII
+    attr(x,"regular") <- is.regular(x)
     bu <- unlist(lapply(x, function(y) attr(y, "burst")))
     if (length(unique(bu))!=length(bu))
       stop("attribute \"burst\" should be unique for a burst of relocations")
@@ -178,7 +199,15 @@ summary.ltraj <- function(object,...)
     burst <- unlist(lapply(object, function(x) attr(x, "burst")))
     nr <- unlist(lapply(object, nrow))
     na <- unlist(lapply(object, function(i) sum(is.na(i[,1]))))
-    pr <- data.frame(id=id, burst=burst, number.of.relocations=nr, missing.values=na)
+    if (attr(object,"typeII")) {
+        beg <- unlist(lapply(object, function(i) i$date[1]))
+        endd <- unlist(lapply(object, function(i) i$date[nrow(i)]))
+        class(beg) <- class(endd) <- c("POSIXct","POSIXt")
+        pr <- data.frame(id=id, burst=burst, nb.reloc=nr, NAs=na,
+                         date.begin=beg, date.end=endd)
+    } else {
+        pr <- data.frame(id=id, burst=burst, Nb.reloc=nr, NAs=na)
+    }
     return(pr)
   }
 
@@ -187,9 +216,22 @@ print.ltraj <- function(x,...)
     if (!inherits(x, "ltraj"))
       stop("x should be of class \"ltraj\"")
     pr <- summary(x)
-    cat("*********** List of class ltraj ***********\n\n")
-    cat("characteristics of the bursts:\n")
+    cat("\n*********** List of class ltraj ***********\n\n")
+    if (attr(x,"typeII")) {
+        cat("Type of the traject: Type II (time recorded)\n")
+        if (attr(x,"regular")) {
+            cat(paste("Regular traject. Time lag between two locs:",
+                      mean(x[[1]]$dt, na.rm=TRUE),"seconds\n"))
+        } else {
+            cat(paste("Irregular traject. Variable time lag between two locs\n"))
+        }
+    }
+    if (!attr(x,"typeII")) {
+        cat("Type of the traject: Type I (time not recorded)\n")
+    }
+    cat("\nCharacteristics of the bursts:\n")
     print(pr)
+    cat("\n")
   }
 
 
@@ -197,7 +239,9 @@ print.ltraj <- function(x,...)
 ltraj2traj <- function(x)
   {
     if (!inherits(x, "ltraj"))
-      stop("x should be of class \"ltraj\"")
+        stop("x should be of class \"ltraj\"")
+    if (!attr(x,"typeII"))
+        stop("x should be of type II (time recorded")
     id <- factor(unlist(lapply(x, function(y)
                                id <- rep(attr(y,"id"), nrow(y)))))
     burst <- factor(unlist(lapply(x, function(y)
@@ -209,15 +253,21 @@ ltraj2traj <- function(x)
   }
 
 c.ltraj <- function(...)
-  {
+{
     uu <- list(...)
     if (!all(unlist(lapply(uu, function(x) inherits(x,"ltraj")))))
-      stop("all objects should be of class \"ltraj\"")
+        stop("all objects should be of class \"ltraj\"")
+    at2 <- all(unlist(lapply(uu, function(x) attr(x, "typeII"))))
+    at1 <- all(unlist(lapply(uu, function(x) !attr(x, "typeII"))))
+    if (!(at2|at1))
+        stop("all objects should be of the same type (time recorded or not")
     bu <- unlist(lapply(uu, function(x) unlist(lapply(x, function(y) attr(y, "burst")))))
     if (length(unique(bu))!=length(bu))
       stop("attribute \"burst\" should be unique for a burst of relocations")
     uu <- lapply(uu, unclass)
     uu <- do.call("c",uu)
     class(uu) <- c("ltraj","list")
+    attr(uu,"typeII") <- at2
+    attr(uu,"regular") <- is.regular(uu)
     return(uu)
-  }
+}

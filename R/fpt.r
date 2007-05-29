@@ -2,8 +2,9 @@
 {
     ## verifications
     if (!inherits(lt, "ltraj"))
-      stop("should be an object of class 'ltraj'")
-
+        stop("should be an object of class 'ltraj'")
+    if (!attr(lt, "typeII"))
+        stop("should be of type II (time recorded)")
     ## One deletes the missing values
     lt <- lapply(lt, function(i) {
         jj <- i[!is.na(i$x),]

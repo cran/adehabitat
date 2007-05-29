@@ -6787,78 +6787,155 @@ void discretraj(double *x, double *y, double *dat, double *xn,
 	m = p-1;
     
     if (fini == 0) {
-      /* Computes the slope between m and p */
-	pente = (y[p] - y[m]) / (x[p] - x[m]);
-	/* The intercept */
-	ori = y[p] - (pente * x[p]);
-	/* The parameters of the polynomial equation */
-	a = 1 + (pente * pente);
-	b = (-2 * xt) + (2 * pente * ori) - (2 * pente * yt);
-	c = (xt * xt) + (yt * yt) + (ori * ori) - (2 * ori * yt) - (u * u);
-	resolpol(a, b, c, &x1, &x2, &warn);
-	
-	/* 
-	   A line cut a circle with radius u at two points. One has 
-	   (i) to identify the point the closest from m,n and 
-	   (ii) to keep the one on the segment m-p
-	*/
-	
-	
-	/* Which one are in the interval ? */
-	if (x1 >= x[m]) {
-	    if (x1 < x[p]) {
-		dedans[1] = 1;
-		lo = 1;
-	    }
-	}
-	if (x1 >= x[p]) {
-	    if (x1 < x[m]) {
-		dedans[1] = 1;
-		lo = 1;
-	    }
-	}
-	if (x2 >= x[m]) {
-	    if (x2 < x[p]) {
-		dedans[2] = 1;
-		lo = 2;
-	    }
-	}
-	if (x2 >= x[p]) {
-	    if (x2 < x[m]) {
-		dedans[2] = 1;
-		lo = 2;
-	    }
-	}
-	
-	/* What is the minimum distance to m ? */
-	if ((dedans[1] + dedans[2]) > 1) {
-	    di1 = fabs((double) (x[p] - x1));
-	    di2 = fabs((double) (x[p] - x2));
+	/* Does the difference between x[p] and x[m] = 0? */
+	if ((abs(x[p] - x[m]) > 0.000000000001)) {
+	    /* Computes the slope between m and p */
+	    pente = (y[p] - y[m]) / (x[p] - x[m]); /* when diff(x) == 0 ? */
+	    /* The intercept */
+	    ori = y[p] - (pente * x[p]);
+	    /* The parameters of the polynomial equation */
+	    a = 1 + (pente * pente);
+	    b = (-2 * xt) + (2 * pente * ori) - (2 * pente * yt);
+	    c = (xt * xt) + (yt * yt) + (ori * ori) - (2 * ori * yt) - (u * u);
+	    resolpol(a, b, c, &x1, &x2, &warn);
+	    /* 
+	       A line cuts a circle with radius u at two points. One has 
+	       (i) to identify the point the closest from m,n and 
+	       (ii) to keep the one on the segment m-p
+	    */
 	    
-	    /* verify that xk-1 is not in the same interval. Otherwise one increase of 1 */
-	    if (di1 < di2) {
-		lo = 2;
-	    } else {
-		lo = 1;
-	    }
-	    if (pp == p) {
-		if (di1 < di2) {
+	    
+	    /* Which one are in the interval ? */
+	    if (x1 >= x[m]) {
+		if (x1 < x[p]) {
+		    dedans[1] = 1;
 		    lo = 1;
-		} 
-		if (di2 < di1) {
-		    lo = 2;
-		} 
+		}
 	    }
-	}
-	
-	/* storage of the coordinates */
-	if (lo == 1) {
-	    xn[k] = x1;
-	    yn[k] = (pente * x1) + ori;
-	}
-	if (lo == 2) {
-	    xn[k] = x2;
-	    yn[k] = (pente * x2) + ori;
+	    if (x1 >= x[p]) {
+		if (x1 < x[m]) {
+		    dedans[1] = 1;
+		    lo = 1;
+		}
+	    }
+	    if (x2 >= x[m]) {
+		if (x2 < x[p]) {
+		    dedans[2] = 1;
+		    lo = 2;
+		}
+	    }
+	    if (x2 >= x[p]) {
+		if (x2 < x[m]) {
+		    dedans[2] = 1;
+		    lo = 2;
+		}
+	    }
+	    
+	    /* What is the minimum distance to m ? */
+	    if ((dedans[1] + dedans[2]) > 1) {
+		di1 = fabs((double) (x[p] - x1));
+		di2 = fabs((double) (x[p] - x2));
+		
+		/* verify that xk-1 is not in the same interval. Otherwise one increase of 1 */
+		if (di1 < di2) {
+		    lo = 2;
+		} else {
+		    lo = 1;
+		}
+		if (pp == p) {
+		    if (di1 < di2) {
+			lo = 1;
+		    } 
+		    if (di2 < di1) {
+			lo = 2;
+		    } 
+		}
+	    }
+	    
+	    /* storage of the coordinates */
+	    if (lo == 1) {
+		xn[k] = x1;
+		yn[k] = (pente * x1) + ori;
+	    }
+	    if (lo == 2) {
+		xn[k] = x2;
+		yn[k] = (pente * x2) + ori;
+	    }
+
+	} else { /* We change x and y coordinates */
+	    
+	    /* Computes the slope between m and p */
+	    pente =  (x[p] - x[m]) / (y[p] - y[m]);
+	    /* The intercept */
+	    ori = x[p] - (pente * y[p]);
+	    /* The parameters of the polynomial equation */
+	    a = 1 + (pente * pente);
+	    b = (-2 * yt) + (2 * pente * ori) - (2 * pente * xt);
+	    c = (xt * xt) + (yt * yt) + (ori * ori) - (2 * ori * xt) - (u * u);
+	    resolpol(a, b, c, &x1, &x2, &warn);
+	    /* 
+	       A line cuts a circle with radius u at two points. One has 
+	       (i) to identify the point the closest from m,n and 
+	       (ii) to keep the one on the segment m-p
+	    */
+	    
+	    
+	    /* Which one are in the interval ? */
+	    if (x1 >= y[m]) {
+		if (x1 < y[p]) {
+		    dedans[1] = 1;
+		    lo = 1;
+		}
+	    }
+	    if (x1 >= y[p]) {
+		if (x1 < y[m]) {
+		    dedans[1] = 1;
+		    lo = 1;
+		}
+	    }
+	    if (x2 >= y[m]) {
+		if (x2 < y[p]) {
+		    dedans[2] = 1;
+		    lo = 2;
+		}
+	    }
+	    if (x2 >= y[p]) {
+		if (x2 < y[m]) {
+		    dedans[2] = 1;
+		    lo = 2;
+		}
+	    }
+	    
+	    /* What is the minimum distance to m ? */
+	    if ((dedans[1] + dedans[2]) > 1) {
+		di1 = fabs((double) (y[p] - x1));
+		di2 = fabs((double) (y[p] - x2));
+		
+		/* verify that yk-1 is not in the same interval. Otherwise one increase of 1 */
+		if (di1 < di2) {
+		    lo = 2;
+		} else {
+		    lo = 1;
+		}
+		if (pp == p) {
+		    if (di1 < di2) {
+			lo = 1;
+		    } 
+		    if (di2 < di1) {
+			lo = 2;
+		    } 
+		}
+	    }
+	    
+	    /* storage of the coordinates */
+	    if (lo == 1) {
+		yn[k] = x1;
+		xn[k] = (pente * x1) + ori;
+	    }
+	    if (lo == 2) {
+		yn[k] = x2;
+		xn[k] = (pente * x2) + ori;
+	    }
 	}
 	
 	/* Computes the nnew date (linear approximation) */
@@ -7478,4 +7555,795 @@ void clusterhrr(double *xyr, int *nr, int *facsor,
     freeintvec(facso);
     freeintvec(nolocso);
     freeintvec(cluso);
+}
+
+
+
+void permutR2n(double *xyr, int *nro, int *nrepr, 
+	       double *R2nr, double *dtr, double *dtsimr)
+{
+  double **xy, **R2n, *xp, *dt, **dtsim, tt;
+  int n, i, j, k, *index, nr;
+  
+  n = *nro;
+  nr = *nrepr;
+  tt = 0;
+  vecalloc(&xp, 2);
+  vecalloc(&dt, n);
+  taballoc(&R2n, n, nr);
+  taballoc(&dtsim, n, nr);
+  vecintalloc(&index, n);
+  taballoc(&xy, n, 2);
+  
+  k = 0;
+  for (i = 1; i <= n; i++) {
+    dt[i] = dtr[i-1];
+    for (j = 1; j <= 2; j++) {
+      xy[i][j] = xyr[k];
+      k++;
+    }
+  }
+  
+  for (k = 1; k <= nr; k++) {
+    
+    getpermutation(index, k);
+    j = index[1];
+    xp[1] = 0;
+    xp[2] = 0;
+    tt = 0;
+
+    for (i = 1; i <= n; i++) {
+      j = index[i];
+      xp[1] = xp[1] + xy[j][1];
+      xp[2] = xp[2] + xy[j][2];
+      R2n[i][k] = (xp[2] * xp[2]) + (xp[1] * xp[1]);
+      tt = tt + dt[j];
+      dtsim[i][k] = tt;
+    }
+  }
+  
+  
+  k = 0;
+  for (i = 1; i <= n; i++) {
+    for (j = 1; j<= nr; j++) {
+      R2nr[k] = R2n[i][j];
+      dtsimr[k] = dtsim[i][j];
+      k++;
+    }
+  }
+  
+  
+  freevec(xp);
+  freevec(dt);
+  freeintvec(index);
+  freetab(xy);
+  freetab(dtsim);
+  freetab(R2n);
+}
+
+
+
+
+void runsltr(int *xr, int *nr, double *res, int *nrepr)
+{
+  int i, j, n, *x, *xb, nrep, nbsui, nz, nu, *numero;
+  double m, s, n1, n2;
+  
+  n = *nr;
+  nrep = *nrepr;
+  
+  vecintalloc(&x, n);
+  vecintalloc(&xb, n);
+  vecintalloc(&numero, n);
+
+  
+  for (i = 1; i <= n; i++) {
+    x[i] = xr[i];
+    numero[i] = i;
+  }
+  
+  nbsui = 1;
+  nz = 0;
+  nu = 1;
+  if (x[1] == 0)
+    nz = 1;
+  if (x[1] == 1)
+    nu = 1;
+  
+  for (i = 2; i <= n; i++) {
+    if (x[i] == 0)
+      nz++;
+    if (x[i] == 1)
+      nu++;
+    if (x[i-1] != x[i])
+      nbsui++;
+  }
+  
+  n1 = ((double) nz);
+  n2 = ((double) nu);
+  
+  m = 1 + 2 * n1 * n2 / (n1 + n2);
+  s = sqrt(2 * n1 * n2 * (2 * n1 * n2 - n1 - n2)/((n1 + n2) * (n1 + n2) * (n1 + n2 - 1)));
+  
+  res[0] = (((double) nbsui) - m) / s;
+  
+  
+  for (j = 1; j <= nrep; j++) {
+    nbsui = 1;
+    getpermutation(numero, j);
+    trirapideint(numero , x, 1, n);
+    for (i = 2; i <= n; i++) {
+      if (x[i-1] != x[i])
+	nbsui++;
+    }
+    res[j] = (((double) nbsui) - m) / s;
+  }
+  
+  freeintvec(x);
+  freeintvec(xb);
+  freeintvec(numero);
+
+}
+
+
+
+
+void testindepangl (double *sim, double *ang, int *nang, int *debut, int *fin, int *ndeb, int *ni){
+  
+  int i,j,k;
+  double *angle;
+  vecalloc(&angle, *nang);
+  for (i=1; i<=*nang; i++) {
+    angle[i] = ang[i-1];
+  }
+  for (k=0;k<=(*ndeb-1);k++){
+    for (i=debut[k]; i<=(fin[k]-1); i++) {
+      sim[0]=sim[0]+(1.0-cos(angle[i+1] - angle[i]));
+    }
+  }
+  for (j=1; j<=*ni; j++) {
+    aleapermutvec(angle);
+    for (k=0;k<=(*ndeb-1);k++){
+      for (i=debut[k]; i<=(fin[k]-1); i++) {
+	sim[j]=sim[j]+(1.0-cos(angle[i+1] - angle[i]));
+      }
+    }
+  }
+  for (j=0; j<=*ni+1; j++) {
+    sim[j]=2*sim[j];
+
+  }
+}
+
+void testindepdist (double *sim, double *di, int *ndi, int *debut, int *fin, int *ndeb, int *ni){
+  
+  int i,j,k;
+  double *dist;
+  vecalloc(&dist, *ndi);
+  for (i=1; i<=*ndi; i++) {
+    dist[i] = di[i-1];
+  }
+  for (k=0;k<=(*ndeb-1);k++){
+    for (i=(debut[k]); i<=(fin[k]-1); i++) {
+      sim[0]=sim[0]+pow(dist[i+1] - dist[i],2);
+    }
+  }
+  for (j=1; j<=*ni; j++) {
+    aleapermutvec(dist);
+    for (k=0;k<=(*ndeb-1);k++){
+      for (i=(debut[k]); i<=(fin[k]-1); i++) {
+	sim[j]=sim[j]+pow(dist[i+1] - dist[i],2);
+      }
+    }
+
+  }
+
+}
+
+
+void prepquart (double *dtur, int *nur, double *dtrr, double *resr, int *nrr, 
+		int *ncr, double *rur)
+{
+  int i,j,k, nu, nr, nc, *rt;
+  double *dtu, **dtr, **res, **ru, tmp1;
+  
+  nu = *nur;
+  nr = *nrr;
+  nc = *ncr;
+  
+  vecalloc(&dtu, nu);
+  vecintalloc(&rt, nc);
+  taballoc(&dtr, nr, nc);
+  taballoc(&res, nr, nc);
+  taballoc(&ru, nu, nc);
+  
+  for (i = 1; i <= nu; i++) {
+    dtu[i] = dtur[i-1];
+  }
+  
+  k = 0;
+  for (i = 1; i <= nr; i++) {
+    for (j = 1; j<= nc; j++) {
+      dtr[i][j] = dtrr[k];
+      res[i][j] = resr[k];
+      k++;
+    }
+  }
+  
+  for (i = 1; i <= nu; i++) {
+    for (k = 1; k <= nc; k++) {
+      rt[k] = 0;
+    }
+    tmp1 = dtu[i];
+    for (j = 1; j <= nr; j++) {
+      for (k = 1; k <= nc; k++) {
+	if ((fabs((double) (dtr[j][k] - tmp1)))< 0.0000000001)
+	  rt[k] = j;
+      }
+    }
+    for (k = 1; k <= nc; k++) {
+      if ((fabs((double) rt[k] )) < 0.00000000001) {
+	ru[i][k] = -1;
+      } else {
+	j = rt[k];
+	ru[i][k] = res[j][k];
+      }
+    }
+  }
+  
+  
+  k = 0;
+  for (i = 1; i <= nu; i++) {
+    for (j = 1; j<= nc; j++) {
+      rur[k] = ru[i][j];
+      k++;
+    }
+  }
+  
+  freevec(dtu);
+  freeintvec(rt);
+  freetab(dtr);
+  freetab(res);
+  freetab(ru);
+}
+
+
+
+
+
+/* *********************************************************************
+ *                                                                     *
+ *                   partition d'un trajet                             *
+ *                                                                     *
+ ***********************************************************************/
+
+void optcut (double **Pid, double **mk, int *maxk) 
+{
+    /* Declaration of variables */
+    int l, p, i, ii, Km, k, j;
+    double **mkd, **mkdn, tmp, mi1, mi2, mi3;
+    
+    
+    
+    /* memory allocation */
+    l = Pid[0][0];   /* The length of the sequence */
+    p = Pid[1][0];   /* The number of models */
+    Km = *maxk;     /* the max number of partition to compute */
+    i = 0;     /* the sequence index used in the paper (from 0 to l-1) */
+    ii = 0;    /* the position index used in the program (from 1 to l) */
+    j = 0;    /* the position index for the model (from 1 to p) */
+    k = 0;    /* the index for the partition */
+    taballoc(&mkd, l, p); /* The table for the log-probabilities of a 
+			     partition given a model 
+			     for a k partition
+			     (to be re-used for each k) */
+    taballoc(&mkdn, l, p); /* The table for the log-probabilities 
+			      of a partition given a model
+			     for a k+1 partition
+			     (to be re-used for each k) */
+    mi1 = 0;
+    mi2 = 0;
+    mi3 = 0;
+    
+    
+    /* 1. First computes the probability of one partition*/
+    
+    /* 1.1 Fills the table mkd   */
+    
+    for (j = 1; j <= p; j++) {
+	mkd[1][j] = log(Pid[1][j]);
+    }
+    for (j = 1; j <= p; j++) {
+	for (ii = 2; ii <= l; ii++) {
+	    mkd[ii][j] = mkd[ii-1][j] + log(Pid[ii][j]);
+	}
+    }
+    
+    /* 1.2 Fills the table mk */
+    for (ii = 1; ii <= l; ii++) {
+	
+        /* computes the max */
+	tmp = mkd[ii][1];
+	for (j = 1; j <= p; j++) {
+	    if (mkd[ii][j] - tmp > 0.0000000000001) {
+		tmp = mkd[ii][j];
+	    }
+	}
+	
+	/* removes the max */
+	for (j = 1; j <= p; j++) {
+	    mkd[ii][j] = mkd[ii][j] - tmp;
+	}
+	
+	/* computes the mean */
+	mk[ii][1] = exp(mkd[ii][1]) / ( (double) p ) ;
+	for (j = 2; j <= p; j++) {
+	    mk[ii][1] = mk[ii][1] + (exp(mkd[ii][j]) / ( (double) p ) );
+	}
+	
+        /* takes the log and adds the max again */
+	mk[ii][1] = log(mk[ii][1]) + tmp;
+	
+	/* adds the max again for mkd */
+	for (j = 1; j <= p; j++) {
+	    mkd[ii][j] = mkd[ii][j] + tmp;
+	}
+    }
+    
+    
+    
+    
+    /* 2. computes mk for each possible r-partitions: a loop */
+    for (k = 2; k <= Km; k++) {
+	
+	
+        /* First start at the first step */
+	i = k-1;
+	ii = k;
+	
+	/* Computes mkdn for each d and ii */
+	for (j = 1; j <= p; j++) {
+	    
+	    /* Removes the max */
+	    tmp = mk[ii-1][k-1];
+	    if (mk[ii-1][k-1] - mkd[ii-1][j] < -0.00000000001)
+		tmp = mkd[ii-1][j];
+	    mi1 = mk[ii-1][k-1] - tmp;
+	    mi2 = mkd[ii-1][j] - tmp;
+	    
+	    /* Computes for i = k-1 */
+	    mkdn[ii][j] = log(Pid[ii][j]) + 
+		log((((double) k) - 1) / (((double) i) * (((double) p) - 1))) +
+		log(((double) p) * exp(mi1) - exp(mi2));
+	    
+	    /* adds the max again */
+	    mkdn[ii][j] = mkdn[ii][j] + tmp;
+	}
+	
+
+
+	/* fills mk */
+	/* computes the max */
+	tmp = mkdn[ii][1];
+	for (j = 1; j <= p; j++) {
+	    if (mkdn[ii][j] - tmp > 0.00000000000000001) {
+		tmp = mkdn[ii][j];
+	    }
+	}
+	
+	/* removes the max */
+	for (j = 1; j <= p; j++) {
+	    mkdn[ii][j] = mkdn[ii][j] - tmp;
+	}
+	
+	/* computes the mean */
+	mk[ii][k] = exp(mkdn[ii][1]) / ( (double) p ) ;
+	for (j = 2; j <= p; j++) {
+	    mk[ii][k] = mk[ii][k] + (exp(mkdn[ii][j]) / ( (double) p ) );
+	}
+	
+	/* takes the log and adds the max again */
+	mk[ii][k] = log(mk[ii][k]) + tmp;
+	
+	/* adds the max again for mkd */
+	for (j = 1; j <= p; j++) {
+	    mkdn[ii][j] = mkdn[ii][j] + tmp;
+	}
+	
+	
+	/* Then increase the sequence */
+	for (ii = (k + 1) ; ii <= l; ii++) {
+	    
+	    i = ii - 1;
+	    
+	    /* again computes mkdn for each d */
+	    for (j = 1; j <= p; j++) {
+		
+		tmp = mkdn[ii-1][j];
+		if (tmp - mk[ii-1][k-1] < -0.00000000000001) {
+		    tmp = mk[ii-1][k-1];
+		}
+		if (tmp - mkd[ii-1][j] < -0.000000000000000001) {
+		    tmp = mkd[ii-1][j];
+		} 
+		mi1 = mkdn[ii-1][j] - tmp;
+		mi2 = mk[ii-1][k-1] - tmp;
+		mi3 = mkd[ii-1][j] - tmp;
+		
+		mkdn[ii][j] = log(Pid[ii][j]) +
+		    log((( ((double) (i - k + 1)) / ((double) i)) * 
+			exp(mi1)) + (((((double) k) - 1) / 
+				    (((double) i) * 
+				     (((double) p) - 1))) * 
+			((((double) p) * exp(mi2)) - 
+			 exp(mi3)))) + tmp;
+	    }
+
+
+	    
+	    /* ... and again fills mk */
+	    /* computes the max */
+	    tmp = mkdn[ii][1];
+	    for (j = 1; j <= p; j++) {
+		if (mkdn[ii][j] - tmp > 0.000000000000001) {
+		    tmp = mkdn[ii][j];
+		}
+	    }
+	    
+	    /* removes the max */
+	    for (j = 1; j <= p; j++) {
+		mkdn[ii][j] = mkdn[ii][j] - tmp;
+	    }
+	    
+	    /* computes the mean */
+	    mk[ii][k] = exp(mkdn[ii][1]) / ( (double) p ) ;
+	    for (j = 2; j <= p; j++) {
+		mk[ii][k] = mk[ii][k] + (exp(mkdn[ii][j]) / ( (double) p ) );
+	    }
+	    
+	    /* takes the log and adds the max again */
+	    mk[ii][k] = log(mk[ii][k]) + tmp;
+	    
+	    /* adds the max again for mkd */
+	    for (j = 1; j <= p; j++) {
+		mkdn[ii][j] = mkdn[ii][j] + tmp;
+	    }
+	    
+	}
+	
+	/* and finally, replace mkd with mkdn for next k */    
+	for (ii = 1; ii <= l; ii++) {
+	    for (j = 1; j <= p; j++) {
+		mkd[ii][j] = mkdn[ii][j];
+	    }
+	}
+    }
+    
+    
+    /* free memory */
+    freetab(mkd);
+    freetab(mkdn);
+
+}
+
+
+
+/* Now, the R version */
+
+void optcutr (double *Pidr, double *mkr, int *maxk, int *lr, int *pr, 
+	      double *baye) 
+{
+    /* Declaration */
+    int i, j, k, l, p, Km;
+    double **Pid, **mk, tmp, *mik, *msk, *kk;
+    
+    /* Memory allocation */
+    l = *lr;
+    Km = *maxk;
+    p = *pr;
+    taballoc(&Pid, l, p);
+    taballoc(&mk, l, Km);
+    vecalloc(&mik, Km);
+    vecalloc(&msk, Km);
+    vecalloc(&kk, Km);
+
+    
+    /* Fills local variables */
+    k = 0;
+    for (i = 1; i <= l; i++) {
+	for (j = 1; j <= p; j++) {
+	    Pid[i][j] = Pidr[k];
+	    k++;
+	}
+    }
+    
+    optcut(Pid, mk, maxk);
+    
+    /* keeps the last row */
+    for (k = 1; k <= Km; k++) {
+	kk[k] = mk[l][k];
+    }
+    /* computes the max */
+    tmp = kk[1];
+    for (k = 1; k <= Km; k++) {
+	if (tmp - kk[k] < -0.0000000001)
+	    tmp = kk[k];
+    }
+    
+    /* removes the max */
+    for (k = 1; k <= Km; k++) {
+	kk[k] = kk[k] - tmp;
+    }
+    
+    /* Computes mik */
+    mik[1] = exp(kk[1]);
+    for (k = 2; k <= Km; k++) {
+	mik[k] = mik[k-1] + (exp(kk[k]) / ((double) k ));
+    }
+    
+    /* adds the max again */
+    for (k = 1; k <= Km; k++) {
+	mik[k] = log(mik[k]) + tmp;
+    }
+    
+    /* Computes msk */
+    msk[Km] = exp(kk[Km]) / ((double) (l - Km + 1)) ;
+    for (k = Km-1; k >= 1; k--) {
+	msk[k] = msk[k+1] + exp(kk[k]) / ((double) (l - k + 1)  );
+    }
+
+    /* adds the max again */
+    for (k = 1; k <= Km; k++) {
+	msk[k] = log(msk[k]) + tmp;
+    }
+    
+    
+    /* The bayes factor */
+    for (k = 2; k <= (Km - 1); k++) {
+	baye[k-2] = msk[k] - mik[k-1];
+    }
+
+    /* ... and back to R */
+    k = 0;
+    for (j = 1; j<=Km; j++) {
+	mkr[k] = mk[l][j];
+	k++;
+    }
+    
+
+
+    /* Free memory */
+    freevec(msk);
+    freevec(mik);
+    freevec(kk);
+    freetab(Pid);
+    freetab(mk);
+}
+
+
+
+/* *********************************************************************
+ *                                                                     *
+ *                   partition d'un trajet                             *
+ *                                                                     *
+ ***********************************************************************/
+
+void partraj(double **Pid, int *maxk, double **Mk, double **Mkd, 
+	     double **res)
+{
+    /* declaration of variables */
+    int i, j, k, m, l, D, Km;
+    double **Mkk, **cumPid, tmp;
+    
+    /* Memory allocation */
+    l = Pid[0][0]; /* length of the sequence */
+    D = Pid[1][0]; /* Number of models */
+    Km = *maxk;    /* Partition size */
+    tmp = 0;
+    m = 0;
+    
+    taballoc(&Mkk, Km, D); /* Contains mkd for i = k, for all models */
+    taballoc(&cumPid, l, D); /* For the probability of the sequences */
+    
+    
+    /* First Compute the prediction of the sequences */
+    for (j = 1; j <= D; j++) {
+	cumPid[1][j] = Pid[1][j];
+    }
+    for (i = 2; i <= l; i++) {
+	for (j = 1; j <= D; j++) {
+	    cumPid[i][j] = cumPid[i-1][j] + Pid[i][j];
+	    /* fills res */
+	    res[i][j] = cumPid[i][j];
+	}
+    }
+    
+    
+    /* Computes M1 */    
+    for (i = 1; i <= l; i++) {
+	Mk[i][1] = cumPid[i][1];
+	for (j = 2; j <= D; j++) {
+	    if (Mk[i][1] < cumPid[i][j]) {
+		Mk[i][1] = cumPid[i][j];
+	    }
+	}
+    }
+    
+    /* Then, computes Mkk for all k <= Km */
+    for (j = 1; j <= D; j++) {
+	Mkk[1][j] = Pid[1][j];
+    }
+    
+    for (k = 2; k <= Km; k++) {
+	/* Computes Mkk */
+	for (j = 1; j <= D; j++) {
+	    Mkk[k][j] = Pid[k][j] + Mk[k-1][k-1];
+	}
+	/* Update Mk */
+	Mk[k][k] = Mkk[k][1];
+	for (j = 2; j <= D; j++) {
+	    if (Mkk[k][j] - Mk[k][k] < 0.000000000001)
+		Mk[k][k] = Mkk[k][j];
+	}
+    }
+    
+    
+    /* Now, compute Mkd */
+    for (k = 2; k <= Km; k++) {
+	
+	/* Deletes for i < k */
+	for (i = 1; i < k; i++) {
+	    for (j = 1; j <= D; j++) {
+		Mkd[i][j] = 0;
+	    }
+	}
+		
+	/* first fill the first line of Mkd */
+	for (j = 1; j <= D; j++) {
+	    Mkd[k][j] = Mkk[k][j];
+	}
+
+	/* Computes Mkd */
+	for (i = (k+1); i <= l; i++) {
+	    for (j = 1; j <= D; j++) {
+		tmp = Mk[i-1][k-1];
+		if (Mkd[i-1][j] - tmp > 0.000000000000000001) {
+		    tmp = Mkd[i-1][j];
+		}
+		Mkd[i][j] = Pid[i][j] + tmp;
+	    }
+	    
+	    /* Update Mk */
+	    Mk[i][k] = Mkd[i][1];
+	    for (j = 1; j <= D; j++) {
+		if (Mkd[i][j] - Mk[i][k] > 0.000000000000000001) {
+		    Mk[i][k] = Mkd[i][j];
+		}
+	    }
+	    
+	}
+	
+	/* Fills res */
+	for (i = 1; i <= l; i++) {
+	    for (j = 1; j <= D; j++) {
+		res[((k-1) * l)+i][j] = Mkd[i][j];
+	    }
+	}
+    }
+
+    /* free memory */
+    freetab(Mkk);
+    freetab(cumPid);
+}
+
+
+
+void partrajr(double *Pidr, double *curmar, int *curmodr, int *curlocr, 
+	      int *lr, int *Dr, int *Kmr)
+{
+    /* Variable declaration */
+    int l, D, Km, i, j, k, m, n, new, *curloc, *curmod;
+    double **Mk, **Mkd, **Pid, **res, tmp, *curma, **grap;
+    
+    /* Memory allocation */
+    l = *lr;
+    D = *Dr;
+    Km = *Kmr;
+    m = 0;
+    n = 0;
+    tmp = 0;
+    new = 0;
+    taballoc(&Mk, l, Km);
+    taballoc(&Mkd, l, D);
+    taballoc(&Pid, l, D);
+    taballoc(&res, (l * Km), D);
+    taballoc(&grap, l, D);
+    vecalloc(&curma, Km);
+    vecintalloc(&curmod, Km);
+    vecintalloc(&curloc, (Km+1));
+    
+    
+    /* R to C */
+    k = 0;
+    for (i = 1; i <= l; i++) {
+	for (j = 1; j <= D; j++) {
+	    Pid[i][j] = log(Pidr[k]);
+	    k++;
+	}
+    }
+    
+    /* The main algorithm */
+    partraj(Pid, Kmr, Mk, Mkd, res);
+    
+    
+    /* Backtracking */
+    curloc[1] = l;
+    for (k = Km; k>=1; k--) {
+	if (k > 1) {
+	    
+	    m = Km - k + 2;
+	    
+            /* Stores the graph */
+	    for (i = 1; i <= l; i++) {
+		for (j = 1; j <= D; j++) {
+		    if (res[(l * (k-1)) + i][j] > Mk[i][k-1]) {
+			grap[i][j] = 1;
+		    } else {
+			grap[i][j] = 0;
+		    }
+		}
+	    }
+	    
+	    /* The best model for the last step */
+	    n = (l * (k-1)) + curloc[m-1];
+	    curma[m-1] = res[n][1];
+	    curmod[m-1] = 1;
+	    for (j = 2; j <= D; j++) {
+		if (res[n][j] > curma[m-1]) {
+		    curma[m-1] = res[n][j];
+		    curmod[m-1] = j;
+		}
+	    }
+	    
+	    /* Keep this model until ? */
+	    n = curloc[m-1];
+	    j = curmod[m-1];
+	    while (grap[n][j] > 0.0000000001)
+		n--;
+	    curloc[m] = n;
+	} else {
+	    m = Km+1;
+	    curloc[m] = 1;
+	    curma[m-1] = res[curloc[m-1]][1];
+	    curmod[m-1] = 1;
+	    for (j = 1; j <= D; j++) {
+		if (res[curloc[m-1]][j] > curma[m-1]) {
+		    curma[m-1] = res[curloc[m-1]][j];
+		    curmod[m-1] = j;
+		}
+	    }
+	}
+	
+	
+    }
+    
+    
+    
+    /* C to R */
+    for (i = 1; i <= Km; i++) {
+	curmodr[i-1] = curmod[i];
+	curlocr[i-1] = curloc[i];
+	curmar[i-1] = curma[i];
+    }
+    curlocr[Km] = curloc[Km+1];
+    
+    
+    /* free memory */
+    freetab(Mk);
+    freetab(Mkd);
+    freetab(res);
+    freetab(grap);
+    freevec(curma);
+    freeintvec(curmod);
+    freeintvec(curloc);
 }

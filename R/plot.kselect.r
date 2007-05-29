@@ -33,33 +33,22 @@
 
     ## 4.1. We project the available points (all animals pooled) on
     ##      the axes of the K-select: matrix U (rows: points, columns: axes)
-    U<-as.matrix(x$l1*x$lw)
-    ls<-as.matrix(x$initab)%*%U
+    ls<- x$ls
 
     ## 4.2. coordinates of the "available centroids" on the axes
     ##      of the K-select
-    liani<-split(as.data.frame(ls), x$initfac)
-    liwei<-split(x$initwei, x$initfac)
-    mav<-as.data.frame(t(as.matrix(data.frame(lapply(liani,
-                                                     function(x) apply(x, 2, mean))))))
-    names(mav)<-names(x$li)
-    row.names(mav)<-names(x$tab)
+    mav <- x$mav
 
     ## 4.3. coordinates of the "used centroids" on the axes
     ##      of the K-select
-    mutemp<-list()
-    for (i in 1:length(liwei))
-        mutemp[[i]]<-apply(liani[[i]], 2, function(x) weighted.mean(x, liwei[[i]]))
-    mut<-as.data.frame(t(as.matrix(data.frame(mutemp))))
-    names(mut)<-names(x$li)
-    row.names(mut)<-names(x$tab)
+    mut <- x$mus
 
     ## 4.4. The Marginality vectors are displayed as arrows connecting the
     ##      "available" centroids to the "used" centroids
 
     s.label(rbind(mav, mut), xax, yax, clab = 0, cpo = 0,
             sub = "Marginality vectors", csub = 2) ## background
-    for (i in 1:length(liani))
+    for (i in 1:nrow(mav))
         arrows(mav[i,xax], mav[i,yax], mut[i,xax], mut[i,yax],
                lwd=2, angle=20) ## arrows
     s.label(mav, xax, yax, add.plot=TRUE, clab=1.5) ## labels
@@ -67,11 +56,9 @@
 
     ## 5. coordinates of the uncentered available points on the
     ##    axes of the K-select
-    s.class(as.data.frame(ls), x$initfac, cstar=0,
-            cellipse=0, clab=1.5, sub="Available Resource units", csub=2)
-    for (i in 1:length(liani))
-        polygon(liani[[i]][chull(liani[[i]][,xax], liani[[i]][,yax]),xax],
-                liani[[i]][chull(liani[[i]][,xax], liani[[i]][,yax]),yax])
+    s.chull(as.data.frame(ls), x$initfac,
+            clab=1.5, sub="Available Resource units", csub=2,
+            optchull=1, cpoint=1)
 
     ## 6. coordinates of the recentred marginality vectors on the axes
     ##    on the K-select

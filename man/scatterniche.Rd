@@ -16,7 +16,8 @@ scatterniche(x, pr, xax = 1, yax = 2, pts = FALSE,
 \arguments{
   \item{x}{a data frame giving the value of environmental variables
     (columns) in resource units (rows, e.g. the pixels of a raster map)}
-  \item{pr}{}
+  \item{pr}{a vector giving the utilisation weight for each resource
+    unit}
   \item{xax}{the column number for the x-axis}
   \item{yax}{the column number for the y-axis}
   \item{pts}{logical. Whether the points should be drawn.  If

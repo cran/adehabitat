@@ -3,10 +3,10 @@
 \alias{plot.fipati}
 \alias{varlogfpt}
 \alias{meanfpt}
-\title{Computation of the First Passage Time From Trajectories}
+\title{Computation of the First Passage Time From Trajects}
 \description{
-  These functions compute the first passage time using trajectories of
-  class \code{"ltraj"}.
+  These functions compute the first passage time using trajects of
+  class \code{"ltraj"} of type II (time recorded).
 }
 \usage{
 fpt(lt, radii, units = c("seconds", "hours", "days"))
@@ -15,7 +15,8 @@ meanfpt(f, graph = TRUE)
 plot.fipati(x, scale, warn = TRUE, \dots)
 }
 \arguments{
-  \item{lt}{an object of class \code{"ltraj"}}
+  \item{lt}{an object of class \code{"ltraj"} of type II (time
+    recorded)}
   \item{radii}{a numeric vector giving the radii of the circles}
   \item{units}{The time units of the results}
   \item{f,x}{an object of class \code{fipati} returned by the function
@@ -30,7 +31,7 @@ plot.fipati(x, scale, warn = TRUE, \dots)
 }
 \details{
   The first passage time (FPT) is a parameter often used to describe the
-  scale at which patterns occur in a trajectory.  For a given scale r,
+  scale at which patterns occur in a traject.  For a given scale r,
   it is defined as the time required by the animals to pass through a
   circle of radius r.  Johnson et al. (1992) indicated that the mean
   first passage time scales proportionately to the square of the radius
@@ -45,7 +46,7 @@ plot.fipati(x, scale, warn = TRUE, \dots)
   Fauchald & Tveraa (2003) proposed another use of the FPT.  Instead of
   computing the mean of FPT, they propose the use of the variance of the
   log(FPT).  This variance should be high for scales at which patterns
-  occur in the trajectory (e.g. area restricted search).  This method is
+  occur in the traject (e.g. area restricted search).  This method is
   often used to determine the scale at which an animal seaches for food.
 }
 \value{

@@ -89,23 +89,13 @@ madifa <- function(dudi, pr, scannf = TRUE, nf = 2)
     row.names(li) <- dimnames(dudi$tab)[[1]]
     row.names(l1) <- dimnames(dudi$tab)[[1]]
 
-    ## PCA of the use and availability:
-    f1 <- function(v) sum(v * row.w)/sum(row.w)
-    f2 <- function(v) sqrt(sum(v * v * row.w)/sum(row.w))
-    centra1 <- sweep(dudi$tab, 2, apply(dudi$tab,2,f1))
-    centra1 <- sweep(centra1, 2, apply(centra1,2,f2), "/")
-    centra2 <- sweep(dudi$li, 2, apply(dudi$li,2,f1))
-    centra2 <- sweep(centra2, 2, apply(centra2,2,f2), "/")
-
     ## Correlation with these axes
-    corav <- crossprod(as.matrix(apply(centra1, 2,
-                                       function(x) x*row.w/sum(row.w))),
-                       as.matrix(centra2))
+    corav <- cor(dudi$tab, li)
 
     ## Output
     madifa <- list(call = call, tab = data.frame(Z), pr = prb, cw = col.w,
                    nf = nf, eig = s, lw = row.w, li = li, l1 = l1,
-                   co = co, mahasu = mahasu, corav = corav)
+                   co = co, mahasu = mahasu, cor = corav)
     class(madifa) <- "madifa"
     return(madifa)
   }
@@ -142,7 +132,7 @@ print.madifa <- function (x, ...)
     sumry[2, ] <- c("$li", nrow(x$li), ncol(x$li), "row coordinates")
     sumry[3, ] <- c("$l1", nrow(x$li), ncol(x$li), "row normed scores (variance weighted by $pr = 1)")
     sumry[4, ] <- c("$co", nrow(x$co), ncol(x$co), "column coordinates")
-    sumry[5, ] <- c("$corav", nrow(x$corav), ncol(x$corav), "cor(habitat var., scores) for available points")
+    sumry[5, ] <- c("$cor", nrow(x$cor), ncol(x$cor), "cor(habitat var., scores) for available points")
     class(sumry) <- "table"
     print(sumry)
     if (length(names(x)) > 15) {    cat("\nother elements: ")
@@ -493,12 +483,12 @@ s.madifa <- function(x, xax=1, yax=2, cgrid = 1, clab=1, ...)
 
 
 
-plot.madifa <- function(x, index, attr, xax=1, yax=2, cont=TRUE,...)
+plot.madifa <- function(x, index, attr, xax=1, yax=2, cont=FALSE,...)
 {
 
     ## Verifications
-    if (!inherits(mad, "madifa"))
-        stop("Object of class 'enfa' expected")
+    if (!inherits(x, "madifa"))
+        stop("Object of class 'madifa' expected")
 
     ## Graphical settings
     opar <- par(mfrow=c(3,3))
@@ -573,7 +563,7 @@ plot.madifa <- function(x, index, attr, xax=1, yax=2, cont=TRUE,...)
     par(u)
 
     ## Correlation with the environmental variables
-    s.arrow(x$corav, xax=xax,yax=yax,
+    s.arrow(x$cor, xax=xax,yax=yax,
             sub="Cor(habitat var., scores) available",
             clab=1.25, csub=2, cgrid=2, xlim=c(-1,1), ylim=c(-1,1))
     u <- par(mar=c(0.1,0.1,2,0.1))

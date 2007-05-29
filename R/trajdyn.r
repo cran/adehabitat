@@ -1,18 +1,21 @@
-"trajdyn" <-
-function(x, burst = attr(x[[1]],"burst"), hscale=1,
-                    vscale=1, recycle = TRUE,
-                    display = c("guess", "windows", "tk"), ...)
-  {
+"trajdyn" <- function(x, burst = attr(x[[1]],"burst"), hscale=1,
+                      vscale=1, recycle = TRUE,
+                      display = c("guess", "windows", "tk"), ...)
+{
     if (!inherits(x, "ltraj"))
-      stop("x should be of class 'ltraj'")
+        stop("x should be of class 'ltraj'")
+    typeII <- attr(x,"typeII")
+
     ## supprimer les NA
     x <- lapply(x, function(i) {
-      jj <- i[!is.na(i$x),]
-      attr(jj, "id") <- attr(i,"id")
-      attr(jj, "burst") <- attr(i,"burst")
-      return(jj)
+        jj <- i[!is.na(i$x),]
+        attr(jj, "id") <- attr(i,"id")
+        attr(jj, "burst") <- attr(i,"burst")
+        return(jj)
     })
     class(x) <- c("ltraj","list")
+    attr(x, "typeII") <- typeII
+    attr(x, "regular") <- is.regular(x)
     u <- x
     x<- v <- x[burst = burst]
     ajouli <- FALSE
@@ -30,41 +33,41 @@ function(x, burst = attr(x[[1]],"burst"), hscale=1,
     on.exit(options(opt))
     dsp <- substring(match.arg(display), 1, 1)
     if (dsp == "g")
-      dsp <- switch(getOption("device"), windows = "w", "t")
+        dsp <- switch(getOption("device"), windows = "w", "t")
     if (dsp == "t" && !require(tkrplot))
-      stop("'tkrplot' package needed\n")
+        stop("'tkrplot' package needed\n")
 
 
 ### fonction replot de base
     replot <- function() {
-      opar <- par(mar=c(0,0,0,0), bg="white")
-      attr(x[[1]],"id") <- " "
-      if (lim) {
-          xlim <- range(x[[1]]$x)
-          ylim <- range(x[[1]]$y)
-      }
-      plot(x, id = attr(x[[1]],"id"), addlines=F, addp=F, final=FALSE,
-           xlim = xlim, ylim = ylim, ...)
-      cusr <<- par("usr")
-      cplt <<- par("plt")
-      scatterutil.sub(as.character(x[[1]]$date[K]), 1, "topleft")
-      if (ajoubu) {
-        lapply(u[burst=buadd], function(zz) {
-          if (addpoints)
-            points(zz[,c("x","y")], pch=16, col="grey")
-          if (addlines)
-            lines(zz[,c("x","y")], pch=16, col="grey")})
-      }
-      if (addpoints)
-        points(x[[1]][1:K,c("x","y")], pch=16)
-      if (addlines)
-        if (K>1)
-          lines(x[[1]][1:K,c("x","y")], lwd=2)
-      if (ajouli)
-        lines(c(a1[1], a2[1]),c(a1[2], a2[2]), lwd=2, col="red")
-      if (ajoupo)
-        points(a5[1], a5[2], pch=16, col="red", cex=1.7)
-      iti <- unlist(x[[1]][K,c("x","y")])
+        opar <- par(mar=c(0,0,0,0), bg="white")
+        attr(x[[1]],"id") <- " "
+        if (lim) {
+            xlim <- range(x[[1]]$x)
+            ylim <- range(x[[1]]$y)
+        }
+        plot(x, id = attr(x[[1]],"id"), addlines=F, addp=F, final=FALSE,
+             xlim = xlim, ylim = ylim, ...)
+        cusr <<- par("usr")
+        cplt <<- par("plt")
+        scatterutil.sub(as.character(x[[1]]$date[K]), 1, "topleft")
+        if (ajoubu) {
+            lapply(u[burst=buadd], function(zz) {
+                if (addpoints)
+                    points(zz[,c("x","y")], pch=16, col="grey")
+                if (addlines)
+                    lines(zz[,c("x","y")], pch=16, col="grey")})
+        }
+        if (addpoints)
+            points(x[[1]][1:K,c("x","y")], pch=16)
+        if (addlines)
+            if (K>1)
+                lines(x[[1]][1:K,c("x","y")], lwd=2)
+        if (ajouli)
+            lines(c(a1[1], a2[1]),c(a1[2], a2[2]), lwd=2, col="red")
+        if (ajoupo)
+            points(a5[1], a5[2], pch=16, col="red", cex=1.7)
+        iti <- unlist(x[[1]][K,c("x","y")])
       points(iti[1],iti[2], col="blue", pch=16, cex=1.4)
       par(opar)
     }
@@ -246,16 +249,16 @@ function(x, burst = attr(x[[1]],"burst"), hscale=1,
         showz()
       }
       if (key == "z") {
-             tmppx <- (cusr[1:2]-cusr[1])/2
-             xlim <<-  c((a8[1] - (tmppx[2] - tmppx[1])/2),
-                         (a8[1] + (tmppx[2] - tmppx[1])/2))
+          tmppx <<- (cusr[1:2]-cusr[1])/2
+          xlim <<-  c((a8[1] - (tmppx[2] - tmppx[1])/2),
+                      (a8[1] + (tmppx[2] - tmppx[1])/2))
 
-             tmppy <<- (cusr[3:4]-cusr[3])/2
-             ylim <<-  c((a8[2] - (tmppy[2] - tmppy[1])/2),
-                         (a8[2] + (tmppy[2] - tmppy[1])/2))
+          tmppy <<- (cusr[3:4]-cusr[3])/2
+          ylim <<-  c((a8[2] - (tmppy[2] - tmppy[1])/2),
+                      (a8[2] + (tmppy[2] - tmppy[1])/2))
 
-             lim <<- FALSE
-             showz()
+          lim <<- FALSE
+          showz()
       }
       if (key == "o") {
           lim <<-TRUE

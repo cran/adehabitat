@@ -76,12 +76,14 @@ data2enfa(kasc, pts)
   which maximises the specialization of the species.  The calculations
   used in the function are described in Hirzel et al. (2002).\cr
 
-  The function \code{enfa} can be used on both quantitative and
-  qualitative variables, provided that the table containing the values
-  of habitat variables (columns) for each resource unit (rows) is
-  correctly transformed (e.g. column-centered and standardised for
-  tables containing only quantitative variables), and that
-  appropriate column weights are given (e.g. the sum of the weights for
+  The function \code{enfa} can be used on both quantitative variables and
+  qualitative variables (though the interpretation of the results of the
+  ENFA for qualitative variables is still under research), provided that
+  the table containing the values of habitat variables (columns) for
+  each resource unit (rows) is correctly transformed
+  (e.g. column-centered and standardised for tables containing only
+  quantitative variables), and that appropriate column weights are given
+  (e.g. the sum of the weights for
   the levels of a factor should be the same as the weight of one
   quantitative variable). Therefore, the function \code{enfa} requires
   that a preliminary multivariate analysis is performed on the table

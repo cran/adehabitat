@@ -46,7 +46,8 @@ enfa <- function(dudi, pr, scannf = TRUE, nf = 1)
 
     ## Computation of S^(-1/2)
     eS <- eigen(Se)
-    S12 <- eS$vectors %*% diag(eS$values^(-0.5)) %*% t(eS$vectors)
+    kee <- (eS$values > 1e-9)     ## keep only the positive values
+    S12 <- eS$vectors[,kee] %*% diag(eS$values[kee]^(-0.5)) %*% t(eS$vectors[,kee])
 
     ## Passage to the third problem
     W <- S12 %*% Ge %*% S12

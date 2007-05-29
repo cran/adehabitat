@@ -55,7 +55,7 @@ data(puechcirc)
 puechcir <- ltraj2traj(puechcirc)
 puechcir
 
-## Gets a part of the trajectory of the wild boar named
+## Gets a part of the traject of the wild boar named
 ## CH93 and draws it
 ## Also displays the turning angles
 toto <- puechcir[2:5,]

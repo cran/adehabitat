@@ -49,3 +49,28 @@
     return(output)
 }
 
+buffer.ltraj <- function(ltraj, x, dist, perani=FALSE)
+{
+    if (!inherits(ltraj, "ltraj"))
+        stop("ltraj should be of class \"ltraj\"")
+
+    liasc <- lapply(ltraj, function(z) {
+        buffer.line(z[!is.na(z$x),c("x","y")], x, dist)
+    })
+    names(liasc) <- burst(ltraj)
+    kasc <- as.kasc(liasc)
+    if (perani) {
+        fa <- unique(id(ltraj))
+
+        uu <- data.frame(lapply(fa, function(i) {
+            kk <- data.frame(kasc[id(ltraj)==i])
+            tt <- apply(kk,1,function(z){
+                if (all(is.na(z))) return(NA) else return(1)
+            })
+            return(tt)
+        }))
+        names(uu) <- fa
+        return(getkascattr(kasc,uu))
+    }
+    return(kasc)
+}

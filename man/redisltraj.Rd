@@ -1,8 +1,8 @@
 \name{redisltraj}
 \alias{redisltraj}
-\title{Rediscretization of a Trajectory With Regular Step Length}
+\title{Rediscretization of a Traject With Regular Step Length}
 \description{
-  This functions rediscretizes one or several trajectories in an object
+  This functions rediscretizes one or several trajects in an object
   of class \code{ltraj}.
 }
 \usage{
@@ -12,20 +12,20 @@ redisltraj(l, u, burst = NULL, samplex0 = FALSE, addbit = FALSE,
 \arguments{
   \item{l}{an object of class \code{ltraj}}
   \item{u}{the new step length}
-  \item{burst}{The burst identity of trajectories to be rediscretized.}
-  \item{samplex0}{Whether the first relocation of the trajectory should
+  \item{burst}{The burst identity of trajects to be rediscretized.}
+  \item{samplex0}{Whether the first relocation of the traject should
     be sampled }
   \item{addbit}{logical. Whether the line segment linking the last
-    relocation of the rediscretized trajectory and the last relocation
-    of the raw trajectory should be added to the result (can be useful
+    relocation of the rediscretized traject and the last relocation
+    of the raw traject should be added to the result (can be useful
     for computation of fractal dimension)}
   \item{nnew}{optionnally, you may specify the maximum ratio between number of
-    relocations of the new trajectory.  If not specified, this maximum
+    relocations of the new traject.  If not specified, this maximum
     is equal to 5 times the number of relocations of the raw
-    trajectory.}
+    traject.}
 }
 \details{
-  The rediscretization of trajectory has been advocated by several
+  The rediscretization of traject has been advocated by several
   authors in the literature (Turchin 1998, Bovet & Benhamou 1988).  It
   is also the first step of the computation of the fractal dimension of
   the path (Sugihara & May 1990).  
@@ -49,6 +49,8 @@ redisltraj(l, u, burst = NULL, samplex0 = FALSE, addbit = FALSE,
   class \code{ltraj}}
 \examples{
 data(puechcirc)
+
+puechcirc
 
 ## before rediscretization
 plot(puechcirc, perani = FALSE)

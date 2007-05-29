@@ -2,20 +2,22 @@
 \alias{histniche}
 \title{Histograms of the Ecological Niche}
 \description{
-  \code{histniche} draws histograms of the variables mapped in an
-  object of class \code{kasc} (habitat available for the species). The
-  histograms of the habitat used by a species (i.e. the niche) are
-  computed from the locations of the focus species, and are added to the
-  plot of available habitat for each variable, for comparison.
+  \code{histniche} draws histograms of the niche-environment system: an
+  histogram of the available resource units (environment) is drawn on
+  the same graph as an histogram of the used resource units (i.e. the
+  niche), for comparison.
 }
 \usage{
-histniche(kasc, pts, type = c("h", "l"), adjust = 1,
-          Acol, Ucol, Aborder, Uborder, Alwd = 1, Ulwd = 1, \dots)
+histniche(x, pr, type = c("h", "l"), adjust = 1,
+          Acol, Ucol, Aborder, Uborder, Alwd = 1,
+          Ulwd = 1, ylim, ncla = 15, ...)
 }
 \arguments{
-  \item{kasc}{a raster map of class \code{kasc}}
-  \item{pts}{a data frame with two columns, giving the coordinates of
-    the species locations}
+  \item{x}{a data frame giving the value of environmental variables
+    (columns) in resource units (rows, e.g. the pixels of a
+    raster map)}
+  \item{pr}{a vector of integers with the same length as \code{nrow(x)}
+    (giving for example the number of detections in the pixels)}
   \item{type}{what type of plot should be drawn.  Possible types are:\cr
     * \code{"h"} for histograms,\cr
     * \code{"l"} for kernel density estimates (see \code{?density}).\cr
@@ -34,18 +36,25 @@ histniche(kasc, pts, type = c("h", "l"), adjust = 1,
     of the available pixels} 
   \item{Ulwd}{if \code{type = "l"}, line width for the density estimate
     of the used pixels} 
+  \item{ylim}{the limits for the y axis}
+  \item{ncla}{The number of classes of the histogram} 
   \item{\dots}{further arguments passed to or from other methods}
 }
-\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr} }
+\author{
+  Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}
+}
 \examples{
 \dontrun{
-## Example with factors and numeric variables
-data(puechabon)
-histniche(puechabon$kasc, puechabon$locs[, c("X", "Y")])
 
-## Aspect is a factor, then it's not possible to use 
-## kernel density estimates for it :
-histniche(puechabon$kasc, puechabon$locs[, c("X", "Y")], type = "l")
+data(puechabon)
+cp <- count.points(puechabon$locs[,c("X","Y")], puechabon$kasc)
+puechabon$kasc
+li <- kasc2df(puechabon$kasc)
+cpi <- c(cp)[li$index]
+
+histniche(li$tab, cpi)
+histniche(li$tab, cpi, ty="l")
+
 }
 }
 \keyword{multivariate}

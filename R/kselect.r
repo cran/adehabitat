@@ -64,6 +64,26 @@
     names(U) <- names(z$li)
     z$as <- U
 
+    ## Coordinates of the RUs on the K-select axes
+    U <- as.matrix(z$l1 * z$lw)
+    z$ls <- as.matrix(z$initab) %*% U
+
+    ## Mean used and mean available
+    liani <- split(as.data.frame(z$ls), z$initfac)
+    liwei <- split(z$initwei, z$initfac)
+    mav <- as.data.frame(t(as.matrix(data.frame(lapply(liani,
+        function(x) apply(x, 2, mean))))))
+    names(mav) <- names(z$li)
+    row.names(mav) <- names(z$tab)
+    mutemp <- list()
+    for (i in 1:length(liwei)) mutemp[[i]] <- apply(liani[[i]],
+        2, function(x) weighted.mean(x, liwei[[i]]))
+    mut <- as.data.frame(t(as.matrix(data.frame(mutemp))))
+    names(mut) <- names(z$li)
+    row.names(mut) <- names(z$tab)
+    z$mus <- mut
+    z$mav <- mav
+
     ## Output
     return(z)
 }

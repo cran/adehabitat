@@ -5,6 +5,8 @@ gdltraj <- function(x, min, max,
     ## Verifications
     if (!inherits(x, "ltraj"))
         stop("x should be of class \"ltraj\"")
+    if (!attr(x, "typeII"))
+        stop("x should be of type II (time recorded)")
     type <- match.arg(type)
 
     ## gets the traj within the boundaries
@@ -22,5 +24,7 @@ gdltraj <- function(x, min, max,
 
     ## Output
     class(x) <- c("ltraj", "list")
+    attr(x, "typeII") <-  TRUE
+    attr(x, "regular") <-  is.regular(x)
     return(x)
   }

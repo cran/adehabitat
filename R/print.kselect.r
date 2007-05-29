@@ -26,7 +26,7 @@
     class(sumry) <- "table"
     print(sumry, ...)
     cat("\n")
-    sumry <- array("", c(7, 4), list(1:7, c("data.frame", "nrow",
+    sumry <- array("", c(10, 4), list(1:10, c("data.frame", "nrow",
                                             "ncol", "content")))
     sumry[1, ] <- c("$tab", nrow(x$tab), ncol(x$tab), "modified array")
     sumry[2, ] <- c("$li", nrow(x$li), ncol(x$li), "row coordinates")
@@ -36,6 +36,9 @@
     sumry[6, ] <- c("$initab", nrow(x$initab),
                     ncol(x$initab), "initial table centered per animal")
     sumry[7, ] <- c("$as", nrow(x$as), ncol(x$as), "axis upon kselect axis")
+    sumry[8, ] <- c("$ls", nrow(x$ls), ncol(x$ls), "rows of initab upon kselect axis")
+    sumry[9, ] <- c("$mus", nrow(x$mus), ncol(x$mav), "mean use on kselect axis")
+    sumry[10, ] <- c("$mav", nrow(x$mus), ncol(x$mav), "mean available on kselect axis")
     class(sumry) <- "table"
     print(sumry)
 }

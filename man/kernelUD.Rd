@@ -146,14 +146,14 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
   Examples).  Brownian bridges are placed over the
   different sections of the traject, and these functions
   are then summed over the area.  The brownian bridge approach therefore
-  smoothes a trajectory.\cr
+  smoothes a traject.\cr
 
   The brownian bridge estimation relies on two smoothing parameters,
   \code{sig1} and \code{sig2}.  The parameter \code{sig1} is related to
   the speed of the animal, and describes how far from the line joining
   two successive relocations the animal can go during one time unit
   (here the time is measured in second). The larger this parameter is,
-  and the more wiggly the trajectory is likely to be.
+  and the more wiggly the traject is likely to be.
   The parameter \code{sig2} is equivalent to the parameter 
   \code{h} of the classical kernel method: it is related to the
   inaccuracy of the relocations (See examples for an illustration of

@@ -632,13 +632,15 @@ plot.NNCH<-function(x, add.points=TRUE, pch=21, bgpts="white",
 {
 	if (!inherits(x, "NNCH"))
 		stop("x should be of class \"NNCH\"")
+        if (!require(sp))
+            stop("package sp required")
         e <- NULL
 	percent<-rev(vectorize.parameter(percent))
 
 	homerange<-NNCH.select(x,id=id,k=k,a=a,r=r)
 
 	if (length(homerange) > 1) {
-       opar <- par(mfrow = n2mfrow(length(homerange)))
+       opar <- par(mfrow = n2mfrow(length(homerange)), mar=c(0,0,2,0))
        on.exit(par(opar))
     }
 	if (same4all) {
@@ -652,22 +654,27 @@ plot.NNCH<-function(x, add.points=TRUE, pch=21, bgpts="white",
 			ry<-range(homerange[[kk]]$xy[,2])
 		}
 		if(!add){
-			if (length(homerange) > 1)
-                plot(homerange[[kk]]$xy, ty = "n", asp = 1, main = kk,  xlim = rx, ylim = ry, ...)
-            if (length(homerange) == 1)
-                plot(homerange[[kk]]$xy, ty = "n", asp = 1, xlim = rx, ylim = ry, ...)
-		}
+			if (length(homerange) > 1) {
+                plot(homerange[[kk]]$xy, ty = "n", asp = 1, main = kk,  xlim = rx, ylim = ry, axes = FALSE, ...)
+            }
+                        if (length(homerange) == 1)
+                            plot(homerange[[kk]]$xy, ty = "n", asp = 1, xlim = rx, ylim = ry, ...)
+                    }
 
 		li2<-homerange[[kk]]$polygons
 		for (i in 1:length(percent)){
-			isoIndex<-NNCH.iso.index(homerange[[kk]],percent[i])
-			if(is.integer(isoIndex)){
-	 			plot(noholes.poly(li2[[isoIndex]]), poly.args = list(col = gr[i], border = border), add = TRUE)
-	 		}
+                    isoIndex<-NNCH.iso.index(homerange[[kk]],percent[i])
+                    if(is.integer(isoIndex)){
+                        plot(noholes.poly(li2[[isoIndex]]), poly.args = list(col = gr[i], border = border), add = TRUE)
+                    }
 	 	}
 		if (add.points)
-			points(homerange[[kk]]$xy, pch=pch, bg=bgpts, col=colpts, cex=cex)
-	}
+                    points(homerange[[kk]]$xy, pch=pch, bg=bgpts, col=colpts, cex=cex)
+                if (length(homerange) > 1) {
+                    box()
+                }
+            }
+
 }
 
 ############################################################

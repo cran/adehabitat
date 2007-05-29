@@ -11,11 +11,11 @@
 \usage{data(puech)}
 \details{
   The list \code{puech} has two components:\cr
-  \code{puechabon$relocations} is a data frame containing the
+  \code{puech$relocations} is a data frame containing the
   relocations of the wild boar resting sites in summer.  It contains the
   coordinates of the relocations and the name of the corresponding wild
   boar.\cr
-  \code{puechabon$map} is a list of objects of class \code{asc} (see
+  \code{puech$map} is a list of objects of class \code{asc} (see
   \code{help(asc)}) that describe nine environmental variables on the
   study area (the elevation, the tree cover, the shrub
   cover, the distance to recreational trails, the distance to crops,

@@ -3,7 +3,7 @@
 \docType{data}
 \title{Radio-tracking of squirrels}
 \description{
-  This data set contains the trajectories of 15 radio-monitored
+  This data set contains the trajects of 15 radio-monitored
   squirrels, as well as the vector maps of habitat composition.
 }
 \usage{data(squirreloc)}

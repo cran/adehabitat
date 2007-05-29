@@ -13,7 +13,12 @@ plot.ltraj <- function (x, id = unique(unlist(lapply(x, attr, which="id"))),
     if (!inherits(x, "ltraj"))
         stop("x should be an object of class ltraj")
 
-    ## supprimer les NA
+    ## Select id and burst
+    x <- x[id=id]
+    x <- x[burst=burst]
+    typeII <- attr(x, "typeII")
+
+    ## Remove NA
     x <- lapply(x, function(i) {
         jj <- i[!is.na(i$x),]
         attr(jj, "id") <- attr(i,"id")
@@ -21,84 +26,130 @@ plot.ltraj <- function (x, id = unique(unlist(lapply(x, attr, which="id"))),
         return(jj)
     })
     class(x) <- c("ltraj","list")
-    id <- id
-    burst <- burst
-    x <- ltraj2traj(x)
-    i <- split(x, x$id)
-    x <- do.call("rbind", i[id])
-    x$id <- factor(x$id)
-    x$burst <- factor(x$burst)
-    bu <- levels(x$burst)
-    burst <- burst[burst%in%bu]
+    attr(x, "typeII") <- typeII
+    attr(x,"regular") <- is.regular(x)
 
-    i <- split(x, x$burst)
-    x <- do.call("rbind", i[burst])
-    x$id <- factor(x$id)
-    x$burst <- factor(x$burst)
+    ## keeps only the coordinates
+    uu <- lapply(x, function(i) {
+        i[,c("x","y")]
+    })
 
+    ## Which kind of plot?
     if (!perani)
         idc <- "burst"
     else idc <- "id"
-    li <- split(x, x[[idc]])
-    id <- levels(x[[idc]])
-    if (length(li)>1)
-        opar <- par(mar = c(0.1, 0.1, 2, 0.1), mfrow = n2mfrow(length(li)))
-    m <- unlist(lapply(li, function(x) mean(x$date)))
-    nli <- names(li)
-    nli <- nli[order(m)]
 
+    id <- unique(unlist(lapply(x, function(i) {
+        attr(i, idc)
+    })))
+
+    if (length(id)>1)
+        opar <- par(mar = c(0.1, 0.1, 2, 0.1), mfrow = n2mfrow(length(id)))
+
+    ## xlim is the limit of the graph
     if (is.null(xlim)) {
-        maxxl <- max(unlist(lapply(li, function(ki) range(ki$x)[2] - range(ki$x)[1])))
-        xlim <- lapply(li, function(ki) c(min(ki$x), min(ki$x)+maxxl))
-    } else {
-        ma <- max(unlist(lapply(li, function(ki) range(ki$x)[2])))
-        mi <- min(unlist(lapply(li, function(ki) range(ki$x)[1])))
-        xlim <- lapply(li, function(ki) c(mi,ma))
+        if (perani) {
+            idtt <- unique(id(x))
+            oo <- lapply(idtt,
+                         function(i) unlist(lapply(x[id=i], function(j) j$x)))
+            maxxl <- max(unlist(lapply(oo, function(kk) diff(range(kk)))))
+            xlim <- lapply(oo, function(ki) c(min(ki), min(ki)+maxxl))
+        } else {
+            maxxl <- max(unlist(lapply(x,
+                                       function(ki) diff(range(ki$x)))))
+            xlim <- lapply(x, function(ki) c(min(ki$x), min(ki$x)+maxxl))
+        }
+    }  else {
+        xlim <- split(rep(xlim, length(id)), gl(length(id),2))
     }
-    if (is.null(ylim)) {
-        maxyl <- max(unlist(lapply(li, function(ki) range(ki$y)[2] - range(ki$y)[1])))
-        ylim <- lapply(li, function(ki) c(min(ki$y), min(ki$y)+maxyl))
-  } else {
-      ma <- max(unlist(lapply(li, function(ki) range(ki$y)[2])))
-      mi <- min(unlist(lapply(li, function(ki) range(ki$y)[1])))
-      ylim <- lapply(li, function(ki) c(mi,ma))
-  }
-    names(xlim) <- names(li)
-    names(ylim) <- names(li)
 
-    for (i in nli) {
-    if (!is.null(asc))
-        image(asc, col = colasc, xlim = xlim[i][[1]], ylim = ylim[i][[1]],
-              main = i,
-              axes = (length(li)==1), ...)
-    else plot(li[i][[1]]$x, li[i][[1]]$y, type = "n", asp = 1,
-              xlim = xlim[i][[1]],
-              ylim = ylim[i][[1]], axes = (length(li)==1),
-              main = i, ...)
-    box()
-    if (!is.null(polygon)) {
-        pol <- split(polygon[, 2:3], factor(polygon[, 1]))
-        for (j in 1:length(pol)) polygon(pol[[j]], col = colpol)
+    if (is.null(ylim)) {
+        if (perani) {
+            idtt <- unique(id(x))
+            oo <- lapply(idtt,
+                         function(i) unlist(lapply(x[id=i], function(j) j$y)))
+            maxyl <- max(unlist(lapply(oo, function(kk) diff(range(kk)))))
+            ylim <- lapply(oo, function(ki) c(min(ki), min(ki)+maxyl))
+        } else {
+            maxyl <- max(unlist(lapply(x, function(ki) diff(range(ki$y)))))
+            ylim <- lapply(x, function(ki) c(min(ki$y), min(ki$y)+maxyl))
+        }
+    } else {
+        ylim <- split(rep(ylim, length(id)), gl(length(id),2))
     }
-    if (addlines) {
-        for (j in levels(factor(li[[i]]$burst))) {
-            lines(x$x[x$burst == j], x$y[x$burst == j])
+    names(xlim) <- id
+    names(ylim) <- id
+
+    for (i in id) {
+        if (!is.null(asc)) {
+            if (length(id)==1) {
+                image(asc, col = colasc, xlim = xlim[i][[1]],
+                      ylim = ylim[i][[1]], ...)
+            } else {
+                image(asc, col = colasc, xlim = xlim[i][[1]],
+                      ylim = ylim[i][[1]], main = i,
+                      axes = (length(id)==1), ...)
+            }
+        } else {
+            if (length(id)==1) {
+                plot(1, 1, type = "n", asp = 1,
+                     xlim = xlim[i][[1]],
+                     ylim = ylim[i][[1]], ...)
+            } else {
+                plot(1, 1, type = "n", asp = 1,
+                     xlim = xlim[i][[1]],
+                     ylim = ylim[i][[1]], axes = (length(id)==1),
+                     main = i, ...)
+            }
+        }
+        if (length(id)>1)
+            box()
+        if (!is.null(polygon)) {
+            pol <- split(polygon[, 2:3], factor(polygon[, 1]))
+            for (j in 1:length(pol)) polygon(pol[[j]], col = colpol)
+        }
+        if (addlines) {
+            if (idc=="burst") {
+                lines(x[burst=i][[1]]$x, x[burst=i][[1]]$y)
+            } else {
+                xtmp <- x[id=i]
+                for (j in 1:length(xtmp)) {
+                    lines(xtmp[[j]]$x, xtmp[[j]]$y)
+                }
+            }
+        }
+        if (addpoints) {
+            if (idc=="burst") {
+                points(x[burst=i][[1]]$x, x[burst=i][[1]]$y,
+                       pch = 21, col = "black", bg = "white")
+            } else {
+                xtmp <- x[id=i]
+                for (j in 1:length(xtmp)) {
+                    points(xtmp[[j]]$x, xtmp[[j]]$y,
+                           pch = 21, col = "black", bg = "white")
+                }
+            }
+        }
+        if (final) {
+            if (idc=="burst") {
+                points(x[burst=i][[1]]$x[c(1, length(x[burst=i][[1]]$x))],
+                       x[burst=i][[1]]$y[c(1, length(x[burst=i][[1]]$y))],
+                       pch = 14, col = c("blue","red"))
+            } else {
+                xtmp <- x[id=i]
+                for (j in 1:length(xtmp)) {
+                    points(xtmp[[j]]$x[c(1, length(xtmp[[j]]$x))],
+                           xtmp[[j]]$y[c(1, length(xtmp[[j]]$x))],
+                           pch = 14, col = c("blue","red"))
+                }
+            }
+
         }
     }
-    if (addpoints) {
-        for (j in levels(factor(li[[i]]$burst))) {
-            points(x$x[x$burst == j], x$y[x$burst == j],
-                   pch = 21, col = "black", bg = "white")
-        }
-    }
-    if (final) {
-      for (j in levels(factor(li[[i]]$burst))) {
-          points(x$x[x$burst == j][c(1, length(x$x[x$burst ==
-                     j]))], x$y[x$burst == j][c(1, length(x$y[x$burst ==
-                                j]))], pch = 14, col = c("blue", "red"))
-      }
-  }
+    if (length(id)>1)
+        par(opar)
 }
-    if (length(li)>1)
-    par(opar)
-}
+
+
+
+

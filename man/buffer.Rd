@@ -2,6 +2,7 @@
 \alias{buffer}
 \alias{buffer.ani}
 \alias{buffer.line}
+\alias{buffer.ltraj}
 \title{Compute Buffers}
 \description{
   \code{buffer} compute buffers around a set of
@@ -11,11 +12,14 @@
   of several animals monitored using radio-tracking; the function
   \code{buffer} is then applied to each animal).\cr
   \code{buffer.line} compute buffers around a line.
+  \code{buffer.ltraj} compute buffers around one or several animals
+  trajects.
 }
 \usage{
 buffer(pts, x, dist)
 buffer.ani(pts, fac, x, dist)
 buffer.line(xy, x, dist)
+buffer.ltraj(ltraj, x, dist, perani=FALSE)
 }
 
 \arguments{
@@ -28,6 +32,10 @@ buffer.line(xy, x, dist)
   \item{fac}{a factor defining the categories of the points}
   \item{xy}{a data frame containing the coordinates of the vertices of
     the lines}
+  \item{ltraj}{an object of class \code{ltraj}}
+  \item{perani}{logical.  If \code{FALSE}, one buffer is computed for
+    each burst of relocation.  If \code{TRUE}, the buffers are computed
+    per levels of the attribute \code{id}.}
 }
 \value{
   \code{buffer} and \code{buffer.line} return an object of class
@@ -35,7 +43,11 @@ buffer.line(xy, x, dist)
   located within a specified distance of given points, and \code{NA}
   otherwise.\cr 
   \code{buffer.ani} returns a data frame of class \code{kasc},
-  with each column corresponding to one level of the factor \code{fac}.
+  with each column corresponding to one level of the factor
+  \code{fac}.\cr
+  \code{buffer.ltraj} returns a data frame of class \code{kasc},
+  with each column corresponding to one level of the attribute \code{id}
+  of the object of class \code{ltraj} passed as argument.
 }
 \author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 
@@ -44,7 +56,6 @@ buffer.line(xy, x, dist)
   information on objects of class \code{asc}, \code{\link{storemapattr}}
   for further information on objects of class \code{mapattr}.
 }
-
 \examples{
 data(puechabon)
 
@@ -65,13 +76,17 @@ buani <- buffer.ani(locs[,4:5], locs[,1], sa, 500)
 image(buani)
 
 
-## buffer around a trajectory
+## buffer around a traject
 data(puechcirc)
-uu <- puechcirc[burst = "CH930824"]
-w <- ascgen(uu[[1]][,c("x","y")], nrcol = 100)
-out <- buffer.line(uu[[1]][,c("x","y")], w, 100)
+image(buffer.ltraj(puechcirc,sa, 100))
+
+## buffer around a line
+gc <- getcontour(getkasc(sa,1))
+out <- buffer.line(gc[,2:3], sa, 300)
 image(out)
-plot(uu, asc = out)
+lines(gc[,2:3], lwd=2)
+
+
 
 }
 \keyword{spatial}

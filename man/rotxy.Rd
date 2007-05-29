@@ -7,6 +7,9 @@
 \alias{NNCH.iso.index}
 \alias{vectorize.parameter}
 \alias{noholes.poly}
+\alias{autourna}
+\alias{.corrXY}
+\alias{.convtime}
 \title{Internal Functions for Package 'adehabitat'}
 \description{
 Internal functions for the package \code{adehabitat}.

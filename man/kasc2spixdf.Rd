@@ -9,6 +9,7 @@
 \alias{traj2sldf}
 \alias{ltraj2spdf}
 \alias{ltraj2sldf}
+\alias{kver2spol}
 \title{ Conversion of maps from/to the package "sp" }
 \description{
   These functions convert maps of classes available in adehabitat toward
@@ -45,6 +46,9 @@
   \cr
   \code{ltraj2sldf} converts an object of class \code{ltraj} into an
   object of class \code{SpatialLinesDataFrame}.\cr
+  \cr
+  \code{kver2spol} converts an object of class \code{kver} into an
+  object of class \code{SpatialPolygons}.\cr
 }
 \usage{
 kasc2spixdf(ka)
@@ -57,6 +61,7 @@ traj2spdf(tr)
 traj2sldf(tr, byid = FALSE)
 ltraj2spdf(ltr)
 ltraj2sldf(ltr, byid = FALSE)
+kver2spol(kv)
 }
 \arguments{
   \item{ka}{an object of class \code{kasc}.}
@@ -69,6 +74,7 @@ ltraj2sldf(ltr, byid = FALSE)
   \item{srdf}{an object of class \code{SpatialPolygonsDataFrame}.}
   \item{tr}{an object of class \code{traj}.}
   \item{ltr}{an object of class \code{ltraj}.}
+  \item{kv}{an object of class \code{kver}.}
   \item{byid}{logical.  If \code{TRUE}, one objects of class
     \code{Lines} correspond to one animal.  if \code{FALSE},
     one object of class \code{Lines} correspond to one burst.}
@@ -122,6 +128,20 @@ image(cuicui)
 
 #########################################
 ##
+## Conversion kver -> SpatialPolygons
+##
+
+hr <- getverticeshr(kernelUD(puechabon$locs[,c("X","Y")], puechabon$locs$Name,
+                    grid=100))
+
+plot(hr)
+class(hr)
+spo <- kver2spol(hr)
+plot(spo)
+class(spo)
+
+#########################################
+##
 ## Conversion area -> SpatialPolygons
 ##
 
@@ -169,6 +189,7 @@ plot(toto)
 
 toto <- ltraj2sldf(puechcirc)
 plot(toto)
+
 
 }
 }

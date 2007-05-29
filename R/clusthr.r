@@ -420,6 +420,8 @@ kver.rast <- function(kv, asc)
 kver2shapefile <- function(kv, which=names(kv))
 {
     ## Verifications
+    if (!require(shapefiles))
+        stop("package shapefiles required")
     if (!inherits(kv, "kver"))
         stop("x should be of class \"kver\"")
     whi <- which
@@ -453,6 +455,8 @@ kver2shapefile <- function(kv, which=names(kv))
         kv[[i]] <- do.call("rbind", lapply(lkv, function(x) {
             if (abs(sum(unlist(x[1,2:3]-x[nrow(x),2:3])))>1e-16) {
                 return(rbind(x, x[1,]))
+            } else {
+                return(rbind(x))
             }}))
 
         ## The attributes of the shapefile (ID of the polygons and

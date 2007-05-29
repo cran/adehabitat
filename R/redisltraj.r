@@ -72,10 +72,17 @@
             dat <- c(dat, l[[1]]$date[length(l[[1]]$date)])
         }
 
-        ## Converts to traj
+        ## Converts to ltraj
         opt <- options(warn=-1)
-        nl <- as.ltraj(data.frame(x,y), dat, id=attr(l[[1]], "id"),
-                       burst = paste(attr(l[[1]], "burst"),".R",u,sep=""))
+        if (!attr(ml, "typeII")) {
+            nl <- as.ltraj(data.frame(x,y), id=attr(l[[1]], "id"),
+                           burst = paste(attr(l[[1]], "burst"),
+                           ".R",u,sep=""), typeII=FALSE)
+        } else {
+            nl <- as.ltraj(data.frame(x,y), id=attr(l[[1]], "id"),
+                           date = dat, burst = paste(attr(l[[1]], "burst"),
+                           ".R",u,sep=""))
+        }
         nl[[1]]$rel.ang[is.na(nl[[1]]$rel.ang)] <- 0
 
         ## Output
