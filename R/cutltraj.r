@@ -1,7 +1,7 @@
 ##################################################################
 ##
-## cutltraj coupe une trajectoire en plusieurs bursts après une loc
-## donnée qui remplit les conditions
+## cutltraj coupe une trajectoire en plusieurs bursts apres une loc
+## donnee qui remplit les conditions
 ##
 
 

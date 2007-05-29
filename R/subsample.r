@@ -1,4 +1,4 @@
-### Rééchantillonner une trajectoire
+### Reechantillonner une trajectoire
 subsample <- function(ltraj, dt, nlo=1,
                       units=c("sec", "min", "hour", "day"), ...)
 {

@@ -22,7 +22,7 @@
 }
 \usage{
 kernelUD(xy, id = NULL, h = "href", grid = 40, same4all = FALSE,
-         hlim = c(0.1, 1.5), kern = c("bivnorm", "epa"))
+         hlim = c(0.1, 1.5), kern = c("bivnorm", "epa"), extent = 0.5)
 print.khr(x, \dots)
 image.khr(x, axes = FALSE, mar = c(0,0,2,0),
           addcontour = TRUE, addpoints = TRUE, \dots)
@@ -62,6 +62,9 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
   \item{kern}{a character string.  If \code{"bivnorm"}, a bivariate
     normal kernel is used.  If \code{"epa"}, an Epanechnikov kernel is
     used.}
+  \item{extent}{a value indicating the extent of the grid used for the
+    estimation (the extent of the grid on the abscissa is equal to
+    \code{(min(xy[,1]) + extent * diff(range(xy[,1])))}).}
   \item{x}{an object of class \code{khr} returned by \code{kernelUD}.}
   \item{axes}{logical.  Whether the axes are to be plotted}
   \item{mar}{the margin parameter (see \code{help(par)})}

@@ -15,7 +15,7 @@
 ### Correction XY vitesse constante
 .corrXY <- function(x, y, dab, daa)
 {
-    ## Correction éventuelle de x1
+    ## Correction eventuelle de x1
     x1 <- x[1]
     y1 <- y[1]
 
@@ -36,7 +36,7 @@
         }
     }
 
-    ## Correction éventuelle de xn
+    ## Correction eventuelle de xn
     xn <- x[length(y)]
     yn <- y[length(y)]
     if (daa[length(daa)]!=dab[length(dab)]) {
@@ -89,7 +89,7 @@
         yc[daa<dab] <- yc[daa<dab] + sin(alpha[daa<dab] + pi)*r[daa<dab]
     }
 
-    ## Cas 2: t1 après
+    ## Cas 2: t1 apres
     daa <- daat
     dab <- dabt
 

@@ -1,5 +1,6 @@
 "kernelUD" <- function(xy, id=NULL, h="href", grid=40, same4all=FALSE,
-                      hlim=c(0.1, 1.5), kern = c("bivnorm", "epa"))
+                       hlim=c(0.1, 1.5), kern = c("bivnorm", "epa"),
+                       extent=0.5)
 {
     ## Verifications
     kern <- match.arg(kern)
@@ -37,8 +38,10 @@
                 stop("grid should be an object of class asc or a number")
             xli<-range(xy[,1])
             yli<-range(xy[,2])
-            xli<-c(xli[1]-0.3*abs(xli[2]-xli[1]),xli[2]+0.3*abs(xli[2]-xli[1]))
-            yli<-c(yli[1]-0.3*abs(yli[2]-yli[1]),yli[2]+0.3*abs(yli[2]-yli[1]))
+            xli<-c(xli[1]-extent*abs(xli[2]-xli[1]),
+                   xli[2]+extent*abs(xli[2]-xli[1]))
+            yli<-c(yli[1]-extent*abs(yli[2]-yli[1]),
+                   yli[2]+extent*abs(yli[2]-yli[1]))
             xygg<-data.frame(x=xli, y=yli)
             grid<-ascgen(xygg, nrcol=grid)
             cellsize<-attr(grid, "cellsize")
@@ -121,10 +124,10 @@
                 cellsize<-ref/ncol(grid)
 
                 ## One adds empty rows and columns to the "core" grid
-                xll<-xll-lx/2
-                yll<-yll-ly/2
-                arajlig<-ceiling((lx/2)/cellsize)
-                arajcol<-ceiling((ly/2)/cellsize)
+                xll<-xll-lx*extent
+                yll<-yll-ly*extent
+                arajlig<-ceiling((lx*extent)/cellsize)
+                arajcol<-ceiling((ly*extent)/cellsize)
                 mrajlig<-matrix(0, ncol=ncol(grid), nrow=arajlig)
                 grid<-rbind(mrajlig, grid, mrajlig)
                 mrajcol<-matrix(0, ncol=arajcol, nrow=nrow(grid))
