@@ -7,8 +7,8 @@
   Extract or replace subsets of objects of class \code{ltraj}.
 }
 \usage{
-  x[i, id, burst]
-  x[i, id, burst] <- value
+  \method{[}{ltraj}(x, i, id, burst)
+  \method{[}{ltraj}(x, i, id, burst) <- value
 }
 \arguments{
 \item{x}{an object of class \code{ltraj} }

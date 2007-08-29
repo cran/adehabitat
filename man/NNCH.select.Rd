@@ -24,10 +24,10 @@
 }
 \usage{
 NNCH.select(x,id = NULL, k = NULL, r = NULL, a = NULL)
-print.NNCH(x, \dots)
-summary.NNCH(object,file='', id = NULL, k = NULL, r = NULL,
+\method{print}{NNCH}(x, \dots)
+\method{summary}{NNCH}(object,file='', id = NULL, k = NULL, r = NULL,
              a = NULL, \dots)
-plot.NNCH(x, add.points = TRUE, pch = 21, bgpts = "white",
+\method{plot}{NNCH}(x, add.points = TRUE, pch = 21, bgpts = "white",
           colpts = "black", cex = 0.7, add = FALSE,
           same4all = TRUE, border = NA, percent = rev(seq(10,100, by=10)),
           gr = rev(grey(vectorize.parameter(percent)/100*.9)),

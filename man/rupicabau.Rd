@@ -3,7 +3,7 @@
 \docType{data}
 \title{GPS Monitoring of One Chamois in the Bauges Mountains}
 \description{
-  This dataset is an object of class "ltraj" (regular traject,
+  This dataset is an object of class "ltraj" (regular trajectory,
   relocations every 20 minutes) containing the GPS relocations of two
   chamois during one day in the Bauges mountain (French Alps).
 }

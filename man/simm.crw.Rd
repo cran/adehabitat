@@ -13,23 +13,23 @@ simm.crw(date=1:100, h = 1, r = 0,
   \item{date}{a vector indicating the date (in seconds) at which
     relocations should be simulated.  This vector can be of class
     \code{POSIXct}. *Note that the time lag between two relocations
-    should be constant* (regular trajects required)}
+    should be constant* (regular trajectories required)}
   \item{h}{the scaling parameter for the movement length}
   \item{r}{The concentration parameter for wrapped normal distribution
     of turning angles}
   \item{x0}{a vector of length 2 containing the coordinates of the
-    startpoint of the traject}
+    startpoint of the trajectory}
   \item{id}{a character string indicating the identity of the simulated
     animal (see \code{help(ltraj)})}
   \item{burst}{a character string indicating the identity of the simulated
     burst (see \code{help(ltraj)})}
-  \item{typeII}{logical.  Whether the simulated traject should be of
+  \item{typeII}{logical.  Whether the simulated trajectory should be of
     type II (\code{TRUE}, time recorded) or not (\code{FALSE}, time not
     recorded). See \code{help(ltraj)}.}
 }
 \details{
   Since the seminal paper of Kareiva and Shigesada (1983), most
-  biologists describe the trajects of an animal with the help of
+  biologists describe the trajectories of an animal with the help of
   two distributions: the distribution of distances between successive
   relocations, and the distribution of turning angles between successive
   moves (relative angles in the class \code{ltraj}).  The CRW is

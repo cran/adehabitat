@@ -6,7 +6,7 @@
 Niche Factor analysis (ENFA).
 }
 \usage{
-randtest.enfa(xtest, nrepet = 999, \dots)
+\method{randtest}{enfa}(xtest, nrepet = 999, \dots)
 }
 \arguments{
   \item{xtest}{an object of class \code{enfa}}

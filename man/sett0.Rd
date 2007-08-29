@@ -1,10 +1,10 @@
 \name{sett0}
 \alias{sett0}
 \title{Round the Timing of Collection of Relocations to Obtain Regular
-  Traject}
+  Trajectory}
 \description{
   This function rounds the timing of collection of relocations in an
-  object of class \code{ltraj} to obtain a regular traject, based on
+  object of class \code{ltraj} to obtain a regular trajectory, based on
   a reference date.
 }
 \usage{
@@ -28,11 +28,11 @@ sett0(ltraj, date.ref, dt, correction.xy = c("none", "cs"),
     \code{rec}}
 }
 \details{
-  Trajects are stored in adehabitat as lists of "bursts" of
+  Trajectories are stored in adehabitat as lists of "bursts" of
   successive relocations with the timing of relocation.  Regular
-  trajects are characterized by a constant time lag \code{dt}
+  trajectories are characterized by a constant time lag \code{dt}
   between successive relocations (don't mix animals located every 10
-  minutes and animals located every day in a regular traject).\cr
+  minutes and animals located every day in a regular trajectory).\cr
   
   However, in many cases, the actual time lag in the data may not be
   equal to the theoretical time lag \code{dt}: there may be some
@@ -40,7 +40,7 @@ sett0(ltraj, date.ref, dt, correction.xy = c("none", "cs"),
   error of a few seconds on a time lag of one hour).\cr 
   
   But many functions of \code{adehabitat} require exact regular
-  trajects. \code{sett0} allows to round the date so that all the
+  trajectories. \code{sett0} allows to round the date so that all the
   successive relocations are separated exactly by \code{dt}.  The
   function \code{sett0} requires that the imprecision is at most equal
   to \code{tol}. To proceed, it is necessary to pass a reference date as
@@ -49,7 +49,7 @@ sett0(ltraj, date.ref, dt, correction.xy = c("none", "cs"),
   The reference date is chosen so that the rest of the division of
   (date.relocations - reference.date) by \code{dt} is equal to zero.
   For example, if it is known that one of the relocations of the
-  traject should have been collected on January 16th 1996 at 18H00,
+  trajectory should have been collected on January 16th 1996 at 18H00,
   and if the theoretical time lag between two relocations is of one
   hour, the date of reference could be (for example) the August 1st 2007
   at 05H00, because these two dates are separated by an exact number of
@@ -67,21 +67,21 @@ sett0(ltraj, date.ref, dt, correction.xy = c("none", "cs"),
   constant speed (which is not necessarily biologically relevant, see
   examples).\cr
   
-  Note finally that missing values can be present in the traject.
+  Note finally that missing values can be present in the trajectory.
   Indeed, there are modes of data collection that fail to locate the
   animal at some dates.  These failures should appear as missing values
-  in the regular traject.  It is often convenient to use the function
+  in the regular trajectory.  It is often convenient to use the function
   \code{setNA} before the function \code{sett0} to set the missing
-  values in a (nearly) regular traject.
+  values in a (nearly) regular trajectory.
 }
 \value{
-  an object of class \code{ltraj} containing a regular traject.
+  an object of class \code{ltraj} containing a regular trajectory.
 }
 \author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \seealso{\code{\link{ltraj}} for additional information on objects of
-  class \code{ltraj}, \code{\link{is.regular}} for regular trajects,
-  \code{\link{setNA}} to place missing values in the traject and
-  \code{\link{cutltraj}} to cut a traject into several bursts based
+  class \code{ltraj}, \code{\link{is.regular}} for regular trajectories,
+  \code{\link{setNA}} to place missing values in the trajectory and
+  \code{\link{cutltraj}} to cut a trajectory into several bursts based
   on a criteria. 
 }
 \examples{
@@ -89,7 +89,7 @@ sett0(ltraj, date.ref, dt, correction.xy = c("none", "cs"),
 #########################################################################
 ##
 ##
-## Transform a GPS monitoring on 4 ibex into a regular traject
+## Transform a GPS monitoring on 4 ibex into a regular trajectory
 ##
 
 data(ibexraw)

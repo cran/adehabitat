@@ -6,7 +6,6 @@
 \alias{getvolumeUD}
 \alias{kernel.area}
 \alias{getverticeshr}
-\alias{kernelbb}
 \title{Estimation of Kernel Home-Range}
 \description{
   \code{kernelUD} is used to estimate the utilization distribution (UD)
@@ -15,16 +14,13 @@
   for home-range size estimation.\cr
   \code{getverticeshr} stores the
   home range contour as objects of class \code{area} in a list of class
-  \code{kver}, with one component per animal.\cr
-  \code{kernelbb} is used to fit an utilization distribution using the
-  brownian bridge approach of the kernel method (for autocorrelated
-  relocations; Bullard, 1991). 
+  \code{kver}, with one component per animal.
 }
 \usage{
 kernelUD(xy, id = NULL, h = "href", grid = 40, same4all = FALSE,
          hlim = c(0.1, 1.5), kern = c("bivnorm", "epa"), extent = 0.5)
-print.khr(x, \dots)
-image.khr(x, axes = FALSE, mar = c(0,0,2,0),
+\method{print}{khr}(x, \dots)
+\method{image}{khr}(x, axes = FALSE, mar = c(0,0,2,0),
           addcontour = TRUE, addpoints = TRUE, \dots)
 plotLSCV(x)
 getvolumeUD(x)
@@ -34,7 +30,6 @@ kernel.area(xy, id, h = "href", grid = 40,
             unin = c("m", "km"),
             unout = c("ha", "km2", "m2"))
 getverticeshr(x, lev = 95)
-kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
 }
 
 \arguments{
@@ -50,7 +45,9 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
     Alternatively, \code{h} may be set to any given numeric value}
   \item{grid}{a number giving the size of the grid on
     which the UD should be estimated.  Alternatively, this parameter may
-    be an object of class \code{asc} (see examples)}
+    be an object of class \code{asc}, or a list of objects of class
+    \code{asc}, with named elements corresponding to each level of the
+    factor id (see examples)}
   \item{same4all}{logical. If \code{TRUE}, the same grid
     is used for all animals.  If \code{FALSE}, one grid per
     animal is used}
@@ -80,13 +77,6 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
     square meters, \code{"km2"} for square kilometers or \code{"ha"} for
     hectares (default)}
   \item{lev}{the percentage level for home range contour estimation.}
-  \item{tr}{an object of class \code{ltraj}.}
-  \item{sig1}{first smoothing parameter for the brownian bridge method
-    (related to the speed of the animals).}
-  \item{sig2}{second smoothing parameter for the brownian bridge method
-    (related to the imprecision of the relocations).}
-  \item{byburst}{logical. Whether the brownian bridge estimation should
-    be done by burst.}
   \item{\dots}{additionnal parameters to be passed to the generic
     functions \code{print} and \code{image}}
 }
@@ -135,33 +125,7 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
   used in the function \code{kernel.area}, to compute the home-range
   size.  Note, that the function \code{plot.hrsize} (see the help page
   of this function) can be used to display the home-range size estimated
-  at various levels.\cr
-
-  The function \code{kernelbb} uses the brownian bridge approach to
-  estimate the UD with autocorrelated relocations (Bullard, 1991).
-  Instead of simply smoothing the relocation pattern, it takes into
-  account the fact that between two successive relocations r1 and r2,
-  the animal has moved through a connected path, which is not
-  necessarily linear.  A brownian bridge estimates the density of
-  probability that this path passed through any point of the study area,
-  given that the animal was located at the point r1 at time t1 and at
-  the point r2 at time t2, with a certain amount of inaccuracy (see
-  Examples).  Brownian bridges are placed over the
-  different sections of the traject, and these functions
-  are then summed over the area.  The brownian bridge approach therefore
-  smoothes a traject.\cr
-
-  The brownian bridge estimation relies on two smoothing parameters,
-  \code{sig1} and \code{sig2}.  The parameter \code{sig1} is related to
-  the speed of the animal, and describes how far from the line joining
-  two successive relocations the animal can go during one time unit
-  (here the time is measured in second). The larger this parameter is,
-  and the more wiggly the traject is likely to be.
-  The parameter \code{sig2} is equivalent to the parameter 
-  \code{h} of the classical kernel method: it is related to the
-  inaccuracy of the relocations (See examples for an illustration of
-  the smoothing parameters).
-  
+  at various levels.
 }
 \value{
   The class \code{khr} is a class grouping three sub-classes,
@@ -190,9 +154,6 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
   \item{locs}{The relocations used in the estimation procedure.}
   \item{hmeth}{The argument \code{h} of the function kernelUD}
 
-  \code{kernelbb} returns an object of class \code{kbbhrud}, with the
-  same components as lists of class \code{khrud}.  \cr
-  
   \code{getvolumeUD} returns a list of class \code{khrvol},
   with the same components as lists of class \code{khrud}.  \cr
 
@@ -203,10 +164,6 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
   \code{getverticeshr} returns an object of class \code{kver}.
 }
 \references{
-
-  Bullard, F. (1991) \emph{Estimating the home range of an animal: a Brownian
-    bridge approach}. Master of Science, University of North Carolina,
-  Chapel Hill.
 
   Silverman, B.W. (1986)
   \emph{Density estimation for statistics and data
@@ -229,7 +186,9 @@ kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE)
   objects of class \code{asc},  \code{\link{mcp}} for estimation of home
   ranges using the minimum convex polygon, and for help on the function
   \code{plot.hrsize}. \code{\link{kver}} for information on objects of
-  class \code{kver}}
+  class \code{kver}, \code{\link{kernelbb}} for an alternative approach
+  of the kernel estimation for trajectory data.
+}
 
 \examples{
 
@@ -279,7 +238,7 @@ plotLSCV(udbis)
 udbis <- kernelUD(loc, id, same4all = TRUE)
 image(udbis)
 
-## And finally, estimation of the UD on a map
+## Estimation of the UD on a map
 ## (e.g. for subsequent analyses on habitat selection)
 elev <- getkasc(puechabon$kasc, "Elevation")
 opar <- par(mfrow = c(2, 2), mar = c(0, 0, 2, 0))
@@ -304,58 +263,37 @@ par(opar)
 
 
 
-###############################################
-###############################################
-###############################################
-###
-###         Kernel estimation: a brownian
-###               bridge approach
+## Estimation of the UD with a list of objects of class "asc" passed as
+## argument grid (useful for large datasets)
 
-\dontrun{
+## For example, consider the following limits:
+lim <- rbind(c(697901,701061,3160198,3162604),
+             c(698936,701089,3159969,3162518),
+             c(698461,701928,3157362,3160427),
+             c(698265,701369,3157219,3162661))
 
-## loads the data
-data(puechcirc)
+gro <- lapply(1:4, function(i) {
+              subsetmap(elev, xlim = lim[i,1:2], ylim=lim[i,3:4])
+})
+names(gro) <- levels(id)
 
-## gets one circuit
-x <- puechcirc[burst = "CH930824"]
+## show the data:
+opar <- par(mfrow=c(2,2), mar=c(0.1,0.1,2,0.1))
+lapply(1:4, function(i) {
+  image(gro[[i]], main=names(gro)[i], axes=FALSE)
+  points(loc[id==names(gro)[i],])
+  box()
+})
+gro
 
-## fits the home range
-(tata <- kernelbb(x, 10, 10, same4all = TRUE))
-image(tata, addpoints=FALSE)
-lines(x[[1]]$x, x[[1]]$y, lwd = 2, col = "red")
-
-## Image of a brownian bridge. Fit with two relocations:
-xx <- c(0,1)
-yy <- c(0,1)
-date <- c(0,1)
-class(date) <- c("POSIXt", "POSIXct")
-tr <- as.ltraj(data.frame(x = xx,y = yy), date, id="a")
-
-## Use of different smoothing parameters
-sig1 <- c(0.05, 0.1, 0.2, 0.4, 0.6)
-sig2 <- c(0.05, 0.1, 0.2, 0.5, 0.7)
-
-y <- list()
-for (i in 1:5) {
-  for (j in 1:5) {
-     k <- paste("s1=", sig1[i], ", s2=", sig2[j], sep = "")
-     y[[k]]<-kernelbb(tr, sig1[i], sig2[j])[[1]]$UD
-   }
- }
-
-## Displays the results
-opar <- par(mar = c(0,0,2,0), mfrow = c(5,5))
-foo <- function(x)
-   {
-     image(y[[x]], main = names(y)[x], axes = F)
-     points(tr[[1]][,c("x","y")], pch = 16, col = "red")
-   }
-lapply(1:length(y), foo)
-
-par(opar)
+## The map has been subset to fit the relocations.
+## Now, estimate the UD:
+ud.one.per.grid <- kernelUD(loc, id, grid = gro)
+image(ud.one.per.grid)
 
 
-}
+## The UD can then be matched to habitat maps
+
 }
 \keyword{spatial}
 

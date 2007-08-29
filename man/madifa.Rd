@@ -18,17 +18,17 @@
 }
 \usage{
 madifa(dudi, pr, scannf = TRUE, nf = 2)
-print.madifa(x, \dots)
-scatter.madifa(x, xax = 1, yax = 2, pts = FALSE, percent = 95,
+\method{print}{madifa}(x, \dots)
+\method{scatter}{madifa}(x, xax = 1, yax = 2, pts = FALSE, percent = 95,
                clabel = 1, side = c("top", "bottom", "none"),
                Adensity, Udensity, Aangle, Uangle, Aborder,
                Uborder, Acol, Ucol, Alty,
                Ulty, Abg, Ubg, Ainch, Uinch, \dots)
-hist.madifa(x, scores = TRUE, type = c("h", "l"), adjust = 1, Acol,
+\method{hist}{madifa}(x, scores = TRUE, type = c("h", "l"), adjust = 1, Acol,
             Ucol, Aborder, Uborder, Alwd = 1, Ulwd = 1, \dots)
-predict.madifa(object, index, attr, nf, \dots)
+\method{predict}{madifa}(object, index, attr, nf, \dots)
 s.madifa(x, xax = 1, yax = 2, cgrid = 1, clab = 1, \dots)
-plot.madifa(x, index, attr, xax = 1, yax = 2, cont = FALSE, \dots)
+\method{plot}{madifa}(x, index, attr, xax = 1, yax = 2, cont = FALSE, \dots)
 }
 \arguments{
   \item{dudi}{a duality diagram, an object of class \code{dudi}}
@@ -212,11 +212,8 @@ pc <- dudi.pca(datamad1$tab, scannf = FALSE)
 #########################################
 
 hist(mad)
+
 plot(mad, datamad1$index, datamad1$attr)
-
-## predict with just the first axis
-plot(sqrt(predict(mad, datamad1$index, datamad1$attr, 1)))
-
 
 ## this plot represents:
 ##  - the eigenvalues diagram
@@ -231,6 +228,9 @@ plot(sqrt(predict(mad, datamad1$index, datamad1$attr, 1)))
 ##    and factorial axes
 ##  - the geographical maps of the two
 ##    factorial axes
+
+## predict with just the first axis
+plot(sqrt(predict(mad, datamad1$index, datamad1$attr, 1)))
 
 
 

@@ -20,10 +20,10 @@
 widesI(u, a, avknown = TRUE, alpha = 0.05)
 widesII(u, a, avknown = TRUE, alpha = 0.05)
 widesIII(u, a, avknown = TRUE, alpha = 0.05)
-print.wiI(x, \dots)
-print.wiII(x, \dots)
-print.wiIII(x, \dots)
-plot.wi(x, caxis = 0.7, clab = 1, ylog = FALSE, errbar = c("CI", "SE"),
+\method{print}{wiI}(x, \dots)
+\method{print}{wiII}(x, \dots)
+\method{print}{wiIII}(x, \dots)
+\method{plot}{wi}(x, caxis = 0.7, clab = 1, ylog = FALSE, errbar = c("CI", "SE"),
         main = "Manly selectivity measure", noorder = TRUE, \dots)
 }
 \arguments{

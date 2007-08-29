@@ -3,7 +3,7 @@
 \title{ Estimates the value of h for a Brownian motion }
 \description{
   \code{hbrown} estimates the scaling factor \code{h} (used in the
-  Brownian motion, see \code{help(simm.brown)}) from a traject.
+  Brownian motion, see \code{help(simm.brown)}) from a trajectory.
 }
 \usage{
 hbrown(x)
@@ -15,7 +15,7 @@ hbrown(x)
   a vector with one estimate per burst of the object of class
   \code{ltraj}.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 \seealso{\code{\link{simm.brown}}}
 \examples{
 toto <- simm.brown(1:200, h=4)

@@ -16,12 +16,6 @@ Keywords: data
 Description: Attach or Detach Bursts in Objects of Class 'ltraj' to Search Path
 URL: ../../../library/adehabitat/html/altr.html
 
-Entry: angles
-Aliases: angles
-Keywords: spatial
-Description: Compute Turning Angles
-URL: ../../../library/adehabitat/html/angles.html
-
 Entry: area2asc
 Aliases: area2asc
 Keywords: spatial
@@ -346,6 +340,12 @@ Aliases: kasc2spixdf, asc2spixdf, spixdf2kasc, area2spol, spol2area, attpol2area
 Keywords: hplot
 Description: Conversion of maps from/to the package "sp"
 URL: ../../../library/adehabitat/html/kasc2spixdf.html
+
+Entry: kernelbb
+Aliases: kernelbb, liker
+Keywords: spatial
+Description: Estimation of Kernel Brownian Bridge Home-Range
+URL: ../../../library/adehabitat/html/kernelbb.html
 
 Entry: kernelUD
 Aliases: kernelUD, print.khr, image.khr, plotLSCV, getvolumeUD, kernel.area, getverticeshr, kernelbb
@@ -677,12 +677,6 @@ Aliases: sliwinltr
 Keywords: hplot
 Description: Apply a Function on an Object of Class "ltraj", Using a Sliding Window
 URL: ../../../library/adehabitat/html/sliwinltr.html
-
-Entry: speed
-Aliases: speed
-Keywords: spatial
-Description: Computes Speed Between Successive Relocations of an Animal
-URL: ../../../library/adehabitat/html/speed.html
 
 Entry: squirrel
 Aliases: squirrel

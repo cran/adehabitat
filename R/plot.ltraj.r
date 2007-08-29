@@ -134,13 +134,13 @@ plot.ltraj <- function (x, id = unique(unlist(lapply(x, attr, which="id"))),
             if (idc=="burst") {
                 points(x[burst=i][[1]]$x[c(1, length(x[burst=i][[1]]$x))],
                        x[burst=i][[1]]$y[c(1, length(x[burst=i][[1]]$y))],
-                       pch = 14, col = c("blue","red"))
+                       pch = c(2,14), col = c("blue","red"), cex=2, lwd=2)
             } else {
                 xtmp <- x[id=i]
                 for (j in 1:length(xtmp)) {
                     points(xtmp[[j]]$x[c(1, length(xtmp[[j]]$x))],
                            xtmp[[j]]$y[c(1, length(xtmp[[j]]$x))],
-                           pch = 14, col = c("blue","red"))
+                           pch = c(2,14), col = c("blue","red"), cex=2, lwd=2)
                 }
             }
 

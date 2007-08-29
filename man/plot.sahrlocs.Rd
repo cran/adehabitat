@@ -11,7 +11,7 @@
   several scales for design II and III data.
 }
 \usage{
-plot.sahrlocs(x, ani = names(x$hr), var = names(x$sa),
+\method{plot}{sahrlocs}(x, ani = names(x$hr), var = names(x$sa),
               type = c("hr.in.sa", "locs.in.hr", "locs.in.sa"),
               ncla = 4, ylog = FALSE, caxis = 0.7, clab = 0.7,
               errbar = c("SE", "CI"), alpha = 0.05, draw = TRUE, ...)

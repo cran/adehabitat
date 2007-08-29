@@ -14,7 +14,7 @@
 }
 \usage{
 enfa(dudi, pr, scannf = TRUE, nf = 1)
-hist.enfa(x, scores = TRUE, type = c("h", "l"), adjust = 1, Acol, Ucol, 
+\method{hist}{enfa}(x, scores = TRUE, type = c("h", "l"), adjust = 1, Acol, Ucol, 
           Aborder, Uborder, Alwd = 1, Ulwd = 1, \dots)
 data2enfa(kasc, pts)
 }

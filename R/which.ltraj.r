@@ -1,7 +1,7 @@
 ##################################################################
 ##
 ##
-## which.ltr vérifie une condition et renvoie les ID, bursts et
+## which.ltr verifie une condition et renvoie les ID, bursts et
 ## indices de localisations qui la remplisse
 
 

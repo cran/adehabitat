@@ -12,7 +12,7 @@
   
 }
 \usage{
-image.sahrlocs(x, ani = names(x$hr), var = names(x$sa),
+\method{image}{sahrlocs}(x, ani = names(x$hr), var = names(x$sa),
                mar = c(0, 0, 0, 0), axes = FALSE, dfidxy = NULL, colpts =
                "black", pch = 21, bg = "white", inv = FALSE, cexpts = 0.6, 
                csub = 2, possub = c("bottomleft", "bottomright", "topleft",

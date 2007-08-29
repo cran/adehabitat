@@ -16,9 +16,9 @@
     if (!all(colnames(used)==colnames(avail)))
       stop("the two matrices should have the same habitat names")
     if (is.null(colnames(used)))
-      colnames(used) <- paste("Habitat", 1:ncol(u), sep = "")
+      colnames(used) <- paste("Habitat", 1:ncol(used), sep = "")
     if (is.null(colnames(avail)))
-        colnames(avail) <- paste("Habitat", 1:ncol(a), sep = "")
+        colnames(avail) <- paste("Habitat", 1:ncol(avail), sep = "")
 
     ## 2. Bases
     nh<-ncol(used)

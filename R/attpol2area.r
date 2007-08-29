@@ -5,22 +5,22 @@
           stop("sr should be of class \"SpatialPolygonsDataFrame\"")
 
       ## Gets the attributes and the polygons
-      dat <- srdf@data
+      dat <- as.data.frame(srdf)
       sr <- polygons(srdf)
 
       ## Gets the contour of the polygons for each polygon
-      res <- lapply(1:length(sr@polygons), function(i) {
+      res <- lapply(1:length(getSpPpolygonsSlot(sr)), function(i) {
 
           ## gets the polygon
-          x <- sr@polygons[[i]]
-          y <- x@Polygons
+          x <- getSpPpolygonsSlot(sr)[[i]]
+          y <- getPolygonsPolygonsSlot(x)
 
           ## The ID
-          nom <- x@ID
+          nom <- getPolygonsIDSlot(x)
 
           ## we delete the holes
           ll <- length(y)
-          hh <- unlist(lapply(y, function(o) o@hole))
+          hh <- unlist(lapply(y, function(o) getPolygonHoleSlot(o)))
           hol <- sum(hh)
           ll <- ll-hol
 

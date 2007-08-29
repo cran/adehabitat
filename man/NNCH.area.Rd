@@ -56,7 +56,8 @@ NNCH.n.area(x, n, percent = c(100,50),
             id = NULL, k = NULL, r = NULL, a = NULL)
 NNCH.der.n.area(x, n, \dots)
 
-plot.narea(x, \dots)
+\method{plot}{narea}(x, \dots)
+
 }
 \arguments{
  \item{x}{a home range generated using the NNCH() method}

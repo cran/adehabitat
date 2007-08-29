@@ -13,7 +13,7 @@ simm.mba(date = 1:100, x0 = c(0, 0), mu = c(0, 0),
     relocations should be simulated.  This vector can be of class
     \code{POSIXct}}
   \item{x0}{a vector of length 2 containing the coordinates of the
-    startpoint of the traject}
+    startpoint of the trajectory}
   \item{mu}{a vector of length 2 describing the drift of the movement}
   \item{sigma}{a 2*2 positive definite matrix}
   \item{id}{a character string indicating the identity of the simulated

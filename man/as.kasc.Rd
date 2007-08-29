@@ -16,11 +16,11 @@
 \usage{
 as.kasc(l)
 getkasc(x, var)
-image.kasc(x,  var = names(x),
+\method{image}{kasc}(x,  var = names(x),
            mar = if (length(var) > 1) c(0,0,2,0) else c(5.1,4.1,4.1,2.1),
            axes = (length(var) == 1),
            clfac = NULL, col = gray((240:1)/256), mfrow = NULL, \dots)
-print.kasc(x, \dots)
+\method{print}{kasc}(x, \dots)
 }
 
 \arguments{

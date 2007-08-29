@@ -9,7 +9,7 @@
         stop("sr should be of class \"SpatialPolygons\" or \"SpatialPolygonsDataFrame\"")
 
     ## Gets the polygons in the object sr
-    pol <- sr@polygons
+    pol <- getSpPpolygonsSlot(sr)
     warh <- 0
     warh2 <- 0
     warz <- 0
@@ -18,12 +18,12 @@
     res <- lapply(pol, function(x) {
 
         ## gets the polygons and the ID
-        y <- x@Polygons
-        nom <- x@ID
+        y <- getPolygonsPolygonsSlot(x)
+        nom <- getPolygonsIDSlot(x)
         ll <- length(y)
 
         ## Identify the holes
-        hh <- unlist(lapply(y, function(o) o@hole))
+        hh <- unlist(lapply(y, function(o) getPolygonHoleSlot(o)))
         hol <- sum(hh)
         ll <- ll-hol
 
@@ -33,7 +33,7 @@
             if (hol == 0) {
 
                 ## No hole -> creates the object area
-                re <- as.data.frame(y[[1]]@coords)
+                re <- as.data.frame(getPolygonCoordsSlot(y[[1]]))
                 re <- data.frame( fac = factor(rep(nom,length(re[,1]))), re)
                 names(re) <- c("fac", "x", "y")
             }
@@ -46,7 +46,7 @@
                 warh2 <- warh2+1
 
                 ## Creation of the object area
-                re <- as.data.frame(y[!hh][[1]]@coords)
+                re <- as.data.frame(getPolygonCoordsSlot(y[!hh][[1]]))
                 re <- data.frame( fac = factor(rep(nom,length(re[,1]))), re)
                 names(re) <- c("fac", "x", "y")
             }
@@ -63,7 +63,7 @@
                 nom <- paste(nom, 1:ll, sep=".")
 
                 ## and creates the object of class "area"
-                re1 <- lapply(y, function(o) as.data.frame(o@coords))
+                re1 <- lapply(y, function(o) as.data.frame(getPolygonCoordsSlot(o)))
                 re <- do.call("rbind.data.frame",
                               lapply(1:length(re1), function(i) {
                                   u <- data.frame(fac=factor(rep(nom[i],
@@ -84,7 +84,7 @@
                 ## creates the object of class "area"
                 nom <- paste(nom, 1:ll, sep=".")
                 y <- y[!hh]
-                re1 <- lapply(y, function(o) as.data.frame(o@coords))
+                re1 <- lapply(y, function(o) as.data.frame(getPolygonCoordsSlot(o)))
                 re <- do.call("rbind.data.frame",
                               lapply(1:length(re1), function(i) {
                                   u <- data.frame(fac=factor(rep(nom[i],

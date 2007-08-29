@@ -20,10 +20,13 @@
     xy <- coordinates(sg)
 
     ## gets the data and prepare them for the conversion toward kasc
-    ka <- sg@data
-    ka <- ka[order(xy[,1]),]
+    uu <- colnames(summary(sg)$data)
+    lll <- lapply(1:length(uu), function(i) c(as.matrix(sg[i])))
+    ka <- do.call("data.frame", lll)
+    names(ka) <- uu
+    ka <- data.frame(ka[order(xy[,1]),])
     xy <- xy[order(xy[,1]),]
-    ka <- ka[order(xy[,2]),]
+    ka <- data.frame(ka[order(xy[,2]),])
     xy <- xy[order(xy[,2]),]
     nxy <- colnames(xy)
 

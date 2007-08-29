@@ -3,7 +3,7 @@
 \docType{data}
 \title{GPS Monitoring of Four Ibex in the Belledonne Mountain}
 \description{
-  This dataset is an object of class "ltraj" (regular traject,
+  This dataset is an object of class "ltraj" (regular trajectory,
   relocations every 4 hours) containing the GPS relocations of four ibex
   during 15 days in the Belledonne mountain (French Alps).
 }

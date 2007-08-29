@@ -3,39 +3,40 @@ explore.kasc <- function (ka, coltxt="blue",
 {
     if (!inherits(ka,"kasc"))
       stop("ka should be of class kasc")
-    nn <<- NULL
-    whi <<- 1 ## current graph
+    e1 <- new.env(parent = baseenv())
+    assign("nn", NULL, envir=e1)
+    assign("whi", 1, envir=e1) ## current graph
 
     ## function replot: to replot the content of the object
     replot <- function() {
-        if (lim) {
-            xlim <- range(getXYcoords(ka)$x)
-            ylim <- range(getXYcoords(ka)$y)
+        if (get("lim", envir=e1)) {
+            assign("xlim", range(getXYcoords(ka)$x), envir=e1)
+            assign("ylim", range(getXYcoords(ka)$y), envir=e1)
         }
-        nn <<- n2mfrow(length(ka))
+        assign("nn", n2mfrow(length(ka)), envir=e1)
         split.screen(c(1,2))
-        split.screen(nn, screen=2)
+        split.screen(get("nn", envir=e1), screen=2)
         on.exit(close.screen(all.screens=TRUE))
         na <- names(ka)
         sapply(1:length(na), function(j) {
             i <- na[j]
             screen(j+2)
             opar <- par(mar=c(0,0,2,0))
-            image(getkasc(ka,i), main=i, axes=F, xlim=xlim, ylim=ylim)
-            if (ajoupo) {
-                text(a5[1], a5[2], ka[ia5,i], col=coltxt, font=2, cex=1.15)
+            image(getkasc(ka,i), main=i, axes=FALSE, xlim=get("xlim", envir=e1), ylim=get("ylim", envir=e1))
+            if (get("ajoupo", envir=e1)) {
+                text(get("a5", envir=e1)[1], get("a5", envir=e1)[2], ka[get("ia5", envir=e1),i], col=coltxt, font=2, cex=1.15)
             }
             box()
             par(opar)
         })
         screen(1)
         opar <- par(mar=c(0,0,2,0))
-        image(getkasc(ka,whi), main=na[whi], axes=FALSE,
-              xlim=xlim, ylim=ylim)
-        cusr <<- par("usr")
-        cplt <<- par("plt")
-        if (ajouli)
-            lines(c(a1[1], a2[1]), c(a1[2], a2[2]), lwd = 2,
+        image(getkasc(ka, get("whi", envir=e1)), main=na[get("whi", envir=e1)], axes=FALSE,
+              xlim=get("xlim", envir=e1), ylim=get("ylim", envir=e1))
+        assign("cusr", par("usr"), envir=e1)
+        assign("cplt", par("plt"), envir=e1)
+        if (get("ajouli", envir=e1))
+            lines(c(get("a1", envir=e1)[1], get("a2", envir=e1)[1]), c(get("a1", envir=e1)[2], get("a2", envir=e1)[2]), lwd = 2,
                   col = "red")
         box()
         par(opar)
@@ -43,19 +44,19 @@ explore.kasc <- function (ka, coltxt="blue",
 
 
     N <- length(ka)
-    D <- 0
-    xlim <- range(getXYcoords(ka)$x)
-    ylim <- range(getXYcoords(ka)$y)
-    lim <- TRUE
-    ajouli <- FALSE
-    ajoupo <- FALSE
+    assign("D", 0, envir=e1)
+    assign("xlim", range(getXYcoords(ka)$x), envir=e1)
+    assign("ylim", range(getXYcoords(ka)$y), envir=e1)
+    assign("lim", TRUE, envir=e1)
+    assign("ajouli", FALSE, envir=e1)
+    assign("ajoupo", FALSE, envir=e1)
     opt <- options(warn = -1)
     on.exit(options(opt))
 
     if (!require(tkrplot))
         stop("'tkrplot' package needed\n")
 
-    help.txt <- paste("\n-------- TO OBTAIN THIS HELP, TYPE 'h' ------------------",
+    help.txt <- paste("\n-------- to obtain this help, type 'h' ------------------",
                       "z/o            -- Zoom in/Out",
                       "Right-Click    -- Identify value",
                       "Left-Click     -- Select variable /
@@ -86,78 +87,78 @@ explore.kasc <- function (ka, coltxt="blue",
     cc <- function(x, y) {
         x <- (as.real(x) - 1)/iw
         y <- 1 - (as.real(y) - 1)/ih
-        px <- (x - cplt[1])/(cplt[2] - cplt[1])
-        py <- (y - cplt[3])/(cplt[4] - cplt[3])
-        ux <- px * (cusr[2] - cusr[1]) + cusr[1]
-        uy <- py * (cusr[4] - cusr[3]) + cusr[3]
+        px <- (x - get("cplt", envir=e1)[1])/(get("cplt", envir=e1)[2] - get("cplt", envir=e1)[1])
+        py <- (y - get("cplt", envir=e1)[3])/(get("cplt", envir=e1)[4] - get("cplt", envir=e1)[3])
+        ux <- px * (get("cusr", envir=e1)[2] - get("cusr", envir=e1)[1]) + get("cusr", envir=e1)[1]
+        uy <- py * (get("cusr", envir=e1)[4] - get("cusr", envir=e1)[3]) + get("cusr", envir=e1)[3]
         c(ux, uy)
     }
     cc2 <- function(x, y) {
         x <- (as.real(x) - 1)/iw
         y <- 1 - (as.real(y) - 1)/ih
-        px <- (x - cplt[1])/(cplt[2] - cplt[1])
-        py <- (y - cplt[3])/(cplt[4] - cplt[3])
+        px <- (x - get("cplt", envir=e1)[1])/(get("cplt", envir=e1)[2] - get("cplt", envir=e1)[1])
+        py <- (y - get("cplt", envir=e1)[3])/(get("cplt", envir=e1)[4] - get("cplt", envir=e1)[3])
         c(px, py)
     }
 
     mm.t <- function(x, y) {
         veri <- cc2(x,y)
         if (veri[1]<0.5) {
-            i <- D
+            i <- get("D", envir=e1)
             if (i == 0) {
-                ux <- (2*veri[1]) * (cusr[2] - cusr[1]) + cusr[1]
-                uy <- veri[2]* (cusr[4] - cusr[3]) + cusr[3]
-                a1 <<- c(ux, uy)
-                D <<- 1
+                ux <- (2*veri[1]) * (get("cusr", envir=e1)[2] - get("cusr", envir=e1)[1]) + get("cusr", envir=e1)[1]
+                uy <- veri[2]* (get("cusr", envir=e1)[4] - get("cusr", envir=e1)[3]) + get("cusr", envir=e1)[3]
+                assign("a1", c(ux, uy), envir=e1)
+                assign("D", 1, envir=e1)
             }
             if (i == 1) {
-                ux <- (2*veri[1]) * (cusr[2] - cusr[1]) + cusr[1]
-                uy <- veri[2]* (cusr[4] - cusr[3]) + cusr[3]
-                a2 <<- c(ux, uy)
-                D <<- 0
-                di <- sqrt(sum((a2 - a1)^2))
+                ux <- (2*veri[1]) * (get("cusr", envir=e1)[2] - get("cusr", envir=e1)[1]) + get("cusr", envir=e1)[1]
+                uy <- veri[2]* (get("cusr", envir=e1)[4] - get("cusr", envir=e1)[3]) + get("cusr", envir=e1)[3]
+                assign("a2", c(ux, uy), envir=e1)
+                assign("D", 0, envir=e1)
+                di <- sqrt(sum((get("a2", envir=e1) - get("a1", envir=e1))^2))
                 type(paste("distance:", di, "\n"))
-                ajouli <<- TRUE
+                assign("ajouli", TRUE, envir=e1)
                 showz()
-                ajouli <<- FALSE
+                assign("ajouli", FALSE, envir=e1)
             }
         } else {
             veri[1] <- 2*(veri[1]-0.5)
             rc <- veri
-            rc[1] <- as.numeric(cut(veri[2],seq(0,1,length=nn[1]+1)))
-            rc[2] <- as.numeric(cut(veri[1],seq(0,1,length=nn[2]+1)))
-            rc[1] <- nn[1] - rc[1] +1
-            whi <<- nn[2]*(rc[1]-1) + rc[2]
+            rc[1] <- as.numeric(cut(veri[2],seq(0,1,length=get("nn", envir=e1)[1]+1)))
+            rc[2] <- as.numeric(cut(veri[1],seq(0,1,length=get("nn", envir=e1)[2]+1)))
+            rc[1] <- get("nn", envir=e1)[1] - rc[1] +1
+            assign("whi", get("nn", envir=e1)[2]*(rc[1]-1) + rc[2], envir=e1)
             showz()
         }
         return()
     }
     mm.t2 <- function(x, y) {
         veri <- cc2(x,y)
-        ux <- (2*veri[1]) * (cusr[2] - cusr[1]) + cusr[1]
-        uy <- veri[2]* (cusr[4] - cusr[3]) + cusr[3]
-        a3 <<- c(ux, uy)
+        ux <- (2*veri[1]) * (get("cusr", envir=e1)[2] - get("cusr", envir=e1)[1]) + get("cusr", envir=e1)[1]
+        uy <- veri[2]* (get("cusr", envir=e1)[4] - get("cusr", envir=e1)[3]) + get("cusr", envir=e1)[3]
+        assign("a3", c(ux, uy), envir=e1)
         xyc <- getXYcoords(ka)
         yc <- rep(xyc$y, each=length(xyc$x))
         xc <- rep(xyc$x, length(xyc$y))
         iy <- rep(1:length(xyc$y), each=length(xyc$x))
         ix <- rep(1:length(xyc$x), length(xyc$y))
 
-        di <- sqrt((xc - a3[1])^2 + (yc - a3[2])^2)
-        a5 <<- unlist(cbind(xc,yc)[which.min(di),])
-        ia5 <<- which.min(di)
-        ajoupo <<- TRUE
+        di <- sqrt((xc - get("a3", envir=e1)[1])^2 + (yc - get("a3", envir=e1)[2])^2)
+        assign("a5", unlist(cbind(xc,yc)[which.min(di),]), envir=e1)
+        assign("ia5", which.min(di), envir=e1)
+        assign("ajoupo", TRUE, envir=e1)
         showz()
-        ajoupo <<- FALSE
-        type(paste("Index:", ia5,"\n"))
+        assign("ajoupo", FALSE, envir=e1)
+        type(paste("Index:", get("ia5", envir=e1),"\n"))
         return()
     }
     mm.mouset <- function(x, y) {
         veri <- cc2(x,y)
         if (veri[1]<0.5) {
-        ux <- (2*veri[1]) * (cusr[2] - cusr[1]) + cusr[1]
-        uy <- veri[2]* (cusr[4] - cusr[3]) + cusr[3]
-        a8 <<- c(ux, uy)
+        ux <- (2*veri[1]) * (get("cusr", envir=e1)[2] - get("cusr", envir=e1)[1]) + get("cusr", envir=e1)[1]
+        uy <- veri[2]* (get("cusr", envir=e1)[4] - get("cusr", envir=e1)[3]) + get("cusr", envir=e1)[3]
+        assign("a8", c(ux, uy), envir=e1)
     }
         return()
     }
@@ -168,15 +169,15 @@ explore.kasc <- function (ka, coltxt="blue",
             return("OK - Finished")
         }
         if (key == "z") {
-            tmppx <- (cusr[1:2] - cusr[1])
-            xlim <<- c(a8[1] - tmppx[2]/4, (a8[1] + tmppx[2]/4))
-            tmppy <<- (cusr[3:4] - cusr[3])
-            ylim <<- c(a8[2] - tmppy[2]/4, (a8[2] + tmppy[2]/4))
-            lim <<- FALSE
+            tmppx <- (get("cusr", envi=e1)[1:2] - get("cusr", envir=e1)[1])
+            assign("xlim", c(get("a8", envir=e1)[1] - tmppx[2]/4, (get("a8", envir=e1)[1] + tmppx[2]/4)), envir=e1)
+            assign("tmppy", (get("cusr", envir=e1)[3:4] - get("cusr", envir=e1)[3]), envir=e1)
+            assign("ylim", c(get("a8", envir=e1)[2] - get("tmppy", envir=e1)[2]/4, (get("a8", envir=e1)[2] + get("tmppy", envir=e1)[2]/4)), envir=e1)
+            assign("lim", FALSE, envir=e1)
             showz()
         }
         if (key == "o") {
-            lim <<- TRUE
+            assign("lim", TRUE, envir=e1)
             showz()
         }
     }

@@ -1,10 +1,10 @@
 \name{set.limits}
 \alias{set.limits}
 \title{Define the Same Time Limits for several Bursts in a
-  Regular Traject}
+  Regular Trajectory}
 \description{
   This function sets the same time limits for several
-  bursts in a regular traject.
+  bursts in a regular trajectory.
 }
 \usage{
 set.limits(ltraj, begin, dur, pattern,
@@ -26,7 +26,7 @@ set.limits(ltraj, begin, dur, pattern,
   \item{\dots}{additional arguments to be passed to other functions}
 }
 \details{
-  Some studies are intended to compare regular trajects of the same
+  Some studies are intended to compare regular trajectories of the same
   duration collected at different period.  For example, the aim may be to
   identify the differences/similarities between different days (each one
   corresponding to a burst of relocation) in the pattern of movements of
@@ -36,14 +36,14 @@ set.limits(ltraj, begin, dur, pattern,
   the animal at 5H30 for all bursts).\cr
   
   The function \code{set.limits} is intended to ensure that the time of
-  beginning, the end, and the duration of the traject is the same for
+  beginning, the end, and the duration of the trajectory is the same for
   all bursts of the object \code{ltraj}.  If relocations are collected
   outside the limits, they are removed.  If the actual time limits of
   the burst cover a shorter period than those specified, missing values
   are added.\cr
 
   Note that "time of beginning" is not a synonym for "date".  That is,
-  two trajects of the same animal, both beginning at 05H00 and
+  two trajectories of the same animal, both beginning at 05H00 and
   ending at 08H00, have the same time of beginning, but are necessarily
   not sampled on the same day, which implies that they correspond to
   different dates.  For this reason, the time of beginning is indicated
@@ -51,9 +51,9 @@ set.limits(ltraj, begin, dur, pattern,
   parameter \code{pattern} should indicate the conversion specifications.
   These conversions specifications are widely documented on the help
   page of the function \code{strptime}.  For example, to indicate that the
-  traject begins at 5H00, the value for \code{begin} should be
+  trajectory begins at 5H00, the value for \code{begin} should be
   \code{"05:00"} and the value for \code{pattern} should be
-  \code{"\%H:\%M"}. If the traject should begin on january 10th, the
+  \code{"\%H:\%M"}. If the trajectory should begin on january 10th, the
   value for \code{begin} should be \code{"01:10"} and \code{pattern}
   should be \code{"\%m:\%d"}.  Note that the only conversion
   specifications allowed in this function are \code{\%S} (seconds),
@@ -69,8 +69,8 @@ set.limits(ltraj, begin, dur, pattern,
 \author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 \seealso{\code{\link{ltraj}} for additional information on objects of
   class \code{ltraj}, \code{\link{sett0}} for additional
-  information on regular trajects, and \code{\link{sd2df}} for
-  additionnal information about regular trajects of the same
+  information on regular trajectories, and \code{\link{sd2df}} for
+  additionnal information about regular trajectories of the same
   duration.  See also \code{\link{strptime}} for further information
   about conversion specifications for dates.}
 \examples{
@@ -87,7 +87,7 @@ ib2 <- set.limits(ibex, begin="2003-06-01 00:00", dur=14,
 ib2
 is.sd(ib2)
 
-## All the trajects cover the same study period
+## All the trajectories cover the same study period
 ## Relocations are collected at the same time. This dataset can now be
 ## used for studies of interactions between animals
 

@@ -21,9 +21,9 @@ offsetdate(ltraj, offset, units = c("sec", "min", "hour", "day"))
   object of class \code{ltraj}.  For example, if the animal is monitored
   every night, from 18H00 to 06H00, the fact that the beginning and the
   end of the monitoring do not correspond to the same day may cause
-  difficulties to handle the traject.  Though these difficulties are
+  difficulties to handle the trajectory.  Though these difficulties are
   not unsurmountable, it is often convenient to deduct an offset to the
-  traject, so that the first relocation is collected at 0H and the
+  trajectory, so that the first relocation is collected at 0H and the
   last one at 12H00 the same day (i.e., in this example, an offset of
   18 hours).
 

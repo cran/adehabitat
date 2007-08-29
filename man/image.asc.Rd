@@ -8,10 +8,10 @@
   These functions display a raster matrix of class \code{asc}.
 }
 \usage{
-image.asc(x, col = gray((240:1)/256), clfac = NULL, \dots)
-contour.asc(x, \dots)
-persp.asc(x, \dots)
-plot.asc(x, \dots)
+\method{image}{asc}(x, col = gray((240:1)/256), clfac = NULL, \dots)
+\method{contour}{asc}(x, \dots)
+\method{persp}{asc}(x, \dots)
+\method{plot}{asc}(x, \dots)
 }
 \arguments{
   \item{x}{a matrix of class \code{asc}}

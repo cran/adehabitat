@@ -5,7 +5,7 @@
 Performs the scatter diagrams of objects of class \code{enfa}.
 }
 \usage{
-scatter.enfa(x, xax = 1, yax = 2, pts = FALSE, nc = TRUE, 
+\method{scatter}{enfa}(x, xax = 1, yax = 2, pts = FALSE, nc = TRUE, 
              percent = 95, clabel = 1, side = c("top", "bottom", "none"),
              Adensity, Udensity, Aangle, Uangle, Aborder, Uborder, 
              Acol, Ucol, Alty, Ulty, Abg, Ubg, Ainch, Uinch, \dots) 

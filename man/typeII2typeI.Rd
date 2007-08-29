@@ -1,9 +1,9 @@
 \name{typeII2typeI}
 \alias{typeII2typeI}
-\title{Change the Type of a Traject}
+\title{Change the Type of a Trajectory}
 \description{
-  This function transforms a traject of type II (time recorded) into a
-  traject of type I (time not recorded).
+  This function transforms a trajectory of type II (time recorded) into a
+  trajectory of type I (time not recorded).
 }
 \usage{
 typeII2typeI(x)

@@ -17,7 +17,7 @@ mcp(xy, id, percent = 95)
 mcp.area(xy, id, percent = seq(20,100, by = 5),
          unin = c("m", "km"),
          unout = c("ha", "km2", "m2"), plotit = TRUE)
-plot.hrsize(x, \dots)
+\method{plot}{hrsize}(x, \dots)
 }
 \arguments{
   \item{xy}{a data frame with two columns containing the coordinates of

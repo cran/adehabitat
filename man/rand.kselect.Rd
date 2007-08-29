@@ -15,7 +15,7 @@
 }
 \usage{
 rand.kselect(dudi, factor, weight, nrep = 200, alpha = 0.05, ewa = FALSE)
-print.rand.kselect(x, \dots)
+\method{print}{rand.kselect}(x, \dots)
 }
 \arguments{
   \item{dudi}{an object of class \code{dudi}.}

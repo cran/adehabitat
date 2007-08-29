@@ -32,7 +32,7 @@ madifa <- function(dudi, pr, scannf = TRUE, nf = 2)
     Z <- sweep(Z, 2, center)
     f2 <- function(v) sum((v^2) * pr)
 
-    ## Take into account different weights for the columns
+    ## take into account different weights for the columns
     Ze <- sweep(Z, 2, sqrt(col.w), "*")
 
     ## Inertia matrices S and G
@@ -158,7 +158,7 @@ scatter.madifa <- function (x, xax = 1, yax = 2, pts = FALSE, percent = 95,
     on.exit(par(old.par))
     par(mar = c(0.1, 0.1, 0.1, 0.1), mfrow=c(1,2))
 
-    ## The bases for the graphs
+    ## the bases for the graphs
     x1 <- x$l1[, xax]
     x1 <- c(x1 - diff(range(x1)/50), x1 + diff(range(x1))/50)
     xlim <- range(x1)
@@ -321,7 +321,7 @@ hist.madifa <- function (x, scores = TRUE, type = c("h", "l"),
         clas[j] <- w1
     }
     if (any(clas == "f") & type == "l")
-        warning("Type = 'l' is not possible for factors, type = 'h' used instead.\n")
+        warning("type = 'l' is not possible for factors, type = 'h' used instead.\n")
 
     ## Graphical settings, again
     old.par <- par(no.readonly = TRUE)
@@ -501,7 +501,7 @@ plot.madifa <- function(x, index, attr, xax=1, yax=2, cont=FALSE,...)
     s.madifa(x, xax, yax, cgrid=2, clab=1.25)
 
 
-    ## Function to draw the niche
+    ## function to draw the niche
     foo <- function()
     {
         ## Some bases for the plot
@@ -546,19 +546,19 @@ plot.madifa <- function(x, index, attr, xax=1, yax=2, cont=FALSE,...)
     }
     foo()
 
-    ## The maps
+    ## the maps
     ka <- df2kasc(data.frame(Maha=x$mahasu,
                              mod=apply(x$l1[,c(xax,yax)],1,
                              function(x) sqrt(sum(x^2))),
                              xa=x$l1[,xax], ya=x$l1[,yax]), index, attr)
     u <- par(mar=c(0.1,0.1,2,0.1))
-    image(getkasc(ka,1),main="Mahalanobis distances", axes=F)
+    image(getkasc(ka,1),main="Mahalanobis distances", axes=FALSE)
     if (cont)
-        contour(getkasc(ka,1), add=T)
+        contour(getkasc(ka,1), add=TRUE)
     box()
-    image(getkasc(ka,2),main="From the analysis", axes=F)
+    image(getkasc(ka,2),main="from the analysis", axes=FALSE)
     if (cont)
-        contour(getkasc(ka,2), add=T)
+        contour(getkasc(ka,2), add=TRUE)
     box()
     par(u)
 
@@ -569,13 +569,13 @@ plot.madifa <- function(x, index, attr, xax=1, yax=2, cont=FALSE,...)
     u <- par(mar=c(0.1,0.1,2,0.1))
 
     ## Again the maps
-    image(getkasc(ka,3),main="Axis 1", axes=F)
+    image(getkasc(ka,3),main="Axis 1", axes=FALSE)
     if (cont)
-        contour(getkasc(ka,3), add=T)
+        contour(getkasc(ka,3), add=TRUE)
     box()
-    image(getkasc(ka,4),main="Axis 2", axes=F)
+    image(getkasc(ka,4),main="Axis 2", axes=FALSE)
     if (cont)
-        contour(getkasc(ka,4), add=T)
+        contour(getkasc(ka,4), add=TRUE)
     box()
     par(u)
 }

@@ -1,8 +1,8 @@
 \name{subsample}
 \alias{subsample}
-\title{Subsample a Traject}
+\title{Subsample a Trajectory}
 \description{
-  This function subsamples a regular traject (i.e. changes the time
+  This function subsamples a regular trajectory (i.e. changes the time
   lag between successive relocations).
 }
 \usage{
@@ -27,7 +27,7 @@ subsample(ltraj, dt, nlo = 1,
 }
 \author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
 \seealso{\code{\link{ltraj}} for additional information on objects of
-  class \code{ltraj}, \code{\link{is.regular}} for regular trajects. }
+  class \code{ltraj}, \code{\link{is.regular}} for regular trajectories. }
 \examples{
 data(capreotf)
 plot(capreotf)

@@ -1,4 +1,4 @@
-## Pour poser le t0 en fonction d'une date de reference
+## Pour poser le t0 en fonction dune date de reference
 sett0 <- function(ltraj, date.ref, dt,
                   correction.xy=c("none", "cs"), tol=dt/10,
                   units=c("sec", "min", "hour", "day"), ...)

@@ -1,13 +1,13 @@
 \name{hist.ltraj}
 \alias{hist.ltraj}
-\title{Histogram of the Descriptive Parameters of a Traject}
+\title{Histogram of the Descriptive Parameters of a Trajectory}
 \description{
   This function draws an histogram of any tranformation of the
-  descriptive parameters of a traject in objects of class
+  descriptive parameters of a trajectory in objects of class
   \code{ltraj}.
 }
 \usage{
-hist.ltraj(x, which = "dx/sqrt(dt)", ...)
+\method{hist}{ltraj}(x, which = "dx/sqrt(dt)", ...)
 }
 \arguments{
   \item{x}{an object of class \code{ltraj}}
@@ -21,7 +21,7 @@ hist.ltraj(x, which = "dx/sqrt(dt)", ...)
 }
 \author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 \seealso{\code{\link{hist}}, \code{\link{ltraj}} for additional
-  information on the descriptive parameters of the traject,
+  information on the descriptive parameters of the trajectory,
   \code{\link{qqnorm.ltraj}} for examination of distribution. }
 \examples{
 

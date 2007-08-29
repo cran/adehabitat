@@ -1,5 +1,3 @@
-## Fonction de conversion de date:
-
 .convtime <- function(step, units)
 {
         if (units=="min")
@@ -12,10 +10,8 @@
 }
 
 
-### Correction XY vitesse constante
 .corrXY <- function(x, y, dab, daa)
 {
-    ## Correction eventuelle de x1
     x1 <- x[1]
     y1 <- y[1]
 
@@ -36,7 +32,6 @@
         }
     }
 
-    ## Correction eventuelle de xn
     xn <- x[length(y)]
     yn <- y[length(y)]
     if (daa[length(daa)]!=dab[length(dab)]) {
@@ -59,7 +54,6 @@
         }
     }
 
-    ## Le reste
     x[1] <- x1
     y[1] <- y1
     x[length(x)] <- xn
@@ -75,7 +69,6 @@
     daat <- daa
     dabt <- dab
 
-    ## Cas 1: t1 avant
     if (any(daa[-c(1,length(daa))]<dab[-c(1,length(daa))])) {
         dt <- diff(daa[1:(length(daa)-1)])
         daa <- daa[2:(length(x)-1)]
@@ -89,7 +82,6 @@
         yc[daa<dab] <- yc[daa<dab] + sin(alpha[daa<dab] + pi)*r[daa<dab]
     }
 
-    ## Cas 2: t1 apres
     daa <- daat
     dab <- dabt
 
@@ -108,7 +100,6 @@
     xn <- c(x1, xc, xn)
     yn <- c(y1, yc, yn)
 
-    ## Sortie
     return(list(x=xn,y=yn))
 }
 

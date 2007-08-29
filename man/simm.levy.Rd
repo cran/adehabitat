@@ -12,16 +12,16 @@ simm.levy(date = 1:500, mu = 2, l0 = 1, x0 = c(0, 0),
   \item{date}{a vector indicating the date (in seconds) at which
     relocations should be simulated.  This vector can be of class
     \code{POSIXct}. *Note that the time lag between two relocations
-    should be constant* (regular trajects required)}
+    should be constant* (regular trajectories required)}
   \item{mu}{The exponent of the Levy distribution}
   \item{l0}{The minimum length of a step}
   \item{x0}{a vector of length 2 containing the coordinates of the
-    startpoint of the traject}
+    startpoint of the trajectory}
   \item{id}{a character string indicating the identity of the simulated
     animal (see \code{help(ltraj)})}
   \item{burst}{a character string indicating the identity of the simulated
     burst (see \code{help(ltraj)})}
-  \item{typeII}{logical.  Whether the simulated traject should be of
+  \item{typeII}{logical.  Whether the simulated trajectory should be of
     type II (\code{TRUE}, time recorded) or not (\code{FALSE}, time not
     recorded). See \code{help(ltraj)}.}
 }

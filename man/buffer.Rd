@@ -13,7 +13,7 @@
   \code{buffer} is then applied to each animal).\cr
   \code{buffer.line} compute buffers around a line.
   \code{buffer.ltraj} compute buffers around one or several animals
-  trajects.
+  trajectories.
 }
 \usage{
 buffer(pts, x, dist)
@@ -76,7 +76,7 @@ buani <- buffer.ani(locs[,4:5], locs[,1], sa, 500)
 image(buani)
 
 
-## buffer around a traject
+## buffer around a trajectory
 data(puechcirc)
 image(buffer.ltraj(puechcirc,sa, 100))
 

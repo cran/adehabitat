@@ -48,7 +48,7 @@
   object of class \code{SpatialLinesDataFrame}.\cr
   \cr
   \code{kver2spol} converts an object of class \code{kver} into an
-  object of class \code{SpatialPolygons}.\cr
+  object of class \code{SpatialPolygons}.
 }
 \usage{
 kasc2spixdf(ka)

@@ -6,7 +6,7 @@
   \code{"area"}. 
 }
 \usage{
-plot.area(x, which = levels(x[,1]),
+\method{plot}{area}(x, which = levels(x[,1]),
           colpol = rep("green", nlevels(x[, 1])),
           colborder = rep("black", nlevels(x[, 1])),
           lwd = 2, add = FALSE, ...) 

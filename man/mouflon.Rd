@@ -3,7 +3,7 @@
 \docType{data}
 \title{GPS Monitoring of One Mouflon in the Caroux Mountain}
 \description{
-  This dataset is an object of class "ltraj" (regular traject,
+  This dataset is an object of class "ltraj" (regular trajectory,
   relocations every 20 minutes) containing the GPS relocations of one
   mouflon during two week-ends in the Caroux mountain (South of
   France).

@@ -3,9 +3,9 @@
 \alias{qqchi.default}
 \alias{qqchi.ltraj}
 \alias{qqnorm.ltraj}
-\title{Quantile-Quantile Plots for Trajects of Class 'ltraj'}
+\title{Quantile-Quantile Plots for Trajectories of Class 'ltraj'}
 \description{
-  The functions allow the examination of the distribution of traject
+  The functions allow the examination of the distribution of trajectories
   descriptors (see Details).
 }
 \usage{
@@ -13,15 +13,15 @@
 ## Chi distribution of the increment length / sqrt(dt)
 qqchi(y, ...)
 
-qqchi.default(y, df = 2, ylim, main = "Chi Q-Q Plot",
+\method{qqchi}{default}(y, df = 2, ylim, main = "Chi Q-Q Plot",
               xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
               plot.it = TRUE, datax = FALSE, \dots) 
 
-qqchi.ltraj(y, xlab = "Theoretical Quantiles", 
+\method{qqchi}{ltraj}(y, xlab = "Theoretical Quantiles", 
             ylab = "Sample Quantiles (Distances)", \dots)
 
 ## Normal Distribution of dx/sqrt(dt) or dy/sqrt(dt)
-qqnorm.ltraj(y, which=c("dx","dy"), ...)
+\method{qqnorm}{ltraj}(y, which=c("dx","dy"), ...)
 
 }
 \arguments{

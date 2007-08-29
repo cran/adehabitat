@@ -8,8 +8,8 @@
 }
 \usage{
 eisera(used, available, scannf = TRUE, nf = 2)
-print.esr(x, \dots)
-scatter.esr(x, xax = 1, yax = 2, 
+\method{print}{esr}(x, \dots)
+\method{scatter}{esr}(x, xax = 1, yax = 2, 
             csub = 1, possub = "bottomleft", \dots)
 }
 \arguments{

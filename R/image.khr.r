@@ -24,7 +24,12 @@
         if (addcontour)
             contour(x[[i]]$UD, add=TRUE)
         if (addpoints) {
-            points(x[[i]]$locs, pch=21, col="black", bg="white")
+            if (inherits(x, "kbbhrud")) {
+                points(x[[i]]$locs[[1]][,c("x","y")],
+                       pch=21, col="black", bg="white")
+            } else {
+                points(x[[i]]$locs, pch=21, col="black", bg="white")
+            }
         }
         box()
     }

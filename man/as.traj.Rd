@@ -25,9 +25,9 @@
 }
 \usage{
 as.traj(id, xy, date, burst = id, ...)
-print.traj(x, ...)
-summary.traj(object, id = levels(object$id), date = NULL, \dots)
-plot.traj(x, id = levels(x$id), burst = levels(x$burst), date = NULL,
+\method{print}{traj}(x, ...)
+\method{summary}{traj}(object, id = levels(object$id), date = NULL, \dots)
+\method{plot}{traj}(x, id = levels(x$id), burst = levels(x$burst), date = NULL,
           asc = NULL, area = NULL,
           xlim = range(x$x), ylim = range(x$y),
           colasc = gray((256:1)/256), colpol = "green",

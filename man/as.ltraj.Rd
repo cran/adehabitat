@@ -6,12 +6,12 @@
 \alias{traj2ltraj}
 \alias{ltraj2traj}
 \alias{rec}
-\title{Working with Trajects in 2D Space: the Class ltraj}
+\title{Working with Trajectories in 2D Space: the Class ltraj}
 \description{
-  The class \code{ltraj} is intended to store trajects of
-  animals.  Trajects of type II correspond to trajects for which the
+  The class \code{ltraj} is intended to store trajectories of
+  animals.  Trajectories of type II correspond to trajectories for which the
   time is available for each relocation (mainly GPS and
-  radio-tracking).  Trajects of type I correspond to trajects for which
+  radio-tracking).  Trajectories of type I correspond to trajectories for which
   the time has not been recorded (e.g. sampling of tracks in the snow).\cr 
   \code{as.ltraj} creates an object of this class.\cr
   \code{summary.ltraj} returns the number of relocations (and missing
@@ -26,8 +26,8 @@
 \usage{
 as.ltraj(xy, date, id, burst = id, typeII = TRUE,
          slsp = c("remove", "missing"))
-print.ltraj(x, \dots)
-summary.ltraj(object, \dots)
+\method{print}{ltraj}(x, \dots)
+\method{summary}{ltraj}(object, \dots)
 traj2ltraj(traj, slsp =  c("remove", "missing"))
 ltraj2traj(x)
 rec(x, slsp = c("remove", "missing"))
@@ -36,17 +36,17 @@ rec(x, slsp = c("remove", "missing"))
   \item{x, object}{an object of class \code{ltraj}}
   \item{xy}{a data.frame containing the x and y coordinates of the
     relocations} 
-  \item{date}{for trajects of type II, a vector of class \code{POSIXct}
-    giving the date for each relocation. For trajects of type I, this
+  \item{date}{for trajectories of type II, a vector of class \code{POSIXct}
+    giving the date for each relocation. For trajectories of type I, this
     argument is not taken into account.}
   \item{id}{either a character string indicating the identity of the
     animal or a factor with length equal to \code{nrow(xy)} }
   \item{burst}{either a character string indicating the identity of the
     burst of relocations or a factor with length equal to
     \code{nrow(xy)}}
-  \item{typeII}{logical. \code{TRUE} indicates a traject of type II
+  \item{typeII}{logical. \code{TRUE} indicates a trajectory of type II
     (time recorded, e.g. radio-tracking), whereas \code{FALSE} indicates
-    a traject of type I (time not recorded, e.g. sampling of tracks in
+    a trajectory of type I (time not recorded, e.g. sampling of tracks in
     the snow)}
   \item{slsp}{a character string used for the computation of the
     turning angles (see details)}
@@ -73,7 +73,7 @@ rec(x, slsp = c("remove", "missing"))
   If \code{slsp == "remove"}, the turning angle computed in r3 is the
   angle between the moves r1-r2 and r3-r4.\cr
 
-  For a given individual, trajects are often sampled as "bursts"
+  For a given individual, trajectories are often sampled as "bursts"
   of relocations.  For example, when an animal is monitored using
   radio-tracking, the data may consist of several circuits of activity
   (two successive relocations on one circuit are often highly
@@ -82,38 +82,38 @@ rec(x, slsp = c("remove", "missing"))
   \code{burst}. Note that the bursts should be unique: do not use the
   same burst id for bursts collected on different animals.\cr
 
-  Two types of trajects can be stored in objects of class \code{ltraj}:
-  trajects of type I correspond to trajects where the time of
+  Two types of trajectories can be stored in objects of class \code{ltraj}:
+  trajectories of type I correspond to trajectories where the time of
   relocations is not recorded.  It may be because it could not be noted
   at the time of sampling (e.g. sampling of animals' tracks in the snow)
   or because the analyst decided that he did not want to take it into
   account, i.e. to study only its geometrical properties. In this case,
   the variable \code{date} in each burst of the object contains a vector
-  of integer giving the order of the relocations in the traject (i.e. 1,
-  2, 3, ...). Trajects of type II correspond to trajects for which the
+  of integer giving the order of the relocations in the trajectory (i.e. 1,
+  2, 3, ...). Trajectories of type II correspond to trajectories for which the
   time is available for each relocation. It is stored as a vector of
   class \code{POSIXct} in the column \code{date} of each burst of
-  relocations. The type of traject should be defined when the object of
+  relocations. The type of trajectory should be defined when the object of
   class \code{ltraj} is defined, with the argument \code{typeII}.
   
-  Concerning trajects of type II, in theory, it is expected that the
+  Concerning trajectories of type II, in theory, it is expected that the
   time lag between two relocations is constant in all the bursts and all
   the ids of one object of class 
   \code{ltraj} (don't mix animals located every 10 minutes and animals
   located every day in the same object).  Indeed, some of the
-  descriptive parameters of the traject do not have any sense when
+  descriptive parameters of the trajectory do not have any sense when
   the time lag varies.  For example, the  distribution of relative
   angles (angles between successive moves) depends on a given time
   scale; the angle between two during 10-min moves of a whitestork
   does not have the same biological meaning as the angle between two
   1-day move.  If the time lag varies, the underlying process varies
   too.  For this reason, most functions of adehabitat have been
-  developed for "regular" trajects, i.e. trajects with a
+  developed for "regular" trajectories, i.e. trajectories with a
   constant time lag (see \code{help(sett0)}).  Furthermore, several
   functions are intended to help the user to transform an object of
   class \code{ltraj} into a regular object (see for example
   \code{help(sett0)}, and particularly the examples to see how regular
-  trajects can be obtained from GPS data).\cr
+  trajectories can be obtained from GPS data).\cr
   
   Nevertheless, the class \code{ltraj} allows for variable time lag,
   which often occur with some modes of data collection (e.g. with Argos
@@ -121,7 +121,7 @@ rec(x, slsp = c("remove", "missing"))
   question!!*\cr
   
   Finally, the class \code{ltraj} deals with missing values in the
-  trajects.  Missing values are frequent in the trajects of
+  trajectories.  Missing values are frequent in the trajectories of
   animals collected using telemetry: for example, GPS collar may not
   receive the signal of the satellite at the time of relocation. Most
   functions dealing with the class \code{ltraj} have a specified
@@ -134,11 +134,11 @@ rec(x, slsp = c("remove", "missing"))
   object!!!  These missing values may present patterns (e.g. failure to
   locate the animal at certain time of the day or in certain habitat
   types), and *the analysis of these missing values should be part of the
-  analysis of the traject* (e.g. see \code{help(runsNAltraj)} and
+  analysis of the trajectory* (e.g. see \code{help(runsNAltraj)} and
   \code{help(plotNAltraj)}.\cr
 
   However, sometimes, the data come without any information concerning
-  the location of these missing values.  If the traject is
+  the location of these missing values.  If the trajectory is
   approximately regular (i.e. approximately constant time lag), it is
   possible to determine where these missing values should occur in the
   object of class \code{ltraj}.  This is the role of the function
@@ -157,7 +157,7 @@ rec(x, slsp = c("remove", "missing"))
 \item{x}{the x coordinate for each relocation}
 \item{y}{the y coordinate for each relocation}
 \item{date}{the date for each relocation (type II) or a vector of
-  integer giving the order of the relocations in the traject.}
+  integer giving the order of the relocations in the trajectory.}
 \item{dx}{the increase of the move in the x direction.  At least two
   successive relocations are needed to compute \code{dx}.  Missing
   values are returned otherwise.}
@@ -169,7 +169,7 @@ rec(x, slsp = c("remove", "missing"))
   values are returned otherwise.}
 \item{dt}{the time interval between successive relocations}
 \item{R2n}{the squared net displacement between the current relocation
-  and the first relocation of the traject}
+  and the first relocation of the trajectory}
 \item{abs.angle}{the angle between each move and the x axis.  At least two
   successive relocations are needed to compute \code{abs.angle}.  Missing
   values are returned otherwise.}
@@ -179,7 +179,7 @@ rec(x, slsp = c("remove", "missing"))
 }
 \references{
   Calenge, C., Dray, S. and Royer, M. (in prep.) Studying Animals
-  movements with the R software: what is a traject?
+  movements with the R software: what is a trajectory?
 }
 \author{
   Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}\cr
@@ -188,18 +188,14 @@ rec(x, slsp = c("remove", "missing"))
 \note{
   The class \code{ltraj} is a better alternative to the class
   \code{traj}. Indeed, the class \code{ltraj} already contains the
-  basic information needed for the modelling of movement processes. In
-  a close future, many functions will be added to adehabitat, allowing
-  such a modelling.\cr
-
-  Furthermore, note that the computation of the
-  turning angles is faster with \code{as.ltraj} than with
-  \code{angles}.
+  basic information needed for the modelling of movement processes. Type
+  \code{demo(managltraj)} for example of management of such objects, and
+  \code{demo(analysisltraj)} for example of analysis.
 }
 \seealso{\code{\link{is.regular}} and \code{\link{sett0}} for additional
-  information on "regular" trajects.  \code{\link{setNA}} and
+  information on "regular" trajectories.  \code{\link{setNA}} and
   \code{\link{runsNAltraj}} for additional information on missing values
-  in trajects.  \code{\link{c.ltraj}} to combine several objects of
+  in trajectories.  \code{\link{c.ltraj}} to combine several objects of
   class \code{ltraj}, \code{\link{Extract.ltraj}} to extract or replace
   bursts of relocations, \code{\link{plot.ltraj}} and
   \code{\link{trajdyn}} for graphical displays, \code{\link{gdltraj}} to
@@ -214,7 +210,7 @@ xy <- locs[,c("X","Y")]
 
 ######################################################
 ##
-## Example of a traject of type I (time not recorded)
+## Example of a trajectory of type I (time not recorded)
 
 (litrI <- as.ltraj(xy, id = locs$Name, typeII=FALSE))
 plot(litrI)
@@ -225,7 +221,7 @@ head(litrI[[1]])
 
 ######################################################
 ##
-## Example of a traject of type II (time recorded)
+## Example of a trajectory of type II (time recorded)
 
 
 ### Conversion of the date to the format POSIX
@@ -249,7 +245,7 @@ head(tr1[[1]])
 head(litr[[1]])
 litr[[1]][3,"x"] <- 700000
 
-## Recompute the traject
+## Recompute the trajectory
 litr <- rec(litr)
 ## Note that descriptive statistics have changed (e.g. dx)
 head(litr[[1]])

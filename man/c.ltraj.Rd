@@ -5,7 +5,7 @@
   This function combines several objects of class \code{ltraj}.
 }
 \usage{
-c.ltraj(...)
+\method{c}{ltraj}(...)
 }
 \arguments{
   \item{\dots}{objects of class \code{ltraj} to be combined}

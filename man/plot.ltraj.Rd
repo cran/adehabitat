@@ -3,10 +3,10 @@
 \title{Graphical Display of an Object of Class "ltraj"}
 \description{
   \code{plot.ltraj} allows various graphical displays of the
-  trajects.
+  trajectories.
 }
 \usage{
-plot.ltraj(x, id = unique(unlist(lapply(x, attr, which = "id"))),
+\method{plot}{ltraj}(x, id = unique(unlist(lapply(x, attr, which = "id"))),
            burst = unlist(lapply(x, attr, which = "burst")), asc = NULL,
            area = NULL, xlim = NULL, ylim = NULL, colasc =
            gray((240:1)/256), colpol = "green",  addpoints = TRUE,

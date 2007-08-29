@@ -22,7 +22,7 @@
 \usage{
 kver.rast(kv, asc)
 kver2shapefile(kv, which = names(kv))
-plot.kver(x, which = names(x), colpol = rainbow(length(which)),
+\method{plot}{kver}(x, which = names(x), colpol = rainbow(length(which)),
           colborder = rep("black", length(which)), lwd = 2,
           add = FALSE, \dots)
 }

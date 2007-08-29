@@ -15,9 +15,18 @@
     if (is.null(id))
       id<-rep(1, nrow(xy))
     id<-factor(id)
-      if (min(table(id))<5)
+    if (min(table(id))<5)
     stop("At least 5 relocations are required to fit an home range")
-
+    if (is.list(grid)) {
+        if (is.null(names(grid)))
+            stop("when grid is a list, it should have named elements")
+        nn <- names(grid)
+        lev <- levels(id)
+        if (length(lev) != length(nn))
+            stop("the length of the grid list should be equal to the number of levels of id")
+        if (!all(lev%in%nn))
+            stop("some ID levels do not have corresponding grids")
+    }
 
     ## split xy into a list where each animal is an element
     lixy<-split(xy, id)
@@ -29,46 +38,49 @@
     ## If the same grid is wanted for all animals:
     ## First computes this grid
     if (same4all) {
+        if (!is.list(gr)) {
+            ## if the grid is not given
+            if (length(as.vector(gr))==1) {
 
-        ## if the grid is not given
-        if (length(as.vector(gr))==1) {
+                ## the "core" grid
+                if (!is.numeric(gr))
+                    stop("grid should be an object of class asc or a number")
+                xli<-range(xy[,1])
+                yli<-range(xy[,2])
+                xli<-c(xli[1]-extent*abs(xli[2]-xli[1]),
+                       xli[2]+extent*abs(xli[2]-xli[1]))
+                yli<-c(yli[1]-extent*abs(yli[2]-yli[1]),
+                       yli[2]+extent*abs(yli[2]-yli[1]))
+                xygg<-data.frame(x=xli, y=yli)
+                grid<-ascgen(xygg, nrcol=grid)
+                cellsize<-attr(grid, "cellsize")
+                lx<-nrow(grid)*cellsize
+                ly<-ncol(grid)*cellsize
+                ref<-lx
+                if (ly>lx)
+                    ref<-ly
+                xll<-attr(grid, "xll")
+                yll<-attr(grid, "yll")
 
-            ## the "core" grid
-            if (!is.numeric(gr))
-                stop("grid should be an object of class asc or a number")
-            xli<-range(xy[,1])
-            yli<-range(xy[,2])
-            xli<-c(xli[1]-extent*abs(xli[2]-xli[1]),
-                   xli[2]+extent*abs(xli[2]-xli[1]))
-            yli<-c(yli[1]-extent*abs(yli[2]-yli[1]),
-                   yli[2]+extent*abs(yli[2]-yli[1]))
-            xygg<-data.frame(x=xli, y=yli)
-            grid<-ascgen(xygg, nrcol=grid)
-            cellsize<-attr(grid, "cellsize")
-            lx<-nrow(grid)*cellsize
-            ly<-ncol(grid)*cellsize
-            ref<-lx
-            if (ly>lx)
-                ref<-ly
-            xll<-attr(grid, "xll")
-            yll<-attr(grid, "yll")
+                ## One adds empty rows and columns to the "core" grid
+                xll<-xll-lx/2
+                yll<-yll-ly/2
+                arajlig<-ceiling((lx/2)/cellsize)
+                arajcol<-ceiling((ly/2)/cellsize)
+                mrajlig<-matrix(0, ncol=ncol(grid), nrow=arajlig)
+                grid<-rbind(mrajlig, grid, mrajlig)
+                mrajcol<-matrix(0, ncol=arajcol, nrow=nrow(grid))
+                grid<-cbind(mrajcol, grid, mrajcol)
 
-            ## One adds empty rows and columns to the "core" grid
-            xll<-xll-lx/2
-            yll<-yll-ly/2
-            arajlig<-ceiling((lx/2)/cellsize)
-            arajcol<-ceiling((ly/2)/cellsize)
-            mrajlig<-matrix(0, ncol=ncol(grid), nrow=arajlig)
-            grid<-rbind(mrajlig, grid, mrajlig)
-            mrajcol<-matrix(0, ncol=arajcol, nrow=nrow(grid))
-            grid<-cbind(mrajcol, grid, mrajcol)
-
-            ## We add the attributes
-            attr(grid, "xll")<-xll
-            attr(grid, "yll")<-yll
-            attr(grid, "cellsize")<-cellsize
-            attr(grid, "type")<-"numeric"
-            class(grid)<-"asc"
+                ## We add the attributes
+                attr(grid, "xll")<-xll
+                attr(grid, "yll")<-yll
+                attr(grid, "cellsize")<-cellsize
+                attr(grid, "type")<-"numeric"
+                class(grid)<-"asc"
+            }
+        } else {
+            stop("when same4all=TRUE, a list of grid cannot be passed as \"grid\"")
         }
     }
 
@@ -103,43 +115,47 @@
 
 
         ## 2. The grid if not the same for all
-        if (length(as.vector(gr))==1) {
-            if (!is.numeric(gr))
-                stop("grid should be an object of class asc or a number")
+        if (!is.list(gr)) {
+            if (length(as.vector(gr))==1) {
+                if (!is.numeric(gr))
+                    stop("grid should be an object of class asc or a number")
 
-            if (!same4all) {
+                if (!same4all) {
 
-                ## the "core" grid
-                grid<-matrix(0, ncol=gr, nrow=gr)
-                rgx<-range(df[,1])
-                rgy<-range(df[,2])
-                lx<-rgx[2]-rgx[1]
-                ly<-rgy[2]-rgy[1]
-                ref<-lx
-                if (ly>lx)
-                    ref<-ly
+                    ## the "core" grid
+                    grid<-matrix(0, ncol=gr, nrow=gr)
+                    rgx<-range(df[,1])
+                    rgy<-range(df[,2])
+                    lx<-rgx[2]-rgx[1]
+                    ly<-rgy[2]-rgy[1]
+                    ref<-lx
+                    if (ly>lx)
+                        ref<-ly
 
-                xll<-rgx[1]
-                yll<-rgy[1]
-                cellsize<-ref/ncol(grid)
+                    xll<-rgx[1]
+                    yll<-rgy[1]
+                    cellsize<-ref/ncol(grid)
 
-                ## One adds empty rows and columns to the "core" grid
-                xll<-xll-lx*extent
-                yll<-yll-ly*extent
-                arajlig<-ceiling((lx*extent)/cellsize)
-                arajcol<-ceiling((ly*extent)/cellsize)
-                mrajlig<-matrix(0, ncol=ncol(grid), nrow=arajlig)
-                grid<-rbind(mrajlig, grid, mrajlig)
-                mrajcol<-matrix(0, ncol=arajcol, nrow=nrow(grid))
-                grid<-cbind(mrajcol, grid, mrajcol)
+                    ## One adds empty rows and columns to the "core" grid
+                    xll<-xll-lx*extent
+                    yll<-yll-ly*extent
+                    arajlig<-ceiling((lx*extent)/cellsize)
+                    arajcol<-ceiling((ly*extent)/cellsize)
+                    mrajlig<-matrix(0, ncol=ncol(grid), nrow=arajlig)
+                    grid<-rbind(mrajlig, grid, mrajlig)
+                    mrajcol<-matrix(0, ncol=arajcol, nrow=nrow(grid))
+                    grid<-cbind(mrajcol, grid, mrajcol)
 
-                ## We add the attributes of the grid
-                attr(grid, "xll")<-xll
-                attr(grid, "yll")<-yll
-                attr(grid, "cellsize")<-cellsize
-                attr(grid, "type")<-"numeric"
-                class(grid)<-"asc"
+                    ## We add the attributes of the grid
+                    attr(grid, "xll")<-xll
+                    attr(grid, "yll")<-yll
+                    attr(grid, "cellsize")<-cellsize
+                    attr(grid, "type")<-"numeric"
+                    class(grid)<-"asc"
+                }
             }
+        } else {
+            grid <- gr[[names(lixy)[i]]]
         }
 
         grille<-grid

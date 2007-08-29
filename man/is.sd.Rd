@@ -1,13 +1,13 @@
 \name{is.sd}
 \alias{is.sd}
 \alias{sd2df}
-\title{Handling of Trajects of the Same Duration}
+\title{Handling of Trajectories of the Same Duration}
 \description{
   \code{is.sd} tests whether the bursts of relocations in an object of
   class \code{ltraj} contain the same number of relocations, and cover
   the same duration ("sd" = "same duration").\cr
   \code{sd2df} gets one of the descriptive parameters of a regular "sd"
-  traject (e.g. \code{"dt"}, \code{"dist"}, etc.) and returns a data
+  trajectory (e.g. \code{"dt"}, \code{"dist"}, etc.) and returns a data
   frame with one relocation per row, and one burst per column. 
 }
 \usage{
@@ -17,7 +17,7 @@ sd2df(ltraj, what)
 \arguments{
   \item{ltraj}{an object of class \code{ltraj}}
   \item{what}{a character string indicating the descriptive parameter of
-    the traject to be exported}
+    the trajectory to be exported}
 }
 \value{
   \code{is.sd} returns a logical value.\cr
@@ -26,14 +26,14 @@ sd2df(ltraj, what)
 }
 \author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 \seealso{\code{\link{set.limits}} for additional information about
-  "sd" regular trajects }
+  "sd" regular trajectories }
 \examples{
 
 ## Takes the example from the help page of cutltraj (bear):
 data(bear)
 
-## We want to study the traject of the animal at the scale
-## of the day. We define one traject per day. The traject should begin
+## We want to study the trajectory of the animal at the scale
+## of the day. We define one trajectory per day. The trajectory should begin
 ## at 22H00.
 ## The following function returns TRUE if the date is comprised between
 ## 21H00 and 22H00 and FALSE otherwise (i.e. correspond to the
@@ -45,7 +45,7 @@ foo <- function(date) {
      return(ho>21.1&ho<21.9)
 }
 
-## We cut the traject into bursts after the relocation taken at 21H30:
+## We cut the trajectory into bursts after the relocation taken at 21H30:
 
 bea1 <- cutltraj(bear, "foo(date)", nextr = TRUE)
 bea1

@@ -1,8 +1,8 @@
 \name{is.regular}
 \alias{is.regular}
-\title{Regular Trajects}
+\title{Regular Trajectories}
 \description{
-  \code{is.regular} tests whether a traject is regular (i.e. constant
+  \code{is.regular} tests whether a trajectory is regular (i.e. constant
   time lag between successive relocations).
 }
 \usage{

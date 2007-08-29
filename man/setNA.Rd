@@ -3,7 +3,7 @@
 \title{ Place Missing Values in Objects of Class 'ltraj' }
 \description{
   This function places missing values in an (approximately) regular
-  traject, when a relocation should have been collected, but is
+  trajectory, when a relocation should have been collected, but is
   actually missing.
 }
 \usage{
@@ -23,7 +23,7 @@ setNA(ltraj, date.ref, dt, tol = dt/10,
 }
 \details{
   During the field study, the collection of the relocations of a
-  traject may sometimes fail, which results into missing values.  The
+  trajectory may sometimes fail, which results into missing values.  The
   class \code{ltraj} deal with these missing values, so that it is
   recommended to store the missing values in the data *before* the
   creation of the object of class \code{ltraj}.  For example, GPS
@@ -32,7 +32,7 @@ setNA(ltraj, date.ref, dt, tol = dt/10,
   these missing values.\cr
   
   However, sometimes, the data come without any information concerning
-  the location of these missing values.  If the traject is
+  the location of these missing values.  If the trajectory is
   approximately regular (i.e. approximately constant time lag), it is
   possible to determine where these missing values should occur in the
   object of class \code{ltraj}.  This is the role of the function
@@ -50,7 +50,7 @@ setNA(ltraj, date.ref, dt, tol = dt/10,
   The reference date is chosen so that the rest of the division of
   (date.relocations - reference.date) by the time lag \code{dt} is equal
   to zero.  For example, if it is known that one of the relocations of the
-  traject has been collected on January 16th 1996 at 18H00,
+  trajectory has been collected on January 16th 1996 at 18H00,
   and if the theoretical time lag between two relocations is of one
   hour, the date of reference could be (for example) the August 1st 2007
   at 05H00, because these two dates are separated by an exact number of
@@ -67,7 +67,7 @@ setNA(ltraj, date.ref, dt, tol = dt/10,
 \seealso{\code{\link{ltraj}} for additional information about objects
 of class \code{ltraj}. \code{\link{sett0}} (especially the examples
 of this help page) and \code{\link{is.regular}} for additional
-information about regular trajects.}
+information about regular trajectories.}
 \examples{
 
 data(porpoise)

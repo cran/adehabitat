@@ -10,7 +10,7 @@ indmove <- function(ltr, nrep = 200, conflim = seq(0.95, 0.5, length=5),
     if ((!is.regular(ltr))&attr(ltr,"typeII"))
         stop("ltr should be regular or of type I")
 
-    ## warning données manquantes
+    ## warning donnees manquantes
     na <- unlist(lapply(ltr, function(i) length(i$x[is.na(i$x)])))
     if (any(na>0)) {
       messa <- "Missing values have been interpolated in the data:\n"
@@ -18,7 +18,7 @@ indmove <- function(ltr, nrep = 200, conflim = seq(0.95, 0.5, length=5),
       warning(paste(messa, messa2, "\n", sep=""))
     }
 
-    ## Interpolation données manquantes
+    ## Interpolation donnees manquantes
     ltr <- do.call("c.ltraj", lapply(ltr, function(x) {
       x1 <- approx(unclass(x$date)[!is.na(x$x)], x$x[!is.na(x$x)], xout=unclass(x$date))$y
       y1 <- approx(unclass(x$date)[!is.na(x$x)], x$y[!is.na(x$y)], xout=unclass(x$date))$y

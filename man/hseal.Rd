@@ -3,7 +3,7 @@
 \docType{data}
 \title{Argos Monitoring of Hooded Seal}
 \description{
-  This data set contains the traject of one hooded seal.
+  This data set contains the trajectory of one hooded seal.
 }
 \usage{data(hseal)}
 \format{

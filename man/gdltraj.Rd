@@ -1,8 +1,8 @@
 \name{gdltraj}
 \alias{gdltraj}
-\title{Working with Trajects: Specify a Time Period}
+\title{Working with Trajectories: Specify a Time Period}
 \description{
-  Gets the parts of the trajects stored in an object of class
+  Gets the parts of the trajectories stored in an object of class
   \code{ltraj} of type II (time recorded), corresponding to a specified
   time period.
 }

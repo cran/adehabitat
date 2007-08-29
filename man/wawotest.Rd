@@ -12,8 +12,8 @@
 }
 \usage{
 wawotest(x, \dots)
-wawotest.default(x, alter = c("greater", "less"), \dots)
-wawotest.ltraj(x, \dots)
+\method{wawotest}{default}(x, alter = c("greater", "less"), \dots)
+\method{wawotest}{ltraj}(x, \dots)
 }
 \arguments{
   \item{x}{for \code{wawotest.default} }
@@ -32,14 +32,14 @@ wawotest.ltraj(x, \dots)
   statistic (\code{a}), its esperance (\code{ea}), its variance
   (\code{va}), the normed statistic (\code{za}) and the
   P-value. \code{wawotest.ltraj} returns a table giving these values for
-  the descriptive parameters of the traject.
+  the descriptive parameters of the trajectory.
 }
 \references{
 Wald, A. & Wolfowitz, J. (1943) An exact test for randomness in the
 non-parametric case based on serial
 correlation. \emph{Ann. Math. Statist.}, \bold{14}, 378--388.
 }
-\author{  Stéphane Dray \email{dray@biomserv.univ-lyon1.fr} }
+\author{  Stephane Dray \email{dray@biomserv.univ-lyon1.fr} }
 \seealso{ \code{\link{indmove}} and \code{\link{runsNAltraj}} for other
   tests of independence to be used with objects of class "ltraj" }
 \examples{

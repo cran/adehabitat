@@ -177,8 +177,6 @@ void randenfar(double *Zr, double *pr, int *nvar, int *npix,
 void integrno(double *XG, double *X1, double *X2, 
 	      double *T, double *sig1,
 	      double *sig2, double *alpha, double *res);
-void udbbnoeud(double *XG, double **XY, double *T, double *sig1,
-	       double *sig2, double *alpha, double *res);
 void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
 	      int *nliggri, int *nloc, double *sig1, double *sig2, 
 	      double *xlo, double *ylo, double *Tr);
@@ -2915,30 +2913,73 @@ void seqeticorr(double *grille, int *nlig, int *ncol)
    *                                                              *
    **************************************************************** */
 
+int selectptsbo(double *xl, double *yl, double *box, 
+		int *indcons)
+{
+    int i,nl,cons,k;
+    nl = (int) xl[0];
+    
+    k=0;
+    for (i=1; i<=nl; i++) {
+	cons = 0;
+	if (xl[i] < box[1]) {
+	    if (xl[i] > box[2]) {
+		if (yl[i] < box[3]) {
+		    if (yl[i] > box[4]) {
+			cons = 1;
+		    }
+		}
+	    }
+	}
+	if (cons == 1) {
+	    k++;
+	    indcons[k] = i;
+	}
+    }
+    return(k);
+}
+
 void epa(double *X, double *Y, double *xl, double *yl, 
 	 double *val, double *fen)
 {
     /* Declaration of local variables */
-    int k,nl;
-    double *xy, kx, di2, h;
+    int k, nl, *indcons, ncons;
+    double *xy, kx, di2, h, *box;
     
     /* Bases */
     nl = (int) xl[0];
     vecalloc(&xy, 2);
+    vecintalloc(&indcons, nl);
+    vecalloc(&box, 4);
     *val = 0;
     h = *fen;
     kx = 0;
     
+    /* Keep only the points no further than 4*fen of the current pixel */
+    box[1] = *X + (4 * h);
+    box[2] = *X - (4 * h);
+    box[3] = *Y + (4 * h);
+    box[4] = *Y - (4 * h);
+    ncons = selectptsbo(xl, yl, box, indcons);
+        
+    
     /* The bivariate normal kernel */
-    for (k=1; k<=nl; k++) {
-	xy[1] = (xl[k] - *X);
-	xy[2] = (yl[k] - *Y);
-	di2 = xy[1]*xy[1] + xy[2]*xy[2];
-	kx = exp(-di2/(2*h*h));
-	*val = *val + kx;
+    if (ncons>0) {
+	for (k=1; k<=ncons; k++) {
+	    xy[1] = (xl[indcons[k]] - *X);
+	    xy[2] = (yl[indcons[k]] - *Y);
+	    di2 = xy[1]*xy[1] + xy[2]*xy[2];
+	    
+	    kx = exp(-di2/(2*h*h));
+	    *val = *val + kx;
+	}
+	*val = *val * (1/(((double) nl)*h*h*2*3.14159265359));
+    } else {
+	*val=0;
     }
-    *val = *val * (1/(((double) nl)*h*h*2*3.14159265359));
     freevec(xy);
+    freeintvec(indcons);
+    freevec(box);
 }
 
 
@@ -3153,12 +3194,60 @@ void kernepan(double *grille, double *xgri, double *ygri, int *ncolgri,
    **************************************************************** */
 
 
+double L(double smooth, int nlo, int ndist, double *dists) 
+{
+  int ii;
+  double resL,n;  
+
+  n = (double) nlo;
+  resL = 0.;
+  
+  for(ii=0; ii < ndist; ii++){ 
+      resL+= (exp(-pow(dists[ii],2)/(4. * pow(smooth,2)))) - (4. * (exp(-pow(dists[ii],2)/(2. * pow(smooth,2.)))));
+  }
+  
+  resL = 1./(3.14159265359 * pow(smooth,2.) * n) + (2*resL -3*n)/(3.14159265359 * 4. * pow(smooth,2.) * pow(n, 2.));
+
+  return(resL);
+}
+
+
+
+
+double euclidean_distance(double x1, double y1, double x2, double y2)
+{
+    double out = 0.0;
+    out = pow((x2-x1), 2) + pow((y2-y1), 2);
+    return sqrt(out);
+}
+
+
+double comdi(double *x, double *y, double *dists, 
+	     int n)
+{
+    int ii,jj,kk;
+    int nn;
+
+    nn = n*(n-1)/2;
+    kk=0;
+    
+    for(ii=1; ii <= n-1; ii++){
+	for(jj=ii+1; jj<=n; jj++){
+	    dists[kk] = euclidean_distance(x[ii], y[ii], x[jj],y[jj]);
+	    kk++;
+	}
+    }
+    return (kk);
+}
+
+
+
 void CVmise(int *nloc, double *xlo, double *ylo,
 	    double *hvec, double *CV, int *nhteste)
 {
     /* Declaration */
-    int i, j, k, nlo, nh;
-    double *xl, *yl, h, di2;
+    int i, nlo, nh, ndist;
+    double *xl, *yl, h, di2, *dists;
     
     /* Allocation de mémoire */
     nlo = *nloc;
@@ -3166,31 +3255,25 @@ void CVmise(int *nloc, double *xlo, double *ylo,
     
     vecalloc(&xl, nlo);
     vecalloc(&yl, nlo);
+    vecalloc(&dists, (nlo-1)*nlo);
     
     /* R to C */
-    
     for (i=1; i<=nlo; i++) {
 	xl[i] = xlo[i-1];
 	yl[i] = ylo[i-1];
     }
     
-    /* Loop on the window of h */
-    for (k=1; k<=nh; k++) {
-	h = hvec[k-1];
-	CV[k-1] = 0;
-	
-	for (i=1; i<=nlo; i++) {
-	    for (j=1; j<=nlo; j++) {
-		di2 = (xl[i]-xl[j])*(xl[i]-xl[j]) + (yl[i]-yl[j])*(yl[i]-yl[j]);
-		CV[k-1] = CV[k-1] + (exp(-(di2/(4*h*h)))-4*exp(-di2/(2*h*h)));
-	    }
-	}
-	CV[k-1] = CV[k-1]*(1/(4*3.14159265359*h*h*((double) nlo)*((double) nlo)));
-	CV[k-1] = CV[k-1] + (1/(3.14159265359*h*h*nlo));
-	
-    }
+    /* Compute the distances */
+    ndist=comdi(xl, yl, dists, nlo);
     
+    /* Loop on the window of h */
+    for (i=1; i<=nh; i++) {
+	h = hvec[i-1];
+	CV[i-1]=L(h, nlo, ndist, dists);
+    }
+	
     /* Free Memory */
+    freevec(dists);
     freevec(xl);
     freevec(yl);
 }
@@ -5894,6 +5977,104 @@ void norm2d(double x1, double y1, double moyx, double moyy,
 }
 
 
+double maxh(double sig1, double sig2, double *alpha, double maxt)
+{
+    int na,i;
+    double res, tmp, a;
+    
+    res = 0;
+    na = alpha[0];
+    
+    for (i = 1; i <= na; i++) {
+	a = alpha[i];
+	tmp = (maxt * a * (1 - a) * sig1) + 
+	    ((pow(a,2) + pow((1-a), 2)) * sig2);
+	if (tmp > res)
+	    res = tmp;
+    }
+    return(sqrt(res));
+}
+
+
+double maxdt(double *T)
+{
+    int i,nt;
+    double res, tmp;
+
+    res = 0;
+    nt = T[0];
+
+    for (i = 2; i <= nt; i++) {
+	if ((T[i]-T[i-1]) > res)
+	    res = (T[i]-T[i-1]);
+    }
+    return(res);
+}
+
+/* keeps all the steps for which at least one relocation is 
+   available in the box */
+int consdanslabox(double *Xg, double **xy, 
+		  int nl, int *indcons, double maxvh)
+{
+    int i,k,cons;
+    double tmp1, tmp2, a, b;
+    /* On a besoin d'une boucle sur les pas */
+    k=0;
+    
+    for (i = 1; i<nl; i++) {
+	
+	cons = 0;
+	
+	if (xy[i][1] > (Xg[1] - (4 * maxvh)) ) {
+	    if (xy[i][1] < (Xg[1] + (4 * maxvh)) ) {
+		if (xy[i][2] > (Xg[2] - (4 * maxvh)) ) {
+		    if (xy[i][2] < (Xg[2] + (4 * maxvh)) ) {
+			cons = 1;
+		    }
+		}
+	    }
+	}
+	if (xy[i+1][1] > (Xg[1] - (4 * maxvh)) ) {
+	    if (xy[i+1][1] < (Xg[1] + (4 * maxvh)) ) {
+		if (xy[i+1][2] > (Xg[2] - (4 * maxvh)) ) {
+		    if (xy[i+1][2] < (Xg[2] + (4 * maxvh)) ) {
+			cons = 1;
+		    }
+		}
+	    }
+	}
+	
+	if (cons == 0) {
+	    a = (xy[i+1][2] - xy[i][2]) / (xy[i+1][1] - xy[i][1]);
+	    b = xy[i+1][2] - a * xy[i+1][1];
+	    tmp1 = a * (Xg[1] - (4 * maxvh)) + b;
+	    tmp2 = a * (Xg[1] + (4 * maxvh)) + b;
+	    
+	    if (tmp1 <= (Xg[2] + (4 * maxvh))) {
+		if (tmp1 >= (Xg[2] - (4 * maxvh))) {
+		    cons = 1;
+		}
+	    }
+	    
+	    if (tmp2 <= (Xg[2] + (4 * maxvh))) {
+		if (tmp2 >= (Xg[2] - (4 * maxvh))) {
+		    cons = 1;
+		}
+	    }
+	}
+	
+	
+	if (cons==1) {
+	    k++;
+	    indcons[k]=i;
+	}
+	
+    }
+    
+    return(k);
+}
+
+
 
 /* Integral of norm2d on alpha */
 void integrno(double *XG, double *X1, double *X2, 
@@ -5947,9 +6128,12 @@ void integrno(double *XG, double *X1, double *X2,
 }
 
 
+
+
 /* Computes UD at a node of the grid */
 void udbbnoeud(double *XG, double **XY, double *T, double *sig1,
-	       double *sig2, double *alpha, double *res)
+	       double *sig2, double *alpha, double *res, int ncons, 
+	       int *indcons)
 {
     /* Declaration */
     int i, nlo;
@@ -5963,17 +6147,17 @@ void udbbnoeud(double *XG, double **XY, double *T, double *sig1,
     *res = 0;
     
     /* for each step */
-    for (i = 1; i <= (nlo - 1); i++) {
+    for (i = 1; i <= ncons; i++) {
 	
 	/* Computes weights and time lags */
-	dt = T[i+1] - T[i];
+	dt = T[indcons[i]+1] - T[indcons[i]];
 	poids = dt / dttot;
 	
 	/* Output of the relocation values at i, and use of the function integrno */
-	Xtmp1[1] = XY[i][1];
-	Xtmp1[2] = XY[i][2];
-	Xtmp2[1] = XY[i+1][1];
-	Xtmp2[2] = XY[i+1][2];
+	Xtmp1[1] = XY[indcons[i]][1];
+	Xtmp1[2] = XY[indcons[i]][2];
+	Xtmp2[1] = XY[indcons[i]+1][1];
+	Xtmp2[2] = XY[indcons[i]+1][2];
 	
 	integrno(XG, Xtmp1, Xtmp2, &dt, sig1, sig2, alpha, &tmp);
 	*res = *res + (poids * tmp);
@@ -5987,8 +6171,8 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
 	      double *xlo, double *ylo, double *Tr)
 {
     /* Declaration */
-    int i, j, k, ncg, nlg, nlo;
-    double **gri, *xg, *yg, **XY, tmp, *alpha, *Xgr, *T;
+    int i, j, k, ncg, nlg, nlo, *indcons, ncons;
+    double **gri, *xg, *yg, **XY, tmp, *alpha, *Xgr, *T, maxt,maxvh, res, vol;
     
     /* Memory Allocation */
     ncg = *ncolgri;
@@ -6002,7 +6186,8 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
     vecalloc(&T, nlo);
     vecalloc(&yg, ncg);
     vecalloc(&Xgr, 2);
-    vecalloc(&alpha, 50);
+    vecalloc(&alpha, 25);
+    vecintalloc(&indcons, nlo);
     
     /* R to C */
     
@@ -6022,17 +6207,33 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
     
     /* Build the vector alpha */
     alpha[1] = 0;
-    for (i = 2; i <= 50; i++) {
-	alpha[i] = ((double) i) / ((double) 50);
+    for (i = 2; i <= 25; i++) {
+	alpha[i] = ((double) i) / ((double) 25);
     }
     
+    /* Maximum dt and sigma for the normal distribution*/
+    maxt = maxdt(T);
+    maxvh = maxh(*sig1, *sig2, alpha, maxt);
+    
+	
     /* Loop on the grid */
+    vol = 0;
+    res = xg[2] - xg[1];
     for (i=1; i<=nlg; i++) {
 	for (j=1; j<=ncg; j++) {
 	    Xgr[1] = xg[i];
 	    Xgr[2] = yg[j];
-	    udbbnoeud(Xgr, XY, T, sig1, sig2, alpha, &tmp);
+	    ncons = consdanslabox(Xgr, XY, nlo, indcons, maxvh);
+	    udbbnoeud(Xgr, XY, T, sig1, sig2, alpha, &tmp, ncons, indcons);
 	    gri[i][j] = tmp;
+	    vol+=tmp;
+	}
+    }
+    
+    /* Standardization of the volume */
+    for (i=1; i<=nlg; i++) {
+	for (j=1; j<=ncg; j++) {
+	    gri[i][j] = gri[i][j] / (vol * pow(res,2));
 	}
     }
     
@@ -6053,6 +6254,64 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
     freetab(XY);
     freevec(Xgr);
     freevec(alpha);
+    freeintvec(indcons);
+}
+
+
+/* *********************************************************************
+   Maximisation of the likelihood for the Brownian bridge
+   
+   *********************************************************************/
+void CVL(double *xyr, double *Tr, 
+	 int *nloc, double *Lr, double *sigma, int *nsig, double *sigma2)
+{
+    int i, j, k, nlo, ns, r;
+    double **xy, *T,s2,ai,*mui,sigmai,res;
+    
+    nlo = *nloc;
+    ns = *nsig;
+    s2 = *sigma2;
+
+    taballoc(&xy, nlo, 2);
+    vecalloc(&T, nlo);
+    vecalloc(&mui, 2);
+    
+    /* C to R */
+    k = 0;
+    for (i=1; i <= nlo; i++) {
+	for (j = 1; j <= 2; j++) {
+	    xy[i][j] = xyr[k];
+	    k++;
+	}
+	T[i] = Tr[i-1];
+    }
+    
+    /* Indices of odd locations */
+    for (r = 1; r <= ns; r++) {
+	Lr[r-1] = 0;
+	k=1;
+	for (i=1; i < nlo; i++) {
+	    if (k == 2) {
+		ai = (T[i] - T[i-1])/(T[i+1] - T[i-1]);
+		
+		mui[1] = xy[i-1][1] + ai * (xy[i+1][1] - xy[i-1][1]);
+		mui[2] = xy[i-1][2] + ai * (xy[i+1][2] - xy[i-1][2]);
+		
+		sigmai = ((T[i+1]-T[i-1]) * ai * (1-ai) * sigma[r-1]) + (pow((1 - ai),2) * (*sigma2)) + (pow(ai,2) * (*sigma2));
+		
+		norm2d(xy[i][1], xy[i][2], 
+		       mui[1], mui[2], sigmai, &res);
+		Lr[r-1] = Lr[r-1] + log(res);
+		k=1;
+	    }
+	    k++;
+	}
+    }
+
+    /* Free memory */
+    freetab(xy);
+    freevec(T);
+    freevec(mui);
 }
 
 

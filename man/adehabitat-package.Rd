@@ -10,7 +10,7 @@
   space use by animals.  This package is organised in four main parts:
   (i) management of raster maps, (ii) habitat selection/ecological niche
   analysis,  (iii) home range estimation and (iv) analysis of animals
-  trajects.  These four parts interact with each other to facilitate the
+  trajectories.  These four parts interact with each other to facilitate the
   analysis.  Note that adehabitat strongly relies on the package ade4,
   which provides numerous functions for the analysis of multivariate
   data.
@@ -77,25 +77,25 @@
   the brownian bridge kernel). Type \code{demo(homerange)} for examples
   of use of these functions.\cr
 
-  \item The analysis of animals' trajects: This part is the most recent
-  one in the package. A new class designed to store animals' traject has
+  \item The analysis of animals' trajectories: This part is the most recent
+  one in the package. A new class designed to store animals' trajectories has
   been included in the package, the class \code{ltraj} (see
-  \code{help(as.ltraj)}). Two types of trajects can be handled with
-  adehabitat: for trajects of type I, the time is not recorded for the
+  \code{help(as.ltraj)}). Two types of trajectories can be handled with
+  adehabitat: for trajectories of type I, the time is not recorded for the
   relocations (e.g. the sampling of the tracks of an animal in the
-  snow). For trajects of type II, the time has been recorded during
+  snow). For trajectories of type II, the time has been recorded during
   sampling (e.g. radio-tracking, GPS, Argos monitoring). Many
   descriptive parameters are automatically computed (relative or turning
   angles, distance between successive relocations, mean squared
   displacement). Many functions allow the management and analysis of
-  trajects, through the analysis of these parameters (e.g. tests of
+  trajectories, through the analysis of these parameters (e.g. tests of
   independence, see \code{help(wawotest,indmove)}, first passage time,
-  see \code{fpt}. The rediscretisation of trajects of type I is also
+  see \code{fpt}. The rediscretisation of trajectories of type I is also
   possible (\code{help(redisltraj)}). Many graphical functions are
-  available for the  exploration of the traject properties
+  available for the  exploration of the trajectory properties
   (\code{plot,plotltr,sliwinltr}), etc.  A new partitioning algorithm
   has been added (but it is still under research) to partition animals
-  trajects into segment with homogeneous properties (see
+  trajectories into segment with homogeneous properties (see
   \code{modpartltraj}).  Further details can be found on
   the help page of the function \code{as.ltraj}. For a demonstration,
   type \code{demo(managltraj)} or \code{demo(analysisltraj)}.
@@ -130,8 +130,10 @@ demo(nichehs)
 ## For example of home range estimation
 demo(homerange)
 
-## For example of traject management and analysis
-demo(ltraj)
+## For example of trajectory management and analysis
+demo(managltraj)
+demo(analysisltraj)
+
 
 }
 }

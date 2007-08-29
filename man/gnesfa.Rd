@@ -10,7 +10,7 @@
 gnesfa(dudi, Focus, Reference,
        centering = c("single", "twice"),
        scannf = TRUE, nfFirst = 2, nfLast = 0)
-print.gnesfa(x, \dots)
+\method{print}{gnesfa}(x, \dots)
 }
 \arguments{
   \item{dudi}{an object of class \code{dudi}}

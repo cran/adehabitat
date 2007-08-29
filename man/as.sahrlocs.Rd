@@ -21,7 +21,7 @@
 \usage{
 as.sahrlocs(mlocs, mhr, msa, descan = NULL)
 getsahrlocs(x, what = c("sa", "hr", "locs"))
-print.sahrlocs(x, \dots)
+\method{print}{sahrlocs}(x, \dots)
 }
 
 \arguments{

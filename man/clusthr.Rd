@@ -18,8 +18,8 @@
 }
 \usage{
 clusthr(xy, id = NULL)
-print.clusthr(x, \dots)
-plot.clusthr(x, whi = names(x), pch = 21,
+\method{print}{clusthr}(x, \dots)
+\method{plot}{clusthr}(x, whi = names(x), pch = 21,
              bgpts = "white", colpts = "black", cex = 0.7,
              plotit = TRUE, colpol = "grey", \dots)
 clusthr.area(x, percent = seq(20, 100, by = 5),

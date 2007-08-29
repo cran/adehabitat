@@ -11,16 +11,16 @@ Performs a multivariate analysis of ecological data (K-select analysis).
 }
 \usage{
 kselect(dudi, factor, weight, scannf = TRUE, nf = 2, ewa = FALSE)
-print.kselect(x, \dots)
-kplot.kselect(object, xax = 1, yax = 2, csub = 2, possub = c("topleft",
+\method{print}{kselect}(x, \dots)
+\method{kplot}{kselect}(object, xax = 1, yax = 2, csub = 2, possub = c("topleft",
               "bottomleft", "bottomright", "topright"),
               addval = TRUE, cpoint = 1, csize = 1, clegend = 2, \dots)
-hist.kselect(x, xax = 1, mar=c(0.1,0.1,0.1,0.1),
+\method{hist}{kselect}(x, xax = 1, mar=c(0.1,0.1,0.1,0.1),
              ncell=TRUE, csub=2,
              possub=c("bottomleft", "topleft",
                       "bottomright", "topright"),
              ncla=15, ...)
-plot.kselect(x, xax = 1, yax = 2, \dots)
+\method{plot}{kselect}(x, xax = 1, yax = 2, \dots)
 }
 \arguments{
   \item{dudi}{an object of class \code{dudi}}

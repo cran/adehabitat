@@ -6,7 +6,7 @@
 of class \code{kasc}.
 }
 \usage{
-hist.kasc(x, type = c("h", "l", "b"), adjust = 1, col,
+\method{hist}{kasc}(x, type = c("h", "l", "b"), adjust = 1, col,
           border, lwd = 1, \dots)
 }
 \arguments{

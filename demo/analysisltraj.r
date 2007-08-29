@@ -4,7 +4,7 @@ opar <- par(ask = dev.interactive(orNone = TRUE))
 
 cat("******************************************************\n",
     "We give here an example on the mouflon. It just \n",
-    "illustrates the use of the functions to handle trajects\n",
+    "illustrates the use of the functions to handle trajectories\n",
     "with adehabitat",
     "\n******************************************************\n")
 
@@ -60,7 +60,7 @@ mouflon <- mouflon[1]
 ## independent from the point of view of the step length
 ## and the relative angles between successive relocations
 
-## Does this model describes the trajects adequately?
+## Does this model describes the trajectories adequately?
 ## we test the independence of relative angles between
 ## successive steps:
 
@@ -99,7 +99,7 @@ plotltr(mouflon, "dist")
 ##
 ## Segmentation: STILL UNDER RESEARCH!!!!!!!
 
-## We try to partition the traject into several types of behaviours
+## We try to partition the trajectory into several types of behaviours
 ## we will work on the dist, and suppose a chi distribution for
 ## the distribution of distances, with different scaling factors
 
@@ -107,7 +107,7 @@ plotltr(mouflon, "dist")
 ## factors:
 ## The function foo allows to estimate the scaling factor for a
 ## chi distribution from a data frame containing the dx, dy and dt
-## component of a traject (see hbrown).
+## component of a trajectory (see hbrown).
 
 foo <- function(x)
 {
@@ -157,23 +157,23 @@ plot(par)
 ##
 ## Rediscretization
 
-## Another common way to analyse traject is to rediscretize them
+## Another common way to analyse trajectory is to rediscretize them
 ## with a constant step length
 
 plot(mouflon)
 red <- redisltraj(mouflon, 100)
 plot(red)
 
-## ...Note that the traject is no longer regular
+## ...Note that the trajectory is no longer regular
 red
 
 ## We do not present this type of analysis here, as a
-## more intensively sampled traject is needed for this
+## more intensively sampled trajectory is needed for this
 ## type of analysis
 
 
 cat("*******************************************************\n",
     "The deeply commented source for this demo can be found in the file:\n",
     file.path(system.file(package = "adehabitat"), "demo", "analysisltraj.r\n"),
-    "Examples of management of trajects are given in demo(managltraj)\n",
+    "Examples of management of trajectories are given in demo(managltraj)\n",
     "******************************************************\n")

@@ -4,6 +4,7 @@
 {
     if (!inherits(x, "ltraj"))
         stop("x should be of class 'ltraj'")
+    e1 <- new.env(parent = baseenv())
     typeII <- attr(x,"typeII")
 
     ## supprimer les NA
@@ -17,18 +18,19 @@
     attr(x, "typeII") <- typeII
     attr(x, "regular") <- is.regular(x)
     u <- x
-    x<- v <- x[burst = burst]
-    ajouli <- FALSE
-    ajoupo <- FALSE
-    ajoubu <- FALSE
-    addpoints <- TRUE
-    addlines <- TRUE
-    lim <- TRUE
-    buadd <- burst
-    K=1
-    N=nrow(x[[1]])
-    cusr <- cplt <- rep(0 + NA, 4)
-
+    assign("x", x[burst = burst], envir=e1)
+    assign("v", x[burst = burst], envir=e1)
+    assign("ajouli", FALSE, envir=e1)
+    assign("ajoupo", FALSE, envir=e1)
+    assign("ajoubu", FALSE, envir=e1)
+    assign("addpoints", TRUE, envir=e1)
+    assign("addlines", TRUE, envir=e1)
+    assign("lim", TRUE, envir=e1)
+    assign("buadd", burst, envir=e1)
+    assign("K",1, envir=e1)
+    assign("N",nrow(get("x", envir=e1)[[1]]), envir=e1)
+    assign("cusr", rep(0 + NA, 4), envir=e1)
+    assign("cplt", rep(0 + NA, 4), envir=e1)
     opt <- options(warn=-1)
     on.exit(options(opt))
     dsp <- substring(match.arg(display), 1, 1)
@@ -41,39 +43,41 @@
 ### fonction replot de base
     replot <- function() {
         opar <- par(mar=c(0,0,0,0), bg="white")
-        attr(x[[1]],"id") <- " "
-        if (lim) {
-            xlim <- range(x[[1]]$x)
-            ylim <- range(x[[1]]$y)
+        tmptmp <- get("x", envir=e1)
+        attr(tmptmp[[1]], "id") <- " "
+        assign("x", tmptmp, envir=e1)
+        if (get("lim", envir=e1)) {
+            assign("xlim", range(get("x", envir=e1)[[1]]$x), envir=e1)
+            assign("ylim", range(get("x", envir=e1)[[1]]$y), envir=e1)
         }
-        plot(x, id = attr(x[[1]],"id"), addlines=F, addp=F, final=FALSE,
-             xlim = xlim, ylim = ylim, ...)
-        cusr <<- par("usr")
-        cplt <<- par("plt")
-        scatterutil.sub(as.character(x[[1]]$date[K]), 1, "topleft")
-        if (ajoubu) {
-            lapply(u[burst=buadd], function(zz) {
-                if (addpoints)
+        plot(get("x", envir=e1), id = attr(get("x", envir=e1)[[1]],"id"), addlines=FALSE, addp=FALSE, final=FALSE,
+             xlim = get("xlim", envir=e1), ylim = get("ylim", envir=e1), ...)
+        assign("cusr", par("usr"), envir=e1)
+        assign("cplt", par("plt"), envir=e1)
+        scatterutil.sub(as.character(get("x", envir=e1)[[1]]$date[get("K", envir=e1)]), 1, "topleft")
+        if (get("ajoubu", envir=e1)) {
+            lapply(u[burst=get("buadd", envir=e1)], function(zz) {
+                if (get("addpoints", envir=e1))
                     points(zz[,c("x","y")], pch=16, col="grey")
-                if (addlines)
+                if (get("addlines", envir=e1))
                     lines(zz[,c("x","y")], pch=16, col="grey")})
         }
-        if (addpoints)
-            points(x[[1]][1:K,c("x","y")], pch=16)
-        if (addlines)
-            if (K>1)
-                lines(x[[1]][1:K,c("x","y")], lwd=2)
-        if (ajouli)
-            lines(c(a1[1], a2[1]),c(a1[2], a2[2]), lwd=2, col="red")
-        if (ajoupo)
-            points(a5[1], a5[2], pch=16, col="red", cex=1.7)
-        iti <- unlist(x[[1]][K,c("x","y")])
+        if (get("addpoints", envir=e1))
+            points(get("x", envir=e1)[[1]][1:get("K", envir=e1),c("x","y")], pch=16)
+        if (get("addlines", envir=e1))
+            if (get("K", envir=e1)>1)
+                lines(get("x", envir=e1)[[1]][1:get("K", envir=e1),c("x","y")], lwd=2)
+        if (get("ajouli", envir=e1))
+            lines(c(get("a1", envir=e1)[1], get("a2", envir=e1)[1]),c(get("a1", envir=e1)[2], get("a2", envir=e1)[2]), lwd=2, col="red")
+        if (get("ajoupo", envir=e1))
+            points(get("a5", envir=e1)[1], get("a5", envir=e1)[2], pch=16, col="red", cex=1.7)
+        iti <- unlist(get("x", envir=e1)[[1]][get("K", envir=e1),c("x","y")])
       points(iti[1],iti[2], col="blue", pch=16, cex=1.4)
       par(opar)
     }
 
 
-    help.txt <- paste("\n-------- TO OBTAIN THIS HELP, TYPE 'h' ------------------",
+    help.txt <- paste("\n-------- to obtain this help, type 'h' ------------------",
                       "n/p            -- Next/Previous relocation",
                       "a              -- show all relocations",
                       "g              -- Go to...",
@@ -87,9 +91,9 @@
                       "q              -- Quit",
                       "---------------------------------------------------------",
                       "\n", sep = "\n")
-    D <-0
-    a1 <- 0
-    a2 <- 0
+    assign("D",0, envir=e1)
+    assign("a1", 0, envir=e1)
+    assign("a2", 0, envir=e1)
 
     if (dsp == "t") {
       tt <- tktoplevel()
@@ -120,33 +124,33 @@
         x <- (as.real(x) - 1)/iw
         y <- 1 - (as.real(y) - 1)/ih
       }
-      px <- (x - cplt[1])/(cplt[2] - cplt[1])
-      py <- (y - cplt[3])/(cplt[4] - cplt[3])
-      ux <- px * (cusr[2] - cusr[1]) + cusr[1]
-      uy <- py * (cusr[4] - cusr[3]) + cusr[3]
+      px <- (x - get("cplt", envir=e1)[1])/(get("cplt", envir=e1)[2] - get("cplt", envir=e1)[1])
+      py <- (y - get("cplt", envir=e1)[3])/(get("cplt", envir=e1)[4] - get("cplt", envir=e1)[3])
+      ux <- px * (get("cusr", envir=e1)[2] - get("cusr", envir=e1)[1]) + get("cusr", envir=e1)[1]
+      uy <- py * (get("cusr", envir=e1)[4] - get("cusr", envir=e1)[3]) + get("cusr", envir=e1)[3]
       c(ux,uy)
     }
 
     mm.w <- function(buttons, x, y) {
       if (buttons == 0) {
-        i<-D
+        i<-get("D", envir=e1)
         if (i == 0) {
-          a1 <<- cc(x,y)
-          D <<- 1
+          assign("a1", cc(x,y), envir=e1)
+          assign("D", 1, envir=e1)
         }
         if (i == 1) {
-          a2 <<- cc(x,y)
-          D <<- 0
-          di <- sqrt(sum((a2-a1)^2))
+          assign("a2", cc(x,y), envir=e1)
+          assign("D", 0, envir=e1)
+          di <- sqrt(sum((get("a2", envir=e1)-get("a1", envir=e1))^2))
           cat(paste("distance:",round(di,6),"\n"))
-          lines(c(a1[1],a2[1]),c(a1[2],a2[2]), lwd=2, col="red")
+          lines(c(get("a1", envir=e1)[1],get("a2", envir=e1)[1]),c(get("a1", envir=e1)[2],get("a2", envir=e1)[2]), lwd=2, col="red")
         }
         return()
       }
       if (buttons == 2) {
-        w <- v[[1]][1:K,]
-        a3 <<- cc(x,y)
-        di <- sqrt((w$x-a3[1])^2 + (w$y-a3[2])^2)
+        w <- get("v",envir=e1)[[1]][1:get("K", envir=e1),]
+        assign("a3", cc(x,y), envir=e1)
+        di <- sqrt((w$x-get("a3", envir=e1)[1])^2 + (w$y-get("a3", envir=e1)[2])^2)
         print(w[which.min(di),])
         cat("\n")
         points(w[which.min(di),c("x","y")], pch=16, col="red", cex=1.7)
@@ -155,24 +159,24 @@
     }
     mm.w <- function(buttons, x, y) {
       if (buttons == 0) {
-        i<-D
+        i<-get("D", envir=e1)
         if (i == 0) {
-          a1 <<- cc(x,y)
-          D <<- 1
+          assign("a1",  cc(x,y), envir=e1)
+          assign("D", 1, envir=e1)
         }
         if (i == 1) {
-          a2 <<- cc(x,y)
-          D <<- 0
-          di <- sqrt(sum((a2-a1)^2))
+          assign("a2", cc(x,y), envir=e1)
+          assign("D", 0, envir=e1)
+          di <- sqrt(sum((get("a2", envir=e1)-get("a1", envir=e1))^2))
           cat(paste("distance:",round(di,6),"\n"))
-          lines(c(a1[1],a2[1]),c(a1[2],a2[2]), lwd=2, col="red")
+          lines(c(get("a1", envir=e1)[1],get("a2", envir=e1)[1]),c(get("a1", envir=e1)[2],get("a2", envir=e1)[2]), lwd=2, col="red")
         }
         return()
       }
       if (buttons == 2) {
-        w <- v[[1]][1:K,]
-        a3 <<- cc(x,y)
-        di <- sqrt((w$x-a3[1])^2 + (w$y-a3[2])^2)
+        w <- get("v",envir=e1)[[1]][1:get("K", envir=e1),]
+        assign("a3", cc(x,y), envir=e1)
+        di <- sqrt((w$x-get("a3", envir=e1)[1])^2 + (w$y-get("a3", envir=e1)[2])^2)
         print(w[which.min(di),])
         cat("\n")
         points(w[which.min(di),c("x","y")], pch=16, col="red", cex=1.7)
@@ -180,31 +184,31 @@
       }
     }
     mm.t <- function(x, y) {
-      i<-D
+      i<-get("D", envir=e1)
       if (i == 0) {
-        a1 <<- cc(x,y)
-        D <<- 1
+        assign("a1", cc(x,y), envir=e1)
+        assign("D", 1, envir=e1)
       }
       if (i == 1) {
-        a2 <<- cc(x,y)
-        D <<- 0
-        di <- sqrt(sum((a2-a1)^2))
+        assign("a2", cc(x,y), envir=e1)
+        assign("D", 0, envir=e1)
+        di <- sqrt(sum((get("a2", envir=e1)-get("a1", envir=e1))^2))
         type(paste("distance:",di,"\n"))
-        ajouli <<- TRUE
+        assign("ajouli", TRUE, envir=e1)
         showz()
-        ajouli <<- FALSE
+        assign("ajouli", FALSE, envir=e1)
       }
       return()
     }
 
     mm.t2 <- function(x, y) {
-      w <- v[[1]][1:K,]
-      a3 <<- cc(x,y)
-      di <- sqrt((w$x-a3[1])^2 + (w$y-a3[2])^2)
-      a5 <<- unlist(w[which.min(di),c("x","y")])
-      ajoupo <<- TRUE
+      w <- get("v",envir=e1)[[1]][1:get("K", envir=e1),]
+      assign("a3", cc(x,y), envir=e1)
+      di <- sqrt((w$x-get("a3", envir=e1)[1])^2 + (w$y-get("a3", envir=e1)[2])^2)
+      assign("a5", unlist(w[which.min(di),c("x","y")]), envir=e1)
+      assign("ajoupo", TRUE, envir=e1)
       showz()
-      ajoupo <<- FALSE
+      assign("ajoupo", FALSE, envir=e1)
       tmp <- w[which.min(di),]
       se <-unlist(lapply((max(nchar(names(tmp))+
                               nchar(sapply(tmp,as.character))+1) -
@@ -223,12 +227,12 @@
 
 
     mm.mouse <- function(buttons, x, y) {
-          a8 <<- cc(x,y)
+          assign("a8", cc(x,y), envir=e1)
           return()
     }
 
     mm.mouset <- function(x, y) {
-          a8 <<- cc(x,y)
+          assign("a8", cc(x,y), envir=e1)
           return()
     }
 
@@ -243,41 +247,47 @@
       }
       if (key %in% c(0:9)) {
         if (key > 0)
-          K <<- round(seq(1,N,length=11))[as.numeric(key)+1]
+          assign("K", round(seq(1,get("N", envir=e1),length=11))[as.numeric(key)+1], envir=e1)
         if (key == 0)
-          K <<- 1
+          assign("K", 1, envir=e1)
         showz()
       }
       if (key == "z") {
-          tmppx <<- (cusr[1:2]-cusr[1])/2
-          xlim <<-  c((a8[1] - (tmppx[2] - tmppx[1])/2),
-                      (a8[1] + (tmppx[2] - tmppx[1])/2))
+          assign("tmppx", (get("cusr", envir=e1)[1:2]-
+                           get("cusr", envir=e1)[1])/2, envir=e1)
 
-          tmppy <<- (cusr[3:4]-cusr[3])/2
-          ylim <<-  c((a8[2] - (tmppy[2] - tmppy[1])/2),
-                      (a8[2] + (tmppy[2] - tmppy[1])/2))
+          assign("xlim",  c((get("a8", envir=e1)[1] -
+                             (get("tmppx", envir=e1)[2] -
+                              get("tmppx", envir=e1)[1])/2),
+                            (get("a8", envir=e1)[1] +
+                             (get("tmppx", envir=e1)[2] -
+                              get("tmppx", envir=e1)[1])/2)), envir=e1)
 
-          lim <<- FALSE
+          assign("tmppy", (get("cusr", envir=e1)[3:4]-get("cusr", envir=e1)[3])/2, envir=e1)
+          assign("ylim", c((get("a8", envir=e1)[2] - (get("tmppy",envir=e1)[2] - get("tmppy",envir=e1)[1])/2),
+                           (get("a8", envir=e1)[2] + (get("tmppy",envir=e1)[2] - get("tmppy",envir=e1)[1])/2)), envir=e1)
+
+          assign("lim", FALSE, envir=e1)
           showz()
       }
       if (key == "o") {
-          lim <<-TRUE
+          assign("lim", TRUE, envir=e1)
           showz()
       }
       if (key == "n") {
-        if (K<=N)
-          K <<- K+1
-        if (K>N) {
-          if (recycle) K <<- 1
+          if (get("K", envir=e1)<=get("N", envir=e1))
+            assign("K", get("K", envir=e1)+1, envir=e1)
+        if (get("K", envir=e1)>get("N", envir=e1)) {
+          if (recycle) assign("K", 1, envir=e1)
           if (!recycle) {
-            K <<- N
+            assign("K", get("N", envir=e1), envir=e1)
             cat("End of burst !\n")
           }
         }
         showz()
       }
       if (key == "l") {
-        addlines <<- !addlines
+        assign("addlines", !get("addlines", envir=e1), envir=e1)
         showz()
       }
       if (key == "g") {
@@ -286,16 +296,16 @@
           while (recom) {
             rr <- readline("Enter a relocation number: ")
             recom <- FALSE
-            if (!(rr%in%row.names(x[[1]]))) {
+            if (!(rr%in%row.names(get("x", envir=e1)[[1]]))) {
               cat("invalid number\n")
               recom <- TRUE
             }
           }
-          K <<- which(row.names(x[[1]])==as.numeric(rr))
+          assign("K", which(row.names(get("x", envir=e1)[[1]])==as.numeric(rr)), envir=e1)
           showz()
         }
         if (dsp == "t") {
-          lv <- tclVar(row.names(x[[1]])[1])
+          lv <- tclVar(row.names(get("x", envir=e1)[[1]])[1])
           tu <- tktoplevel(tt, width=500, height=50)
           tkwm.title(tu, "Enter a relocation number")
           tkwm.resizable(tu, 0, 0)
@@ -303,11 +313,11 @@
           submit.but <- tkbutton(tu, text="    OK     ",
                                  command=function() {
                                    rr <- tclvalue(lv)
-                                   if (!(rr%in%row.names(x[[1]]))) {
+                                   if (!(rr%in%row.names(get("x", envir=e1)[[1]]))) {
                                      tkmessageBox(message="invalid number",
                                                   type="ok")
                                    } else {
-                                     K <<- which(row.names(x[[1]])==as.numeric(rr))
+                                     assign("K", which(row.names(get("x", envir=e1)[[1]])==as.numeric(rr)), envir=e1)
                                      showz()
                                      tkdestroy(tu)}})
           tkpack(en, side = "top", fill = "both")
@@ -316,16 +326,17 @@
         }
       }
       if (key == "r") {
-        addpoints <<- !addpoints
+        assign("addpoints", !get("addpoints", envir=e1), envir=e1)
         showz()
       }
       if (key == "b") {
-        K <<- 1
+        assign("K", 1, envir=e1)
         if (dsp == "w") {
-          hoho <- select.list(unlist(lapply(u, function(y) attr(y, "burst"))))
-          type(paste("Choice of the burst:", hoho,"\n\n"))
-          x <<- v <<- u[burst=hoho]
-          N <<- nrow(x[[1]])
+          assign("hoho", select.list(unlist(lapply(u, function(y) attr(y, "burst")))), envir=e1)
+          type(paste("Choice of the burst:", get("hoho", envir=e1),"\n\n"))
+          assign("x",u[burst=get("hoho", envir=e1)], envir=e1)
+          assign("v",u[burst=get("hoho", envir=e1)], envir=e1)
+          assign("N", nrow(get("x", envir=e1)[[1]]), envir=e1)
           showz()
         }
         if (dsp == "t") {
@@ -342,32 +353,32 @@
           tkconfigure(tli, yscrollcommand = function(...) tkset(scr2, ...))
           submit.but <- tkbutton(tu, text="    OK     ",
                                  command=function() {
-                                   hoho <<- ifelse(nchar(tclvalue(tkcurselection(tli)))==0, 1,
-                                                   as.numeric(tclvalue(tkcurselection(tli)))+1)
-                                   type(paste("Choice of the burst:", bubu[hoho],"\n\n"))
+                                   assign("hoho", ifelse(nchar(tclvalue(tkcurselection(tli)))==0, 1, as.numeric(tclvalue(tkcurselection(tli)))+1), envir=e1)
+                                   type(paste("Choice of the burst:", bubu[get("hoho", envir=e1)],"\n\n"))
                                    tkdestroy(tu)})
           tkpack(tli, side = "left", fill = "both", expand = TRUE)
           tkpack(scr2, side = "right", fill = "y")
           tkpack(tfr, side = "right", fill = "y")
           tkpack(submit.but, side = "bottom")
           tkwait.window(tu)
-          x <<- v <<- u[burst=bubu[hoho]]
-          N <<- nrow(x[[1]])
+          assign("x",u[burst=bubu[get("hoho", envir=e1)]], envir=e1)
+          assign("v",u[burst=bubu[get("hoho", envir=e1)]], envir=e1)
+          assign("N", nrow(get("x", envir=e1)[[1]]), envir=e1)
           showz()
         }
       }
       if (key == "i") {
-        if (ajoubu) {
-          ajoubu <<- FALSE
+        if (get("ajoubu", envir=e1)) {
+          assign("ajoubu", FALSE, envir=e1)
           showz()
         } else {
           if (dsp == "w") {
-            buadd <<- select.list(unlist(lapply(u,
-                                                function(y) attr(y, "burst"))),
-                                  multiple=TRUE)
-            if (length(buadd>0)) {
-              type(paste("show bursts:", paste(buadd, collapse=" "),"\n\n"))
-              ajoubu <<- TRUE
+            assign("buadd", select.list(unlist(lapply(u,
+                                                      function(y) attr(y, "burst"))),
+                                  multiple=TRUE), envir=e1)
+            if (length(get("buadd", envir=e1)>0)) {
+              type(paste("show bursts:", paste(get("buadd", envir=e1), collapse=" "),"\n\n"))
+              assign("ajoubu", TRUE, envir=e1)
               showz()
             }
           }
@@ -388,9 +399,9 @@
                                      argg <- ifelse(nchar(tclvalue(tkcurselection(tli)))==0,
                                                     1,0)
                                      if (argg==0) {
-                                       ajoubu <<- TRUE
-                                       buadd <<- bubu[as.numeric(unlist(strsplit(tclvalue(tkcurselection(tli)), " ")))+1]
-                                       type(paste("show bursts:", paste(buadd, collapse=" "),"\n\n"))
+                                       assign("ajoubu", TRUE, envir=e1)
+                                       assign("buadd", bubu[as.numeric(unlist(strsplit(tclvalue(tkcurselection(tli)), " ")))+1], envir=e1)
+                                       type(paste("show bursts:", paste(get("buadd", envir=e1), collapse=" "),"\n\n"))
                                        showz()
                                        tkdestroy(tu)}})
             tkpack(tli, side = "left", fill = "both", expand = TRUE)
@@ -398,27 +409,28 @@
             tkpack(tfr, side = "right", fill = "y")
             tkpack(submit.but, side = "bottom")
             tkwait.window(tu)
-            x <<- v <<- u[burst=bubu[hoho]]
-            N <<- nrow(x[[1]])
+            assign("x", u[burst=bubu[get("hoho", envir=e1)]], envir=e1)
+            assign("v", u[burst=bubu[get("hoho", envir=e1)]], envir=e1)
+            assign("N", nrow(get("x", envir=e1)[[1]]), envir=e1)
             showz()
           }
         }
       }
       if (key == "p") {
-        if (K>1)
-          K <<- K-1
-        if (K==1) {
+        if (get("K", envir=e1)>1)
+          assign("K", get("K", envir=e1)-1, envir=e1)
+        if (get("K", envir=e1)==1) {
           if (recycle)
-            K <<- N
+            assign("K", get("N", envir=e1), envir=e1)
           if (!recycle) {
-            K <<- 1
+            assign("K", 1, envir=e1)
             cat("Beginning of burst!\n")
           }
         }
         showz()
       }
       if (key == "a") {
-        K <<- N
+        assign("K", get("N", envir=e1), envir=e1)
         showz()
       }
       if (key == "h")

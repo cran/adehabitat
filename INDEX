@@ -3,7 +3,6 @@ adehabitat-package      adehabitat: a Package for the Analysis of the
 albatross               Argos Monitoring of Adult Albatross Movement
 altr                    Attach or Detach Bursts in Objects of Class
                         'ltraj' to Search Path
-angles                  Compute Turning Angles - Deprecated
 area2asc                Converts a Polygon to Raster
 area2dxf                Exportation of Areas
 as.area                 Objects of Class "area"
@@ -11,8 +10,8 @@ asc2im                  Conversion of Maps of Class 'asc' and 'im'
                         (Package spatstat)
 ascgen                  Creation of Raster Maps
 as.kasc                 Working with Several Raster Maps
-as.ltraj                Working with Trajects in 2D Space: the Class
-                        ltraj
+as.ltraj                Working with Trajectories in 2D Space: the
+                        Class ltraj
 as.sahrlocs             Exploratory Analysis of Habitat Selection
 as.traj                 Working with Trajects in 2D Space
 bauges                  Census of chamois (Rupicapra rupicapra) in the
@@ -38,7 +37,7 @@ compana                 Compositional Analysis of Habitat Use
 convnum                 Conversion from Factor to Numeric for Raster
                         Map
 count.points.id         Number of Points in Each Pixel of a Raster Map
-cutltraj                Split Trajects into Several Bursts
+cutltraj                Split Trajectories into Several Bursts
 distfacmap              Compute distances to the different levels of a
                         factor map
 domain                  Estimation of the Potential Distribution of a
@@ -50,8 +49,9 @@ explore.kasc            Interactive Exploration of Maps of Class kasc
 Extract.ltraj           Extract or Replace Parts of an Object of Class
                         ltraj
 fpt                     Computation of the First Passage Time From
-                        Trajects
-gdltraj                 Working with Trajects: Specify a Time Period
+                        Trajectories
+gdltraj                 Working with Trajectories: Specify a Time
+                        Period
 getascattr              Copy the Attributes of an Object of Class 'asc'
                         or 'kasc' to another Object
 getcontour              Computes the Contour Polygon of a Raster Object
@@ -62,7 +62,7 @@ gnesfa                  General Niche-Environment System Factor
 hbrown                  Estimates the value of h for a Brownian motion
 hist.kasc               Histograms of Mapped Variables
 hist.ltraj              Histogram of the Descriptive Parameters of a
-                        Traject
+                        Trajectory
 histniche               Histograms of the Ecological Niche
 hr.rast                 Rasterisation of Objects of Class 'area'
 hseal                   Argos Monitoring of Hooded Seal
@@ -77,14 +77,15 @@ image.sahrlocs          Graphical Display of the Habitat Composition of
                         Radio-Tracking
 import.asc              Arcview ASCII Raster File Importation And
                         Exportation
-indmove                 Testing Independence in Regular Traject
+indmove                 Testing Independence in Regular Trajectory
                         Parameters
-is.regular              Regular Trajects
-is.sd                   Handling of Trajects of the Same Duration
+is.regular              Regular Trajectories
+is.sd                   Handling of Trajectories of the Same Duration
 join.asc                Finds the Value of Mapped Variables at some
                         Specified Locations (Spatial Join)
 kasc2df                 Conversion of Objects of Class kasc
 kasc2spixdf             Conversion of maps from/to the package "sp"
+kernelbb                Estimation of Kernel Brownian Bridge Home-Range
 kernelUD                Estimation of Kernel Home-Range
 kselect                 K-Select Analysis: a Method to Analyse the
                         Habitat Selection by Animals
@@ -102,7 +103,7 @@ mcp                     Estimation of the Home Range Using the Minimum
 mcp.rast                Converts a Polygon to Raster
 mindistkeep             Detecting Absence of Movement in an Object of
                         Class 'ltraj'
-modpartltraj            Segmentation of a traject based on Markov
+modpartltraj            Segmentation of a trajectory based on Markov
                         models (STILL UNDER RESEARCH!!)
 morphology              Morphology: Erosion or Dilatation of Features
                         on a Raster Map
@@ -127,13 +128,13 @@ puech                   Radio-Tracking Data of Wild Boar (2)
 puechabon               Radio-Tracking Data of Wild Boar
 puechcirc               Movements of wild boars tracked at Puechabon
 puechdesIII             Habitat Selection by the Wild Boar at Puechabon
-qqchi                   Quantile-Quantile Plots for Trajects of Class
-                        'ltraj'
+qqchi                   Quantile-Quantile Plots for Trajectories of
+                        Class 'ltraj'
 rand.kselect            Test of the Third-Order Habitat Selection
 randtest.enfa           Randomisation Test for the Ecological Niche
                         Factor Analysis
-redisltraj              Rediscretization of a Traject With Regular Step
-                        Length
+redisltraj              Rediscretization of a Trajectory With Regular
+                        Step Length
 runsNAltraj             Highlighting the Patterns in Missing Values in
                         Trajects
 rupicabau               GPS Monitoring of One Chamois in the Bauges
@@ -144,13 +145,13 @@ scatter.enfa            Scatter Plot of the Results of the ENFA
 scatterniche            Display the Niche in the Ecological Space
 schoener                Compute Schoener's ratio
 set.limits              Define the Same Time Limits for several Bursts
-                        in a Regular Traject
+                        in a Regular Trajectory
 setmask                 Applies a Mask on Objects of Class 'asc' or
                         'kasc'
 setNA                   Place Missing Values in Objects of Class
                         'ltraj'
 sett0                   Round the Timing of Collection of Relocations
-                        to Obtain Regular Traject
+                        to Obtain Regular Trajectory
 simm.bb                 Brownian bridge motion
 simm.brown              Simulate a Bivariate Brownian Motion
 simm.crw                Simulation of a Correlated Random Walk
@@ -160,15 +161,13 @@ simm.mou                Simulation of a Bivariate Ornstein-Uhlenbeck
                         Process
 sliwinltr               Apply a Function on an Object of Class "ltraj",
                         Using a Sliding Window
-speed                   Computes the Speed Between Successive
-                        Relocations of an Animal - Deprecated
 squirrel                Radio-Tracking Data of Squirrels
 squirreloc              Radio-tracking of squirrels
 storemapattr            Store Attributes of Maps of Class asc and kasc
-subsample               Subsample a Traject
+subsample               Subsample a Trajectory
 subsetmap               Storing a Part of a Map
 trajdyn                 Interactive Display of Objects of Class 'ltraj'
-typeII2typeI            Change the Type of a Traject
+typeII2typeI            Change the Type of a Trajectory
 vanoise                 Habitat Use by Three Species of Galliformes in
                         the Vanoise National Parc
 wawotest                Wald-Wolfowitz Test of Randomness

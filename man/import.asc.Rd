@@ -16,7 +16,7 @@ import.asc(file, type = c("numeric", "factor"), lev = NULL,
 export.asc(x, file)
 as.asc(x, xll = 1, yll = 1, cellsize = 1, type = c("numeric", "factor"),
        lev = levels(factor(x)))
-print.asc(x, \dots)
+\method{print}{asc}(x, \dots)
 }
 
 \arguments{

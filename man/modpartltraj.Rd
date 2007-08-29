@@ -5,34 +5,34 @@
 \alias{print.partltraj}
 \alias{bestpartmod}
 \alias{plot.partltraj}
-\title{Segmentation of a traject based on Markov models (STILL UNDER RESEARCH!!)}
+\title{Segmentation of a trajectory based on Markov models (STILL UNDER RESEARCH!!)}
 \description{
-  These functions partition a traject into several segments
+  These functions partition a trajectory into several segments
   corresponding to different behaviours of the animal.\cr
-  \code{modpartltraj} is used to generate the models to which the traject
+  \code{modpartltraj} is used to generate the models to which the trajectory
   is compared.\cr
   \code{bestpartmod} is used to compute the optimal number of segments
   of the partition.\cr
-  \code{partmod.ltraj} is used to partition the traject into
+  \code{partmod.ltraj} is used to partition the trajectory into
   \code{npart} segments.  \code{plot.partltraj} can be used to plot the
   results. 
 }
 \usage{
 modpartltraj(tr, limod)
-print.modpartltraj(x, \dots)
+\method{print}{modpartltraj}(x, \dots)
 
 bestpartmod(mods, Km = 30, plotit = TRUE,
             correction = TRUE, nrep = 100)
 
 partmod.ltraj(tr, npart, mods, na.manage = c("prop.move","locf"))
-print.partltraj(x, \dots)
-plot.partltraj(x, col, addpoints = TRUE, lwd = 2, \dots)
+\method{print}{partltraj}(x, \dots)
+\method{plot}{partltraj}(x, col, addpoints = TRUE, lwd = 2, \dots)
 }
 \arguments{
-  \item{tr}{an object of class \code{ltraj} containing only one traject
+  \item{tr}{an object of class \code{ltraj} containing only one trajectory
     (one burst of relocation)}
   \item{limod}{a list of syntactically correct R expression giving the
-    models for the traject, implying one or several elements in
+    models for the trajectory, implying one or several elements in
     \code{tr} (see details and examples)}
   \item{x, mods}{an object of class \code{modpartltraj} (for
     \code{print.modpartltraj}), \code{partltraj} (for
@@ -48,8 +48,8 @@ plot.partltraj(x, col, addpoints = TRUE, lwd = 2, \dots)
     correspond the relative proportion of "internal" missing values
     found within the segments predicted by the model used to predict the
     first segment.}
-  \item{npart}{the number of partitions of the traject}
-  \item{Km}{the maximum number of partitions of the traject}
+  \item{npart}{the number of partitions of the trajectory}
+  \item{Km}{the maximum number of partitions of the trajectory}
   \item{plotit}{logical. Whether the results should be plotted.}
   \item{correction}{logical. Whether the log-likelihood should be
     corrected (see details).}
@@ -62,53 +62,53 @@ plot.partltraj(x, col, addpoints = TRUE, lwd = 2, \dots)
   \item{\dots}{additional arguments to be passed to other functions}
 }
 \details{
-  A traject is made of successive steps traveled by an organism in the
+  A trajectory is made of successive steps traveled by an organism in the
   geographical space.  These steps (the line connecting two successive
   relocations) can be described by a certain number of descriptive
   parameters (relative angles between successive steps, length of the
-  step, etc.).  One aim of the traject analysis is to identify 
-  the structure of the traject, i.e.  the parts of the traject where the
+  step, etc.).  One aim of the trajectory analysis is to identify 
+  the structure of the trajectory, i.e.  the parts of the trajectory where the
   steps have homogeneous properties. Indeed, an animal may have a wide
   variety of behaviours (feeding, traveling, escape from a predator,
-  etc.). As a result, partitioning a traject occupies a central place in
-  traject analysis.\cr
+  etc.). As a result, partitioning a trajectory occupies a central place in
+  trajectory analysis.\cr
   
-  These functions are to be used to partition a traject based on Markov
+  These functions are to be used to partition a trajectory based on Markov
   models of animal movements.  For example, one may suppose that a
   normal distribution generated the step lengths, with a different mean
   for each type of behaviour.  These models and the value of their
   parameters are supposed a priori by the analyst.  These functions
   allow, based on these a priori models, to find both the number and the
-  limits of the segments building up the traject (see examples).  Any
+  limits of the segments building up the trajectory (see examples).  Any
   model can be supposed for any parameter of the steps (the distance,
   relative angles, etc.), provided that the model is Markovian.\cr 
   
   The rationale behind this algorithm is the following.  First, the user
   should propose a set of model describing the movements of the animals,
-  in the different segments of the traject.  For example, the user may
+  in the different segments of the trajectory.  For example, the user may
   define two models of normal distribution for the step length, with
-  means equal to 10 meters (i.e. a traject with relatively small steps)
-  and 100 meters (i.e. a traject with longer step lengths).  For a
-  given step of the traject, it is possible to compute the probability
+  means equal to 10 meters (i.e. a trajectory with relatively small steps)
+  and 100 meters (i.e. a trajectory with longer step lengths).  For a
+  given step of the trajectory, it is possible to compute the probability
   density that the step has been generated by each model of the set.
   The function \code{modpartltraj} computes the matrix containing the
   probability densities associated to each step (rows), under each model
   of the set (columns).  This matrix is of class \code{modpartltraj}.\cr
 
   Then, the user can estimate the optimal number of segments in the
-  traject, given the set of a priori models, using the function
+  trajectory, given the set of a priori models, using the function
   \code{bestpartmod}, taking as argument the matrix of class
   \code{modpartltraj}.  If \code{correction = FALSE}, this function
-  returns the log of the probability (log-likelihood) that the traject
+  returns the log of the probability (log-likelihood) that the trajectory
   is actually made of \code{K} segments, with each one described by one
   model.  The resulting graph can be used to choose an optimal number of
   segment for the partition.  Note that Gueguen (2007) noted that this
   algorithm tends to overestimate the number of segments in a
-  traject. He proposed to correct this estimation using Monte Carlo
-  simulations of the independence of the steps within the traject.  At
+  trajectory. He proposed to correct this estimation using Monte Carlo
+  simulations of the independence of the steps within the trajectory.  At
   each step of the randomization process, the order of the rows of the
   matrix is randomized, and the curve of log-likelihood is computed for
-  each number of segments, for the randomized traject.  Then, the
+  each number of segments, for the randomized trajectory.  Then, the
   observed log-likelihood is corrected by these simulations: for a given
   number of segments, the corrected log-likelihood is equal to the
   observed log-likelihood minus the simulated log-likelihood.  Because
@@ -122,23 +122,23 @@ plot.partltraj(x, col, addpoints = TRUE, lwd = 2, \dots)
   partition.\cr
   
   The mathematical rationale underlying these two functions is the
-  following: given an optimal k-partition of the traject, if the ith
-  step of the traject belongs to the segment k predicted by the model d,
+  following: given an optimal k-partition of the trajectory, if the ith
+  step of the trajectory belongs to the segment k predicted by the model d,
   then either the relocation (i-1) belongs to the same segment, in which
   case the segment containing (i-1) is predicted by d, or the relocation
   (i-1) belongs to another segment, and the other (k-1) segments
-  together constitute an optimal (k-1) partition of the traject
+  together constitute an optimal (k-1) partition of the trajectory
   1-(i-1). These two probabilities are computed recursively by the
   functions from the matrix of class \code{partmodltraj}, observing that
-  the probability of a 1-partition of the traject from 1 to i described
-  by the model m (i.e. only one segment describing the traject) is
+  the probability of a 1-partition of the trajectory from 1 to i described
+  by the model m (i.e. only one segment describing the trajectory) is
   simply the product of the probability densities of the steps from 1 to
   i under the model m.  Further details can be found in Calenge et
   al. (in prep), and in Gueguen (2001, 2007).
 }
 \value{
   \code{partmodltraj} returns a matrix of class \code{partmodltraj}
-  containing the probability densities of the steps of the traject
+  containing the probability densities of the steps of the trajectory
   (rows) for each model (columns).\cr
   
   \code{bestpartmod} returns a list with two elements: (i) the element
@@ -150,7 +150,7 @@ plot.partltraj(x, col, addpoints = TRUE, lwd = 2, \dots)
   
   \code{partmod.ltraj} returns a list of class \code{partltraj} with the
   following components: \code{ltraj} is an object of class \code{ltraj}
-  containing the segmented traject (one burst of relocations per segment
+  containing the segmented trajectory (one burst of relocations per segment
   of the partition); \code{stats} is a list containing the following
   elements:
   \item{locs}{The number ID of the relocations starting the segments
@@ -164,7 +164,7 @@ plot.partltraj(x, col, addpoints = TRUE, lwd = 2, \dots)
 }
 \references{
   Calenge, C., Gueguen, L., Royer, M. and Dray, S. (in prep.)
-  Partitioning the traject of an animal with Markov models.
+  Partitioning the trajectory of an animal with Markov models.
   
   Gueguen, L. (2001) Segmentation by maximal predictive partitioning
   according to composition biases. Pp 32--44 in: Gascuel, O. and Sagot,
@@ -173,7 +173,7 @@ plot.partltraj(x, col, addpoints = TRUE, lwd = 2, \dots)
   Gueguen, L. (in prep.) Computing the probability of sequence
   segmentation under Markov models.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
 \seealso{\code{\link{ltraj}}}
 \examples{
 

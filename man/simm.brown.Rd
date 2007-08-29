@@ -12,7 +12,7 @@ simm.brown(date = 1:100, x0 = c(0, 0), h = 1, id = "A1", burst = id)
     relocations should be simulated.  This vector can be of class
     \code{POSIXct}}
   \item{x0}{a vector of length 2 containing the coordinates of the
-    startpoint of the traject}
+    startpoint of the trajectory}
   \item{h}{Scaling parameter for the brownian motion (larger values give
   smaller dispersion)}
   \item{id}{a character string indicating the identity of the simulated

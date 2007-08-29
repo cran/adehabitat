@@ -67,7 +67,7 @@ bestpartmod <- function(mods, Km=30, plotit=TRUE,
         hh <- lapply(yyb, function(o) mk-o)
         yyc2 <- do.call("rbind",hh)
         colnames(yyc2) <- as.character(1:length(mk))
-        med <- apply(yyc2, 2, median, na.rm=T)
+        med <- apply(yyc2, 2, median, na.rm=TRUE)
 
         if (plotit) {
             fac <- gl(ncol(yyc2), nrow(yyc2))

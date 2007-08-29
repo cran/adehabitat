@@ -36,7 +36,7 @@ is.regular(ltr)
 plotltr(ltr, "dt/3600/24")
 
 ## First, note that Chou is monitored two successive summers
-## Now, cut the traject of Chou into two summers
+## Now, cut the trajectory of Chou into two summers
 
 foo <- function(dt) {
     return(dt> (100*3600*24))
@@ -56,7 +56,7 @@ plotltr(l2, "dt/3600/24")
 
 ## The relocations have been collected daily, and there are many
 ## missing values
-## We set the missing values in this traject. We first
+## We set the missing values in this trajectory. We first
 ## set the reference date: the hour should be exact (i.e. minutes=0):
 refda <- strptime("00:00", "%H:%M")
 refda
@@ -68,16 +68,16 @@ l3 <- setNA(l2, refda, 1, units = "day")
 l3
 
 
-## The traject is now regular, but there is a lot of
+## The trajectory is now regular, but there is a lot of
 ## missing values!!
 summaryNAltraj(l3)
 
 
-## Are the missing values randomly distributed in the traject?
+## Are the missing values randomly distributed in the trajectory?
 runsNAltraj(l3)
 
 ## yes, it seems so...
-## Traject is ready for the analysis
+## Trajectory is ready for the analysis
 
 cat("*******************************************************\n",
     "The deeply commented source for this demo can be found in the file:\n",

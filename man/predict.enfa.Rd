@@ -7,7 +7,7 @@
   method.
 }
 \usage{
-predict.enfa(object, index, attr, nf, \dots)
+\method{predict}{enfa}(object, index, attr, nf, \dots)
 }
 \arguments{
   \item{object}{an object of class \code{enfa}}

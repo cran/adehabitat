@@ -1,9 +1,3 @@
-##################################################################
-##
-## cutltraj coupe une trajectoire en plusieurs bursts apres une loc
-## donnee qui remplit les conditions
-##
-
 
 cutltraj <- function(ltraj, criterion, value.NA = FALSE,
                      nextr = TRUE, ...)
@@ -49,7 +43,6 @@ cutltraj <- function(ltraj, criterion, value.NA = FALSE,
     return(resb)
 }
 
-## Associe ensemble plusieurs bursts
 bindltraj <- function(ltraj, ...)
 {
     if (!inherits(ltraj, "ltraj"))

@@ -3,7 +3,7 @@
 \alias{indmove.detail}
 \alias{testang.ltraj}
 \alias{testdist.ltraj}
-\title{Testing Independence in Regular Traject Parameters}
+\title{Testing Independence in Regular Trajectory Parameters}
 \description{
   The function \code{indmove} tests for the independence between
   successive components \code{c(dx, dy)} for each burst in a regular
@@ -56,23 +56,23 @@ indmove.detail(x, detail=c("dx","dy"), nrep=999,
 }
 \details{
   The function \code{indmove} randomises the order of the increments
-  \code{c(dx, dy)} in a traject.  The criteria of the test is the
+  \code{c(dx, dy)} in a trajectory.  The criteria of the test is the
   Mean Squared Displacement (\code{R^2_n}) (Root & Kareiva 1984).\cr
   
   The function \code{testang.ltraj} randomises the order of the angles in a
-  traject.  The criteria of the test is \code{f^2 = sum_(i=1)^(n-1) 2*(1 -
+  trajectory.  The criteria of the test is \code{f^2 = sum_(i=1)^(n-1) 2*(1 -
     cos(angle[i+1] - angle[i]))}.  This measure corresponds to the
   mean squared length of the segment joining two successive angles on
   the trigonometric circle (see examples for an illustration) \cr
 
   The function \code{testdist.ltraj} randomises the order of the
-  distances between successive relocations in a traject.  The
+  distances between successive relocations in a trajectory.  The
   criteria of the test is \code{sum_(i=1)^(n-1) (dist[i+1] -
     dist[i])^2 } (Neuman 1941, Neuman et al. 1941).  The same criteria is
   used in \code{indmove.detail()}.\cr.
 
-  Note that these functions require "regular" trajects,
-  i.e. trajects for which the relocations are separated by a
+  Note that these functions require "regular" trajectories,
+  i.e. trajectories for which the relocations are separated by a
   constant time lag.\cr
 
   Finally, note that the functions \code{testang.ltraj} and

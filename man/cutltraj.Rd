@@ -1,7 +1,7 @@
 \name{cutltraj}
 \alias{cutltraj}
 \alias{bindltraj}
-\title{Split Trajects into Several Bursts}
+\title{Split Trajectories into Several Bursts}
 \description{
   The function \code{cutltraj} split the bursts in an object of class
   \code{ltraj} into several "sub-bursts", according to some specified
@@ -26,11 +26,11 @@ bindltraj(ltraj, ...)
   \item{\dots}{additional arguments to be passed to other functions}
 }
 \details{
-  Splitting a traject may be of interest in many situations. For
+  Splitting a trajectory may be of interest in many situations. For
   example, if it is known that two kinds of activities of the monitored
   animals correspond to different properties of, say, the distance
   between successive relocations, it may be of interest to split the
-  traject according to the values of these distances.\cr
+  trajectory according to the values of these distances.\cr
 
   Two options are available in \code{cutltraj}, depending on the value
   of \code{nextr}. If \code{nextr = FALSE}, any sequence of
@@ -74,8 +74,8 @@ help page) for other examples of use of this function}
 
 data(bear)
 
-## We want to study the traject of the day at the scale
-## of the day. We define one traject per day. The traject should begin
+## We want to study the trajectory of the day at the scale
+## of the day. We define one trajectory per day. The trajectory should begin
 ## at 22H00
 ## The following function returns TRUE if the date is comprised between
 ## 21H00 and 22H00 (i.e. correspond to the relocation taken at 21H30)
@@ -86,7 +86,7 @@ foo <- function(date) {
      return(ho>21&ho<22)
 }
 
-## We cut the traject into bursts after the relocation taken at 21H30:
+## We cut the trajectory into bursts after the relocation taken at 21H30:
 
 bea1 <- cutltraj(bear, "foo(date)", nextr = TRUE)
 bea1
@@ -97,7 +97,7 @@ bea2 <- bea1[-c(1,length(bea1))]
 
 #######################################################
 ##
-## Bind the trajects
+## Bind the trajectories
 
 bea3 <- bindltraj(bea2)
 bea3
