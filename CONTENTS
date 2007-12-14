@@ -353,6 +353,12 @@ Keywords: spatial
 Description: Estimation of kernel home-range
 URL: ../../../library/adehabitat/html/kernelUD.html
 
+Entry: kerneloverlap
+Aliases: kerneloverlap
+Keywords: spatial
+Description: Spatial Interaction between Animals Monitored Using Radio-Tracking
+URL: ../../../library/adehabitat/html/kerneloverlap.html
+
 Entry: kselect
 Aliases: kselect, kplot.kselect, hist.kselect, print.kselect
 Keywords: multivariate

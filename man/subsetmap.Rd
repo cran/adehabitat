@@ -27,7 +27,8 @@ subsetmap(x, xlim = NULL, ylim = NULL, ...)
 \value{
   Returns an object of class \code{asc} or \code{kasc}
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr},
+  improvements by Jon Olav Vik}
 \seealso{\code{\link{asc}}, \code{\link{kasc}}}
 \examples{
 

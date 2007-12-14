@@ -60,16 +60,16 @@ is.sd(bea2)
 df <- sd2df(bea2, "dist")
 
 ## Plots the average distance per hour
-meandi <- apply(df, 1, mean, na.rm = TRUE)
-sedi <- apply(df, 1, sd, na.rm = TRUE) / sqrt(ncol(df))
-plot(seq(0, 24, length = 48),
+meandi <- apply(df[-nrow(df),], 1, mean, na.rm = TRUE)
+sedi <- apply(df[-nrow(df),], 1, sd, na.rm = TRUE) / sqrt(ncol(df))
+plot(seq(0, 23.5, length = 47),
      meandi,
      ty = "b", pch = 16, xlab = "Hours (time 0 = 22H00)",
      ylab="Average distance covered by the bear in 30 mins",
      ylim=c(0, 500))
-lines(seq(0, 24, length = 48),
+lines(seq(0, 23.5, length = 47),
       meandi+sedi, col="grey")
-lines(seq(0, 24, length = 48),
+lines(seq(0, 23.5, length = 47),
       meandi-sedi, col="grey")
 
 

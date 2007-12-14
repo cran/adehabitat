@@ -3,6 +3,7 @@ adehabitat-package      adehabitat: a Package for the Analysis of the
 albatross               Argos Monitoring of Adult Albatross Movement
 altr                    Attach or Detach Bursts in Objects of Class
                         'ltraj' to Search Path
+angles                  Compute Turning Angles - Deprecated
 area2asc                Converts a Polygon to Raster
 area2dxf                Exportation of Areas
 as.area                 Objects of Class "area"
@@ -86,6 +87,8 @@ join.asc                Finds the Value of Mapped Variables at some
 kasc2df                 Conversion of Objects of Class kasc
 kasc2spixdf             Conversion of maps from/to the package "sp"
 kernelbb                Estimation of Kernel Brownian Bridge Home-Range
+kerneloverlap           Spatial Interaction between Animals Monitored
+                        Using Radio-Tracking
 kernelUD                Estimation of Kernel Home-Range
 kselect                 K-Select Analysis: a Method to Analyse the
                         Habitat Selection by Animals
@@ -161,6 +164,8 @@ simm.mou                Simulation of a Bivariate Ornstein-Uhlenbeck
                         Process
 sliwinltr               Apply a Function on an Object of Class "ltraj",
                         Using a Sliding Window
+speed                   Computes the Speed Between Successive
+                        Relocations of an Animal - Deprecated
 squirrel                Radio-Tracking Data of Squirrels
 squirreloc              Radio-tracking of squirrels
 storemapattr            Store Attributes of Maps of Class asc and kasc

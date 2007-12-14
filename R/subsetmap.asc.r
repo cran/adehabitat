@@ -21,13 +21,13 @@
     cs<-attr(x, "cellsize")
 
     ## Gets the indices of the limits of the new map
-    posli1<-round((xlim[1]-xll)/cs, 0)+1
-    posco1<-round((ylim[1]-yll)/cs, 0)+1
-    posli2<-round((xlim[2]-xll)/cs, 0)+1
-    posco2<-round((ylim[2]-yll)/cs, 0)+1
+    posli1<-floor((xlim[1]-xll)/cs)+1
+    posco1<-floor((ylim[1]-yll)/cs)+1
+    posli2<-floor((xlim[2]-xll)/cs)+1
+    posco2<-floor((ylim[2]-yll)/cs)+1
 
     ## Gets the new map
-    o<-x[posli1:posli2,posco1:posco2]
+    o<-x[posli1:posli2,posco1:posco2, drop=FALSE]
 
     ## Sets the attributes of the new map
     attr(o, "xll")<-xy$x[posli1]

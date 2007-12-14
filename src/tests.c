@@ -7972,6 +7972,7 @@ void testindepangl (double *sim, double *ang, int *nang, int *debut, int *fin, i
     sim[j]=2*sim[j];
 
   }
+  freevec(angle);
 }
 
 void testindepdist (double *sim, double *di, int *ndi, int *debut, int *fin, int *ndeb, int *ni){
@@ -7996,7 +7997,7 @@ void testindepdist (double *sim, double *di, int *ndi, int *debut, int *fin, int
     }
 
   }
-
+  freevec(dist);
 }
 
 
