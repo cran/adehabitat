@@ -5,6 +5,10 @@
     test<-match.arg(test)
     used<-as.matrix(used)
     avail<-as.matrix(avail)
+    if (any(apply(avail,2, function(x) {
+        sum(x > .Machine$double.eps)
+    })<2))
+        stop("Availability different from zero\n for less than two animals for some habitat types. \n At least 2 animals are required for this analysis")
     if ((any(avail==0))&(test=="parametric")) {
       warning("parametric tests not suitable with 0 in avail; test has been set to \"randomisation\"")
       test<-"randomisation"

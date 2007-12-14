@@ -57,6 +57,13 @@ projection of the vectors of the canonical basis multiplied by a
 constant of rescaling.
 The kept axes for the plot are specified in a corner.
 }
+\references{
+  Basille, M., Calenge, C., Marboutin, E., Andersen, R. & Gaillard,
+  J.M. (2008) Assessing habitat selection using multivariate statistics:
+  Some refinements of the ecological-niche factor
+  analysis. \emph{Ecological Modelling}, \bold{211}, 233--240.
+
+}
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
 \seealso{\code{\link{enfa}}, \code{\link[ade4]{scatter}}}
 \examples{

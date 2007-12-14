@@ -1,4 +1,4 @@
-"mcp.rast" <- function(poly, w)
+"mcp.rast" <- function(poly, w, border=c("include", "exclude"))
   {
       ## Verifications
       if (inherits(w, "asc"))
@@ -9,6 +9,26 @@
       ## The first and last relocations should be the same (closed polygon)
       if (!all(poly[1,]==poly[nrow(poly),]))
           poly<-rbind(poly, poly[1,])
+      border <- match.arg(border)
+
+      ## Slightly move the borders of the polygon
+      slightlymove <- function(mcp, w, bor)
+      {
+          if (bor=="include") {
+              oo <- 1
+          } else {
+              oo <-  -1
+          }
+          amo <- oo*runif(1)*attr(w, "cellsize")/100
+          me <- apply(mcp,2,mean)
+          mcp[mcp[,1]<=me[1],1] <- mcp[mcp[,1]<=me[1],1] - amo
+          mcp[mcp[,1]>me[1],1] <- mcp[mcp[,1]>me[1],1] + amo
+          mcp[mcp[,1]<=me[2],2] <- mcp[mcp[,1]<=me[2],2] - amo
+          mcp[mcp[,1]>me[2],2] <- mcp[mcp[,1]>me[2],2] + amo
+          return(mcp)
+      }
+
+      poly <- slightlymove(poly, w, border)
 
       ## prepares the data
       xy<-getXYcoords(w)

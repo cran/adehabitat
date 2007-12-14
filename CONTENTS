@@ -396,6 +396,13 @@ Keywords: multivariate
 Description: The MADIFA: a Factorial Decomposition of the Mahalanobis Distances
 URL: ../../../library/adehabitat/html/madifa.html
 
+Entry: dunnfa
+Aliases: dunnfa, print.dunnfa
+Keywords: multivariate
+Description: Factorial Analysis of the Specialization in Habitat Selection
+  Studies.  Unpublished Work of James Dunn (University of Arkansas)
+URL: ../../../library/adehabitat/html/dunnfa.html
+
 Entry: mahasuhab
 Aliases: mahasuhab
 Keywords: spatial

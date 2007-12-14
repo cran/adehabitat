@@ -37,7 +37,7 @@ s.madifa(x, xax = 1, yax = 2, cgrid = 1, clab = 1, \dots)
   \item{scannf}{logical.  Whether the eigenvalues barplot should be
     displayed}
   \item{nf}{an integer indicating the number of kept
-    specialization axes}
+    factorial axes}
   \item{x,object}{an object of class \code{madifa}}
   \item{xax}{the column number for the x-axis}
   \item{yax}{the column number for the y-axis}
@@ -161,7 +161,7 @@ s.madifa(x, xax = 1, yax = 2, cgrid = 1, clab = 1, \dots)
   \item{tab}{a data frame with n rows and p columns.}
   \item{pr}{a vector of length n containing the number of points in each
     pixel of the map.}
-  \item{nf}{the number of kept specialization axes.}
+  \item{nf}{the number of kept factorial axes.}
   \item{eig}{a vector with all the eigenvalues of the analysis.}
   \item{lw}{row weights, a vector with n components.}
   \item{li}{row coordinates, data frame with n rows and nf columns.}
@@ -179,9 +179,9 @@ s.madifa(x, xax = 1, yax = 2, cgrid = 1, clab = 1, \dots)
   female black bear habitat use for a geographic information
   system. \emph{Journal of Wildlife Management}, \bold{57}, 519--526.\cr
 
-  Calenge, C., Darmon, G., Basille, M., Loison, A. and Jullien J.M. (in
-  prep.) The factorial decomposition of the Mahalanobis distances in
-  habitat selection studies.
+  Calenge, C., Darmon, G., Basille, M., Loison, A. and Jullien
+  J.M. (2008) The factorial decomposition of the Mahalanobis distances
+  in habitat selection studies. \emph{Ecology}, \bold{89}, 555--566.\cr
 }
 \author{
   Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}

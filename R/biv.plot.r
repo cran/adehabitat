@@ -23,7 +23,6 @@
     on.exit(par(old.par))
     lay <- layout(matrix(c(2,4,1,3),2,2, byrow = TRUE), c(3,1),
                   c(1,3), TRUE)
-    layout.show(lay)
 
     ## preparation of the data
     x <- dfxy[, 1]

@@ -6,6 +6,7 @@
     if (!inherits(x, "traj"))
         stop("tr should be of class \"ltraj\"")
 
+
     ## Bases
     sorties <- list()
     gr <- grid

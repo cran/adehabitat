@@ -88,7 +88,9 @@ kver2spol(kv)
   \code{spol2area} ignore them and returns only the external contour of
   the polygon (though a warning is returned).
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}, code
+  of \code{spixdf2kasc} kindly provided by Roger Bivand
+  \email{Roger.Bivand@nhh.no} }
 \seealso{ \code{\link{asc}} for information on objects of
   class \code{asc}, \code{\link{kasc}} for info on objects of
   class \code{kasc}, \code{\link{area}} for info on objects of

@@ -43,6 +43,9 @@ distfacmap              Compute distances to the different levels of a
                         factor map
 domain                  Estimation of the Potential Distribution of a
                         Species
+dunnfa                  Factorial Analysis of the Specialization in
+                        Habitat Selection Studies. Unpublished Work of
+                        James Dunn (University of Arkansas)
 eisera                  Eigenanalysis of Selection Ratios
 enfa                    Ecological-Niche Factor Analysis
 explore.kasc            Interactive Exploration of Maps of Class kasc

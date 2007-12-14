@@ -133,7 +133,13 @@ data2enfa(kasc, pts)
   
   Hirzel, A.H., Hausser, J., Chessel, D. & Perrin, N. (2002)
   Ecological-niche factor analysis: How to compute habitat-suitability
-  maps without absence data? \emph{Ecology}, \bold{83}, 2027--2036.  
+  maps without absence data? \emph{Ecology}, \bold{83}, 2027--2036.
+
+  Basille, M., Calenge, C., Marboutin, E., Andersen, R. & Gaillard,
+  J.M. (2008) Assessing habitat selection using multivariate statistics:
+  Some refinements of the ecological-niche factor
+  analysis. \emph{Ecological Modelling}, \bold{211}, 233--240.
+
 }
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr} }
 
