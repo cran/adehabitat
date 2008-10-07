@@ -39,7 +39,7 @@ angles(x, id = levels(x$id), burst = levels(x$burst),
     and modeling population redistribution in animals and plants.}
   Sunderland, Massachusetts: Sinauer Associates.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \note{
   The function \code{angles} is deprecated.  The class \code{ltraj}
   computes the turning angles automatically (see \code{ltraj}).

@@ -44,7 +44,7 @@ df2kasc(df, index, x)
     for the analyses (that is, not \code{NA}).}
   \code{df2kasc} returns an object of class \code{kasc}.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{\code{\link{kasc}} for additional information on
   objects of class \code{kasc}.

@@ -152,7 +152,7 @@ widesIII(u, a, avknown = TRUE, alpha = 0.05)
   comparing resource use and availability. \emph{Journal of Wildlife
   Management}, \bold{54}, 322--330.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 
 \seealso{\code{\link{compana}} for compositional analysis, and
   \code{\link{eisera}} to perform an eigenanalysis of selection

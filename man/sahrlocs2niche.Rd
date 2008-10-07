@@ -35,7 +35,7 @@ sahrlocs2niche(x, ani = names(x$hr), var = names(x$sa), used = c("hr",
 \references{Doledec, S., Chessel, D. and Gimaret, C. (2000) Niche
   separation in community analysis: a new method. \emph{Ecology}, \bold{81},
   2914--1927.}
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{\code{\link{as.sahrlocs}} for additional information on the
   objects of class \code{sahrlocs}, \code{\link[ade4]{niche}} for an

@@ -23,7 +23,7 @@ trajdyn(x, burst = attr(x[[1]], "burst"), hscale = 1, vscale = 1,
   \item{\dots}{additional arguments to be passed to the function
     \code{plot.ltraj}.}
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{\code{\link{ltraj}} for further information on the class
     \code{ltraj}, and \code{\link{plot.ltraj}} for information on arguments
     that can be passed to this function.}

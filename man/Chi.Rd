@@ -47,7 +47,7 @@ rchi(n, df = 2)
   Evans, M., Hastings, N. and Peacock, B. (2000) Statistical
   Distributions, 3rd ed. Wiley, New York.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{Chisquare}}}
 \examples{
 

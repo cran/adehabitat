@@ -23,7 +23,7 @@ ascgen(xy = NULL, cellsize = NULL, nrcol = 10, count = TRUE)
 \value{
   Returns an object of class \code{asc}.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{\code{\link{asc}} for additional information on objects
   of class \code{asc}.}
 

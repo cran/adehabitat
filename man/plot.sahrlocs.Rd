@@ -57,7 +57,7 @@
     Analysis for field studies. Second edition}.
   London: Kluwer academic publishers.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{widesII}} and \code{\link{widesIII}} for further
   information on objects of class \code{wiII} and \code{wiIII},
   \code{\link{as.sahrlocs}} for further information on objects of class

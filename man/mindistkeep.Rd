@@ -20,7 +20,7 @@ mindistkeep(x, threshold)
 \value{
   An object of class \code{ltraj}
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{ltraj}}}
 \examples{
 data(puechcirc)

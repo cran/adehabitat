@@ -81,7 +81,7 @@ NNCH.der.n.area(x, n, \dots)
   distributions. \emph{Ecography}, \bold{in press}.
 }
 \author{Scott Fortmann-Roe \email{scottfr@gmail.com}\cr
-Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \note{
   These functions are useful for determining critical values of
   \code{k}, \code{r}, and \code{a}. Big jumps in the the area indicate

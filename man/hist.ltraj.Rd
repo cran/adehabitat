@@ -19,7 +19,7 @@
 \value{
   a list of objects of class \code{"histogram"}  
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{hist}}, \code{\link{ltraj}} for additional
   information on the descriptive parameters of the trajectory,
   \code{\link{qqnorm.ltraj}} for examination of distribution. }

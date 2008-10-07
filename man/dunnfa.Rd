@@ -108,7 +108,7 @@ dunnfa(dudi, pr, scannf = TRUE, nf = 2)
 
 }
 \author{
-  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}
+  Clement Calenge \email{clement.calenge@oncfs.gouv.fr}
 }
 \note{
   This analysis was developed by James Dunn during an e-mail discussion

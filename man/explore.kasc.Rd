@@ -16,7 +16,7 @@ explore.kasc(ka, coltxt = "blue", hscale = 1, vscale = 1, \dots)
   \item{vscale}{passed to tkrplot}
   \item{\dots}{not yet implemented}
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{ \code{\link{kasc}} for further information about objects of
 class \code{kasc} and \code{\link{image.kasc}} for graphical display}
 \examples{

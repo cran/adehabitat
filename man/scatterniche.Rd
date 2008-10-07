@@ -58,7 +58,7 @@ scatterniche(x, pr, xax = 1, yax = 2, pts = FALSE,
   \item{\dots}{further arguments passed to or from other methods}
 }
 \author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}\cr
-  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}
+  Clement Calenge \email{clement.calenge@oncfs.gouv.fr}
 }
 \examples{
 data(chamois)

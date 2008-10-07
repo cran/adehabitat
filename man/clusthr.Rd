@@ -107,7 +107,7 @@ getverticesclusthr(x, whi = names(x), lev=95)
   and linkage estimators of homre range: nearest neighbor clustering
   defines multinuclear cores. \emph{Ecology}, \bold{82}, 1905-1920.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \section{Warning}{
   These functions require the package \code{gpclib} to be installed.
 }

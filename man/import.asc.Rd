@@ -83,7 +83,7 @@ as.asc(x, xll = 1, yll = 1, cellsize = 1, type = c("numeric", "factor"),
 \references{Arcview: \url{http://www.esri.com}\cr
 Landserf: \url{http://www.soi.city.ac.uk/~jwo/landserf/}
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{ \code{\link{image.asc}} }
 

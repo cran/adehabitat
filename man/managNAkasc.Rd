@@ -25,7 +25,7 @@ managNAkasc(x)
 \value{
   Returns an object of class \code{kasc}.
 }
-\author{ Clément Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{\code{\link{kasc}} for additional information on
   objects of class \code{kasc}.

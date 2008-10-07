@@ -182,7 +182,7 @@ rec(x, slsp = c("remove", "missing"))
   movements with the R software: what is a trajectory?
 }
 \author{
-  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}\cr
+  Clement Calenge \email{clement.calenge@oncfs.gouv.fr}\cr
   Stephane Dray \email{dray@biomserv.univ-lyon1.fr}
 }
 \note{

@@ -68,7 +68,7 @@ getkasc(x, var)
   should describe the same area (same attributes: same \code{cellsize},
   same \code{xll}, same \code{yll}, and same dimensions). 
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{ \code{\link{asc}} for additionnal information on
   objects of class \code{asc}.  \code{\link{image.kasc}} and
   \code{\link{explore.kasc}} for graphical displays of objects of class

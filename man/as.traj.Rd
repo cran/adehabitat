@@ -102,7 +102,7 @@ df2traj(df)
   Dunn, J.E. and Gipson, P.S. (1977) Analysis of radio telemetry data in
   studies of home range. \emph{Biometrics}. \bold{59}, 794--800.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{ \code{\link{as.POSIXct}} and \code{\link{strptime}} for
   additional information of the class \code{POSIX}. }
 \examples{

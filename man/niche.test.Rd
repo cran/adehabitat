@@ -44,10 +44,10 @@ components:
 }
 \author{
   Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}\cr
-  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}
+  Clement Calenge \email{clement.calenge@oncfs.gouv.fr}
 }
 \section{Warning}{
-  \code{biv.test} uses the function \code{kde2d} of the package \code{MASS}.
+ \code{biv.test} uses the function \code{kde2d} of the package \code{MASS}.
 }
 \seealso{
   \code{\link{biv.test}} for more details on bivariate tests. 

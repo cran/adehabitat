@@ -96,7 +96,7 @@ gnesfa(dudi, Focus, Reference,
   Calenge, C. and Basille, M. (in prep.) A General Framework for the
   Exploration of the Ecological Niche.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{madifa}}, \code{\link{mahasuhab}},
   \code{\link{enfa}}, \code{\link{wi}} for closely related methods (see
   Examples)}

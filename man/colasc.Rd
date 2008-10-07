@@ -19,7 +19,7 @@ colasc(x, \dots)
 \value{
   Returns a character vector.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{ \code{\link{asc}} }
 

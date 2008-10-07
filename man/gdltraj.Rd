@@ -26,7 +26,7 @@ gdltraj(x, min, max, type = c("POSIXct", "sec", "min", "hour", "mday",
 \value{
   an object of class \code{ltraj}.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{ltraj}} for further information about objects of
   class \code{ltraj}, \code{\link{POSIXlt}} for further information
   about objects of class \code{POSIXlt}}

@@ -19,8 +19,8 @@
   \tabular{ll}{
     Package: \tab adehabitat\cr
     Type: \tab Package\cr
-    Version: \tab 1.6\cr
-    Date: \tab 2007-04-18\cr
+    Version: \tab 1.7.3\cr
+    Date: \tab 2008-10-07\cr
     License: \tab GPL version 2 or newer\cr
   }
 
@@ -105,8 +105,8 @@
 Clement Calenge, with contributions from Mathieu Basille, Stephane Dray,
 Manuela Royer and Scott Fortmann-Roe
 
-Maintainer: Clement Calenge <calenge@biomserv.univ-lyon1.fr>
-}
+Maintainer: Clement Calenge <clement.calenge@oncfs.gouv.fr>}
+
 \references{
   Calenge, C. (2006) The package adehabitat for the R software: a tool
   for the analysis of space and habitat use by animals. Ecological

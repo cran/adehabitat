@@ -25,7 +25,7 @@ convnum(kasc)
     a categorical variable has the same weight as a numeric variable
     (see examples).} 
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link[ade4]{dudi.mix}} (package ade4), \code{\link{kasc}}}
 \examples{
 

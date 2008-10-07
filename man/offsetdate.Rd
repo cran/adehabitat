@@ -31,7 +31,7 @@ offsetdate(ltraj, offset, units = c("sec", "min", "hour", "day"))
 \value{
   an object of class \code{ltraj}
 }
-\author{  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{  Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{ \code{\link{ltraj}} for additional information on objects of
   class \code{ltraj}}
 \examples{

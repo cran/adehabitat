@@ -14,7 +14,7 @@
   An object of class \code{ltraj}.
 }
 \author{
-  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}
+  Clement Calenge \email{clement.calenge@oncfs.gouv.fr}
 }
 \seealso{\code{\link{ltraj}} for further information on the class
   \code{ltraj}, \code{\link{Extract.ltraj}} to extract or replace 

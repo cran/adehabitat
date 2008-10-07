@@ -57,7 +57,7 @@ Clark, J.D., Dunn, J.E. and Smith, K.G. (1993) A multivariate model of
 female black bear habitat use for a geographic information
 system. \emph{Journal of Wildlife Management}, \bold{57}, 519--526.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \note{
   The computation of the squared Mahalanobis distances inverts the
   variance-covariance matrix of the niche density function (see

@@ -184,7 +184,7 @@ s.madifa(x, xax = 1, yax = 2, cgrid = 1, clab = 1, \dots)
   in habitat selection studies. \emph{Ecology}, \bold{89}, 555--566.\cr
 }
 \author{
-  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}
+  Clement Calenge \email{clement.calenge@oncfs.gouv.fr}
 }
 \seealso{\code{\link{mahasuhab}} for a detailed description of the
   Mahalanobis distances, \code{\link{enfa}} and \code{\link{gnesfa}} for

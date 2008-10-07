@@ -70,7 +70,7 @@ qqchi(y, ...)
     coordinates including 'NA's.}
   
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{chi}}, \code{\link{qqplot}}, \code{\link{ltraj}}.}
 \examples{
 

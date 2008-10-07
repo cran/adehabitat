@@ -15,7 +15,7 @@ plotltr(x, which = "dist", ...)
   \item{\dots}{additional parameters to be passed to the generic
     function \code{plot}}
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{ \code{\link{ltraj}} for additional information about
   objects of class \code{ltraj}, and \code{\link{sliwinltr}} for a
   sliding window smoothing}

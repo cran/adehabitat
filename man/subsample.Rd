@@ -25,7 +25,7 @@ subsample(ltraj, dt, nlo = 1,
 \value{
   An object of class \code{ltraj}
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{\code{\link{ltraj}} for additional information on objects of
   class \code{ltraj}, \code{\link{is.regular}} for regular trajectories. }
 \examples{

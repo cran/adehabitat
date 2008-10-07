@@ -35,7 +35,7 @@ plotNAltraj(x, \dots)
   \code{randtest} (if a burst does not contain any missing value, the
   corresponding component is NULL).
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{ltraj}} for additional information about objects of
   class \code{ltraj}, \code{\link{setNA}} for additional information
   about missing values in such objects}

@@ -4,7 +4,7 @@
 \title{Location of Chamois Groups in the Chartreuse Mountains}
 \description{
   This data set describes the habitat use and availability by the
-  chamois of the Chartreuse mountains (Isère, France), in 1992 and 1997.
+  chamois of the Chartreuse mountains (Isere, France), in 1992 and 1997.
   These data have been gathered during the hunting season (Fall).
 }
 \usage{

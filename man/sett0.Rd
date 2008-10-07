@@ -77,7 +77,7 @@ sett0(ltraj, date.ref, dt, correction.xy = c("none", "cs"),
 \value{
   an object of class \code{ltraj} containing a regular trajectory.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{\code{\link{ltraj}} for additional information on objects of
   class \code{ltraj}, \code{\link{is.regular}} for regular trajectories,
   \code{\link{setNA}} to place missing values in the trajectory and

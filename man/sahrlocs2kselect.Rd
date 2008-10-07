@@ -26,7 +26,7 @@ sahrlocs2kselect(sahr)
   D. (\emph{submitted}). K-select analysis, a new method to analyse
   habitat selection in radio-tracking studies.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{\code{\link{as.sahrlocs}} for additional information on the
   objects of class \code{sahrlocs}, \code{\link{kselect}} for a K-select

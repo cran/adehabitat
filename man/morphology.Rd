@@ -18,7 +18,7 @@ morphology(x, operation = c("erode", "dilate"), nt = 5)
 Returns a matrix of class \code{asc}, containing 1 when the pixel belong
 to one feature of the image and \code{NA} otherwise (see examples).  
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{\code{\link{asc}} for further information on objects of
   class \code{asc}.} 
 \examples{

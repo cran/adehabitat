@@ -24,7 +24,7 @@
   \item{\dots}{additional arguments to be passed to the generic function
     \code{plot} }
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link[ade4]{area.plot}} for another way to display
   objects of class \code{"area"} }
 \examples{

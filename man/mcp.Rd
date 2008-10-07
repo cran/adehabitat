@@ -56,7 +56,7 @@ mcp.area(xy, id, percent = seq(20,100, by = 5),
   Mohr, C.O. (1947) Table of equivalent populations of north
   american small mammals. \emph{The American Midland Naturalist},
   \bold{37}, 223-249.}
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{ \code{\link[grDevices]{chull}}, \code{\link{plot.area}} to have a
   graphical display of the home ranges, \code{\link{area}} for

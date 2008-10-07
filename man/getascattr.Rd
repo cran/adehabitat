@@ -32,7 +32,7 @@ getkascattr(xkfrom, xkto)
   \code{getascattr} returns a raster matrix of class \code{asc},\cr
   \code{getkascattr} returns a data frame of class \code{kasc}
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{ \code{\link{kasc}} for additionnal information on objects of
   class \code{kasc}, \code{\link{asc}} for additionnal information on

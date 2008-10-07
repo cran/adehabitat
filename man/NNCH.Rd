@@ -84,7 +84,7 @@ NNCH(xy, id = NULL, k = c(10), unin = c("m", "km"),
  taken increases exponentially with the size of the data set.
 }
 \author{Scott Fortmann-Roe \email{scottfr@gmail.com}\cr
-  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+  Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{NNCH.select}} for plotting, rasterization,
   conversion to shapefiles, and management of the objects of class
   \code{NNCH}.  \code{\link{NNCH.area}} for functions computing the

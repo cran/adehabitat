@@ -23,7 +23,7 @@ dltr(object, bu = burst(object)[1])
 \value{
   The 'environment' is returned invisibly with a '"name"' attribute.
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{attach}}}
 \examples{
 \dontrun{

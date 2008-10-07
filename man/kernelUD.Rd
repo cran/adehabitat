@@ -180,7 +180,7 @@ getverticeshr(x, lev = 95)
     program (kernelhr)}. Documentation of the
   program. \url{ftp://ftp.im.nbs.gov/pub/software/CSE/wsb2695/KERNELHR.ZIP}.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{ \code{\link{asc}} for additionnal informations on
   objects of class \code{asc},  \code{\link{mcp}} for estimation of home

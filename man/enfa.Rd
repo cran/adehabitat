@@ -4,9 +4,9 @@
 \alias{print.enfa}
 \alias{data2enfa}
 \alias{print.dataenfa}
-\title{Ecological-Niche Factor Analysis}
+\title{Ecological Niche Factor Analysis}
 \description{
-  \code{enfa} performs an Ecological-Niche Factor Analysis.
+  \code{enfa} performs an Ecological Niche Factor Analysis.
   \code{hist.enfa} draws histograms of the row scores or of the initial
   variables of the ENFA.\cr
   \code{data2enfa} prepares data (kasc and localizations) to be analyzed
@@ -30,8 +30,8 @@ data2enfa(kasc, pts)
     niche on the environmental variables (in this case, this is equivalent to
     \code{histniche})}
   \item{type}{what type of plot should be drawn.  Possible types are:\cr
-    * \code{"h"} for histograms,\cr
-    * \code{"l"} for kernel density estimates (see \code{?density}).\cr
+     \code{"h"} for histograms,\cr
+     \code{"l"} for kernel density estimates (see \code{?density}).\cr
     By default, \code{type = "h"} is used.  If \code{type = "l"} is used,
     the position of the mean of each distribution is indicated by dotted
     lines}
@@ -60,7 +60,7 @@ data2enfa(kasc, pts)
   The niche concept, as defined by Hutchinson (1957), considers the
   ecological niche of a species as an hypervolume in the multidimensional
   space defined by environmental variables, within
-  which the populations of a species can persist.  The Ecological-Niche
+  which the populations of a species can persist.  The Ecological Niche
   Factor Analysis (ENFA) has been developped by Hirzel et al. (2002) to
   analyse the position of the niche in the ecological space.  Nicolas
   Perrin (1984) described the position of the niche in the n-dimensional
@@ -126,16 +126,16 @@ data2enfa(kasc, pts)
   Hutchinson, G.E. (1957) Concluding Remarks. \emph{Cold Spring Harbor
   Symposium on Quantitative Biology}, \bold{22}: 415--427. 
   
-  Perrin, N. (1984) Contribution à l'ecologie du genre Cepaea
+  Perrin, N. (1984) Contribution a l'ecologie du genre Cepaea
   (Gastropoda) : Approche descriptive et experimentale de l'habitat et
   de la niche ecologique. These de Doctorat. Universite de Lausanne,
   Lausanne. 
   
-  Hirzel, A.H., Hausser, J., Chessel, D. & Perrin, N. (2002)
+  Hirzel, A.H., Hausser, J., Chessel, D. and Perrin, N. (2002)
   Ecological-niche factor analysis: How to compute habitat-suitability
   maps without absence data? \emph{Ecology}, \bold{83}, 2027--2036.
 
-  Basille, M., Calenge, C., Marboutin, E., Andersen, R. & Gaillard,
+  Basille, M., Calenge, C., Marboutin, E., Andersen, R. and Gaillard,
   J.M. (2008) Assessing habitat selection using multivariate statistics:
   Some refinements of the ecological-niche factor
   analysis. \emph{Ecological Modelling}, \bold{211}, 233--240.

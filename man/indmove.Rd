@@ -106,8 +106,8 @@ indmove.detail(x, detail=c("dx","dy"), nrep=999,
   successive difference to the variance. \emph{The Annals of
     Mathematical Statistics}, \bold{12}: 367--395 
 }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}\cr
-  Stéphane Dray \email{dray@biomserv.univ-lyon1.fr}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}\cr
+  Stephane Dray \email{dray@biomserv.univ-lyon1.fr}
 }
 \seealso{\code{\link{ltraj}}}
 \examples{

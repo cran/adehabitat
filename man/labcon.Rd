@@ -15,7 +15,7 @@ labcon(x)
   Returns a matrix of class \code{asc}, of type \code{"factor"}, with a
   number of levels equals to the number of connected components
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{asc}} for further information on the class \code{asc}}
 
 \examples{

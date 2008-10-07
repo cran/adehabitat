@@ -47,7 +47,7 @@ kver2shapefile(kv, which = names(kv))
   using the function \code{write.shapefile} of the package
   \code{shapefiles}.\cr
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \section{Warning}{
   \code{kver2shapefile} requires the packages \code{shapefiles}.  
 }

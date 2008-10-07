@@ -24,7 +24,7 @@ sd2df(ltraj, what)
   \code{sd2df} returns a data frame with one column per burst of
   relocations, and one row per relocation.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{set.limits}} for additional information about
   "sd" regular trajectories }
 \examples{

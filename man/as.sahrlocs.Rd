@@ -58,7 +58,7 @@ getsahrlocs(x, what = c("sa", "hr", "locs"))
   \code{getsahrlocs} returns
   an object of class \code{kasc} (see \code{\link{kasc}}).
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{\code{\link{kasc}} for additionnal information on objects
   of class \code{kasc}, \code{\link{hr.rast}} and \code{\link{buffer.ani}}

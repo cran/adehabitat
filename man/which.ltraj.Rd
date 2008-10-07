@@ -19,7 +19,7 @@ which.ltraj(ltraj, expr)
   A data frame giving the ID, the Bursts and the relocations for which
   the condition described by \code{expr} is verified.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{ltraj}} for additional information about objects
   of class \code{ltraj}}
 \examples{

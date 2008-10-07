@@ -24,7 +24,7 @@
 \value{
 Returns an object of class \code{asc}.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{ \code{\link{hr.rast}}}
 \examples{
 data(puechabon)

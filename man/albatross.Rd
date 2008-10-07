@@ -5,7 +5,7 @@
 \description{
   This data set contains the relocations of 6 adult albatross monitored
   in the Crozets Islands by the team of H. Weimerskirch from the
-  CEBC-CNRS (Centre d'Etudes Biologiques de Chizé, France).
+  CEBC-CNRS (Centre d'Etudes Biologiques de Chize, France).
 }
 \usage{data(albatross)}
 \format{

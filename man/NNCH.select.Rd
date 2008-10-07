@@ -78,7 +78,7 @@ NNCH.shapefile(x, percent= rev(seq(10,100, by = 10)),
  \code{NNCH.shapefile} returns an object of class \code{shapefile}.\cr
 }
 \author{Scott Fortmann-Roe \email{scottfr@gmail.com}\cr
-  Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+  Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{ \code{\link{NNCH}} for further information about the NNCH
   method}
 \section{Warning}{

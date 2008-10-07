@@ -29,7 +29,7 @@
   to the number of variables in the object of class \code{kasc}, and
   with each row corresponding to the rows of \code{pts}.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{ \code{\link{kasc}} and \code{\link{asc}}}
 

@@ -49,7 +49,7 @@ buffer.ltraj(ltraj, x, dist, perani=FALSE)
   with each column corresponding to one level of the attribute \code{id}
   of the object of class \code{ltraj} passed as argument.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{ \code{\link{kasc}} for additionnal information on
   objects of class \code{kasc}, \code{\link{asc}} for further

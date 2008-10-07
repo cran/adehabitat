@@ -107,7 +107,7 @@ kselect(dudi, factor, weight, scannf = TRUE, nf = 2, ewa = FALSE)
   new method to analyse habitat selection in radio-tracking
   studies. \emph{Ecological modelling}, \bold{186}, 143--153.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{\code{\link{sahrlocs2kselect}} for
   conversion of objects class \code{sahrlocs} to objects suitable for a

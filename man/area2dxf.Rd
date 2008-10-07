@@ -16,7 +16,7 @@ area2dxf(x, file, lay = 1:nlevels(factor(x[, 1])))
     polygons in \code{x}. This vector is then stored in the field
     "Layer" of the DXF file (see examples), for GIS mapping}
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{ \code{\link{area}}, \code{\link[ade4]{area.plot}}}
 \examples{

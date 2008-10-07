@@ -43,8 +43,8 @@ simm.brown(date = 1:100, x0 = c(0, 0), h = 1, id = "A1", burst = id)
   An object of class \code{ltraj}
 }
 \references{ ~put references to the literature/web site here ~ }
-\author{Clément Calenge \email{calenge@biomserv.univ-lyon1.fr}\cr
-  Stéphane Dray \email{dray@biomserv.univ-lyon1.fr}\cr
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}\cr
+  Stephane Dray \email{dray@biomserv.univ-lyon1.fr}\cr
   Manuela Royer \email{royer@biomserv.univ-lyon1.fr}\cr
   Daniel Chessel \email{chessel@biomserv.univ-lyon1.fr}
 }

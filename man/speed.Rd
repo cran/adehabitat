@@ -39,7 +39,7 @@ speed(x, id = levels(x$id), burst = levels(x$burst), date = NULL,
   \item{dt}{the duration between the two relocations (in the units given
   by the parameter \code{units}).}
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \note{
   The function \code{speed} is deprecated.  The class \code{ltraj}
   computes the speeds automatically (see \code{ltraj}).

@@ -44,7 +44,7 @@ redisltraj(l, u, burst = NULL, samplex0 = FALSE, addbit = FALSE,
   Sugihara, G., & May, R. (1990) Applications of fractals in
   Ecology. \emph{Trends in Ecology and Evolution} \bold{5}: 79--86.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{ltraj}} for further information on objects of
   class \code{ltraj}}
 \examples{

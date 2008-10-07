@@ -17,7 +17,7 @@ getXYcoords(w)
   \item{x}{the x coordinates of the columns of pixels of the map}
   \item{y}{the y coordinates of the rows of pixels of the map}
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{ \code{\link{asc}}, \code{\link{kasc}},
   \code{\link{as.sahrlocs}}, \code{\link{storemapattr}} for additionnal
   informations on objects of class \code{area}, \code{kasc},

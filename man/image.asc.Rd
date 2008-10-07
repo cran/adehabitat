@@ -39,7 +39,7 @@ graphics commands in the \code{plot.axes} argument of the function
 An example is given below.
 }
 
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 
 \seealso{ \code{\link{image}},  \code{\link{contour}},
   \code{\link{persp}}, \code{\link{filled.contour}},

@@ -41,7 +41,7 @@ Niche Factor analysis (ENFA).
   Ecological-niche factor analysis: How to compute habitat suitability
   maps without absence data? \emph{Ecology}, \bold{83}, 2027--2036.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}
 }
 \seealso{\code{\link{enfa}}}
 \examples{

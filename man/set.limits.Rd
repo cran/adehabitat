@@ -66,7 +66,7 @@ set.limits(ltraj, begin, dur, pattern,
 \value{
   an object of class \code{ltraj}
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{ltraj}} for additional information on objects of
   class \code{ltraj}, \code{\link{sett0}} for additional
   information on regular trajectories, and \code{\link{sd2df}} for

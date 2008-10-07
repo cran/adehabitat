@@ -9,7 +9,7 @@
 \usage{data(bear)}
 \source{
 Scandinavian Bear Research Project. Skandinaviska
-Björnprojektet. Tackåsen - Kareliusväg 2. 79498 Orsa, Sweden.
+Bjornprojektet. Tackasen - Kareliusvag 2. 79498 Orsa, Sweden.
 email: info@bearproject.info
 }
 \examples{

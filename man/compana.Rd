@@ -101,7 +101,7 @@ Johnson, D. H. (1980) The comparison of usage and availability
 measurements for evaluating resource preference. \emph{Ecology}, \bold{61},
 65--71.
 }
-\author{Clement Calenge \email{calenge@biomserv.univ-lyon1.fr}}
+\author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \note{
 In the examples below, the results differ from those published in
 Aebischer et al. (squirrel example, selection of the relocations within

@@ -56,7 +56,7 @@ eisera(used, available, scannf = TRUE, nf = 2)
   from animal radio-tracking data. \emph{Ecology}. \bold{87},
   2349--2355.
 }
-\author{ Clement Calenge \email{calenge@biomserv.univ-lyon1.fr} }
+\author{ Clement Calenge \email{clement.calenge@oncfs.gouv.fr} }
 \seealso{ \code{\link{wi}} for further information about the
   selection ratios, \code{\link{compana}} for compositional analysis.}
 \examples{
