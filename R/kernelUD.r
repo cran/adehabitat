@@ -191,6 +191,7 @@
             convergence<-min(CV[,2])!=CV[1,2]
             htmp<-list(CV=CV, convergence=convergence, h=htmp)
         }
+        attr(UD, "UD") <- "simple"
         sorties[[names(lixy)[i]]]<-list(UD=UD, h=htmp, locs=df, hmeth=typh)
     }
     ## general output

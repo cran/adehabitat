@@ -2,6 +2,8 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+#include <R.h>
+#include <Rmath.h>
 
 
 /* ***********************************************************************
@@ -39,7 +41,6 @@ void matmodifcs (double **tab, double *poili);
 void matmodifcn (double **tab, double *poili);
 void matmodifcm (double **tab, double *poili);
 void DiagobgComp (int n0, double **w, double *d, int *rang);
-
 
 
 
@@ -226,6 +227,39 @@ void longfacclust(double **xy, int *len2);
 void longfacclustr(double *xyr, int *nr, int *len2);
 void clusterhrr(double *xyr, int *nr, int *facsor, 
 		int *nolocsor, int *clusor, int *len);
+void permutR2n(double *xyr, int *nro, int *nrepr, 
+	       double *R2nr, double *dtr, double *dtsimr);
+void runsltr(int *xr, int *nr, double *res, int *nrepr);
+void testindepangl (double *sim, double *ang, int *nang, int *debut, 
+                    int *fin, int *ndeb, int *ni);
+void testindepdist (double *sim, double *di, int *ndi, int *debut, 
+		    int *fin, int *ndeb, int *ni);
+void prepquart (double *dtur, int *nur, double *dtrr, double *resr, int *nrr, 
+		int *ncr, double *rur);
+void optcut (double **Pid, double **mk, int *maxk);
+void optcutr (double *Pidr, double *mkr, int *maxk, int *lr, int *pr, 
+	      double *baye);
+void partraj(double **Pid, int *maxk, double **Mk, double **Mkd, 
+	     double **res);
+void partrajr(double *Pidr, double *curmar, int *curmodr, int *curlocr, 
+	      int *lr, int *Dr, int *Kmr);
+void kcprcirc(double **xyd, double *h, double *x, double t, 
+	      double *val);
+void kcprlin(double **xyd, double *h, double *x, double t, 
+	     double *val);
+void kernelkcr(double *xydr, double *tcalcr, int *nlr, double *gridr,
+	       double *xgri, double *ygri, int *nliggri, int *ncolgri, 
+	       double *hr, int *circularr);
+void findmaxgrid(double *grille, int *nlig, int *ncol);
+void engen2008Ir(double *avr, double *usr, int *nliga, int *nligu, 
+		 int *ncol, double *resr, int *nsimrar);
+void engen2008r(double *avr, double *usr, int *nliga, int *nligu, 
+		int *ncol, int *idr, int *nidr, int *nsimr, 
+		double *resr, int *nsimrar);
+void free_ivector(int *v, int nl, int nh);
+int invers(double **a, int n, double **b, int m);
+
+
 
 
 
@@ -8384,7 +8418,7 @@ void optcutr (double *Pidr, double *mkr, int *maxk, int *lr, int *pr,
 
 /* *********************************************************************
  *                                                                     *
- *                   partition d'un trajet                             *
+ *                   partitioning of a trajectory                      *
  *                                                                     *
  ***********************************************************************/
 
@@ -8607,3 +8641,1131 @@ void partrajr(double *Pidr, double *curmar, int *curmodr, int *curlocr,
     freeintvec(curmod);
     freeintvec(curloc);
 }
+
+
+
+
+/* *********************************************************************
+ *                                                                     *
+ *           Kernel in time and space (Keating and Cherry, 2008)       *
+ *                                                                     *
+ ***********************************************************************/
+
+
+
+void kcprcirc(double **xyd, double *h, double *x, double t, 
+	      double *val)
+{
+    int i, j, k, nlo;
+    double tmp, tmp2, vi, som;
+    
+    nlo = xyd[0][0];
+    som=0;
+    
+    for (i=1; i<=nlo; i++) {
+	
+	tmp2 = 1;
+	
+	/* spatial coordinates */
+	for (j=1; j<=2; j++) {
+	    vi = (x[j] - xyd[i][j]) / h[j];
+	    if (fabs(vi) < 1.0) {
+		tmp = 15/(16 * h[j]) * ((1- (vi * vi)) * (1- (vi * vi)));
+		tmp2 = tmp2 * tmp;
+	    } else {
+		tmp2 = 0.0;
+	    }
+	}
+	
+	/* time */
+	vi = (t - xyd[i][3]);
+	tmp2 = tmp2 * (1 - h[3] * h[3]) / 
+	    (2 * 3.14153265359 * ( 1 +  (h[3] * h[3]) - (2 * h[3] * cos(vi) )));
+	som = som + tmp2;
+    }
+    *val = ( 1/( ((double) nlo) * h[1] * h[2] * h[3])) * som;
+}
+
+void kcprlin(double **xyd, double *h, double *x, double t, 
+	      double *val)
+{
+    int i, j, k, nlo;
+    double tmp, tmp2, vi, som;
+    
+    nlo = xyd[0][0];
+    
+    som = 0;
+    
+    for (i=1; i<=nlo; i++) {
+	
+	tmp2 = 1;
+	
+	/* spatial coordinates and time */
+	for (j=1; j<=2; j++) {
+	    vi = (x[j] - xyd[i][j]) / h[j];
+	    if (fabs(vi) < 1.0) {
+		tmp = 15/(16 * h[j]) * ((1- (vi * vi)) * (1- (vi * vi)));
+		tmp2 = tmp2 * tmp;
+	    } else {
+		tmp2 = 0.0;
+	    }
+	}
+	
+	/* time */
+	vi = (t - xyd[i][3]) / h[3];
+	if (fabs(vi) < 1.0) {
+	    tmp2 = tmp2 * 15/(16 * h[3]) * ((1- (vi * vi)) * (1- (vi * vi)));
+	} else {
+	    tmp2 = 0.0;
+	}
+	som = som + tmp2;
+    }
+    *val = ( 1/( ((double) nlo) * h[1] * h[2] * h[3])) * som;
+}
+
+
+void kernelkcr(double *xydr, double *tcalcr, int *nlr, double *gridr,
+	       double *xgri, double *ygri, int *nliggri, int *ncolgri, 
+	       double *hr, int *circularr)
+{
+    /* Declaration of local variables */
+    int i, j, k, ncg, nlg, nlo, circular;
+    double **gri, **xyd, *xx, *xg, *yg, tmp, *h, tca;
+    
+    /* Memory Allocation */
+    ncg = *ncolgri;
+    nlg = *nliggri;
+    nlo = *nlr;
+    tca = *tcalcr;
+    circular = *circularr;
+    
+    taballoc(&gri, nlg, ncg);
+    taballoc(&xyd, nlo, 3);
+    vecalloc(&xg, nlg);
+    vecalloc(&yg, ncg);
+    vecalloc(&h, 3);
+    vecalloc(&xx, 2);
+    
+    /* R objects -> C objects */
+
+    for (i=1; i<=3; i++) {
+	h[i] = hr[i-1];
+    }
+    
+    for (i=1; i<=nlg; i++) {
+	xg[i] = xgri[i-1];
+    }
+    
+    for (i=1; i<=ncg; i++) {
+	yg[i] = ygri[i-1];
+    }
+    
+    k = 0;
+    for (i=1; i<=nlo; i++) {
+	for (j=1; j<=3; j++) {
+	    xyd[i][j] = xydr[k];
+	    k++;
+	}
+    }
+    
+    /* loop on the grid */
+    if (circular==1) {
+	for (i=1; i<=nlg; i++) {
+	    for (j=1; j<=ncg; j++) {
+		xx[1] = xg[i];
+		xx[2] = yg[j];
+		kcprcirc(xyd, h, xx, tca, &tmp);
+		gri[i][j] = tmp;
+	    }
+	}
+    } else {
+	for (i=1; i<=nlg; i++) {
+	    for (j=1; j<=ncg; j++) {
+		xx[1] = xg[i];
+		xx[2] = yg[j];
+		kcprlin(xyd, h, xx, tca, &tmp);
+		gri[i][j] = tmp;
+	    }
+	}
+    }
+    
+    /* C objects -> R objects */
+    k = 0;
+    for (i=1; i<=nlg; i++) {
+	for (j=1; j<=ncg; j++) {
+	    gridr[k] = gri[i][j];
+	    k++;
+	}
+    }
+
+    /* Memory Free */
+    freetab(gri);
+    freetab(xyd);
+    freevec(xg);
+    freevec(yg);
+    freevec(h);
+    freevec(xx);
+}
+
+
+
+
+/* *********************************************************************
+ *                                                                     *
+ *                      find local maxima/minima on a map              *
+ *                                                                     *
+ ***********************************************************************/
+
+
+void findmaxgrid(double *grille, int *nlig, int *ncol)
+{
+    /* declaration */
+    int i,j,k,nl,nc,sto;
+    double **x, **grille2, r1,r2,r3,r4,r5,r6,r7,r8;
+    
+    nl = *nlig;
+    nc = *ncol;
+    sto=0;
+    
+    /* Memory alloocation */
+    taballoc(&x,nl,nc);
+    taballoc(&grille2,nl,nc);
+    
+    /* R to C */
+    k=0;
+    for (i=1; i<=nl; i++) {
+	for (j=1; j<=nc; j++) {
+	    x[i][j]=grille[k];
+	    k++;
+	}
+    }
+    
+    /* Loop */
+    for (i = 2; i <= (nl-1); i++) {
+	for (j=2; j<= (nc-1); j++) {
+	    
+	    r1=x[i-1][j-1] - x[i][j];
+	    r2=x[i][j-1] - x[i][j];
+	    r3=x[i+1][j-1] - x[i][j];
+	    r4=x[i+1][j] - x[i][j];
+	    r5=x[i+1][j+1] - x[i][j];
+	    r6=x[i][j+1] - x[i][j];
+	    r7=x[i-1][j+1] - x[i][j];
+	    r8=x[i-1][j] - x[i][j];
+	    
+	    sto=1;
+	    
+	    if (r1 < -0.000000000001) {
+		if (r2 < -0.000000000001) {
+		    if (r3 < -0.000000000001) {
+			if (r4 < -0.000000000001) {
+			    if (r5 < -0.000000000001) {
+				if (r6 < -0.000000000001) {
+				    if (r7 < -0.000000000001) {
+					if (r8 < -0.000000000001) {
+					    sto=0;
+					}
+				    }
+				}
+			    }
+			}
+		    }
+		}
+	    }
+	    
+	    if (sto==0)
+		grille2[i][j] = 1;
+	}
+    }
+        
+    
+    /* C to R */
+    k=0;
+    for (i=1; i<=nl; i++) {
+	for (j=1; j<=nc; j++) {
+	    grille[k]=grille2[i][j];
+	    k++;
+	}
+    }
+    
+    /* Memory */
+    freetab(x);
+    freetab(grille2);
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* *********************************************************************
+ *                                                                     *
+ *                 Method of Engen (2008)                              *
+ *                                                                     *
+ ***********************************************************************/
+
+
+/* 
+   sources of the package deal-1.2-30. 
+   Code from Susanne Gammelgaard Bøttcher <alma@math.aau.dk>, 
+   Claus Dethlefsen <cld@rn.dk>. 
+   Useful for matrix inverse!
+*/
+
+
+int *ivector(int nl, int nh)
+{
+   int *v;
+
+   v=(int *) R_alloc((unsigned) (nh-nl+1)*sizeof(int),sizeof(int));
+   if ( v == NULL ){
+      error("memory allocation failure in ivector()"); return(NULL);
+   }
+   return v-nl;
+}
+
+void free_ivector(int *v, int nl, int nh) { free((char*) (v+nl)); }
+
+
+
+int invers(double **a, int n, double **b, int m)
+{
+   int *indxc,*indxr,*ipiv;
+   int i,icol=1,irow=1,j,k,l,ll;
+   double big,dum,pivinv;
+
+   if( (indxc = ivector(1,n)) == NULL){ return(-1); }
+   if( (indxr = ivector(1,n)) == NULL){ return(-1); }
+   if( (ipiv  = ivector(1,n)) == NULL){ return(-1); }
+   for (j=1;j<=n;j++) ipiv[j]=0;
+   for (i=1;i<=n;i++) {
+      big=0.0;
+      for (j=1;j<=n;j++)
+         if (ipiv[j] != 1)
+            for (k=1;k<=n;k++) {
+               if (ipiv[k] == 0) {
+                  if (fabs(a[j][k]) >= big) {
+                     big=fabs(a[j][k]);
+                     irow=j;
+                     icol=k;
+                  }
+               } else if (ipiv[k] > 1){
+                  error("Invers: Singular Matrix-1");
+                  return(-1);
+               }
+            }
+      ++(ipiv[icol]);
+      if (irow != icol) {
+         for (l=1;l<=n;l++){
+            double temp=a[irow][l]; a[irow][l]=a[icol][l]; a[icol][l]=temp;
+         }
+         for (l=1;l<=m;l++){
+            double temp=b[irow][l]; b[irow][l]=b[icol][l]; b[icol][l]=temp;
+         }
+      }
+      indxr[i]=irow;
+      indxc[i]=icol;
+      if (a[icol][icol] == 0.0){
+         error("Invers: Singular Matrix-2");
+         return(-1);
+      }
+      pivinv=1.0/a[icol][icol];
+      a[icol][icol]=1.0;
+      for (l=1;l<=n;l++) a[icol][l] *= pivinv;
+      for (l=1;l<=m;l++) b[icol][l] *= pivinv;
+      for (ll=1;ll<=n;ll++)
+         if (ll != icol) {
+            dum=a[ll][icol];
+            a[ll][icol]=0.0;
+            for (l=1;l<=n;l++) a[ll][l] -= a[icol][l]*dum;
+            for (l=1;l<=m;l++) b[ll][l] -= b[icol][l]*dum;
+         }
+   }
+   for (l=n;l>=1;l--) {
+      if (indxr[l] != indxc[l]){
+         for (k=1;k<=n;k++){
+            double temp     = a[k][indxr[l]];
+            a[k][indxr[l]] = a[k][indxc[l]];
+            a[k][indxc[l]] = temp;
+         }
+      }
+   }
+   return(0);
+}
+
+
+/* end of the sources of deal */
+
+/* Main function */
+
+
+void engen2008r(double *avr, double *usr, int *nliga, int *nligu, 
+		int *ncol, int *idr, int *nidr, int *nsimr, 
+		double *resr, int *nsimrar)
+{
+    /* declaration of variables */
+    double **av, **us, **nsco, *varR, tmp, res, **var, mu1, mu2, **Akmo;
+    double **inv1, **zer, *a, sigkk, *Wk, *tmp2, m, s, **nscob, **nscoav;
+    double *obs, **sammr, vartot, sig2, **rho, *Zi, *thetai, tmp3;
+    double **mu;
+    int nla, nlu, nc, *id, i, j, k, nid, nsim, e, r,l, *index;
+    int *indexR, nsimra, b, *ni;
+    
+    /* memory allocation */
+    nc=*ncol;
+    nla=*nliga;
+    nlu=*nligu;
+    nsim=*nsimr;
+    nid=*nidr;
+    nsimra=*nsimrar;
+    e=0;
+    r=1;
+    tmp=0.0;
+    tmp3=0.0;
+    b=1;
+
+    /* used and available */
+    taballoc(&av, nla, nc);
+    taballoc(&us, nlu, nc);
+    
+    /* the id */
+    vecintalloc(&id, nlu);
+    
+    /* the results */
+    taballoc(&mu, nsimra, (nc * 5) );
+    
+    /* elements required for the calculations of 
+       normalized scores */
+    if (nc > 1) {
+	vecalloc(&Wk, (nc-1));
+	taballoc(&Akmo, nc-1, nc-1);
+	vecalloc(&a, (nc-1));
+	vecalloc(&tmp2, (nc-1));
+	vecintalloc(&index, nc);
+	taballoc(&var, nc, nc);
+	taballoc(&inv1, nc-1, nc-1);
+	taballoc(&zer, nc-1, nc-1);
+    }
+    taballoc(&nscob, nlu, nc);
+
+    /* elements required for the calculations
+       of the statistics */
+    taballoc(&sammr, nsim, nid);
+    vecintalloc(&ni, nid);
+    vecalloc(&Zi, nid);
+    vecalloc(&thetai, nid);
+
+    /* elements required for used normal scores */
+    taballoc(&nsco, nlu, nc);
+    
+    /* elements required for available normal scores */
+    taballoc(&nscoav, nla, nc);
+
+    /* elements used in the R API */
+    varR = (double *) R_alloc(nla, sizeof(double));
+    indexR = (int *) R_alloc(nla, sizeof(int));
+
+
+
+        
+    /* R -> C objects */
+    k=0;
+    for (i=1; i<=nla; i++) {
+	for (j=1; j<=nc; j++) {
+	    av[i][j]=avr[k];
+	    k++;
+	}
+    }
+    
+    k=0;
+    for (i=1; i<=nlu; i++) {
+	for (j=1; j<=nc; j++) {
+	    us[i][j]=usr[k];
+	    k++;
+	}
+    }
+    
+    for (i=1; i<=nlu; i++) {
+	id[i]=idr[i-1];
+    }
+
+    /* For each randomization */
+    for (b=1; b<=nsimra; b++) {
+	
+	/* Compute "used" normal score */
+	
+	/* for each variable */
+	for (i=1; i<=nc; i++) {
+	    
+	    /* sort the variable */
+	    for (j = 1; j <= nla; j++) {
+		varR[j-1]=av[j][i];
+		indexR[j-1]=j;
+	    }
+	    
+	    /* add a very small value to varR (kind of jitter) */
+	    /* first find the smallest lag between successive values */
+	    tmp = fabs(varR[1]-varR[0]);
+	    
+	    for (k = 2; k<=nla; k++) {
+		for (l = 1; l<k; l++) {
+		    if (fabs(varR[k]-varR[l]) < tmp) {
+			tmp=fabs(varR[k]-varR[l]);
+		    }			    
+		}
+	    }
+	    
+	    tmp=tmp/100;
+	    
+	    for (j = 1; j <= nla; j++) {
+		GetRNGstate();
+		varR[j-1] = varR[j-1]+ (((unif_rand() * 2)-1) * tmp);
+		PutRNGstate();
+	    }
+	    
+	    rsort_with_index(varR, indexR, nla);
+	    
+	    /* normal score for each available point */
+	    for (k = 1; k <=nla; k++) {
+		nscoav[indexR[k-1]][i] = qnorm((((double) k)/(((double) nla) +1)), 0.0, 1.0, 1, 0);
+	    }
+	    
+	    
+	    for (k = 1; k <= nlu; k++) {
+		
+		/* add a random value to the used points, to avoid ties */
+		GetRNGstate();
+		res=us[k][i] + (((unif_rand() * 2)-1) * tmp);
+		PutRNGstate();
+		r=1;
+
+		for (j = 1; j <= nla; j++) {
+		    
+		    /* if the obs is larger than the point, increase r */
+		    if (varR[j-1] < res)
+			r=j;
+		}
+		
+		tmp3 = (((double) r) + 0.5) / ( ((double) nla) + 1.0);
+		/* a qnorm on this, and store the result in nsco */
+		nsco[k][i] = qnorm(tmp3, 0.0, 1.0, 1, 0);
+		
+		
+	    }
+	    
+	}
+	
+	/*
+	  Computes the conditional standardized values, using the method
+	  of Ripley (1987, p. 98)
+	*/
+	/* Just in case there is only one variable */
+	if (nc > 1) {
+	    for (k = 1; k <= nc; k++) {
+		
+		l=1;
+		for (j=1; j<=nc; j++) {
+		    if (j!=k) {
+			index[l]=j;
+			l++;
+		    }
+		}
+		index[nc]=k;
+		
+		/* variance covariance matrix of the available points */
+		for (j=1; j<=nc; j++) {
+		    for (l=1; l<=nc; l++) {
+			var[j][l]=0.0;
+		    }
+		}
+		
+		for (j=1; j<=nc; j++) {
+		    for (l=1; l<=nc; l++) {
+			mu1=0.0;
+			mu2=0.0;
+			
+			for (i=1; i<=nla; i++) {
+			    mu1 = mu1 + (nscoav[i][index[j]]/((double) nla));
+			    mu2 = mu2 + (nscoav[i][index[l]]/((double) nla));
+			}
+			
+			for (i=1; i<=nla; i++) {
+			    var[j][l] = var[j][l] + 
+				(((nscoav[i][index[j]] - mu1) * 
+				  (nscoav[i][index[l]] - mu2))/
+				 (((double) nla) - 1.0));
+			}
+		    }
+		}
+		
+		/* Calculation of Akmo */
+		for (j = 1; j <= (nc-1); j++) {
+		    for (l = 1; l <= (nc-1); l++) {
+			inv1[j][l] = var[j][l];
+		    }
+		}
+		
+		i=invers(inv1, (nc-1), zer, (nc-1));
+		
+		for (j = 1; j <= (nc-1); j++) {
+		    for (l = 1; l <= (nc-1); l++) {
+			Akmo[j][l] = inv1[j][l];
+		    }
+		}
+		
+		/* calculation of a */
+		for (j = 1; j <= (nc-1); j++)
+		    a[j]=var[j][nc];
+		
+		/* sigkk */
+		sigkk=var[nc][nc];
+		
+		/* for each observation */
+		for (i = 1; i <= nlu; i++) {
+		    
+		    /* Wk */
+		    for (j=1; j<= (nc-1); j++)
+			Wk[j]=nsco[i][index[j]];
+		    
+		    /* calculation of the conditionnal average */
+		    for (j=1; j<= (nc-1); j++) {
+			tmp2[j]=0;
+			for (l=1; l<= (nc-1); l++) {
+			    tmp2[j] = tmp2[j] + (a[l] *  Akmo[l][j]);
+			}
+		    }
+		    
+		    m=0.0;
+		    for (l=1; l<= (nc-1); l++) {
+			m = m + (tmp2[l] * Wk[l]);
+		    }
+		    
+		    /* Calculation of the conditional variance */
+		    s = 0.0;
+		    for (l=1; l<= (nc-1); l++) {
+			s = s + (tmp2[l] * a[l]);
+		    }
+		    s = sqrt(sigkk - s);
+		    
+		    
+		    nscob[i][k]=(nsco[i][k] - m)/s;
+		}
+		
+	    }
+	} else {
+	    nscob[i][1] = nsco[i][1];	    
+	}
+	
+
+	
+	/* ************************
+	   Compute the statistics for each individual 
+	*/
+
+	/* the number of observations for each animal */
+	for (l=1; l<=nid; l++) {
+	    e=0;
+	    for (i=1; i<=nlu; i++) {
+		if (id[i]==l) {
+		    e++;
+		}
+	    }
+	    ni[l]=e;
+	}
+	
+	
+	/* for each variable */
+	for (j=1; j<=nc; j++) {
+	    
+	    /* for each animal */
+	    s=0.0;
+	    for (l=1; l<=nid; l++) {
+		
+		/* get the observations */
+		vecalloc(&obs, ni[l]);
+		
+		k=1;
+		for (i=1; i<=nlu; i++) {
+		    if (id[i]==l) {
+			obs[k]=nscob[i][j];
+			k++;
+		    }
+		}
+		
+		/* then compute the elements needed for the total variance */
+		for (i=1; i<=nsim; i++) {
+		    
+		    GetRNGstate();
+		    tmp= unif_rand();
+		    PutRNGstate();
+		    for (k = 1; k <= ni[l]; k++) {
+			if (tmp < (  ( ((double) k) ) / ((double) ni[l])  )  ) {
+			    if (tmp >= (  (((double) k-1)) / ((double) ni[l])  )  ) {
+				sammr[i][l]= obs[k];
+			    }
+			}
+		    }
+		}
+		
+		/* and finally, the within class variance */
+		m=0.0;
+		for (i=1; i<=ni[l]; i++) {
+		    m=m+(obs[i] / ((double) ni[l]));
+		}
+		for (i=1; i<=ni[l]; i++) {
+		    s=s+ (((obs[i]-m) * (obs[i]-m)) / 
+			  (((double) nlu) - ((double) ni[l])));
+		}
+		Zi[l]=m;
+	    }
+	    
+	    /* the total variance */
+	    vartot=0.0;
+	    for (l=1; l<=nsim; l++) {
+		/* the mean */
+		m=0.0;
+		for (i=1; i<=nid; i++) {
+		    m=m+ (sammr[l][i]/((double) nid));
+		}
+		/* the total variance */
+		
+		for (i=1; i<=nid; i++) {
+		vartot=vartot+(((sammr[l][i] - m) * 
+				(sammr[l][i] - m))/
+			       (((double) nid -1.0) * ((double) nsim)));
+		}
+	    }
+	    sig2=vartot-s;
+	    if (sig2<0)
+		sig2=0.0;
+	    mu[b][((j-1) * 5) + 1]=sammr[1][1];
+	    mu[b][((j-1) * 5) + 2]=s;
+	    
+	    /* value of rho */
+	    mu[b][((j-1) * 5) + 3]=sig2/(sig2+s);
+	    
+	    
+	    /* thetai */
+	    for (l=1; l<=nid;l++) {
+		thetai[l]=sig2 + (s/((double) ni[l]));
+	    }
+	    
+	    /* mu and var(mu) */
+	    for (l=1; l<=nid;l++) {
+		mu[b][((j-1) * 5) + 4]=mu[b][((j-1) * 5) + 4]+(Zi[l]/thetai[l]);
+		mu[b][((j-1) * 5) + 5]=mu[b][((j-1) * 5) + 5]+(1.0/thetai[l]);
+	    }
+	    mu[b][((j-1) * 5) + 5]=1/mu[b][((j-1) * 5) + 5];
+	    mu[b][((j-1) * 5) + 4]=mu[b][((j-1) * 5) + 4] * mu[b][((j-1) * 5) + 5];
+	    
+	    freevec(obs);
+	
+	}
+	
+	/* end of randomization */
+    }
+    
+    k=0;
+    for (i=1; i<=nsimra; i++) {
+	for (j=1; j<=(nc*5); j++) {
+	    resr[k]=mu[i][j];
+	    k++;
+	}
+    }
+    
+    k=0;
+    for (i=1; i<=nlu; i++) {
+	for (j=1; j<=nc; j++) {
+	    usr[k]=nscob[i][j];
+	    k++;
+	}
+    }
+ 
+    /* free memory */
+
+    /* used and available */
+    freetab(av);
+    freetab(us);
+    
+    /* the id */
+    freeintvec(id);
+    
+    /* the results */
+    freetab(mu);
+    
+    /* elements required for the calculations of 
+       normalized scores */
+    if (nc > 1) {
+	freevec(Wk);
+	freetab(Akmo);
+	freevec(a);
+	freevec(tmp2);
+	freeintvec(index);
+	freetab(var);
+	freetab(inv1);
+	freetab(zer);
+    }
+    freetab(nscob);
+    
+    /* elements required for the calculations
+       of the statistics */
+    freetab(sammr);
+    freeintvec(ni);
+    freevec(Zi);
+    freevec(thetai);
+
+    /* elements required for used normal scores */
+    freetab(nsco);
+
+    /* elements required for available normal scores */
+    freetab(nscoav);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Extension of the metod for designs I */
+
+void engen2008Ir(double *avr, double *usr, int *nliga, int *nligu, 
+		int *ncol, double *resr, int *nsimrar)
+{
+    /* declaration of variables */
+    double **av, **us, **nsco, *varR, tmp, res, **var, mu1, mu2, **Akmo;
+    double **inv1, **zer, *a, sigkk, *Wk, *tmp2, m, s, **nscob, **nscoav;
+    double tmp3, **mu;
+    int nla, nlu, nc, i, j, k, r,l, *index;
+    int *indexR, nsimra, b;
+    
+    /* memory allocation */
+    nc=*ncol;
+    nla=*nliga;
+    nlu=*nligu;
+    nsimra=*nsimrar;
+    r=1;
+    tmp=0.0;
+    tmp3=0.0;
+    b=1;
+
+    /* used and available */
+    taballoc(&av, nla, nc);
+    taballoc(&us, nlu, nc);
+        
+    /* the results */
+    taballoc(&mu, nsimra, (nc * 2) );
+    
+    /* elements required for the calculations of 
+       normalized scores */
+    if (nc > 1) {
+	vecalloc(&Wk, (nc-1));
+	taballoc(&Akmo, nc-1, nc-1);
+	vecalloc(&a, (nc-1));
+	vecalloc(&tmp2, (nc-1));
+	vecintalloc(&index, nc);
+	taballoc(&var, nc, nc);
+	taballoc(&inv1, nc-1, nc-1);
+	taballoc(&zer, nc-1, nc-1);
+    }
+    taballoc(&nscob, nlu, nc);
+
+
+    /* elements required for used normal scores */
+    taballoc(&nsco, nlu, nc);
+    
+    /* elements required for available normal scores */
+    taballoc(&nscoav, nla, nc);
+
+    /* elements used in the R API */
+    varR = (double *) R_alloc(nla, sizeof(double));
+    indexR = (int *) R_alloc(nla, sizeof(int));
+
+
+
+        
+    /* R -> C objects */
+    k=0;
+    for (i=1; i<=nla; i++) {
+	for (j=1; j<=nc; j++) {
+	    av[i][j]=avr[k];
+	    k++;
+	}
+    }
+    
+    k=0;
+    for (i=1; i<=nlu; i++) {
+	for (j=1; j<=nc; j++) {
+	    us[i][j]=usr[k];
+	    k++;
+	}
+    }
+    
+
+    /* For each randomization */
+    for (b=1; b<=nsimra; b++) {
+	
+	/* Compute "used" normal score */
+	
+	/* for each variable */
+	for (i=1; i<=nc; i++) {
+	    
+	    /* sort the variable */
+	    for (j = 1; j <= nla; j++) {
+		varR[j-1]=av[j][i];
+		indexR[j-1]=j;
+	    }
+	    
+	    /* add a very small value to varR (kind of jitter) */
+	    /* first find the smallest lag between successive values */
+	    tmp = fabs(varR[1]-varR[0]);
+	    
+	    for (k = 2; k<=nla; k++) {
+		for (l = 1; l<k; l++) {
+		    if (fabs(varR[k]-varR[l]) < tmp) {
+			tmp=fabs(varR[k]-varR[l]);
+		    }			    
+		}
+	    }
+	    
+	    tmp=tmp/100;
+	    
+	    for (j = 1; j <= nla; j++) {
+		GetRNGstate();
+		varR[j-1] = varR[j-1]+ (((unif_rand() * 2)-1) * tmp);
+		PutRNGstate();
+	    }
+	    
+	    rsort_with_index(varR, indexR, nla);
+	    
+	    /* normal score for each available point */
+	    for (k = 1; k <=nla; k++) {
+		nscoav[indexR[k-1]][i] = qnorm((((double) k)/(((double) nla) +1)), 0.0, 1.0, 1, 0);
+	    }
+	    
+	    
+	    for (k = 1; k <= nlu; k++) {
+		
+		/* add a random value to the used points, to avoid ties */
+		GetRNGstate();
+		res=us[k][i] + (((unif_rand() * 2)-1) * tmp);
+		PutRNGstate();
+		r=1;
+
+		for (j = 1; j <= nla; j++) {
+		    
+		    /* if the obs is larger than the point, increase r */
+		    if (varR[j-1] < res)
+			r=j;
+		}
+		
+		tmp3 = (((double) r) + 0.5) / ( ((double) nla) + 1.0);
+		/* a qnorm on this, and store the result in nsco */
+		nsco[k][i] = qnorm(tmp3, 0.0, 1.0, 1, 0);
+		
+		
+	    }
+	    
+	}
+	
+	/*
+	  Computes the conditional standardized values, using the method
+	  of Ripley (1987, p. 98)
+	*/
+	/* Just in case there is only one variable */
+	if (nc > 1) {
+	    
+	    /* for each variable */
+	    for (k = 1; k <= nc; k++) {
+		
+		l=1;
+		for (j=1; j<=nc; j++) {
+		    if (j!=k) {
+			index[l]=j;
+			l++;
+		    }
+		}
+		index[nc]=k;
+		
+		/* variance covariance matrix of the available points */
+		for (j=1; j<=nc; j++) {
+		    for (l=1; l<=nc; l++) {
+			var[j][l]=0.0;
+		    }
+		}
+		
+		for (j=1; j<=nc; j++) {
+		    for (l=1; l<=nc; l++) {
+			mu1=0.0;
+			mu2=0.0;
+			
+			for (i=1; i<=nla; i++) {
+			    mu1 = mu1 + (nscoav[i][index[j]]/((double) nla));
+			    mu2 = mu2 + (nscoav[i][index[l]]/((double) nla));
+			}
+			
+			for (i=1; i<=nla; i++) {
+			    var[j][l] = var[j][l] + 
+				(((nscoav[i][index[j]] - mu1) * 
+				  (nscoav[i][index[l]] - mu2))/
+				 (((double) nla) - 1.0));
+			}
+		    }
+		}
+		
+		/* Calculation of Akmo */
+		for (j = 1; j <= (nc-1); j++) {
+		    for (l = 1; l <= (nc-1); l++) {
+			inv1[j][l] = var[j][l];
+		    }
+		}
+		
+		i=invers(inv1, (nc-1), zer, (nc-1));
+		
+		for (j = 1; j <= (nc-1); j++) {
+		    for (l = 1; l <= (nc-1); l++) {
+			Akmo[j][l] = inv1[j][l];
+		    }
+		}
+		
+		/* calculation of a */
+		for (j = 1; j <= (nc-1); j++)
+		    a[j]=var[j][nc];
+		
+		/* sigkk */
+		sigkk=var[nc][nc];
+		
+		/* for each observation */
+		for (i = 1; i <= nlu; i++) {
+		    
+		    /* Wk */
+		    for (j=1; j<= (nc-1); j++)
+			Wk[j]=nsco[i][index[j]];
+		    
+		    /* calculation of the conditionnal average */
+		    for (j=1; j<= (nc-1); j++) {
+			tmp2[j]=0;
+			for (l=1; l<= (nc-1); l++) {
+			    tmp2[j] = tmp2[j] + (a[l] *  Akmo[l][j]);
+			}
+		    }
+		    
+		    m=0.0;
+		    for (l=1; l<= (nc-1); l++) {
+			m = m + (tmp2[l] * Wk[l]);
+		    }
+		    
+		    /* Calculation of the conditional variance */
+		    s = 0.0;
+		    for (l=1; l<= (nc-1); l++) {
+			s = s + (tmp2[l] * a[l]);
+		    }
+		    s = sqrt(sigkk - s);
+		    
+		    
+		    nscob[i][k]=(nsco[i][k] - m)/s;
+		}
+		
+	    }
+	} else {
+	    /* if one variable, no correction */
+	    nscob[i][1] = nsco[i][1];	    
+	}
+	
+
+	
+	/* ************************
+	   Compute the statistics
+	*/
+
+	/* for each variable */
+	for (j=1; j<=nc; j++) {
+	    
+	    m=0.0;
+	    s=0.0;
+	    	    
+	    /* The preference */
+	    for (i=1; i<=nlu; i++) {
+		m = m + (nscob[i][j]);
+	    }
+	    
+	    /* the variance of the scores */
+	    for (i=1; i<=nlu; i++) {
+		s=s+ (((nscob[i][j]-m) * (nscob[i][j]-m)) / 
+		      (((double) nlu) - 1));
+	    }
+	    
+	    /* variance of the mean */
+	    s=s/((double) nlu);
+	    
+	    mu[b][((j-1) * 2) + 1]=m;
+	    mu[b][((j-1) * 2) + 2]=s;
+	}
+	
+	/* end of randomization */
+    }
+    
+    k=0;
+    for (i=1; i<=nsimra; i++) {
+	for (j=1; j<=(nc*2); j++) {
+	    resr[k]=mu[i][j];
+	    k++;
+	}
+    }
+    
+    k=0;
+    for (i=1; i<=nlu; i++) {
+	for (j=1; j<=nc; j++) {
+	    usr[k]=nscob[i][j];
+	    k++;
+	}
+    }
+ 
+    /* free memory */
+
+    /* used and available */
+    freetab(av);
+    freetab(us);
+    
+    
+    /* the results */
+    freetab(mu);
+    
+    /* elements required for the calculations of 
+       normalized scores */
+    if (nc > 1) {
+	freevec(Wk);
+	freetab(Akmo);
+	freevec(a);
+	freevec(tmp2);
+	freeintvec(index);
+	freetab(var);
+	freetab(inv1);
+	freetab(zer);
+    }
+    freetab(nscob);
+    
+
+    /* elements required for used normal scores */
+    freetab(nsco);
+
+    /* elements required for available normal scores */
+    freetab(nscoav);
+
+
+}
+

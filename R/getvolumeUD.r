@@ -25,7 +25,9 @@
 
         ## output
         u<-matrix(vreord, ncol=ncol(asc), byrow=TRUE)
-        x[[i]]$UD<-getascattr(asc,u)
+        UD <-getascattr(asc,u)
+        attr(UD,"UD") <- "volume"
+        x[[i]]$UD <- UD
     }
     ## OUTPUT
     class(x)<-c("khrvol", "khr")

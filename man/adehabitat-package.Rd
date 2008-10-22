@@ -19,8 +19,8 @@
   \tabular{ll}{
     Package: \tab adehabitat\cr
     Type: \tab Package\cr
-    Version: \tab 1.7.3\cr
-    Date: \tab 2008-10-07\cr
+    Version: \tab 1.8.0\cr
+    Date: \tab 2008-10-22\cr
     License: \tab GPL version 2 or newer\cr
   }
 

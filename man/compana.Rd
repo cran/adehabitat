@@ -33,6 +33,7 @@ compana(used, avail, test = c("randomisation", "parametric"),
   Aebischer et al. (1993) for the analysis of habitat selection by
   several animals, when the resources are defined by several categories
   (e.g. vegetation types).\cr
+
   This analysis is carried out in two steps: first the significance of
   habitat selection is tested (using a Wilks lambda). Then, a ranking
   matrix is built, indicating whether the habitat type in row is
@@ -56,7 +57,15 @@ compana(used, avail, test = c("randomisation", "parametric"),
   values can be found in the matrix of available habitats when the
   third-order habitat selection is under focus. In this case, it may
   occur that some habitat types are available to some animals and not to
-  the others.
+  the others.\cr
+
+  Note that this method rely on the following hypotheses: (i)
+  independence between animals, and (ii) all animals are selecting
+  habitat in the same way (in addition to "traditional" hypotheses in
+  these kinds of studies: no territoriality, all animals having equal
+  access to all available resource units, etc.).  The function
+  \code{eisera} can be used as a preliminary to identify whether this is
+  indeed the case (see examples). 
 }
 \value{
   Returns a list of the class \code{compana}:
@@ -109,9 +118,8 @@ the home range). In fact, there has been a confusion in the column names
 in the paper. Actually, Aebischer (pers. com.) indicated that the
 ranking matrix given in this example is correct.
 }
-\seealso{ \code{\link{wiII}} and \code{\link{wiIII}}
-  for computation of selection ratios, and \code{\link{eisera}} to perform an 
-  eigenanalysis of selection ratios. }
+\seealso{ \code{\link{eisera}} to perform an eigenanalysis of selection
+  ratios, preliminary to the use of compositional analysis. }
 
 \examples{
 
@@ -163,6 +171,22 @@ squiana2
 
 ## The ranking matrix:
 print(squiana2$rm, quote = FALSE)
+
+
+## However, note that here, the hypothesis of identical use 
+## on which this analysis relies is likely to be false.
+## Indeed, an eisera indicates:
+
+us <- round(30 * squirrel$locs / 100)
+av <- squirrel$studyarea
+ii <- eisera(us, av, scannf = FALSE)
+scatter(ii, grid = FALSE, clab = 0.7)
+
+## There are clearly two groups of animals.  In such cases,
+## compositional analysis is to be avoided in this case.
+
+
+
 
 ## Third order habitat selection
 ## (relocation within home range)

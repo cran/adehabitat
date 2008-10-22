@@ -48,10 +48,13 @@ dunnfa                  Factorial Analysis of the Specialization in
                         James Dunn (University of Arkansas)
 eisera                  Eigenanalysis of Selection Ratios
 enfa                    Ecological Niche Factor Analysis
+engen2008II             Measuring Habitat Selection Using the Method of
+                        Engen et al. (2008)
 explore.kasc            Interactive Exploration of Maps of Class kasc
                         (requires the package tkrplot)
 Extract.ltraj           Extract or Replace Parts of an Object of Class
                         ltraj
+findmaxasc              Find Local Maxima on a Map of Class 'asc'
 fpt                     Computation of the First Passage Time From
                         Trajectories
 gdltraj                 Working with Trajectories: Specify a Time
@@ -90,6 +93,8 @@ join.asc                Finds the Value of Mapped Variables at some
 kasc2df                 Conversion of Objects of Class kasc
 kasc2spixdf             Conversion of maps from/to the package "sp"
 kernelbb                Estimation of Kernel Brownian Bridge Home-Range
+kernelkc                Kernel Smoothing in Space and Time of the
+                        Animals' Use of Space
 kerneloverlap           Spatial Interaction between Animals Monitored
                         Using Radio-Tracking
 kernelUD                Estimation of Kernel Home-Range

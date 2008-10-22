@@ -80,7 +80,14 @@ widesIII(u, a, avknown = TRUE, alpha = 0.05)
   availability are measured for each animal - 
   see examples on the wild boar below).  Habitat selection is tested
   using a Chi-square for each animal, and the overall habitat selection
-  is also tested.
+  is also tested.\cr
+
+  Note that all these methods rely on the following hypotheses: (i)
+  independence between animals, and (ii) all animals are selecting
+  habitat in the same way (in addition to "traditional" hypotheses in
+  these kinds of studies: no territoriality, all animals having equal
+  access to all available resource units, etc., see Manly et al. 2002
+  for further details).
 }
 \value{
   \code{widesI} returns a list of the class \code{wiI}.  \code{widesII}

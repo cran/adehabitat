@@ -124,6 +124,7 @@
                PACKAGE="adehabitat")
       UD <- matrix(toto[[1]], nrow = nrow(grid), byrow = TRUE)
       UD <- getascattr(grid, UD)
+      attr(UD, "UD") <- "simple"
       sorties[[names(lixy)[i]]] <- list(UD = UD,
                                         locs = as.ltraj(data.frame(x=lixy[[i]]$x,y=lixy[[i]]$y), date=lixy[[i]]$date, id=lixy[[i]]$id, burst=lixy[[i]]$burst),
                                         h = h, hmeth = "bb")

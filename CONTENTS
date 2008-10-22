@@ -202,6 +202,18 @@ Keywords: multivariate
 Description: Ecological-Niche Factor Analysis
 URL: ../../../library/adehabitat/html/enfa.html
 
+Entry: engen2008II
+Aliases: engen2008II, engen2008I, print.engenetal2008I, print.engenetal2008II
+Keywords: multivariate
+Description: Measuring Habitat Selection Using the Method of Engen et al. (2008)
+URL: ../../../library/adehabitat/html/engen2008II.html
+
+Entry: findmaxasc
+Aliases: findmaxasc
+Keywords: spatial
+Description: Find Local Maxima on a Map of Class 'asc'
+URL: ../../../library/adehabitat/html/findmaxasc.html
+
 Entry: fpt
 Aliases: fpt, plot.fipati, varlogfpt, meanfpt
 Keywords: spatial
@@ -352,6 +364,12 @@ Aliases: kernelUD, print.khr, image.khr, plotLSCV, getvolumeUD, kernel.area, get
 Keywords: spatial
 Description: Estimation of kernel home-range
 URL: ../../../library/adehabitat/html/kernelUD.html
+
+Entry: kernelkc
+Aliases: kernelkc, kernelkcbase, getvolumeUDk, getvolumeUDs, getverticeshrk, getverticeshrs, exwc
+Keywords: spatial
+Description: Kernel Smoothing in Space and Time of the Animals' Use of Space
+URL: ../../../library/adehabitat/html/kernelkc.html
 
 Entry: kerneloverlap
 Aliases: kerneloverlap
