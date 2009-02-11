@@ -11,18 +11,20 @@
 \usage{data(lynxjura)}
 \format{
   The list \code{lynxjura} has two components:
-  \item{\code{map}}{an object of class \code{kasc} (see
-    \code{help(kasc)}) that describes several variables on the study
-    area:  \code{forets} is the density of forests, \code{hydro} is the
-    density of rivers, \code{routes} is the density of roads and
-    \code{artif} is the distance from urbanized areas.}
-  \item{\code{locs}}{a data frame containing the locations of presence
-    indices of the lynx.  \code{X} and \code{Y} are the x and y
-    coordinates, \code{Date} is the date of the collection of the 
-    indice and \code{Type} represents the type of data (\code{C}: alive
-    lynx captured, \code{D}: attacks on livestock, \code{E}: prints or
-    tracks, \code{F}: feces, \code{J}: hairs, \code{L}: corpse of lynx,
-    \code{O}: sightings and \code{P}: attacks on wild prey).}
+  \itemize{
+    \item{\code{map}}{an object of class \code{kasc} (see
+      \code{help(kasc)}) that describes several variables on the study
+      area:  \code{forets} is the density of forests, \code{hydro} is the
+      density of rivers, \code{routes} is the density of roads and
+      \code{artif} is the distance from urbanized areas.}
+    \item{\code{locs}}{a data frame containing the locations of presence
+      indices of the lynx.  \code{X} and \code{Y} are the x and y
+      coordinates, \code{Date} is the date of the collection of the 
+      indice and \code{Type} represents the type of data (\code{C}: alive
+      lynx captured, \code{D}: attacks on livestock, \code{E}: prints or
+      tracks, \code{F}: feces, \code{J}: hairs, \code{L}: corpse of lynx,
+      \code{O}: sightings and \code{P}: attacks on wild prey).}
+  }
 }
 \source{
 Vandel, J.M. (2001) \emph{Repartition du Lynx (Lynx lynx) en France (Massif

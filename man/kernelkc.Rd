@@ -11,6 +11,11 @@
   These functions estimate the utilization distribution (UD) in space
   and time of animals monitored using radio-telemetry, using the product
   kernel estimator advocated by Keating and Cherry (2009).\cr
+
+  Note that this approach has also been useful for the analysis of
+  recoveries in programs involving ringed birds (Calenge et al. in
+  prep., see section examples below).\cr
+  
   \code{kernelkc} estimate the UD of several animals from an object of
   class \code{ltraj}.\cr  
   \code{kernelkcbase} estimate one UD from a data frame with three
@@ -157,6 +162,12 @@ exwc(hv)
 \references{
   Keating, K. and Cherry, S. (in press) Modeling utilization
   distributions in space and time. \emph{Ecology}, in press.
+
+  Calenge, C., Guillemain, M., Gauthier-Clerc, M. and Simon, G. in
+  prep.  A new exploratory approach to the study of the spatio-temporal
+  distribution of ring recoveries - the example of Teal (Anas crecca)
+  ringed in Camargue, Southern France.
+
 }
 \author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{as.ltraj}} for additional information on objects of
@@ -166,11 +177,70 @@ exwc(hv)
 
 \dontrun{
 
+
+################################################
+##
+## Illustrates the analysis of recoveries of
+## ringed data
+
+data(teal)
+head(teal)
+
+## compute the sequence of dates at which the
+## probability density function (pdf) of recoveries is to be estimated
+
+vv <- seq(min(teal$date), max(teal$date), length=50)
+head(vv)
+
+## The package "maps" should be installed for the example below
+library(maps)
+
+
+re <- lapply(1:length(vv), function(i) {
+
+             ## Estimate the pdf. We choose a smoothing parameter of
+             ## 2 degrees of lat-long for X and Y coordinates,
+             ## and of 2 months for the time
+             uu <- kernelkcbase(teal, c(2.5,2.5,2*30*24*3600), tcalc =
+                                vv[i], grid=100, extent=0.1)
+
+             ## now, we show the result
+             ## potentially, we could type
+             ##
+             ## jpeg(paste("prdefu", i, ".jpg", sep=""))
+             ##
+             ## to store the figures in a file, and then to build a
+             ## movie with the resulting files:
+             ##
+
+             image(uu, main=vv[i])
+
+             ## highlight the area on which there is a probability
+             ## equal to 0.95 to recover a bird
+             hh <- getvolumeUDs(uu)
+
+             contour(hh, levels=95, col="red",
+                     drawlabels=FALSE, add=TRUE, lwd=2)
+
+             ## The map:
+             map(xlim=c(-20,70), ylim=c(30,80), add=TRUE)
+
+             ## and if we had typed jpeg(...) before, we have to type
+             ## dev.off()
+             ## to close the device. When we have finished this loop
+             ## We could combine the resulting files with imagemagick
+             ## (windows) or mencoder (linux)
+             })
+
+
+
+
 ################################################
 ##
 ## Illustrates how to explore the UD in time and
 ## space with the bear data
 
+data(bear)
 
 ## compute the sequence of dates at which the UD is to be
 ## estimated

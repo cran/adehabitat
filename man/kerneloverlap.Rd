@@ -1,18 +1,29 @@
 \name{kerneloverlap}
 \alias{kerneloverlap}
+\alias{kerneloverlaphr}
 \title{Spatial Interaction between Animals Monitored Using Radio-Tracking}
 \description{
-  This function implements all the indices of kernel home-range overlap
-  reviewed by Fieberg and Kochanny (2005).
+  These functions implements all the indices of kernel home-range overlap
+  reviewed by Fieberg and Kochanny (2005).  \code{kerneloverlap}
+  computes these indices from a set of relocations, whereas
+  \code{kerneloverlaphr} computes these indices from an object
+  containing the utilization distributions of the animals.
 }
 \usage{
 kerneloverlap(xy, id = NULL, method = c("HR", "PHR", "VI", "BA", "UDOI", "HD"), lev = 95, conditional = FALSE, \dots)
+
+kerneloverlaphr(x, method = c("HR", "PHR", "VI", "BA", "UDOI", "HD"),
+                lev=95, conditional=FALSE)
+
 }
 \arguments{
   \item{xy}{a data frame with two columns (x and y coordinates of the
     animal relocations)}
   \item{id}{a factor giving the animals identity associated to
     \code{xy}}
+  \item{x}{an object of class \code{khrud} containing the utilization
+    distributions of several animals, and returned by the function
+    \code{kernelUD}.}
   \item{method}{the desired method for the estimation of overlap (see
     details)}
   \item{lev}{the level of the home range estimation}
@@ -90,6 +101,15 @@ data(puechabon)
 
 kerneloverlap(puechabon$locs[,c("X","Y")], puechabon$locs$Name,
               grid=200, meth="VI", conditional=TRUE)
+
+## Identical to
+kud <- kernelUD(puechabon$locs[,c("X","Y")], puechabon$locs$Name,
+                grid=200, same4all=TRUE)
+kerneloverlaphr(kud, meth="VI", conditional=TRUE)
+
+
+
+## Other indices:
 
 kerneloverlap(puechabon$locs[,c("X","Y")], puechabon$locs$Name,
               grid=200, meth="HR")

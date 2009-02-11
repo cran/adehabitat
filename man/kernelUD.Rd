@@ -28,7 +28,7 @@ kernel.area(xy, id, h = "href", grid = 40,
             same4all = FALSE, hlim = c(0.1,1.5), kern = "bivnorm",
             levels = seq(20,95, by = 5),
             unin = c("m", "km"),
-            unout = c("ha", "km2", "m2"))
+            unout = c("ha", "km2", "m2"), extent = 0.5)
 getverticeshr(x, lev = 95)
 }
 

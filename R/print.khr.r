@@ -37,7 +37,7 @@
     }
 
     if (th=="LSCV") {
-        m<-0
+        m<-TRUE
         for (i in 1:length(x))
             m[i]<-x[[i]]$h$convergence
         names(m)<-names(x)

@@ -2,66 +2,38 @@
 \alias{simm.bb}
 \title{Brownian bridge motion}
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+  This function simulates a brownian bridge motion
 }
 \usage{
 simm.bb(date = 1:100, begin = c(0, 0), end = begin, id = "A1", burst = id)
 }
 \arguments{
-  \item{date}{ ~~Describe \code{date} here~~ }
-  \item{begin}{ ~~Describe \code{begin} here~~ }
-  \item{end}{ ~~Describe \code{end} here~~ }
-  \item{id}{ ~~Describe \code{id} here~~ }
-  \item{burst}{ ~~Describe \code{burst} here~~ }
-}
-\details{
-  ~~ If necessary, more details than the description above ~~
+  \item{date}{a vector indicating the date (in seconds) at which
+    relocations should be simulated.  This vector can be of class
+    \code{POSIXct}}
+  \item{begin}{a vector of length 2 giving the x and y coordinates of
+    the location beginning of the trajectory}
+  \item{end}{a vector of length 2 giving the x and y coordinates of
+    the location ending the trajectory}
+  \item{id}{ a character string indicating the identity of the simulated
+    animal (see \code{help(ltraj)})}
+  \item{burst}{ a character string indicating the identity of the
+    simulated animal (see \code{help(ltraj)})}
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
+  An object of class \code{ltraj}.
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ 
-
- ~Make other sections like Warning with \section{Warning }{....} ~
+\author{
+  Clement Calenge \email{clement.calenge@oncfs.gouv.fr}\cr
+  Stephane Dray \email{dray@biomserv.univ-lyon1.fr}\cr
+  Manuela Royer \email{royer@biomserv.univ-lyon1.fr}\cr
+  Daniel Chessel \email{chessel@biomserv.univ-lyon1.fr}
 }
-\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
+\seealso{\code{\link{ltraj}}, \code{\link{hbrown}}}
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function(date=1:100, begin = c(0,0),
-                     end=begin, id="A1", burst=id)
-  {
-    class(date) <- c("POSIX","POSIXct")
-    n <- length(date)
-    dt <- c(diff(unclass(date)),NA)
-    
-    dx <- c(rnorm(n-1,0,sqrt(dt[-n])),NA)
-    dy <- c(rnorm(n-1,0,sqrt(dt[-n])),NA)
-    W <- cbind(dx,dy)
-    
-    xtmp <- begin
-    x <- begin            
-    for (i in 2:(n-1)) {
-      a <- diag(1/(date[n]-date[i-1]),2)
-      dX <- as.numeric((a\%*\%(end - xtmp)*dt[i-1] + W[i-1,]))
-      x <- rbind(x,xtmp+dX)
-      xtmp <- xtmp+dX
-    }
-    x <- rbind(x,end)
+plot(simm.bb(1:1000, end=c(100,100)), addpoints = FALSE)
 
-    res <- as.ltraj(data.frame(x[,1],x[,2]),date, id, burst)
-    return(res)
-    
-  }
 }
 \keyword{spatial}
 

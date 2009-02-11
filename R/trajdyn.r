@@ -35,7 +35,7 @@
     on.exit(options(opt))
     dsp <- substring(match.arg(display), 1, 1)
     if (dsp == "g")
-        dsp <- switch(getOption("device"), windows = "w", "t")
+        dsp <- switch(.Platform$OS.type, windows = "w", "t")
     if (dsp == "t" && !require(tkrplot))
         stop("'tkrplot' package needed\n")
 

@@ -179,6 +179,7 @@ squirreloc              Radio-tracking of squirrels
 storemapattr            Store Attributes of Maps of Class asc and kasc
 subsample               Subsample a Trajectory
 subsetmap               Storing a Part of a Map
+teal                    Teal (Anas crecca) Ring Recovery Dataset
 trajdyn                 Interactive Display of Objects of Class 'ltraj'
 typeII2typeI            Change the Type of a Trajectory
 vanoise                 Habitat Use by Three Species of Galliformes in

@@ -9,11 +9,13 @@
 \usage{data(squirreloc)}
 \format{
   This data set is a list of two objects:
-  \item{locs}{is a data frame containing the relocations of 15
-    squirrels (with three columns: \code{id, x, y}}
-  \item{map}{is an object of class \code{area} containing the habitat
-    composition of the area. The habitat types and colour coding are
-    stored in the attribute "info" of this object}
+  \itemize{
+    \item{locs}{is a data frame containing the relocations of 15
+      squirrels (with three columns: \code{id, x, y}}
+    \item{map}{is an object of class \code{area} containing the habitat
+      composition of the area. The habitat types and colour coding are
+      stored in the attribute "info" of this object}
+  }
 }
 \details{
   The dataset \code{squirreloc} comes from the Ranges VI software.  It
