@@ -1,5 +1,6 @@
 "kernelbb" <- function(tr, sig1, sig2, grid = 40,
-                       same4all=FALSE, byburst=FALSE, extent = 0.5)
+                       same4all=FALSE, byburst=FALSE, extent = 0.5,
+                       nalpha=25)
 {
     ## verifications
     x <- ltraj2traj(tr)
@@ -121,6 +122,7 @@
                as.double(xyg$y), as.integer(ncol(grid)),as.integer(nrow(grid)),
                as.integer(nrow(df)), as.double(sig12), as.double (sig22),
                as.double(df$x), as.double(df$y), as.double(date),
+               as.integer(1000000), as.integer(nalpha),
                PACKAGE="adehabitat")
       UD <- matrix(toto[[1]], nrow = nrow(grid), byrow = TRUE)
       UD <- getascattr(grid, UD)

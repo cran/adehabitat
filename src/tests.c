@@ -180,7 +180,8 @@ void integrno(double *XG, double *X1, double *X2,
 	      double *sig2, double *alpha, double *res);
 void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
 	      int *nliggri, int *nloc, double *sig1, double *sig2, 
-	      double *xlo, double *ylo, double *Tr);
+	      double *xlo, double *ylo, double *Tr, int *controlbox, 
+	      int *nalpha);
 void ligpoly(double *x, double *y, double r, double *xp, double *yp);
 void buflig(double **x, double r, double **carte, double *xg, double *yg);
 void bufligr(double *xr, double *rr, double *carter, 
@@ -6048,7 +6049,7 @@ double maxdt(double *T)
 /* keeps all the steps for which at least one relocation is 
    available in the box */
 int consdanslabox(double *Xg, double **xy, 
-		  int nl, int *indcons, double maxvh)
+		  int nl, int *indcons, double maxvh, int controlbox)
 {
     int i,k,cons;
     double tmp1, tmp2, a, b;
@@ -6059,19 +6060,19 @@ int consdanslabox(double *Xg, double **xy,
 	
 	cons = 0;
 	
-	if (xy[i][1] > (Xg[1] - (4 * maxvh)) ) {
-	    if (xy[i][1] < (Xg[1] + (4 * maxvh)) ) {
-		if (xy[i][2] > (Xg[2] - (4 * maxvh)) ) {
-		    if (xy[i][2] < (Xg[2] + (4 * maxvh)) ) {
+	if (xy[i][1] > (Xg[1] - (controlbox * maxvh)) ) {
+	    if (xy[i][1] < (Xg[1] + (controlbox * maxvh)) ) {
+		if (xy[i][2] > (Xg[2] - (controlbox * maxvh)) ) {
+		    if (xy[i][2] < (Xg[2] + (controlbox * maxvh)) ) {
 			cons = 1;
 		    }
 		}
 	    }
 	}
-	if (xy[i+1][1] > (Xg[1] - (4 * maxvh)) ) {
-	    if (xy[i+1][1] < (Xg[1] + (4 * maxvh)) ) {
-		if (xy[i+1][2] > (Xg[2] - (4 * maxvh)) ) {
-		    if (xy[i+1][2] < (Xg[2] + (4 * maxvh)) ) {
+	if (xy[i+1][1] > (Xg[1] - (controlbox * maxvh)) ) {
+	    if (xy[i+1][1] < (Xg[1] + (controlbox * maxvh)) ) {
+		if (xy[i+1][2] > (Xg[2] - (controlbox * maxvh)) ) {
+		    if (xy[i+1][2] < (Xg[2] + (controlbox * maxvh)) ) {
 			cons = 1;
 		    }
 		}
@@ -6081,17 +6082,17 @@ int consdanslabox(double *Xg, double **xy,
 	if (cons == 0) {
 	    a = (xy[i+1][2] - xy[i][2]) / (xy[i+1][1] - xy[i][1]);
 	    b = xy[i+1][2] - a * xy[i+1][1];
-	    tmp1 = a * (Xg[1] - (4 * maxvh)) + b;
-	    tmp2 = a * (Xg[1] + (4 * maxvh)) + b;
+	    tmp1 = a * (Xg[1] - (controlbox * maxvh)) + b;
+	    tmp2 = a * (Xg[1] + (controlbox * maxvh)) + b;
 	    
-	    if (tmp1 <= (Xg[2] + (4 * maxvh))) {
-		if (tmp1 >= (Xg[2] - (4 * maxvh))) {
+	    if (tmp1 <= (Xg[2] + (controlbox * maxvh))) {
+		if (tmp1 >= (Xg[2] - (controlbox * maxvh))) {
 		    cons = 1;
 		}
 	    }
 	    
-	    if (tmp2 <= (Xg[2] + (4 * maxvh))) {
-		if (tmp2 >= (Xg[2] - (4 * maxvh))) {
+	    if (tmp2 <= (Xg[2] + (controlbox * maxvh))) {
+		if (tmp2 >= (Xg[2] - (controlbox * maxvh))) {
 		    cons = 1;
 		}
 	    }
@@ -6199,10 +6200,12 @@ void udbbnoeud(double *XG, double **XY, double *T, double *sig1,
 }
 
 
+
 /* Main Function */
 void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
 	      int *nliggri, int *nloc, double *sig1, double *sig2, 
-	      double *xlo, double *ylo, double *Tr)
+	      double *xlo, double *ylo, double *Tr, int *controlbox, 
+	      int *nalpha)
 {
     /* Declaration */
     int i, j, k, ncg, nlg, nlo, *indcons, ncons;
@@ -6220,11 +6223,10 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
     vecalloc(&T, nlo);
     vecalloc(&yg, ncg);
     vecalloc(&Xgr, 2);
-    vecalloc(&alpha, 25);
+    vecalloc(&alpha, *nalpha);
     vecintalloc(&indcons, nlo);
     
-    /* R to C */
-    
+    /* R to C */    
     for (i=1; i<=nlo; i++) {
 	XY[i][1] = xlo[i-1];
 	XY[i][2] = ylo[i-1];
@@ -6241,8 +6243,8 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
     
     /* Build the vector alpha */
     alpha[1] = 0;
-    for (i = 2; i <= 25; i++) {
-	alpha[i] = ((double) i) / ((double) 25);
+    for (i = 2; i <= *nalpha; i++) {
+	alpha[i] = ((double) i) / ((double) *nalpha);
     }
     
     /* Maximum dt and sigma for the normal distribution*/
@@ -6257,7 +6259,12 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
 	for (j=1; j<=ncg; j++) {
 	    Xgr[1] = xg[i];
 	    Xgr[2] = yg[j];
-	    ncons = consdanslabox(Xgr, XY, nlo, indcons, maxvh);
+	    /*
+	      ncons = consdanslabox(Xgr, XY, nlo, indcons, maxvh, *controlbox);
+	    */
+	    ncons = nlo-1;
+	    for (k = 1; k < nlo; k++)
+		indcons[k]=k;
 	    udbbnoeud(Xgr, XY, T, sig1, sig2, alpha, &tmp, ncons, indcons);
 	    gri[i][j] = tmp;
 	    vol+=tmp;
@@ -6265,12 +6272,13 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
     }
     
     /* Standardization of the volume */
+
     for (i=1; i<=nlg; i++) {
 	for (j=1; j<=ncg; j++) {
-	    gri[i][j] = gri[i][j] / (vol * pow(res,2));
+	    gri[i][j] =  gri[i][j] / (vol * pow(res,2));
 	}
     }
-    
+  
     /* C to R */
     k = 0;
     for (i=1; i<=nlg; i++) {

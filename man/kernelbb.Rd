@@ -13,7 +13,7 @@
 }
 \usage{
 kernelbb(tr, sig1, sig2, grid = 40, same4all = FALSE, byburst = FALSE,
-         extent = 0.5)
+         extent = 0.5, nalpha = 25)
 
 liker(tr, rangesig1, sig2, le = 1000,
       byburst = FALSE, plotit = TRUE)
@@ -42,6 +42,9 @@ liker(tr, rangesig1, sig2, le = 1000,
   \item{extent}{a value indicating the extent of the grid used for the
     estimation (the extent of the grid on the abscissa is equal to
     \code{(min(xy[,1]) + extent * diff(range(xy[,1])))}).}
+  \item{nalpha}{a parameter used internally to compute the integral
+    of the Brownian bridge.  The integral is computed by cutting each
+    step built by two relocations into \code{nalpha} sub-intervals. }
   \item{rangesig1}{the range of possible values of sig1 within which
     the likelihood should be maximized.}
   \item{le}{The number of values of sig1 tested within the specified
