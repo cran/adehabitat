@@ -8,8 +8,6 @@
                  "time, but no new method will be added to the package.\n",
                  sep="")
     cat(msg)
-    require(ade4)
-    require(gpclib)
     library.dynam("adehabitat", pkg, lib)
 }
 

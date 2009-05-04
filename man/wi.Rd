@@ -129,8 +129,9 @@ widesIII(u, a, avknown = TRUE, alpha = 0.05)
   \item{Bi}{only for designs I, equals to \code{wi/sum(wi)}.}
   \item{Khi2P}{only for designs I, test of random resource use (Pearson
     statistic).}
-  \item{Khi2L}{only for designs I, test of random resource use
-    (Log-likelihood statistic).}
+  \item{Khi2L}{For designs I, test of random resource use
+    (Log-likelihood statistic).  For design III, global test of random 
+    resource use (Log-likelihood statistic)}
   \item{Khi2L1}{only for designs II, test of identical use of habitat by all
     animals.}
   \item{Khi2L2}{only for designs II, test of overall habitat selection.}
@@ -146,8 +147,6 @@ widesIII(u, a, avknown = TRUE, alpha = 0.05)
     confidence intervals on the selection ratios.}
   \item{Khi2Lj}{only for designs III, the test of habitat selection for each
     animal.}
-  \item{Khi2L}{only for designs III, the global test of overall habitat
-    selection.}
 }
 \references{
   Manly B.F.J., McDonald L.L., Thomas, D.L., McDonald, T.L. & Erickson,
