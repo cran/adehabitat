@@ -5281,7 +5281,7 @@ void regroufacasc(double **asce, double **ascs, int *np,
 {
     /* declaration of variables */
     int i, j, k, l, m, dr, fr, dc, fc, nre, nrs;
-    int nce, ncs, nl, *ll, max, vm, na, *vecmax;
+    int nce, ncs, nl, *ll, max, vm, na, *vecmax, *vecmaxind;
     
     /* Memory allocation */
     nre = asce[0][0];
@@ -5321,7 +5321,7 @@ void regroufacasc(double **asce, double **ascs, int *np,
 		/* One computes the maximum number */
 		vm = ll[1];
 		for (k = 2; k <= nl; k++) {
-		    if (ll[k] >= vm) {
+		    if (ll[k] > vm) {
 			vm = ll[k];
 		    }
 		}
@@ -5336,19 +5336,27 @@ void regroufacasc(double **asce, double **ascs, int *np,
 		
 		/* one identifies the levels for which the number is max */
 		vecintalloc(&vecmax, max);
+		vecintalloc(&vecmaxind, max);
+		for (l=1; l <=max; l++) {
+		    vecmaxind[l] = l;
+		}
+		
 		l = 1;
 		for (k = 1; k<=nl; k++) {
 		    if (ll[k] == vm) {
-			vecmax[1] = k;
+			vecmax[l] = k;
+			l++;
 		    }
 		}
 		
 		/* Random sample of the levels in case of equality */
-		if (max > 1) {
-		    getpermutation(vecmax, i*j); /* random row */
+		if (max > 1) {		    
+		    getpermutation(vecmaxind, i*j); /* random row */
 		}
-		ascs[i][j] = (double) vecmax[1];
+		ascs[i][j] = (double) vecmax[vecmaxind[1]];
 		freeintvec(vecmax);
+		freeintvec(vecmaxind);
+		
 	    } else {
 		ascs[i][j] = -9999;
 	    }
@@ -6197,6 +6205,8 @@ void udbbnoeud(double *XG, double **XY, double *T, double *sig1,
 	integrno(XG, Xtmp1, Xtmp2, &dt, sig1, sig2, alpha, &tmp);
 	*res = *res + (poids * tmp);
     }
+    freevec(Xtmp1);
+    freevec(Xtmp2);
 }
 
 

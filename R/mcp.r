@@ -10,10 +10,10 @@
         stop("At least 5 relocations are required to fit an home range")
 
     ## First remove the missing values
-    xy<-xy[!is.na(xy[,1]),]
-    xy<-xy[!is.na(xy[,2]),]
     id<-id[!is.na(xy[,1])]
     id<-id[!is.na(xy[,2])]
+    xy<-xy[!is.na(xy[,1]),]
+    xy<-xy[!is.na(xy[,2]),]
     id<-factor(id)
 
     ## Computes the centroid of the relocations for each animal

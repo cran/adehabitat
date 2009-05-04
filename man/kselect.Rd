@@ -86,7 +86,7 @@ kselect(dudi, factor, weight, scannf = TRUE, nf = 2, ewa = FALSE)
   (iii) the barplot of the eigenvalues of the analysis (each eigenvalue
   measure the mean marginality explained by the axis; (iv) the
   projection of the non-recentred marginality vectors on the factorial
-  plane (the origin of the arrow indicates the average used habitat
+  plane (the origin of the arrow indicates the average available habitat
   conditions, and the end of the arrow indicates the average used
   conditions); (v) the projection of the resource units available to
   each animal on the first factorial plane and (vi) the coordinates of

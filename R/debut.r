@@ -1,12 +1,12 @@
 ##### Chargement de base
 
 .First.lib <- function(lib, pkg) {
-    msg <- paste("This package requires ade4 to be installed\n\n", "Type:\n",
-                 "demo(rastermaps) for demonstration of raster map analysis\n",
-                 "demo(homerange) for demonstration of home-range estimation\n",
-                 "demo(managltraj) for demonstration of animals trajectory management\n",
-                 "demo(analysisltraj) for demonstration of animals trajectory analysis\n",
-                 "demo(nichehs) for demonstration of niche/habitat selection analysis\n\n", sep="")
+    msg <- paste("Be careful: it is now recommended to use the new",
+                 "packages adehabitatMA, adehabitatLT, adehabitatHR, and adehabitatHS.\n",
+                 "These 4 packages are intended to become the future of adehabitat.\n",
+                 "The \"classical\" version of adehabitat will still be maintained for some\n",
+                 "time, but no new method will be added to the package.\n",
+                 sep="")
     cat(msg)
     require(ade4)
     require(gpclib)
