@@ -163,6 +163,7 @@ kernelkc <- function(tr, h, tcalc, t0, grid=40, circular=FALSE,
                    as.double(h), as.integer(circular), PACKAGE="adehabitat")
 
         UD <- matrix(toto[[4]], nrow = nrow(grrr), byrow = TRUE)
+        UD <- UD/(sum(UD)*(attr(grrr, "cellsize")^2))
         UD <- getascattr(grrr, UD)
         attr(UD,"UD") <- "simple"
         resultats[[i]] <- UD
@@ -272,6 +273,7 @@ kernelkcbase <- function(xyt, h, tcalc, t0, grid=40, circular=FALSE,
 
 
     UD <- matrix(toto[[4]], nrow = nrow(grrr), byrow = TRUE)
+    UD <- UD/(sum(UD)*(attr(grrr, "cellsize")^2))
     UD <- getascattr(grrr, UD)
     attr(UD, "UD") <- "simple"
     return(UD)

@@ -46,7 +46,7 @@ dunnfa <- function(dudi, pr, scannf = TRUE, nf = 2) #(Z, pr)
 
     ## Number of eigenvalues
     if (scannf) {
-        barplot(s)
+        barplot(res$values)
         cat("Select the number of axes: ")
         nf <- as.integer(readLines(n = 1))
     }

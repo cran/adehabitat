@@ -8678,7 +8678,7 @@ void kcprcirc(double **xyd, double *h, double *x, double t,
 	for (j=1; j<=2; j++) {
 	    vi = (x[j] - xyd[i][j]) / h[j];
 	    if (fabs(vi) < 1.0) {
-		tmp = 15/(16 * h[j]) * ((1- (vi * vi)) * (1- (vi * vi)));
+		tmp = (((double) 15)/((double) 16)) * ((1- (vi * vi)) * (1- (vi * vi)));
 		tmp2 = tmp2 * tmp;
 	    } else {
 		tmp2 = 0.0;
@@ -8687,7 +8687,7 @@ void kcprcirc(double **xyd, double *h, double *x, double t,
 	
 	/* time */
 	vi = (t - xyd[i][3]);
-	tmp2 = tmp2 * (1 - h[3] * h[3]) / 
+	tmp2 = tmp2 * (1-h[3]) * (1 - h[3] * h[3]) / 
 	    (2 * 3.14153265359 * ( 1 +  (h[3] * h[3]) - (2 * h[3] * cos(vi) )));
 	som = som + tmp2;
     }
@@ -8712,7 +8712,7 @@ void kcprlin(double **xyd, double *h, double *x, double t,
 	for (j=1; j<=2; j++) {
 	    vi = (x[j] - xyd[i][j]) / h[j];
 	    if (fabs(vi) < 1.0) {
-		tmp = 15/(16 * h[j]) * ((1- (vi * vi)) * (1- (vi * vi)));
+		tmp = (((double) 15)/((double) 16)) * ((1- (vi * vi)) * (1- (vi * vi)));
 		tmp2 = tmp2 * tmp;
 	    } else {
 		tmp2 = 0.0;
@@ -8722,7 +8722,7 @@ void kcprlin(double **xyd, double *h, double *x, double t,
 	/* time */
 	vi = (t - xyd[i][3]) / h[3];
 	if (fabs(vi) < 1.0) {
-	    tmp2 = tmp2 * 15/(16 * h[3]) * ((1- (vi * vi)) * (1- (vi * vi)));
+	    tmp2 = tmp2 * (((double) 15)/((double) 16)) * ((1- (vi * vi)) * (1- (vi * vi)));
 	} else {
 	    tmp2 = 0.0;
 	}

@@ -118,7 +118,12 @@ exwc(hv)
 
   These functions can only be used on objects of class "ltraj", but
   the estimation of the UD in time and space is also possible with other
-  types of data (see the help page of \code{kernelkcbase}).\cr
+  types of data (see the help page of \code{kernelkcbase}).  Note that
+  both \code{kernelkc} and \code{kernelkcbase} return conditional
+  probability density function (pdf), i.e. the pdf to relocate an animal
+  at a place, given that it has been relocated at time \code{tcalc}
+  (i.e. the volume under the UD estimated at time \code{tcalc} is equal
+  to 1 whatever \code{tcalc}).\cr 
 
   The functions \code{getvolumeUDk} and \code{getvolumeUDs}  modifies
   the UDs, so that the contour of the UD displayed by the function
@@ -433,7 +438,7 @@ locs <- locs[locs$Name=="Jean",]
 
 ## compute the number of days since the beginning
 ## of the monitoring
-dd <- cumsum(c(0, diff(strptime(locs$Date, "%y%m%d"))))
+dd <- cumsum(c(0, diff(strptime(locs$Date, "\%y\%m\%d"))))
 dd
 
 ## compute xyt. Note that t is here the number of

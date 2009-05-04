@@ -140,8 +140,8 @@ kerneloverlaphr <- function(x,
     ## Verifications
     method <- match.arg(method)
 
-    if (!inherits(x, "khrud"))
-        stop("x should be of class khrud")
+    if ((!inherits(x, "khrud"))&(!inherits(x, "kbbhrud")))
+        stop("x should be of class khrud or kbbhrud")
 
     liii <- lapply(x, function(x) x$UD)
     names(liii) <- letters[1:length(liii)]
