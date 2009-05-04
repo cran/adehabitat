@@ -6219,7 +6219,7 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
 {
     /* Declaration */
     int i, j, k, ncg, nlg, nlo, *indcons, ncons;
-    double **gri, *xg, *yg, **XY, tmp, *alpha, *Xgr, *T, maxt,res, vol;
+    double **gri, *xg, *yg, **XY, tmp, *alpha, *Xgr, *T, res, vol;
     
     /* Memory Allocation */
     ncg = *ncolgri;
@@ -6257,8 +6257,6 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
 	alpha[i] = ((double) i) / ((double) *nalpha);
     }
     
-    /* Maximum dt and sigma for the normal distribution*/
-    maxt = maxdt(T);
 
     
 	
