@@ -169,7 +169,7 @@ explore.kasc <- function (ka, coltxt="blue",
             return("OK - Finished")
         }
         if (key == "z") {
-            tmppx <- (get("cusr", envi=e1)[1:2] - get("cusr", envir=e1)[1])
+            tmppx <- (get("cusr", envir=e1)[1:2] - get("cusr", envir=e1)[1])
             assign("xlim", c(get("a8", envir=e1)[1] - tmppx[2]/4, (get("a8", envir=e1)[1] + tmppx[2]/4)), envir=e1)
             assign("tmppy", (get("cusr", envir=e1)[3:4] - get("cusr", envir=e1)[3]), envir=e1)
             assign("ylim", c(get("a8", envir=e1)[2] - get("tmppy", envir=e1)[2]/4, (get("a8", envir=e1)[2] + get("tmppy", envir=e1)[2]/4)), envir=e1)

@@ -10,7 +10,7 @@ function(date=1:100, b = c(0,0), a = diag(0.5,2),
       stop("matrix 2*2 expected")
     if (sum((t(sigma)-sigma)^2)> 1e-7)
       stop("symetric matrix expected")
-    if (any(eigen(sigma, sym=TRUE)$value< -1e-7))
+    if (any(eigen(sigma, symmetric=TRUE)$value< -1e-7))
       stop("positive matrix expected")
 
     n <- length(date)

@@ -36,7 +36,7 @@ gnesfa <- function(dudi, Focus, Reference, centering = c("single", "twice"),
     ## First PCA
     rank <- dudi$rank
     pc1 <- dudi.pca(Z, center=FALSE, scale=FALSE,
-                    row.w=Reference, nf=rank, scann=FALSE)
+                    row.w=Reference, nf=rank, scannf=FALSE)
     c1 <- as.matrix(pc1$c1)
     L <- sweep(Z%*%c1,2,sqrt(pc1$eig),"/")
 

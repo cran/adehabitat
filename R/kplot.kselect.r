@@ -51,7 +51,7 @@
                     csub=1.5, cgrid=1.5, csize=csi[i])
         }
         s.distri(Xtmp, wgtmp, xax, yax,
-                 sub=names(li.Xi)[i], add.p=addval,
+                 sub=names(li.Xi)[i], add.plot=addval,
                  cpoint=cpoint, xlim=rx, ylim=ry,
                  ...)
     }

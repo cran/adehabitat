@@ -2329,9 +2329,9 @@ void gc(double *carter, double *kascr, int *nlgr,
 
 void comptePasNA(double **tab, int *nombre)
 {
-    int i,nb, nc,nl;
+    int i,nb, nl;
     nb = 0;
-    nc = tab[1][0];
+
     nl = tab[0][0];
     
     for (i=1; i<=nl; i++) {
@@ -2627,7 +2627,7 @@ void getcontour(double *grille, int *nlig, int *ncol, int *indicelig,
 void lcontour(double *grille, int *nlig, int *ncol, int *lcont)
 {
     /* Declaration of local variables*/
-    int i, j, k, l, m,n, nl, nc, *P0, *P1, fini, *np, dirprec, dir;
+    int i, j, k, nl, nc, *P0, *P1, fini, *np, dirprec, dir;
     int lidlig;
     double **x, **vois;
     
@@ -2673,9 +2673,9 @@ void lcontour(double *grille, int *nlig, int *ncol, int *lcont)
     P0[2] = j;
     dir = 4;
     
-    m=1;
-    n=1;
-    l=1;
+
+
+
     
     fini = 0;
     k = 0;
@@ -3167,13 +3167,13 @@ void kernepan(double *grille, double *xgri, double *ygri, int *ncolgri,
 {
     /* Declaration */
     int i, j, k, ncg, nlg, nlo;
-    double **gri, *xg, *yg, *xl, *yl, X, Y, tmp;
+    double **gri, *xg, *yg, *xl, *yl, X, Y;
     
     /* Memory Allocation */
     ncg = *ncolgri;
     nlg = *nliggri;
     nlo = *nloc;
-    tmp = 0;
+
     
     taballoc(&gri,nlg, ncg);
     vecalloc(&xg, nlg);
@@ -3261,9 +3261,9 @@ double comdi(double *x, double *y, double *dists,
 	     int n)
 {
     int ii,jj,kk;
-    int nn;
 
-    nn = n*(n-1)/2;
+
+
     kk=0;
     
     for(ii=1; ii <= n-1; ii++){
@@ -3282,7 +3282,7 @@ void CVmise(int *nloc, double *xlo, double *ylo,
 {
     /* Declaration */
     int i, nlo, nh, ndist;
-    double *xl, *yl, h, di2, *dists;
+    double *xl, *yl, h, *dists;
     
     /* Allocation de mémoire */
     nlo = *nloc;
@@ -3754,7 +3754,7 @@ void rankma(double *used, double *avail, double *rankmap, double *rankmam,
     /* Declarations of variables */
     int i, j, k, nh, na, nr, r;
     double **u, **a, **rmp, **rmm, **rmv, **rmnb;
-    double *dlrtmp, *vecalea, pp, val, moy;
+    double *dlrtmp, *vecalea, val, moy;
     double *aleamu, **tabani;
     
     /* Memory Allocation */
@@ -3823,7 +3823,7 @@ void rankma(double *used, double *avail, double *rankmap, double *rankmam,
 	    
 	    /* Computes P */
 	    val = rmv[j][k];
-	    pp = 0;
+
 	    for (r = 1; r <= nr; r++) {
 		if (val < vecalea[r])
 		    rmm[j][k]++;
@@ -4224,15 +4224,15 @@ void calcniche(double **kasc, int *nvar, int *nlg, int *ncg,
 	       double *margvar, double *tolvar, double **carte)
 {
     /* definition of the variables */
-    int i, j, l, np, nv, nc, nl, npixpol;
+    int i, j, l, nv, nc, nl, npixpol;
     double **cartevar;
     
     /* Memory allocation */
     nc = *ncg;
     nl = *nlg;
     nv = *nvar;
-    np = nc*nl;
     npixpol = 0;
+
     
     taballoc(&cartevar, nl, nc);
     
@@ -5280,16 +5280,16 @@ void regroufacasc(double **asce, double **ascs, int *np,
 		  int *nlev)
 {
     /* declaration of variables */
-    int i, j, k, l, m, dr, fr, dc, fc, nre, nrs;
-    int nce, ncs, nl, *ll, max, vm, na, *vecmax, *vecmaxind;
+    int i, j, k, l, m, dr, fr, dc, fc, nrs;
+    int ncs, nl, *ll, max, vm, na, *vecmax, *vecmaxind;
     
     /* Memory allocation */
-    nre = asce[0][0];
     nrs = ascs[0][0];
-    nce = asce[1][0];
     ncs = ascs[1][0];
     nl = *nlev;
     vecintalloc(&ll, nl);
+
+
   
     /* loop to delete */
     for (i = 1; i <= nrs; i++) {
@@ -5418,15 +5418,15 @@ void regroufacascr(double *ascer, double *ascsr, int *npr,
 void regrouascnum(double **ascent, double **ascso)
 {
     /* Declaration */
-    int i, j, k, l, n, nle, nls, nce, ncs, nreg;
+    int i, j, k, l, n, nle, nls, ncs, nreg;
     double moy, tmp;
     
     /* Definition of the variables */
     nle = ascent[0][0];
-    nce = ascent[1][0];
     nls = ascso[0][0];
     ncs = ascso[1][0];
     nreg = nle/nls;
+
     
     /* Computes the mean */
     for (i = 1; i <= nls; i++) {
@@ -5904,16 +5904,16 @@ Randomization in the ENFA: test of the first eigenvalue of specialization
 void randenfa(double **Z, double *p, int *nrep, double *res)
 {
     /* Declaration of variables */
-    int i, j, k, nr, nv, np, ntot;
+    int i, j, k, nv, np, ntot;
     double *psim, *vp;
     
     /* Memory Allocation */
     np = Z[0][0];
     nv = Z[1][0];
     ntot = 0;
-    nr = *nrep;
     vecalloc(&psim, np);
     vecalloc(&vp, nv);
+
     
     /* Counts the total number of points */
     for (i = 1; i <= np; i++) {
@@ -6042,7 +6042,7 @@ double maxh(double sig1, double sig2, double *alpha, double maxt)
 double maxdt(double *T)
 {
     int i,nt;
-    double res, tmp;
+    double res;
 
     res = 0;
     nt = T[0];
@@ -6219,7 +6219,7 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
 {
     /* Declaration */
     int i, j, k, ncg, nlg, nlo, *indcons, ncons;
-    double **gri, *xg, *yg, **XY, tmp, *alpha, *Xgr, *T, maxt,maxvh, res, vol;
+    double **gri, *xg, *yg, **XY, tmp, *alpha, *Xgr, *T, maxt,res, vol;
     
     /* Memory Allocation */
     ncg = *ncolgri;
@@ -6259,7 +6259,7 @@ void kernelbb(double *grille, double *xgri, double *ygri, int *ncolgri,
     
     /* Maximum dt and sigma for the normal distribution*/
     maxt = maxdt(T);
-    maxvh = maxh(*sig1, *sig2, alpha, maxt);
+
     
 	
     /* Loop on the grid */
@@ -6318,11 +6318,11 @@ void CVL(double *xyr, double *Tr,
 	 int *nloc, double *Lr, double *sigma, int *nsig, double *sigma2)
 {
     int i, j, k, nlo, ns, r;
-    double **xy, *T,s2,ai,*mui,sigmai,res;
+    double **xy, *T,ai,*mui,sigmai,res;
     
     nlo = *nloc;
     ns = *nsig;
-    s2 = *sigma2;
+
 
     taballoc(&xy, nlo, 2);
     vecalloc(&T, nlo);
@@ -7463,7 +7463,7 @@ void parclust(double **xy, int *clust, int *noclust,
 {
     /* Declaration */
     int i, k, m, nr2, nr, nocl;
-    double **xy2, *xyp, di, di2;
+    double **xy2, *xyp, di;
     
     /* Memory allocation */
     nocl = *noclust;
@@ -7493,7 +7493,7 @@ void parclust(double **xy, int *clust, int *noclust,
     /* Finds the minimum distance between a point and a cluster, 
        performed for all clusters */
     di = 0;
-    di2 = 0;
+
     m = 0;
     *dist = 0;
     for (i = 1; i <= nr; i++) {
@@ -8444,7 +8444,7 @@ void partraj(double **Pid, int *maxk, double **Mk, double **Mkd,
 	     double **res)
 {
     /* declaration of variables */
-    int i, j, k, m, l, D, Km;
+    int i, j, k, l, D, Km;
     double **Mkk, **cumPid, tmp;
     
     /* Memory allocation */
@@ -8452,7 +8452,7 @@ void partraj(double **Pid, int *maxk, double **Mk, double **Mkd,
     D = Pid[1][0]; /* Number of models */
     Km = *maxk;    /* Partition size */
     tmp = 0;
-    m = 0;
+
     
     taballoc(&Mkk, Km, D); /* Contains mkd for i = k, for all models */
     taballoc(&cumPid, l, D); /* For the probability of the sequences */
@@ -8554,8 +8554,8 @@ void partrajr(double *Pidr, double *curmar, int *curmodr, int *curlocr,
 	      int *lr, int *Dr, int *Kmr)
 {
     /* Variable declaration */
-    int l, D, Km, i, j, k, m, n, new, *curloc, *curmod;
-    double **Mk, **Mkd, **Pid, **res, tmp, *curma, **grap;
+    int l, D, Km, i, j, k, m, n, *curloc, *curmod;
+    double **Mk, **Mkd, **Pid, **res, *curma, **grap;
     
     /* Memory allocation */
     l = *lr;
@@ -8563,8 +8563,6 @@ void partrajr(double *Pidr, double *curmar, int *curmodr, int *curlocr,
     Km = *Kmr;
     m = 0;
     n = 0;
-    tmp = 0;
-    new = 0;
     taballoc(&Mk, l, Km);
     taballoc(&Mkd, l, D);
     taballoc(&Pid, l, D);
@@ -8573,6 +8571,8 @@ void partrajr(double *Pidr, double *curmar, int *curmodr, int *curlocr,
     vecalloc(&curma, Km);
     vecintalloc(&curmod, Km);
     vecintalloc(&curloc, (Km+1));
+
+
     
     
     /* R to C */
@@ -8674,7 +8674,7 @@ void partrajr(double *Pidr, double *curmar, int *curmodr, int *curlocr,
 void kcprcirc(double **xyd, double *h, double *x, double t, 
 	      double *val)
 {
-    int i, j, k, nlo;
+    int i, j, nlo;
     double tmp, tmp2, vi, som;
     
     nlo = xyd[0][0];
@@ -8707,7 +8707,7 @@ void kcprcirc(double **xyd, double *h, double *x, double t,
 void kcprlin(double **xyd, double *h, double *x, double t, 
 	      double *val)
 {
-    int i, j, k, nlo;
+    int i, j, nlo;
     double tmp, tmp2, vi, som;
     
     nlo = xyd[0][0];
@@ -9032,7 +9032,7 @@ void engen2008r(double *avr, double *usr, int *nliga, int *nligu,
     /* declaration of variables */
     double **av, **us, **nsco, *varR, tmp, res, **var, mu1, mu2, **Akmo;
     double **inv1, **zer, *a, sigkk, *Wk, *tmp2, m, s, **nscob, **nscoav;
-    double *obs, **sammr, vartot, sig2, **rho, *Zi, *thetai, tmp3;
+    double *obs, **sammr, vartot, sig2, *Zi, *thetai, tmp3;
     double **mu;
     int nla, nlu, nc, *id, i, j, k, nid, nsim, e, r,l, *index;
     int *indexR, nsimra, b, *ni;

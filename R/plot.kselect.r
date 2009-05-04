@@ -20,11 +20,11 @@
     par(mar = c(0.1, 0.1, 0.1, 0.1))
 
     ## 1. correlations between the PCA axes and the K-select axes
-    s.corcircle(x$as, xax, yax, sub = "Axis", csub = 2, clab = 1.25)
+    s.corcircle(x$as, xax, yax, sub = "Axis", csub = 2, clabel = 1.25)
 
     ## 2. scores of the environmental variables on the
     ##    K-select axes (eigenvectors)
-    s.arrow(x$l1, xax, yax, sub = "Variables", csub = 2, clab = 1.25)
+    s.arrow(x$l1, xax, yax, sub = "Variables", csub = 2, clabel = 1.25)
 
     ## 3. the eigenvalues of the analysis
     scatterutil.eigen(x$eig, wsel = c(xax, yax))
@@ -46,23 +46,23 @@
     ## 4.4. The Marginality vectors are displayed as arrows connecting the
     ##      "available" centroids to the "used" centroids
 
-    s.label(rbind(mav, mut), xax, yax, clab = 0, cpo = 0,
+    s.label(rbind(mav, mut), xax, yax, clabel = 0, cpoint = 0,
             sub = "Marginality vectors", csub = 2) ## background
     for (i in 1:nrow(mav))
         arrows(mav[i,xax], mav[i,yax], mut[i,xax], mut[i,yax],
                lwd=2, angle=20) ## arrows
-    s.label(mav, xax, yax, add.plot=TRUE, clab=1.5) ## labels
+    s.label(mav, xax, yax, add.plot=TRUE, clabel=1.5) ## labels
 
 
     ## 5. coordinates of the uncentered available points on the
     ##    axes of the K-select
     s.chull(as.data.frame(ls), x$initfac,
-            clab=1.5, sub="Available Resource units", csub=2,
+            clabel=1.5, sub="Available Resource units", csub=2,
             optchull=1, cpoint=1)
 
     ## 6. coordinates of the recentred marginality vectors on the axes
     ##    on the K-select
-    s.arrow(x$co, xax, yax, clab = 1.25, cpo = 0.5, sub = "Animals",
+    s.arrow(x$co, xax, yax, clabel = 1.25, cpoint = 0.5, sub = "Animals",
             csub = 2)
 
 }

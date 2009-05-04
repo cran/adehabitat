@@ -457,11 +457,11 @@ s.madifa <- function(x, xax=1, yax=2, cgrid = 1, clab=1, ...)
     po <- rbind(as.matrix(pol),yy)
 
     ## Draws the plot
-    s.arrow(co, xax=xax, yax=yax, xlim=c(-1,1), ylim=c(-1,1), clab=clab)
+    s.arrow(co, xax=xax, yax=yax, xlim=c(-1,1), ylim=c(-1,1), clabel=clab)
     polygon(yy)
     polygon(po, col="white")
-    s.arrow(co, xax=xax, yax=yax, xlim=c(-1,1), ylim=c(-1,1), add.p=TRUE,
-            clab=clab, ...)
+    s.arrow(co, xax=xax, yax=yax, xlim=c(-1,1), ylim=c(-1,1), add.plot=TRUE,
+            clabel=clab, ...)
 
     ## scale box
     xaxp <- par("xaxp")
@@ -498,7 +498,7 @@ plot.madifa <- function(x, index, attr, xax=1, yax=2, cont=FALSE,...)
     scatterutil.eigen(x$eig, wsel = c(xax, yax))
 
     ## Column scores
-    s.madifa(x, xax, yax, cgrid=2, clab=1.25)
+    s.madifa(x, xax, yax, cgrid=2, clabel=1.25)
 
 
     ## function to draw the niche
@@ -565,7 +565,7 @@ plot.madifa <- function(x, index, attr, xax=1, yax=2, cont=FALSE,...)
     ## Correlation with the environmental variables
     s.arrow(x$cor, xax=xax,yax=yax,
             sub="Cor(habitat var., scores) available",
-            clab=1.25, csub=2, cgrid=2, xlim=c(-1,1), ylim=c(-1,1))
+            clabel=1.25, csub=2, cgrid=2, xlim=c(-1,1), ylim=c(-1,1))
     u <- par(mar=c(0.1,0.1,2,0.1))
 
     ## Again the maps
