@@ -1,6 +1,6 @@
 Package: adehabitat
-Version: 1.8.9
-Date: 2012/02/28
+Version: 1.8.10
+Date: 2012/04/10
 Title: Analysis of habitat selection by animals
 Author: Clement Calenge, contributions from Mathieu Basille, Stephane
         Dray and Scott Fortmann-Roe
@@ -11,6 +11,6 @@ Description: A collection of tools for the analysis of habitat
         selection by animals
 License: GPL (>= 2)
 URL: https://www.faunalia.it/animove/trac/
-Packaged: 2012-02-28 16:05:53 UTC; calenge
+Packaged: 2012-04-10 11:35:47 UTC; calenge
 Repository: CRAN
-Date/Publication: 2012-02-28 18:02:44
+Date/Publication: 2012-04-10 13:33:47
