@@ -45,7 +45,7 @@ Returns a raster map of class \code{kasc}.
   Ecological-niche factor analysis: How to compute habitat-suitability
   maps without absence data? \emph{Ecology}, \bold{83}, 2027--2036.  
 }
-\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
+\author{Mathieu Basille \email{basille@ase-research.org}}
 \seealso{
 \code{\link[stats]{mahalanobis}} for information on the computation of
 Mahalanobis distances.  \code{\link{mahasuhab}} for more details on the

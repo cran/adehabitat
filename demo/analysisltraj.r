@@ -91,7 +91,7 @@ plotltr(mouflon, "dist")
 
 ## This is not white noise! what already indicated the tests...
 ## There are some periods when the animal is moving more slowly
-## than others.
+## than others.
 
 
 

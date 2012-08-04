@@ -43,7 +43,7 @@ components:
 \item{obs}{the actual value of marginality and tolerance.}
 }
 \author{
-  Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}\cr
+  Mathieu Basille \email{basille@ase-research.org}\cr
   Clement Calenge \email{clement.calenge@oncfs.gouv.fr}
 }
 \section{Warning}{

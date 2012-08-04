@@ -1,5 +1,5 @@
 17a433380c461e9c5af3bb4f0f1a0238 *CONTENTS
-5035ae726ad740b7bd26db3a16775ad2 *DESCRIPTION
+94eddc37c930f5462ecc08843455cfd8 *DESCRIPTION
 7cc0a5ce54fadd9e2f6302cc91dc7166 *NAMESPACE
 5d7432ea7f62b9c0c83708e09dddb331 *R/NNCH.r
 14b8232ec33b076b670f2ad3eec788a8 *R/altr.r
@@ -215,7 +215,7 @@ d76b939597c069ae16a0863572beb9b0 *data/teal.rda
 4edb26306061b3b19f0725e89e9e72d9 *data/vanoise.rda
 e505144e3937a664813cdd3f584a7695 *data/whale.rda
 9a444b59e8b8b2956b48b0871f9fd66e *demo/00Index
-af673b2e0401a187f2382aba31cadeff *demo/analysisltraj.r
+cac5fbe7d182a7066e207d8fbcfed368 *demo/analysisltraj.r
 9040048aa679e80ac62ca7a05afd883e *demo/homerange.r
 3e5d32b7a0482c2a58fedf8fe9175e0b *demo/managltraj.r
 23263538673914fb35648672d39ece06 *demo/nichehs.r
@@ -247,7 +247,7 @@ b658af66d863c2fc123960f57b6e3141 *man/as.traj.Rd
 3aa085463bf561fd233760f9cf754874 *man/bauges.Rd
 2c464aa77dbd388f4df65b2bdf96027f *man/bear.Rd
 8b0ffa03a998772022b886f614a59423 *man/bighorn.Rd
-d3c3599b9be0b6dbf32b02cda2fad443 *man/biv.test.Rd
+9423261edfc28cecce109500f89bf0f0 *man/biv.test.Rd
 978be79a8071ab3566f52df476a5c7d0 *man/buffer.Rd
 d035da150a3a1d87659d1fafb8d70ce9 *man/burst.Rd
 76fae76eda9be0eab5364f8b8d236718 *man/c.ltraj.Rd
@@ -264,7 +264,7 @@ e9131137065dba78f4e4c0816c772c71 *man/capreotf.Rd
 731e734344fcc5c6d9b1bc3002e72783 *man/domain.Rd
 cd48eae16e3dc9bc4daab9149b84af70 *man/dunnfa.Rd
 e2480dc0654cb60b75d55d0945d2813e *man/eisera.Rd
-2d921d380e1e43ab11e10c8e78243629 *man/enfa.Rd
+8424544e08cf8bdb9c59c4100bb3fe64 *man/enfa.Rd
 8b0b4e6786add79711bc48b49697afb8 *man/engen2008II.Rd
 056d3ca056e9a4268949d74eaff9bdaf *man/explore.kasc.Rd
 80e321261e1a46e0db6972c66eb0938b *man/findmaxasc.Rd
@@ -275,9 +275,9 @@ fad8070f99b9f5c114e41f27985428f8 *man/getXYcoords.Rd
 ebc3bd32bd2028dcd3976e68773b45c4 *man/getcontour.Rd
 3923fc6ca2bbda066601968641a4d19b *man/gnesfa.Rd
 8306536ba15353a1817ddcece8c86e27 *man/hbrown.Rd
-96052d9b2d7b512fd8c3dda2748631db *man/hist.kasc.Rd
+38408557d6ca48d397d38659aa1bf5ba *man/hist.kasc.Rd
 f79482e8267bfd2e5a48630270784088 *man/hist.ltraj.Rd
-d881e45834db474414ac36978f17893d *man/histniche.Rd
+f9470bc230a64ab5cb769c918ee15f37 *man/histniche.Rd
 82964c675029edef695d212202a7d363 *man/hr.rast.Rd
 5b262597d366559107dcbdcd43290059 *man/hseal.Rd
 7e5ad1acf95bbecd6ad7c99df6cc8d87 *man/ibex.Rd
@@ -309,7 +309,7 @@ f7271ed29e830b54e1301943870b94cd *man/mindistkeep.Rd
 eb75a60b1d43550e61d9e2072c212270 *man/modpartltraj.Rd
 4402c8126159ede5fca1d45925a13f37 *man/morphology.Rd
 4b6498da08f095755e5758c0698c213a *man/mouflon.Rd
-a3621246fa7b9b75156c733ebdeba990 *man/niche.test.Rd
+53f2f906f914c8cc18e3b44d68258c38 *man/niche.test.Rd
 3d56da6b9e38649a1afd853f99f218e5 *man/offsetdate.Rd
 2378b471267461c73f3568799cf6f8ca *man/perarea.Rd
 8350efd2873c1f7044e19cf3a9d7ced0 *man/pheasant.Rd
@@ -318,7 +318,7 @@ a3621246fa7b9b75156c733ebdeba990 *man/niche.test.Rd
 1acd6a725cd3d3490be6a844820505d9 *man/plot.sahrlocs.Rd
 1c93ce495f538ba49366922ba413e8ff *man/plotltr.Rd
 cbae53cd57f15a4cd07f063a1bedd9f2 *man/porpoise.Rd
-f864086a3caff212d873e9ef45e7bf9d *man/predict.enfa.Rd
+1f842941d16f4f8c2b109764e4cabc8f *man/predict.enfa.Rd
 cddbb50262c7ff0315bbf6f1513412d7 *man/puech.Rd
 76643e1172a2efa9b9729dce70e7ad52 *man/puechabon.Rd
 e4c6cb9253da4bb2fcb32b244ecbb314 *man/puechcirc.Rd
@@ -331,8 +331,8 @@ e4c6cb9253da4bb2fcb32b244ecbb314 *man/puechcirc.Rd
 d5c55f3445392323d9f499aecf0b752f *man/rupicabau.Rd
 361e0254aa6b6742887c964f2aabe6cd *man/sahrlocs2kselect.Rd
 cfee49fb7f129af92fa1622e6f244ed0 *man/sahrlocs2niche.Rd
-6a764084fd9290b2d38fb876f42a638e *man/scatter.enfa.Rd
-68dc69c8bfa0fec8a19b293615f3d02a *man/scatterniche.Rd
+bf8910c128b058e6330c45e40ae07c3d *man/scatter.enfa.Rd
+262269d4d6217a43cfd3e76926ab9a51 *man/scatterniche.Rd
 97138860d14cf435575b271f6b30c1e7 *man/schoener.Rd
 66b827398cd9a3034f2f414a38797742 *man/set.limits.Rd
 cf0f296b5c80abfeaaf0c35991549fb6 *man/setNA.Rd

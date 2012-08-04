@@ -53,7 +53,7 @@ biv.test(dfxy, point, br = 10, points = TRUE, density = TRUE,
   univariate tests on each axis, for which the p-values are computed with
   \code{as.randtest} (package ade4, one-sided tests).
 }
-\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
+\author{Mathieu Basille \email{basille@ase-research.org}}
 \section{Warning}{
   \code{biv.plot} and \code{biv.test} uses the function \code{kde2d} of the 
     package \code{MASS}.

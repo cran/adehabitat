@@ -41,7 +41,7 @@ histniche(x, pr, type = c("h", "l"), adjust = 1,
   \item{\dots}{further arguments passed to or from other methods}
 }
 \author{
-  Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}
+  Mathieu Basille \email{basille@ase-research.org}
 }
 \examples{
 \dontrun{

@@ -25,7 +25,7 @@ of class \code{kasc}.
   \item{lwd}{if \code{type = "l"}, line width for the density estimate}
   \item{\dots}{further arguments passed to or from other methods}
 }
-\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
+\author{Mathieu Basille \email{basille@ase-research.org}}
 \seealso{\code{\link{kasc}}}
 \examples{
 

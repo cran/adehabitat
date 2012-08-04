@@ -57,7 +57,7 @@ scatterniche(x, pr, xax = 1, yax = 2, pts = FALSE,
     pixels}
   \item{\dots}{further arguments passed to or from other methods}
 }
-\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}\cr
+\author{Mathieu Basille \email{basille@ase-research.org}\cr
   Clement Calenge \email{clement.calenge@oncfs.gouv.fr}
 }
 \examples{

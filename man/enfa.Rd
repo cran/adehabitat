@@ -141,7 +141,7 @@ data2enfa(kasc, pts)
   analysis. \emph{Ecological Modelling}, \bold{211}, 233--240.
 
 }
-\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr} }
+\author{Mathieu Basille \email{basille@ase-research.org} }
 
 \seealso{
   \code{\link[ade4]{niche}}, \code{\link{kselect}} for other types of

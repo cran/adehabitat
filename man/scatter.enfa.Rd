@@ -64,7 +64,7 @@ The kept axes for the plot are specified in a corner.
   analysis. \emph{Ecological Modelling}, \bold{211}, 233--240.
 
 }
-\author{Mathieu Basille \email{basille@biomserv.univ-lyon1.fr}}
+\author{Mathieu Basille \email{basille@ase-research.org}}
 \seealso{\code{\link{enfa}}, \code{\link[ade4]{scatter}}}
 \examples{
 data(lynxjura)
