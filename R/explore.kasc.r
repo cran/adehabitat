@@ -85,8 +85,8 @@ explore.kasc <- function (ka, coltxt="blue",
     }
     type(help.txt)
     cc <- function(x, y) {
-        x <- (as.real(x) - 1)/iw
-        y <- 1 - (as.real(y) - 1)/ih
+        x <- (as.double(x) - 1)/iw
+        y <- 1 - (as.double(y) - 1)/ih
         px <- (x - get("cplt", envir=e1)[1])/(get("cplt", envir=e1)[2] - get("cplt", envir=e1)[1])
         py <- (y - get("cplt", envir=e1)[3])/(get("cplt", envir=e1)[4] - get("cplt", envir=e1)[3])
         ux <- px * (get("cusr", envir=e1)[2] - get("cusr", envir=e1)[1]) + get("cusr", envir=e1)[1]
@@ -94,8 +94,8 @@ explore.kasc <- function (ka, coltxt="blue",
         c(ux, uy)
     }
     cc2 <- function(x, y) {
-        x <- (as.real(x) - 1)/iw
-        y <- 1 - (as.real(y) - 1)/ih
+        x <- (as.double(x) - 1)/iw
+        y <- 1 - (as.double(y) - 1)/ih
         px <- (x - get("cplt", envir=e1)[1])/(get("cplt", envir=e1)[2] - get("cplt", envir=e1)[1])
         py <- (y - get("cplt", envir=e1)[3])/(get("cplt", envir=e1)[4] - get("cplt", envir=e1)[3])
         c(px, py)

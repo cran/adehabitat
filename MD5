@@ -1,8 +1,7 @@
 17a433380c461e9c5af3bb4f0f1a0238 *CONTENTS
-94eddc37c930f5462ecc08843455cfd8 *DESCRIPTION
+195f28e8de861b77057d01a73923eb04 *DESCRIPTION
 7cc0a5ce54fadd9e2f6302cc91dc7166 *NAMESPACE
 5d7432ea7f62b9c0c83708e09dddb331 *R/NNCH.r
-14b8232ec33b076b670f2ad3eec788a8 *R/altr.r
 ed47128e7493b9ecb5564454fe0a8825 *R/angles.r
 2b8366a7a8e5e187ed5a902f8cd51d0e *R/ararea.r
 96bbc7d355a747208a91cd0cbba70e94 *R/area2dxf.r
@@ -43,7 +42,7 @@ f1240fd3cdcd47f15293597d2db56f5b *R/distfacmap.r
 fc376a8e10d08d7ef92ca329e6676bfd *R/eisera.r
 cea00e4ee8c75c68f80de1913d2f2dde *R/enfa.r
 011f6291158ceffd8079c4f4eed84fae *R/engen2008.r
-4d3699fb557f47d076f21b48872371f8 *R/explore.kasc.r
+f4cef0993b23f3270e8f9ed0140f007c *R/explore.kasc.r
 5045379699661bbb1fb6e99616778b52 *R/export.asc.r
 979b81829c33b8582f3737a9d680b4dd *R/findmaxasc.r
 ef87f6cbef6c51fd1bd72033161d315b *R/fpt.r
@@ -180,7 +179,7 @@ ee183d92e7f9f7a51606849876f026f3 *R/testsSD.r
 f0219e023fdfebd32c0e8954c271d2a9 *R/traj2df.r
 39f6966f82fee90268b375d31f2d02bd *R/traj2sldf.r
 45046cbdc4f0c307df9380f97505af52 *R/traj2spdf.r
-f28cac97db8ec5bea80dc8524fd74ae9 *R/trajdyn.r
+e741bf5f64580ac1c47788603193b2b6 *R/trajdyn.r
 fdfe9024ce784c221993d5122ad21029 *R/typeII2typeI.r
 04e9bd6c7759544754b5f4be9508217b *R/varlogfpt.r
 01e550d53b24f8dfaabdcd95ab22a329 *R/wawotest.default.r
@@ -233,7 +232,6 @@ f2bb39cebb2eadf089f3bb9031d65b2d *man/Chi.Rd
 b46979c38a0dc37cc5c2a2f3e5224867 *man/NNCH.select.Rd
 713628e7fa345eda1db0f462e031ccd3 *man/adehabitat-package.Rd
 1943fbd4f7bb921609ec94c402c8664e *man/albatross.Rd
-ea891447f0d74171caa9a9402f86b725 *man/altr.Rd
 51f87eaacd61f18a0cf0111016829254 *man/angles.Rd
 78915ab7f96f8e2b9ee1ec8aa7d8af02 *man/area2asc.Rd
 b3f6a5e699f8188902268ff671058d97 *man/area2dxf.Rd
