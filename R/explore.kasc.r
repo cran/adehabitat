@@ -53,9 +53,6 @@ explore.kasc <- function (ka, coltxt="blue",
     opt <- options(warn = -1)
     on.exit(options(opt))
 
-    if (!require(tkrplot))
-        stop("'tkrplot' package needed\n")
-
     help.txt <- paste("\n-------- to obtain this help, type 'h' ------------------",
                       "z/o            -- Zoom in/Out",
                       "Right-Click    -- Identify value",

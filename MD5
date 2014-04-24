@@ -1,11 +1,9 @@
-17a433380c461e9c5af3bb4f0f1a0238 *CONTENTS
-195f28e8de861b77057d01a73923eb04 *DESCRIPTION
-7cc0a5ce54fadd9e2f6302cc91dc7166 *NAMESPACE
-5d7432ea7f62b9c0c83708e09dddb331 *R/NNCH.r
+a3d01f908222a8541339efcc96bf7f9d *DESCRIPTION
+14d86c3acccb282b16fa75b7473397b6 *NAMESPACE
 ed47128e7493b9ecb5564454fe0a8825 *R/angles.r
-2b8366a7a8e5e187ed5a902f8cd51d0e *R/ararea.r
+e2ffe2facd0332038d7ef9545bffe068 *R/ararea.r
 96bbc7d355a747208a91cd0cbba70e94 *R/area2dxf.r
-6267f87ee2147f0ccef9157897718625 *R/area2spol.r
+2b0ea171f9ab3033569d056bdbd0b46c *R/area2spol.r
 a1cdcbf5b47ff69a326c23820774cb26 *R/as.area.r
 90c3c5439ba7d555a3c74826e297848a *R/as.asc.r
 bd991d0553192f2e8bdcc033ee7d2bf1 *R/as.kasc.r
@@ -13,7 +11,7 @@ bd991d0553192f2e8bdcc033ee7d2bf1 *R/as.kasc.r
 904b03f778c71f56c82861f6d6757d06 *R/as.sahrlocs.r
 a5d51491358dd91e895766d95d12f478 *R/as.traj.r
 84b3ed0fae79970452fa1a899163f834 *R/asc2im.r
-d71bb3f46ad388ce355e27911269cd7b *R/asc2spixdf.r
+e29fdd16a05685f8efd5600aca7baec8 *R/asc2spixdf.r
 929c2208eeee6bbabaad9bc8e33ce4a2 *R/ascgen.r
 0cbe7839e8e0fb540bf889210eabe85b *R/attpol2area.r
 7d90daca0f4eee1acc32c2f3ea2f7d63 *R/biv.plot.r
@@ -22,7 +20,7 @@ b8699fc3b90d9f44d682965d57e639b2 *R/buffer.ani.r
 e231652cd33272db4bf6d5e0b5848650 *R/buffer.line.r
 f631538f8a0208a5a074d42e726187b3 *R/buffer.r
 e2be61bef3c018d02691aecbf5f6a628 *R/burst.r
-a3c4af662b7b7577fce97705ad8f86c2 *R/clusthr.r
+d40b872b8bdae63f025184026edc7cd4 *R/clusthr.r
 ce4f3ab78c157e06bd9dc44d6965c87c *R/colasc.r
 3e322dbad9dfd235f82ce10c4b6d5d6e *R/compana.r
 6962da4e3c69fe60bec7051028eabfa0 *R/contour.asc.r
@@ -33,7 +31,7 @@ ce4f3ab78c157e06bd9dc44d6965c87c *R/colasc.r
 b91ff3a06f466cbd34bd0f60a784d55e *R/cutltraj.r
 24612d2b133fa106a8959e78865042a3 *R/data2enfa.r
 df6d963685c45d4f131719535e2ae53d *R/dchi.r
-233bcc5e17781b0fab9f74b85afa2c1b *R/debut.r
+02873826992ad29048d25d369b717667 *R/debut.r
 524761b1d18431f037c59b380f91eb6d *R/df2kasc.r
 20264d21df986f04abea40dde3491bbb *R/df2traj.r
 f1240fd3cdcd47f15293597d2db56f5b *R/distfacmap.r
@@ -42,7 +40,7 @@ f1240fd3cdcd47f15293597d2db56f5b *R/distfacmap.r
 fc376a8e10d08d7ef92ca329e6676bfd *R/eisera.r
 cea00e4ee8c75c68f80de1913d2f2dde *R/enfa.r
 011f6291158ceffd8079c4f4eed84fae *R/engen2008.r
-f4cef0993b23f3270e8f9ed0140f007c *R/explore.kasc.r
+1b27c3f8aee8cc6ca5e720da7df17446 *R/explore.kasc.r
 5045379699661bbb1fb6e99616778b52 *R/export.asc.r
 979b81829c33b8582f3737a9d680b4dd *R/findmaxasc.r
 ef87f6cbef6c51fd1bd72033161d315b *R/fpt.r
@@ -76,7 +74,7 @@ b30f7746dd5bee78bd4953b3a36aca6a *R/is.regular.r
 a8fc617222345f46418df37df5635ab4 *R/join.asc.r
 cdb922d65c7d7bd2e9f09f65d884a1fd *R/join.kasc.r
 e1854c5cfdf1359d251b25d69f653886 *R/kasc2df.r
-1b13a1f493b705c50b3c255bd9e2273e *R/kasc2spixdf.r
+0eaec1b79fb8cb4e6be963fb038f3b68 *R/kasc2spixdf.r
 067cabcac28a80b9635446a21d294b2b *R/kernel.area.r
 460e2b1accd1e5baf23ca5ca3f70509d *R/kernelUD.r
 7cdc4d36f5023874fe7484c3a578bb94 *R/kernelbb.r
@@ -84,7 +82,7 @@ e1854c5cfdf1359d251b25d69f653886 *R/kasc2df.r
 c08fb8bf0cc527e6dce6228d0d27b90d *R/kerneloverlap.R
 9a54332ef9c9752e15381af99e016b67 *R/kplot.kselect.r
 30d67422cb4bda358fcfe6446dae45f0 *R/kselect.r
-dab6652f836e2b5438405dc4e3e758cc *R/kver2spol.r
+ef646a6f7c6c8d7737841c7e1948f2a0 *R/kver2spol.r
 aabbe971f5a3239caec0adc78485154c *R/labcon.r
 00418631054b7c3117b729d0c03c1c4a *R/lowres.asc.r
 ae634535cccc626d18dee72ba736346a *R/lowres.kasc.r
@@ -94,7 +92,7 @@ caaa105129289c06c191256e7b928c52 *R/ltraj2spdf.r
 8153eae5fd74e9b62ca1b7dd2d8a7814 *R/madifa.r
 2240539dcffd75263e7315af62f0e100 *R/mahasuhab.r
 082fc08756a2eaaf1913b8ecbdb3f09b *R/managNAkasc.r
-3d06b0ac49999b1eb353de3eabb51f2a *R/mcp.area.r
+23c43bf5cbc414b132583510da915ae5 *R/mcp.area.r
 ef8d7290bb977cd7224f55ce8d501e09 *R/mcp.r
 04b0f996582ca6477f7b0d2e8e81e509 *R/mcp.rast.r
 a36c9346823c1661e3873204ca0d948a *R/meanfpt.r
@@ -120,7 +118,6 @@ f889a861f5bd959ba2bee73bcd9c2daf *R/plot.wi.r
 30dee4a02e18003cdd1ae64895c4a707 *R/plotNAltraj.r
 fddbb3a4aa3657576ca15de2c38d1612 *R/plotltr.r
 a96a9af28a56be033d5ca5662917dfe8 *R/predict.enfa.r
-85cd9815e37fc186606456c32be4effb *R/print.NNCH.r
 742d6e10bb0382f1ecc8bc2c88e6d6f6 *R/print.asc.r
 d4e6cbec5fd6bc3f18e738e3ba9a9fa4 *R/print.compana.r
 4cff6587c385ecb46b8e12e12b267500 *R/print.dataenfa.r
@@ -166,8 +163,8 @@ eb57b370946d232fa96c6506ee4d4fcc *R/simm.brown.r
 5755311c775140e15726eac6939a7b18 *R/simm.mou.r
 30aa19150797b2533b48abf6926958a8 *R/sliwinltr.r
 c12cb72aa74f4305ae0c56c9faac6061 *R/speed.r
-b72aaff3e5e3beec37b45d06cb19ca3f *R/spixdf2kasc.r
-f6d9b4419639e28b7755417527664feb *R/spol2area.r
+96a90603aa87aa0579954d8c819f4bd8 *R/spixdf2kasc.r
+3f8da4dbfe59839e26734f979d24077a *R/spol2area.r
 cd34dbb956f0f66c7fe603a365dc9c25 *R/storemapattr.r
 3e220f123db90acd47a1763d23b0c3e7 *R/subsample.r
 ee9c6304517b6d06f9562531e054f1f6 *R/subsetmap.asc.r
@@ -179,7 +176,7 @@ ee183d92e7f9f7a51606849876f026f3 *R/testsSD.r
 f0219e023fdfebd32c0e8954c271d2a9 *R/traj2df.r
 39f6966f82fee90268b375d31f2d02bd *R/traj2sldf.r
 45046cbdc4f0c307df9380f97505af52 *R/traj2spdf.r
-e741bf5f64580ac1c47788603193b2b6 *R/trajdyn.r
+9221d1e5f808808feacfb465576c5166 *R/trajdyn.r
 fdfe9024ce784c221993d5122ad21029 *R/typeII2typeI.r
 04e9bd6c7759544754b5f4be9508217b *R/varlogfpt.r
 01e550d53b24f8dfaabdcd95ab22a329 *R/wawotest.default.r
@@ -227,9 +224,6 @@ b66e48adc022e243dff2748ee491f4d8 *inst/doc/classes.R
 8ba7edbac0a80efec8b16c07b0506bea *inst/doc/classes.pdf
 f2bb39cebb2eadf089f3bb9031d65b2d *man/Chi.Rd
 532c6a7e22b31f38802e4cb9251efe36 *man/Extract.ltraj.Rd
-080f706032cff7496f996b3cfadc159c *man/NNCH.Rd
-7681df7cc76bd514cd42d77e8b5ac8c5 *man/NNCH.area.Rd
-b46979c38a0dc37cc5c2a2f3e5224867 *man/NNCH.select.Rd
 713628e7fa345eda1db0f462e031ccd3 *man/adehabitat-package.Rd
 1943fbd4f7bb921609ec94c402c8664e *man/albatross.Rd
 51f87eaacd61f18a0cf0111016829254 *man/angles.Rd
@@ -252,7 +246,7 @@ d035da150a3a1d87659d1fafb8d70ce9 *man/burst.Rd
 329562966654d509a8d5ef6ead70aa11 *man/capreochiz.Rd
 e9131137065dba78f4e4c0816c772c71 *man/capreotf.Rd
 4ac852eea20a4b7877df62c50f8617b1 *man/chamois.Rd
-630fd4d2913e7c523acef6db53ca4bdf *man/clusthr.Rd
+77d911adeb9fddafef0e09bc820c4646 *man/clusthr.Rd
 925b25b781de06f02c8b069bd6e423b9 *man/colasc.Rd
 0270c1684fc4f5f82bb8de75326bb9ac *man/compana.Rd
 1b210bbb9ffe1658c712e2b65c462c34 *man/convnum.Rd
@@ -292,7 +286,7 @@ c0753d864700567b0d5437b1c8862b68 *man/kasc2spixdf.Rd
 3731032bacdcc106a64a0dea86450e00 *man/kernelUD.Rd
 f9025cdad4d62e3a98a9afe54492ad96 *man/kernelbb.Rd
 784fa18609258510040a076610927dfd *man/kernelkc.Rd
-a1787bc1de8ce61da0be637892ec1464 *man/kerneloverlap.Rd
+288bea99a48cd1af9845c9a40026f0dc *man/kerneloverlap.Rd
 884ea6062e8225ee8a6e9d878dc5ac09 *man/kselect.Rd
 4bf2f5fcfe9bfb7cd25df6b24bcdc81e *man/kver.Rd
 86768305b02631172fa9779e80749696 *man/labcon.Rd
@@ -301,7 +295,7 @@ a1787bc1de8ce61da0be637892ec1464 *man/kerneloverlap.Rd
 7799e44edbf8f10b57bff9bc1892c5f0 *man/madifa.Rd
 327b191b98a7993f685fcb06c0c1f668 *man/mahasuhab.Rd
 1e0357f1953ae50abd262394be61ac8d *man/managNAkasc.Rd
-7f1b6547970710fc6974ebb556af9d7d *man/mcp.Rd
+b0a3584043aa9cf687738f91b2760d41 *man/mcp.Rd
 2eea023e88b8ed98cd4289d3bd676c12 *man/mcp.rast.Rd
 f7271ed29e830b54e1301943870b94cd *man/mindistkeep.Rd
 eb75a60b1d43550e61d9e2072c212270 *man/modpartltraj.Rd
@@ -309,7 +303,7 @@ eb75a60b1d43550e61d9e2072c212270 *man/modpartltraj.Rd
 4b6498da08f095755e5758c0698c213a *man/mouflon.Rd
 53f2f906f914c8cc18e3b44d68258c38 *man/niche.test.Rd
 3d56da6b9e38649a1afd853f99f218e5 *man/offsetdate.Rd
-2378b471267461c73f3568799cf6f8ca *man/perarea.Rd
+d2cb80129c61ce59b44ce536d1a19767 *man/perarea.Rd
 8350efd2873c1f7044e19cf3a9d7ced0 *man/pheasant.Rd
 87c437aaff68b58bcc0fef84315af5a9 *man/plot.area.Rd
 5f71ffc8970e5c6f375914efbe632e11 *man/plot.ltraj.Rd

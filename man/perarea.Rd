@@ -18,9 +18,6 @@ ararea(x)
 \value{
   a vector.
 }
-\section{Warning }{
-  \code{ararea} requires the package \code{gpclib}.
-}
 \author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
 \seealso{\code{\link{area}}, \code{\link{plot.area}}}
 \examples{
@@ -32,8 +29,7 @@ cp <- mcp(locs[,4:5], locs[,1])
 
 perarea(cp)
 
-if (require(gpclib))
-   ararea(cp)
+ararea(cp)
 
 }
 \keyword{hplot}

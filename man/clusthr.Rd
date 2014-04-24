@@ -108,9 +108,6 @@ getverticesclusthr(x, whi = names(x), lev=95)
   defines multinuclear cores. \emph{Ecology}, \bold{82}, 1905-1920.
 }
 \author{Clement Calenge \email{clement.calenge@oncfs.gouv.fr}}
-\section{Warning}{
-  These functions require the package \code{gpclib} to be installed.
-}
 \seealso{\code{\link{kver}} for further information on objects
   of class \code{kver}.}
 \examples{

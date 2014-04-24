@@ -4,10 +4,6 @@
       if (!inherits(a, "asc"))
           stop("a should be of class \"asc\"")
 
-      ## sp needed
-      if (!require(sp))
-          stop("the package sp is required for this function")
-
       ## creates the data frame of coordinates
       xyc <- getXYcoords(a)
       xc <- rep(xyc$x, times=length(xyc$y))

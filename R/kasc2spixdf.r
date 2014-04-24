@@ -3,8 +3,6 @@
     ## Verifications
     if (!inherits(ka, "kasc"))
       stop("ka should be of class \"kasc\"")
-    if (!require(sp))
-      stop("the package sp is required for this function")
 
     ## gets the coordinates of the kasc
     xyc <- getXYcoords(ka)

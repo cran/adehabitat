@@ -1,7 +1,5 @@
 spixdf2kasc <- function (sg)
 {
-    if (!require(sp))
-        stop("the package sp is required for this function")
     if (inherits(sg, "SpatialPixelsDataFrame"))
         sg <- as(sg, "SpatialGridDataFrame")
     if (!inherits(sg, "SpatialGridDataFrame"))

@@ -4,10 +4,6 @@
     if (!inherits(ar, "area"))
         stop("ka should be of class \"area\"")
 
-    ## sp needed
-    if (!require(sp))
-        stop("the package sp is required for this function")
-
     ## splits ar into a list where each element is a polygon
     class(ar) <- "data.frame"
     li <- split(ar[,2:3],ar[,1])

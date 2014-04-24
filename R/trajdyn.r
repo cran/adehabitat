@@ -36,8 +36,6 @@
     dsp <- substring(match.arg(display), 1, 1)
     if (dsp == "g")
         dsp <- switch(.Platform$OS.type, windows = "w", "t")
-    if (dsp == "t" && !require(tkrplot))
-        stop("'tkrplot' package needed\n")
 
 
 ### fonction replot de base

@@ -4,15 +4,21 @@
       if (!inherits(x, "area"))
           stop("x should be of class \"area\"")
 
-      ## package gpclib needed
-      if (!require(gpclib))
-          stop("package gpclib needed for this function")
-
       ## Computes the area of each polygon
       uu <- split(x[,2:3], x[,1])
       foo <- function(y) {
           class(y) <- "data.frame"
-          u <- area.poly(as(y, "gpc.poly"))
+          if (!all(unlist(y[1,])==unlist(y[nrow(y),])))
+              y <- rbind(y,y[1,])
+          pol <- Polygon(as.matrix(y))
+          spdf <- SpatialPolygons(list(Polygons(list(pol), 1)))
+          lar <- unlist(lapply(polygons(spdf)@polygons,
+                               function(x) unlist(lapply(x@Polygons, function(y)
+                                                         .arcp(y@coords)))))
+          lhol <- unlist(lapply(polygons(spdf)@polygons,
+                                function(x) unlist(lapply(x@Polygons, function(y)
+                                                          y@hole))))
+          sum(lar[!lhol])-sum(lar[lhol])
       }
 
       ## Output

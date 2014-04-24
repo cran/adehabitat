@@ -10,7 +10,9 @@
   containing the utilization distributions of the animals.
 }
 \usage{
-kerneloverlap(xy, id = NULL, method = c("HR", "PHR", "VI", "BA", "UDOI", "HD"), lev = 95, conditional = FALSE, \dots)
+kerneloverlap(xy, id = NULL,
+              method = c("HR", "PHR", "VI", "BA", "UDOI", "HD"),
+              lev = 95, conditional = FALSE, \dots)
 
 kerneloverlaphr(x, method = c("HR", "PHR", "VI", "BA", "UDOI", "HD"),
                 lev=95, conditional=FALSE)
@@ -97,6 +99,7 @@ importance of the utilization distribution. \emph{Journal of Wildlife
   estimation of home ranges}
 \examples{
 
+\dontrun{
 data(puechabon)
 
 kerneloverlap(puechabon$locs[,c("X","Y")], puechabon$locs$Name,
@@ -125,6 +128,6 @@ kerneloverlap(puechabon$locs[,c("X","Y")], puechabon$locs$Name,
 
 kerneloverlap(puechabon$locs[,c("X","Y")], puechabon$locs$Name,
               grid=200, meth="HD")
-
+}
 }
 \keyword{spatial}

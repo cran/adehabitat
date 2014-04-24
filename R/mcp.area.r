@@ -7,8 +7,6 @@
     unout<-match.arg(unout)
     if (length(id) != nrow(xy))
         stop("xy and id should be of the same length")
-    if (!require(gpclib))
-        stop("package gpclib required")
 
     ## remove the missing values
     xy <- xy[!is.na(xy[, 1]), ]
@@ -31,7 +29,17 @@
         ar[i,] <- unlist(lapply(lixy, function(z) {
             res<-mcp(z, rep(1,nrow(z)), percent=lev[i])
             class(res)<-"data.frame"
-            return(area.poly(as(res[,2:3], "gpc.poly")))
+            if (!all(unlist(res[1,])==unlist(res[nrow(res),])))
+                res <- rbind(res,res[1,])
+            pol <- Polygon(as.matrix(res[,2:3]))
+            spdf <- SpatialPolygons(list(Polygons(list(pol), 1)))
+            lar <- unlist(lapply(polygons(spdf)@polygons,
+                                 function(x) unlist(lapply(x@Polygons, function(y)
+                                                           .arcp(y@coords)))))
+            lhol <- unlist(lapply(polygons(spdf)@polygons,
+                                  function(x) unlist(lapply(x@Polygons, function(y)
+                                                            y@hole))))
+            sum(lar[!lhol])-sum(lar[lhol])
         }))
 
     }

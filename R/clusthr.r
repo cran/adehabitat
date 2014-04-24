@@ -1,3 +1,14 @@
+.arcp <- function(xy)
+{
+    if (nrow(xy) < 3)
+        return(0);
+    x.segmat <- cbind(xy, rbind(xy[2:nrow(xy), ],
+                                xy[1, ]))
+    abs(sum(x.segmat[,1] * x.segmat[,4] - x.segmat[,3]
+            * x.segmat[,2])) / 2
+}
+
+
 clusthr <-function(xy, id=NULL)
 {
     ## Verifications
@@ -242,8 +253,6 @@ clusthr.area <- function(x, percent = seq(20, 100, by = 5),
     ## Verifications
     if (!inherits(x, "clusthr"))
         stop("x should be of class \"clusthr\"")
-    if (!require(gpclib))
-        stop("package gpclib required")
     unin <- match.arg(unin)
     unout <- match.arg(unout)
 
@@ -270,9 +279,16 @@ clusthr.area <- function(x, percent = seq(20, 100, by = 5),
             ji <- sum(unlist(lapply(lib, function(r) {
                 class(r) <- c("data.frame")
                 names(r) <- c("X","Y")
-                row.names(r) <- 1:nrow(r)
-                r <- apply(r,2,function(a) a-mean(a))
-                area.poly(as(r, "gpc.poly"))
+                r <- rbind(r,r[1,])
+                pol <- Polygon(as.matrix(r))
+                spdf <- SpatialPolygons(list(Polygons(list(pol), 1)))
+                lar <- unlist(lapply(polygons(spdf)@polygons,
+                                     function(x) unlist(lapply(x@Polygons, function(y)
+                                                               .arcp(y@coords)))))
+                lhol <- unlist(lapply(polygons(spdf)@polygons,
+                                      function(x) unlist(lapply(x@Polygons, function(y)
+                                                                y@hole))))
+                sum(lar[!lhol])-sum(lar[lhol])
             })))
             return(ji)
         }))
@@ -420,8 +436,6 @@ kver.rast <- function(kv, asc)
 kver2shapefile <- function(kv, which=names(kv))
 {
     ## Verifications
-    if (!require(shapefiles))
-        stop("package shapefiles required")
     if (!inherits(kv, "kver"))
         stop("x should be of class \"kver\"")
     whi <- which

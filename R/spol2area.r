@@ -1,8 +1,6 @@
 "spol2area" <- function(sr)
 {
     ## Verifications
-    if (!require(sp))
-        stop("the package sp is required for this function")
     if (inherits(sr, "SpatialPolygonsDataFrame"))
         sr <- polygons(sr)
     if (!inherits(sr, "SpatialPolygons"))

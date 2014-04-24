@@ -7,8 +7,7 @@
 \description{
   \code{mcp} computes the home range of several
   animals using the Minimum Convex Polygon estimator.\cr
-  \code{mcp.area} is used for home-range size estimation.  This function
-  requires the package \code{gpclib}.\cr
+  \code{mcp.area} is used for home-range size estimation. \cr
   \code{plot.hrsize} is used to display the home-range size estimated at
   various levels.
 }
@@ -78,10 +77,8 @@ points(locs[,4:5], pch = 16, col = as.numeric(locs[,1]))
 par(opar)
 
 ## Computation of the home-range size:
-if (require(gpclib)) {
-  cuicui1 <- mcp.area(locs[,4:5], locs[,1])
-  plot(cuicui1)
-}
+cuicui1 <- mcp.area(locs[,4:5], locs[,1])
+plot(cuicui1)
 
 }
 
