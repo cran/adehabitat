@@ -7955,7 +7955,7 @@ void runsltr(int *xr, int *nr, double *res, int *nrepr)
 
   
   for (i = 1; i <= n; i++) {
-    x[i] = xr[i];
+    x[i] = xr[i-1];
     numero[i] = i;
   }
   
