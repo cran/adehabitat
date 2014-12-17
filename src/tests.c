@@ -280,7 +280,9 @@ int invers(double **a, int n, double **b, int m);
 double alea (void)
 {
     double w;
-    w = ((double) rand())/ (double)RAND_MAX;
+    GetRNGstate();
+    w = unif_rand();
+    PutRNGstate();
     return (w);
 }
 
@@ -644,11 +646,10 @@ void getpermutation (int *numero, int repet)
     /*-------------
      * affects random numbers in alea
      ----------------*/
-    seed = clock();
-    seed = seed + repet;
-    srand(seed);
     for (i=1;i<=n;i++) {
-	alea[i]=rand();
+	GetRNGstate();
+	alea[i] = unif_rand();
+	PutRNGstate();
     }
     
     trirapideint (alea , numero, 1, n);
@@ -3119,7 +3120,7 @@ void epanechnikov(double *Xo, double *Yo, double *xg, double *yg,
     
     /* Computes again the values xg and yg */
     for (i=1; i<=nlg; i++) {
-	xgb[i] = abs(xg[i]-X);
+	xgb[i] = fabs(xg[i]-X);
 	if (xgb[i] < h) {
 	    if (imin == 0) {
 		imin = i;
@@ -3132,7 +3133,7 @@ void epanechnikov(double *Xo, double *Yo, double *xg, double *yg,
 	}
     }
     for (i=1; i<=ncg; i++) {
-	ygb[i] = abs(yg[i]-Y);
+	ygb[i] = fabs(yg[i]-Y);
 	if (ygb[i] < h) {
 	    if (jmin == 0) {
 		jmin = i;
@@ -3393,7 +3394,7 @@ void calcsim(double *pix, double **pts, double *rg,
     for (i=1; i<=no; i++) {
 	nib = 0;
 	for (j=1; j<=nv; j++) {
-	    temp[j] = abs(pix[j]-pts[i][j])/rg[j];
+	    temp[j] = fabs(pix[j]-pts[i][j])/rg[j];
 	    nib = nib + temp[j];
 	}
 	vecqual[i] = 1 - (1/((double) nv))*nib;
@@ -6170,7 +6171,7 @@ void integrno(double *XG, double *X1, double *X2,
 	ny = ny1;
 	if (ny2 <= ny1)
 	    ny = ny2;
-	*res = *res + (nx2 - nx1) * (ny + (abs(ny2 - ny1) / 2));
+	*res = *res + (nx2 - nx1) * (ny + (fabs(ny2 - ny1) / 2));
     }
     
     /* Free memory */
@@ -6697,8 +6698,8 @@ void fptt(double *x, double *y, double *t, int pos, double radius, double *fptto
     
     /* computes the linear approximation */
     if (naar > 0) {
-	dt = abs(t[pos] - t[pos2]);
-	dt2 = abs(t[pos] - t[(pos2+1)]);
+	dt = fabs(t[pos] - t[pos2]);
+	dt2 = fabs(t[pos] - t[(pos2+1)]);
 	dtmp(x[(pos2+1)], x[pos], y[(pos2+1)], y[pos], &di2);
 	fptar = dt2 + ( (dt - dt2) * (radius - di2) / (di - di2) );
     }
@@ -6721,8 +6722,8 @@ void fptt(double *x, double *y, double *t, int pos, double radius, double *fptto
     
     /* Computes linear approximation */
     if (naav > 0) {
-	dt = abs(t[pos2] - t[pos]);
-	dt2 = abs(t[(pos2-1)] - t[pos]);
+	dt = fabs(t[pos2] - t[pos]);
+	dt2 = fabs(t[(pos2-1)] - t[pos]);
 	dtmp(x[(pos2-1)], x[pos], y[(pos2-1)], y[pos], &di2);
 	fptav = dt2 + ( (dt - dt2) * (radius - di2) / (di - di2) );
     }
@@ -7105,7 +7106,7 @@ void discretraj(double *x, double *y, double *dat, double *xn,
     
     if (fini == 0) {
 	/* Does the difference between x[p] and x[m] = 0? */
-	if ((abs(x[p] - x[m]) > 0.000000000001)) {
+	if ((fabs(x[p] - x[m]) > 0.000000000001)) {
 	    /* Computes the slope between m and p */
 	    pente = (y[p] - y[m]) / (x[p] - x[m]); /* when diff(x) == 0 ? */
 	    /* The intercept */

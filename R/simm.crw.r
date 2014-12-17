@@ -11,7 +11,7 @@
     if (all(dt-dt[1]>1e-7))
         stop("the time lag between relocations should be constant")
 
-    ang<-rwrpnorm(n-2,0,r)
+    ang<-CircStats::rwrpnorm(n-2,0,r)
     if (h>0) {
         v=sqrt(dt)*rchi(n-1) * h
     } else {
@@ -24,4 +24,3 @@
                     typeII=typeII)
     return(res)
 }
-

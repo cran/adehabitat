@@ -12,7 +12,6 @@
 
     ## Results
     xy<-getXYcoords(x)
-    sorties<-im(t(unclass(x)), xy$x,xy$y)
+    sorties<-spatstat::im(t(unclass(x)), xy$x,xy$y)
     return(sorties)
   }
-

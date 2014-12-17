@@ -94,26 +94,26 @@
     assign("a2", 0, envir=e1)
 
     if (dsp == "t") {
-      tt <- tktoplevel()
-      tkwm.title(tt, "Exploration of Animal Movements")
-      img <- tkrplot(tt, replot, hscale = hscale, vscale = vscale)
-      txt <- tktext(tt, bg = "white", font = "courier 10")
-      scr <- tkscrollbar(tt, repeatinterval = 5,
-                         command = function(...) tkyview(txt, ...))
-      tkconfigure(txt, yscrollcommand = function(...) tkset(scr, ...))
-      tkpack(img, side = "top")
-      tkpack(txt, side = "left", fill = "both", expand = TRUE)
-      tkpack(scr, side = "right", fill = "y")
+      tt <- tcltk::tktoplevel()
+      tcltk::tkwm.title(tt, "Exploration of Animal Movements")
+      img <- tkrplot::tkrplot(tt, replot, hscale = hscale, vscale = vscale)
+      txt <- tcltk::tktext(tt, bg = "white", font = "courier 10")
+      scr <- tcltk::tkscrollbar(tt, repeatinterval = 5,
+                                command = function(...) tcltk::tkyview(txt, ...))
+      tcltk::tkconfigure(txt, yscrollcommand = function(...) tcltk::tkset(scr, ...))
+      tcltk::tkpack(img, side = "top")
+      tcltk::tkpack(txt, side = "left", fill = "both", expand = TRUE)
+      tcltk::tkpack(scr, side = "right", fill = "y")
 
-      iw <- as.numeric(tcl("image", "width", tkcget(img, "-image")))
-      ih <- as.numeric(tcl("image", "height", tkcget(img, "-image")))
+      iw <- as.numeric(tcltk::tcl("image", "width", tcltk::tkcget(img, "-image")))
+      ih <- as.numeric(tcltk::tcl("image", "height", tcltk::tkcget(img, "-image")))
     }
 
     showz <- function() switch(dsp, w = replot(),
-                               t = {tkrreplot(img)})
+                               t = {tkrplot::tkrreplot(img)})
     type <- function(s) switch(dsp, w = cat(s), t = {
-      tkinsert(txt, "end", s)
-      tksee(txt, "end")
+        tcltk::tkinsert(txt, "end", s)
+        tcltk::tksee(txt, "end")
     })
     type(help.txt)
 
@@ -240,7 +240,7 @@
       key <- tolower(A)
       if (key == "q") {
         if (dsp=="t")
-          tkdestroy(tt)
+          tcltk::tkdestroy(tt)
         return("OK - Finished")
       }
       if (key %in% c(0:9)) {
@@ -303,24 +303,24 @@
           showz()
         }
         if (dsp == "t") {
-          lv <- tclVar(row.names(get("x", envir=e1)[[1]])[1])
-          tu <- tktoplevel(tt, width=500, height=50)
-          tkwm.title(tu, "Enter a relocation number")
-          tkwm.resizable(tu, 0, 0)
-          en <- tkentry(tu, textvariable=lv, width=50)
-          submit.but <- tkbutton(tu, text="    OK     ",
-                                 command=function() {
-                                   rr <- tclvalue(lv)
+          lv <- tcltk::tclVar(row.names(get("x", envir=e1)[[1]])[1])
+          tu <- tcltk::tktoplevel(tt, width=500, height=50)
+          tcltk::tkwm.title(tu, "Enter a relocation number")
+          tcltk::tkwm.resizable(tu, 0, 0)
+          en <- tcltk::tkentry(tu, textvariable=lv, width=50)
+          submit.but <- tcltk::tkbutton(tu, text="    OK     ",
+                                        command=function() {
+                                            rr <- tcltk::tclvalue(lv)
                                    if (!(rr%in%row.names(get("x", envir=e1)[[1]]))) {
-                                     tkmessageBox(message="invalid number",
+                                     tcltk::tkmessageBox(message="invalid number",
                                                   type="ok")
                                    } else {
                                      assign("K", which(row.names(get("x", envir=e1)[[1]])==as.numeric(rr)), envir=e1)
                                      showz()
-                                     tkdestroy(tu)}})
-          tkpack(en, side = "top", fill = "both")
-          tkpack(submit.but, side = "bottom")
-          tkwait.window(tu)
+                                     tcltk::tkdestroy(tu)}})
+          tcltk::tkpack(en, side = "top", fill = "both")
+          tcltk::tkpack(submit.but, side = "bottom")
+          tcltk::tkwait.window(tu)
         }
       }
       if (key == "r") {
@@ -338,27 +338,27 @@
           showz()
         }
         if (dsp == "t") {
-          lv <- tclVar(unlist(lapply(u, function(y) attr(y, "burst"))))
+          lv <- tcltk::tclVar(unlist(lapply(u, function(y) attr(y, "burst"))))
           bubu <- unlist(lapply(u, function(y) attr(y, "burst")))
-          tu <- tktoplevel(tt)
-          tkwm.title(tu, "Choose a burst of relocations")
-          tkwm.resizable(tu, 0, 0)
-          tfr <- tkframe(tu)
-          tli <- tklistbox(tfr, bg = "white", font = "courier 12",
-                           listvariable = lv)
-          scr2 <- tkscrollbar(tfr, repeatinterval = 5,
-                              command = function(...) tkyview(tli, ...))
-          tkconfigure(tli, yscrollcommand = function(...) tkset(scr2, ...))
-          submit.but <- tkbutton(tu, text="    OK     ",
-                                 command=function() {
-                                   assign("hoho", ifelse(nchar(tclvalue(tkcurselection(tli)))==0, 1, as.numeric(tclvalue(tkcurselection(tli)))+1), envir=e1)
+          tu <- tcltk::tktoplevel(tt)
+          tcltk::tkwm.title(tu, "Choose a burst of relocations")
+          tcltk::tkwm.resizable(tu, 0, 0)
+          tfr <- tcltk::tkframe(tu)
+          tli <- tcltk::tklistbox(tfr, bg = "white", font = "courier 12",
+                                  listvariable = lv)
+          scr2 <- tcltk::tkscrollbar(tfr, repeatinterval = 5,
+                              command = function(...) tcltk::tkyview(tli, ...))
+          tcltk::tkconfigure(tli, yscrollcommand = function(...) tcltk::tkset(scr2, ...))
+          submit.but <- tcltk::tkbutton(tu, text="    OK     ",
+                                        command=function() {
+                                   assign("hoho", ifelse(nchar(tcltk::tclvalue(tcltk::tkcurselection(tli)))==0, 1, as.numeric(tcltk::tclvalue(tcltk::tkcurselection(tli)))+1), envir=e1)
                                    type(paste("Choice of the burst:", bubu[get("hoho", envir=e1)],"\n\n"))
-                                   tkdestroy(tu)})
-          tkpack(tli, side = "left", fill = "both", expand = TRUE)
-          tkpack(scr2, side = "right", fill = "y")
-          tkpack(tfr, side = "right", fill = "y")
-          tkpack(submit.but, side = "bottom")
-          tkwait.window(tu)
+                                   tcltk::tkdestroy(tu)})
+          tcltk::tkpack(tli, side = "left", fill = "both", expand = TRUE)
+          tcltk::tkpack(scr2, side = "right", fill = "y")
+          tcltk::tkpack(tfr, side = "right", fill = "y")
+          tcltk::tkpack(submit.but, side = "bottom")
+          tcltk::tkwait.window(tu)
           assign("x",u[burst=bubu[get("hoho", envir=e1)]], envir=e1)
           assign("v",u[burst=bubu[get("hoho", envir=e1)]], envir=e1)
           assign("N", nrow(get("x", envir=e1)[[1]]), envir=e1)
@@ -381,32 +381,32 @@
             }
           }
           if (dsp == "t") {
-            lv <- tclVar(unlist(lapply(u, function(y) attr(y, "burst"))))
+            lv <- tcltk::tclVar(unlist(lapply(u, function(y) attr(y, "burst"))))
             bubu <- unlist(lapply(u, function(y) attr(y, "burst")))
-            tu <- tktoplevel(tt)
-            tkwm.title(tu, "Choose one or several bursts")
-            tkwm.resizable(tu, 0, 0)
-            tfr <- tkframe(tu)
-            tli <- tklistbox(tfr, bg = "white", font = "courier 12",
+            tu <- tcltk::tktoplevel(tt)
+            tcltk::tkwm.title(tu, "Choose one or several bursts")
+            tcltk::tkwm.resizable(tu, 0, 0)
+            tfr <- tcltk::tkframe(tu)
+            tli <- tcltk::tklistbox(tfr, bg = "white", font = "courier 12",
                              listvariable = lv, selectmode="multiple")
-            scr2 <- tkscrollbar(tfr, repeatinterval = 5,
-                                command = function(...) tkyview(tli, ...))
-            tkconfigure(tli, yscrollcommand = function(...) tkset(scr2, ...))
-            submit.but <- tkbutton(tu, text="    OK     ",
+            scr2 <- tcltk::tkscrollbar(tfr, repeatinterval = 5,
+                                       command = function(...) tcltk::tkyview(tli, ...))
+            tcltk::tkconfigure(tli, yscrollcommand = function(...) tcltk::tkset(scr2, ...))
+            submit.but <- tcltk::tkbutton(tu, text="    OK     ",
                                    command=function() {
-                                     argg <- ifelse(nchar(tclvalue(tkcurselection(tli)))==0,
-                                                    1,0)
+                                       argg <- ifelse(nchar(tcltk::tclvalue(tcltk::tkcurselection(tli)))==0,
+                                                      1,0)
                                      if (argg==0) {
                                        assign("ajoubu", TRUE, envir=e1)
-                                       assign("buadd", bubu[as.numeric(unlist(strsplit(tclvalue(tkcurselection(tli)), " ")))+1], envir=e1)
+                                       assign("buadd", bubu[as.numeric(unlist(strsplit(tcltk::tclvalue(tcltk::tkcurselection(tli)), " ")))+1], envir=e1)
                                        type(paste("show bursts:", paste(get("buadd", envir=e1), collapse=" "),"\n\n"))
                                        showz()
-                                       tkdestroy(tu)}})
-            tkpack(tli, side = "left", fill = "both", expand = TRUE)
-            tkpack(scr2, side = "right", fill = "y")
-            tkpack(tfr, side = "right", fill = "y")
-            tkpack(submit.but, side = "bottom")
-            tkwait.window(tu)
+                                       tcltk::tkdestroy(tu)}})
+            tcltk::tkpack(tli, side = "left", fill = "both", expand = TRUE)
+            tcltk::tkpack(scr2, side = "right", fill = "y")
+            tcltk::tkpack(tfr, side = "right", fill = "y")
+            tcltk::tkpack(submit.but, side = "bottom")
+            tcltk::tkwait.window(tu)
             assign("x", u[burst=bubu[get("hoho", envir=e1)]], envir=e1)
             assign("v", u[burst=bubu[get("hoho", envir=e1)]], envir=e1)
             assign("N", nrow(get("x", envir=e1)[[1]]), envir=e1)
@@ -438,11 +438,10 @@
 
     showz()
     toto <- switch(dsp, w = getGraphicsEvent("", onKeybd = kb, onMouseDown = mm.w,
-                                             onMouseMove = mm.mouse),
-                   t ={tkbind(tt, "<Key>", kb)
-                       tkbind(img, "<Button-1>", mm.t)
-                       tkbind(img, "<Motion>", mm.mouset)
-                       tkbind(img, "<Button-3>", mm.t2)
-                       tkwait.window(tt)})
+                        onMouseMove = mm.mouse),
+                   t ={tcltk::tkbind(tt, "<Key>", kb)
+                       tcltk::tkbind(img, "<Button-1>", mm.t)
+                       tcltk::tkbind(img, "<Motion>", mm.mouset)
+                       tcltk::tkbind(img, "<Button-3>", mm.t2)
+                       tcltk::tkwait.window(tt)})
   }
-

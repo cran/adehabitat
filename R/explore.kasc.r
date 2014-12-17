@@ -62,23 +62,23 @@ explore.kasc <- function (ka, coltxt="blue",
                       "---------------------------------------------------------",
                       "\n", sep = "\n")
 
-    tt <- tktoplevel()
-    tkwm.title(tt, "Exploration of kasc maps")
-    img <- tkrplot(tt, replot, hscale = hscale, vscale = vscale)
-    txt <- tktext(tt, bg = "white", font = "courier 10")
-    scr <- tkscrollbar(tt, repeatinterval = 5, command = function(...) tkyview(txt, ...))
-    tkconfigure(txt, yscrollcommand = function(...) tkset(scr,
-                     ...))
-    tkpack(img, side = "top")
-    tkpack(txt, side = "left", fill = "both", expand = TRUE)
-    tkpack(scr, side = "right", fill = "y")
-    iw <- as.numeric(tcl("image", "width", tkcget(img, "-image")))
-    ih <- as.numeric(tcl("image", "height", tkcget(img, "-image")))
+    tt <- tcltk::tktoplevel()
+    tcltk::tkwm.title(tt, "Exploration of kasc maps")
+    img <- tkrplot::tkrplot(tt, replot, hscale = hscale, vscale = vscale)
+    txt <- tcltk::tktext(tt, bg = "white", font = "courier 10")
+    scr <- tcltk::tkscrollbar(tt, repeatinterval = 5, command = function(...) tcltk::tkyview(txt, ...))
+    tcltk::tkconfigure(txt, yscrollcommand = function(...) tcltk::tkset(scr,
+                            ...))
+    tcltk::tkpack(img, side = "top")
+    tcltk::tkpack(txt, side = "left", fill = "both", expand = TRUE)
+    tcltk::tkpack(scr, side = "right", fill = "y")
+    iw <- as.numeric(tcltk::tcl("image", "width", tcltk::tkcget(img, "-image")))
+    ih <- as.numeric(tcltk::tcl("image", "height", tcltk::tkcget(img, "-image")))
 
-    showz <- function() tkrreplot(img)
+    showz <- function() tkrplot::tkrreplot(img)
     type <- function(s) {
-        tkinsert(txt, "end", s)
-        tksee(txt, "end")
+        tcltk::tkinsert(txt, "end", s)
+        tcltk::tksee(txt, "end")
     }
     type(help.txt)
     cc <- function(x, y) {
@@ -162,7 +162,7 @@ explore.kasc <- function (ka, coltxt="blue",
     kb <- function(A) {
         key <- tolower(A)
         if (key == "q") {
-            tkdestroy(tt)
+            tcltk::tkdestroy(tt)
             return("OK - Finished")
         }
         if (key == "z") {
@@ -179,10 +179,10 @@ explore.kasc <- function (ka, coltxt="blue",
         }
     }
     showz()
-    tkbind(tt, "<Key>", kb)
-    tkbind(img, "<Button-1>", mm.t)
-    tkbind(img, "<Motion>", mm.mouset)
-    tkbind(img, "<Button-3>", mm.t2)
-    tkwait.window(tt)
+    tcltk::tkbind(tt, "<Key>", kb)
+    tcltk::tkbind(img, "<Button-1>", mm.t)
+    tcltk::tkbind(img, "<Motion>", mm.mouset)
+    tcltk::tkbind(img, "<Button-3>", mm.t2)
+    tcltk::tkwait.window(tt)
 
 }

@@ -1,4 +1,4 @@
-d9c4f504b1378be0ae338722f78cc66e *DESCRIPTION
+d50c0758dc9b361de5bfede5cf67de0f *DESCRIPTION
 14d86c3acccb282b16fa75b7473397b6 *NAMESPACE
 ed47128e7493b9ecb5564454fe0a8825 *R/angles.r
 e2ffe2facd0332038d7ef9545bffe068 *R/ararea.r
@@ -10,12 +10,12 @@ bd991d0553192f2e8bdcc033ee7d2bf1 *R/as.kasc.r
 0c48c8b54fed1e11fa5cf240ae72f5f7 *R/as.ltraj.r
 904b03f778c71f56c82861f6d6757d06 *R/as.sahrlocs.r
 a5d51491358dd91e895766d95d12f478 *R/as.traj.r
-84b3ed0fae79970452fa1a899163f834 *R/asc2im.r
+7eea2b196e7d076468ddb5a86e4ca3c8 *R/asc2im.r
 e29fdd16a05685f8efd5600aca7baec8 *R/asc2spixdf.r
 929c2208eeee6bbabaad9bc8e33ce4a2 *R/ascgen.r
 0cbe7839e8e0fb540bf889210eabe85b *R/attpol2area.r
-7d90daca0f4eee1acc32c2f3ea2f7d63 *R/biv.plot.r
-f9b51efc1757840bbbf0a743b9628b8d *R/biv.test.r
+4ba33ce11ac3a6c75f597ce55d02d96c *R/biv.plot.r
+0425d64e9b0d52b551b8e7cd87550230 *R/biv.test.r
 b8699fc3b90d9f44d682965d57e639b2 *R/buffer.ani.r
 e231652cd33272db4bf6d5e0b5848650 *R/buffer.line.r
 f631538f8a0208a5a074d42e726187b3 *R/buffer.r
@@ -40,7 +40,7 @@ f1240fd3cdcd47f15293597d2db56f5b *R/distfacmap.r
 fc376a8e10d08d7ef92ca329e6676bfd *R/eisera.r
 cea00e4ee8c75c68f80de1913d2f2dde *R/enfa.r
 011f6291158ceffd8079c4f4eed84fae *R/engen2008.r
-1b27c3f8aee8cc6ca5e720da7df17446 *R/explore.kasc.r
+41936e175304dcac835522358f2b88e9 *R/explore.kasc.r
 5045379699661bbb1fb6e99616778b52 *R/export.asc.r
 979b81829c33b8582f3737a9d680b4dd *R/findmaxasc.r
 ef87f6cbef6c51fd1bd72033161d315b *R/fpt.r
@@ -157,7 +157,7 @@ e014122add6bd6660b1be9d968b4e8f4 *R/setmask.r
 37ca4d24dbaf991124e4727e0ecfedea *R/sett0.r
 339f9a38d5cb55b25501856b6d4da61e *R/simm.bb.r
 eb57b370946d232fa96c6506ee4d4fcc *R/simm.brown.r
-7cfd51aaa11529f52c4c2cb88fbeb7b2 *R/simm.crw.r
+74e7072d638563cad538a781b09439cd *R/simm.crw.r
 727ac42bd54006a2d8aeb6ab7b9fe7ad *R/simm.levy.r
 61d479f64a6a4b39d12d599e42799d2a *R/simm.mba.r
 5755311c775140e15726eac6939a7b18 *R/simm.mou.r
@@ -176,7 +176,7 @@ ee183d92e7f9f7a51606849876f026f3 *R/testsSD.r
 f0219e023fdfebd32c0e8954c271d2a9 *R/traj2df.r
 39f6966f82fee90268b375d31f2d02bd *R/traj2sldf.r
 45046cbdc4f0c307df9380f97505af52 *R/traj2spdf.r
-9221d1e5f808808feacfb465576c5166 *R/trajdyn.r
+dfd09e0936f7254d6d333fe08f77dfdf *R/trajdyn.r
 fdfe9024ce784c221993d5122ad21029 *R/typeII2typeI.r
 04e9bd6c7759544754b5f4be9508217b *R/varlogfpt.r
 01e550d53b24f8dfaabdcd95ab22a329 *R/wawotest.default.r
@@ -352,4 +352,4 @@ fc28d8af7d53ed96111a30e76623fbef *man/wawotest.Rd
 5b676cfe8529035bc0fb5f1cfe10a047 *man/whale.Rd
 6dad3787feceb89ae1934d4d4315c03e *man/which.ltraj.Rd
 246f1cc5c28586a5c690c9748965a56d *man/wi.Rd
-89f3a09d62ac19a0a2d31bed5f8f9719 *src/tests.c
+69825b737074ec0fdfb712c38bd573b6 *src/tests.c
