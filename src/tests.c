@@ -630,7 +630,7 @@ void getpermutation (int *numero, int repet)
  * two calls returns different results (seed=clock+repet)
  ------------------------*/
 {
-    int i, n, seed;
+    int i, n;
     int *alea;
     
     n=numero[0];

@@ -1,5 +1,5 @@
-d50c0758dc9b361de5bfede5cf67de0f *DESCRIPTION
-14d86c3acccb282b16fa75b7473397b6 *NAMESPACE
+d55ffaee7971e7dff5966507b23bfdd9 *DESCRIPTION
+7615d0cd96ad02b60ff323c2cd63581e *NAMESPACE
 ed47128e7493b9ecb5564454fe0a8825 *R/angles.r
 e2ffe2facd0332038d7ef9545bffe068 *R/ararea.r
 96bbc7d355a747208a91cd0cbba70e94 *R/area2dxf.r
@@ -10,12 +10,12 @@ bd991d0553192f2e8bdcc033ee7d2bf1 *R/as.kasc.r
 0c48c8b54fed1e11fa5cf240ae72f5f7 *R/as.ltraj.r
 904b03f778c71f56c82861f6d6757d06 *R/as.sahrlocs.r
 a5d51491358dd91e895766d95d12f478 *R/as.traj.r
-7eea2b196e7d076468ddb5a86e4ca3c8 *R/asc2im.r
+f9e9081a7765f9c910a3fc97bf97ecc6 *R/asc2im.r
 e29fdd16a05685f8efd5600aca7baec8 *R/asc2spixdf.r
 929c2208eeee6bbabaad9bc8e33ce4a2 *R/ascgen.r
 0cbe7839e8e0fb540bf889210eabe85b *R/attpol2area.r
-4ba33ce11ac3a6c75f597ce55d02d96c *R/biv.plot.r
-0425d64e9b0d52b551b8e7cd87550230 *R/biv.test.r
+057d3c753fc53359b0279393e18910b7 *R/biv.plot.r
+965bc26cb8496aadc42e44475f429f25 *R/biv.test.r
 b8699fc3b90d9f44d682965d57e639b2 *R/buffer.ani.r
 e231652cd33272db4bf6d5e0b5848650 *R/buffer.line.r
 f631538f8a0208a5a074d42e726187b3 *R/buffer.r
@@ -31,7 +31,7 @@ ce4f3ab78c157e06bd9dc44d6965c87c *R/colasc.r
 b91ff3a06f466cbd34bd0f60a784d55e *R/cutltraj.r
 24612d2b133fa106a8959e78865042a3 *R/data2enfa.r
 df6d963685c45d4f131719535e2ae53d *R/dchi.r
-02873826992ad29048d25d369b717667 *R/debut.r
+96ff3ee3f18ff84717590d5f28c930e2 *R/debut.r
 524761b1d18431f037c59b380f91eb6d *R/df2kasc.r
 20264d21df986f04abea40dde3491bbb *R/df2traj.r
 f1240fd3cdcd47f15293597d2db56f5b *R/distfacmap.r
@@ -157,7 +157,7 @@ e014122add6bd6660b1be9d968b4e8f4 *R/setmask.r
 37ca4d24dbaf991124e4727e0ecfedea *R/sett0.r
 339f9a38d5cb55b25501856b6d4da61e *R/simm.bb.r
 eb57b370946d232fa96c6506ee4d4fcc *R/simm.brown.r
-74e7072d638563cad538a781b09439cd *R/simm.crw.r
+db6f3b0952d609cc1345b67377d6dd56 *R/simm.crw.r
 727ac42bd54006a2d8aeb6ab7b9fe7ad *R/simm.levy.r
 61d479f64a6a4b39d12d599e42799d2a *R/simm.mba.r
 5755311c775140e15726eac6939a7b18 *R/simm.mou.r
@@ -283,7 +283,7 @@ d0c090a00aaa4ac79fbb0b95b4365505 *man/import.asc.Rd
 81e615ca3f12f4ad2710b2fc9c9fe9c3 *man/join.asc.Rd
 d56340f7a08be4e173c50fde7c23cd00 *man/kasc2df.Rd
 c0753d864700567b0d5437b1c8862b68 *man/kasc2spixdf.Rd
-3731032bacdcc106a64a0dea86450e00 *man/kernelUD.Rd
+cdefdaa9c83fa5404eac24577978bba7 *man/kernelUD.Rd
 f9025cdad4d62e3a98a9afe54492ad96 *man/kernelbb.Rd
 784fa18609258510040a076610927dfd *man/kernelkc.Rd
 288bea99a48cd1af9845c9a40026f0dc *man/kerneloverlap.Rd
@@ -298,7 +298,7 @@ f9025cdad4d62e3a98a9afe54492ad96 *man/kernelbb.Rd
 b0a3584043aa9cf687738f91b2760d41 *man/mcp.Rd
 2eea023e88b8ed98cd4289d3bd676c12 *man/mcp.rast.Rd
 f7271ed29e830b54e1301943870b94cd *man/mindistkeep.Rd
-eb75a60b1d43550e61d9e2072c212270 *man/modpartltraj.Rd
+ac6ae7402c162fc73a109f8800f769d3 *man/modpartltraj.Rd
 4402c8126159ede5fca1d45925a13f37 *man/morphology.Rd
 4b6498da08f095755e5758c0698c213a *man/mouflon.Rd
 53f2f906f914c8cc18e3b44d68258c38 *man/niche.test.Rd
@@ -352,4 +352,4 @@ fc28d8af7d53ed96111a30e76623fbef *man/wawotest.Rd
 5b676cfe8529035bc0fb5f1cfe10a047 *man/whale.Rd
 6dad3787feceb89ae1934d4d4315c03e *man/which.ltraj.Rd
 246f1cc5c28586a5c690c9748965a56d *man/wi.Rd
-69825b737074ec0fdfb712c38bd573b6 *src/tests.c
+221a619deabbc87495e8e606f4a7c093 *src/tests.c
