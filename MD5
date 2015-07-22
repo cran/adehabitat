@@ -1,5 +1,5 @@
-d55ffaee7971e7dff5966507b23bfdd9 *DESCRIPTION
-7615d0cd96ad02b60ff323c2cd63581e *NAMESPACE
+4957d4fa780875725cc9f81e8ea7f603 *DESCRIPTION
+7bcbc1c49b040d7a3c645f17bb5cfcdf *NAMESPACE
 ed47128e7493b9ecb5564454fe0a8825 *R/angles.r
 e2ffe2facd0332038d7ef9545bffe068 *R/ararea.r
 96bbc7d355a747208a91cd0cbba70e94 *R/area2dxf.r
@@ -352,4 +352,4 @@ fc28d8af7d53ed96111a30e76623fbef *man/wawotest.Rd
 5b676cfe8529035bc0fb5f1cfe10a047 *man/whale.Rd
 6dad3787feceb89ae1934d4d4315c03e *man/which.ltraj.Rd
 246f1cc5c28586a5c690c9748965a56d *man/wi.Rd
-221a619deabbc87495e8e606f4a7c093 *src/tests.c
+9448ee44669259932684f5c9aac8aeb9 *src/tests.c
