@@ -1,5 +1,5 @@
-4957d4fa780875725cc9f81e8ea7f603 *DESCRIPTION
-7bcbc1c49b040d7a3c645f17bb5cfcdf *NAMESPACE
+f53a6cd91cc39dda90ded6e158cef2e3 *DESCRIPTION
+0984d50af231fb9411e14420877061f3 *NAMESPACE
 ed47128e7493b9ecb5564454fe0a8825 *R/angles.r
 e2ffe2facd0332038d7ef9545bffe068 *R/ararea.r
 96bbc7d355a747208a91cd0cbba70e94 *R/area2dxf.r
@@ -48,7 +48,7 @@ ef87f6cbef6c51fd1bd72033161d315b *R/fpt.r
 2b35eb8ac960b806ef1bd103b3bd2b03 *R/getXYcoords.r
 8ad317150f5013365ddd3b2f12e477c5 *R/getascattr.r
 a8dade424620079331848c259d990963 *R/getburst.r
-ec6326c694f594dee2b2b49d8b7adaea *R/getcontour.r
+31baab1b42b6142aaa43334b8c2002fd *R/getcontour.r
 94b9442ad4db3369d07e0a68ee4df10a *R/getkasc.r
 0f876b4975f5b3a264cfe9ff0871b4ab *R/getkascattr.r
 aabe0fbded281cf42783cd63a7fab305 *R/getsahrlocs.r
@@ -77,7 +77,7 @@ e1854c5cfdf1359d251b25d69f653886 *R/kasc2df.r
 0eaec1b79fb8cb4e6be963fb038f3b68 *R/kasc2spixdf.r
 067cabcac28a80b9635446a21d294b2b *R/kernel.area.r
 460e2b1accd1e5baf23ca5ca3f70509d *R/kernelUD.r
-7cdc4d36f5023874fe7484c3a578bb94 *R/kernelbb.r
+310dcb72c6b1c9caedb4af1d865651ca *R/kernelbb.r
 2297e6e85af3d37a07a160980e0732c8 *R/kernelkc.r
 c08fb8bf0cc527e6dce6228d0d27b90d *R/kerneloverlap.R
 9a54332ef9c9752e15381af99e016b67 *R/kplot.kselect.r
@@ -221,7 +221,7 @@ cac5fbe7d182a7066e207d8fbcfed368 *demo/analysisltraj.r
 8a12a063e6140706e9e8e061e98aa643 *inst/ascfiles/aspect.txt
 711036108da26900b532786b380dd462 *inst/ascfiles/elevation.asc
 b66e48adc022e243dff2748ee491f4d8 *inst/doc/classes.R
-8ba7edbac0a80efec8b16c07b0506bea *inst/doc/classes.pdf
+0cb69c53c65c78d8e23558c19af92ef0 *inst/doc/classes.pdf
 f2bb39cebb2eadf089f3bb9031d65b2d *man/Chi.Rd
 532c6a7e22b31f38802e4cb9251efe36 *man/Extract.ltraj.Rd
 713628e7fa345eda1db0f462e031ccd3 *man/adehabitat-package.Rd
@@ -352,4 +352,5 @@ fc28d8af7d53ed96111a30e76623fbef *man/wawotest.Rd
 5b676cfe8529035bc0fb5f1cfe10a047 *man/whale.Rd
 6dad3787feceb89ae1934d4d4315c03e *man/which.ltraj.Rd
 246f1cc5c28586a5c690c9748965a56d *man/wi.Rd
-9448ee44669259932684f5c9aac8aeb9 *src/tests.c
+18318a824f6ad84a48bd523d5ac59687 *src/init.c
+7ae68ce1959e77def20ceb911a95439d *src/tests.c
