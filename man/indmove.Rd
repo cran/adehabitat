@@ -111,13 +111,13 @@ indmove.detail(x, detail=c("dx","dy"), nrep=999,
 }
 \seealso{\code{\link{ltraj}}}
 \examples{
+\dontrun{
 
 ## theoretical independence between
 br <- simm.brown(1:1000)
 testang.ltraj(br)
 testdist.ltraj(br)
 
-\dontrun{
 indmove(br)
 }
 
@@ -148,5 +148,6 @@ foo(0.11, pi/2 + pi/4)
 text(0.34,0.18,expression(alpha[i]), cex=1.5)
 text(0.15,0.11,expression(alpha[i-1]), cex=1.5)
 par(opar)
+
 }
 \keyword{htest}

@@ -1,4 +1,4 @@
-f53a6cd91cc39dda90ded6e158cef2e3 *DESCRIPTION
+437ebe7d5bb169e7a69cc9f269888784 *DESCRIPTION
 0984d50af231fb9411e14420877061f3 *NAMESPACE
 ed47128e7493b9ecb5564454fe0a8825 *R/angles.r
 e2ffe2facd0332038d7ef9545bffe068 *R/ararea.r
@@ -44,7 +44,7 @@ cea00e4ee8c75c68f80de1913d2f2dde *R/enfa.r
 5045379699661bbb1fb6e99616778b52 *R/export.asc.r
 979b81829c33b8582f3737a9d680b4dd *R/findmaxasc.r
 ef87f6cbef6c51fd1bd72033161d315b *R/fpt.r
-8b619be7975f1507c61e9b6d62dacd55 *R/gdltraj.r
+0ad7ca5a2fa85a40c3f493ec8bb8cfe2 *R/gdltraj.r
 2b35eb8ac960b806ef1bd103b3bd2b03 *R/getXYcoords.r
 8ad317150f5013365ddd3b2f12e477c5 *R/getascattr.r
 a8dade424620079331848c259d990963 *R/getburst.r
@@ -277,7 +277,7 @@ f9470bc230a64ab5cb769c918ee15f37 *man/histniche.Rd
 e5c33e07a85f253ca5a977cfb0fe9d50 *man/image.asc.Rd
 559779d212d5ce6370442acb8be42f7b *man/image.sahrlocs.Rd
 d0c090a00aaa4ac79fbb0b95b4365505 *man/import.asc.Rd
-529796c5ea229672407f2384ee85fafa *man/indmove.Rd
+594605a34b0f759d9f53ff2a1977561e *man/indmove.Rd
 0f051086195258d65c4d4f696302d32a *man/is.regular.Rd
 6cc528f17bc5cda0cd931e462aaafa64 *man/is.sd.Rd
 81e615ca3f12f4ad2710b2fc9c9fe9c3 *man/join.asc.Rd
